@@ -9,19 +9,18 @@ import com.dcg.command.CommandKind;
 
 @One(Player.class)
 public class CurrentPlayerSystem extends BaseEntitySystem {
-    ComponentMapper<Player> mPlayer;
-    @Wire
-    CommandHistory commandHistory;
-    private int currentPlayerIndex = 0;
+  ComponentMapper<Player> mPlayer;
+  @Wire CommandHistory commandHistory;
+  private int currentPlayerIndex = 0;
 
-    protected void processSystem() {
-        if (commandHistory.getLast().kind == CommandKind.ADVANCE) {
-            currentPlayerIndex = (currentPlayerIndex + 1) % getEntityIds().size();
-            System.out.println("currentPlayerIndex: " + currentPlayerIndex);
-        }
+  protected void processSystem() {
+    if (commandHistory.getLast().kind == CommandKind.ADVANCE) {
+      currentPlayerIndex = (currentPlayerIndex + 1) % getEntityIds().size();
+      System.out.println("currentPlayerIndex: " + currentPlayerIndex);
     }
+  }
 
-    public Player getCurrentPlayer() {
-        return mPlayer.get(getEntityIds().get(currentPlayerIndex));
-    }
+  public Player getCurrentPlayer() {
+    return mPlayer.get(getEntityIds().get(currentPlayerIndex));
+  }
 }
