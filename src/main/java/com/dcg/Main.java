@@ -1,7 +1,6 @@
 package com.dcg;
 
 import com.dcg.game.Game;
-
 import java.util.Scanner;
 
 public class Main {

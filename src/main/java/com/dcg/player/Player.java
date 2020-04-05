@@ -1,4 +1,4 @@
-package com.dcg.board;
+package com.dcg.player;
 
 import com.artemis.Component;
 

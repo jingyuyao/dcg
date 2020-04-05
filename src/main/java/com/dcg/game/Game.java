@@ -1,8 +1,7 @@
 package com.dcg.game;
 
 import com.dcg.board.Board;
-import com.dcg.command.Command;
-import com.dcg.command.CommandKind;
+import com.dcg.turn.AdvanceTurn;
 
 public class Game {
   private final Board board = new Board(new String[] {"Alice", "Bob"});
@@ -16,9 +15,7 @@ public class Game {
         gameOver = true;
         break;
       case "advance":
-        Command command = new Command();
-        command.kind = CommandKind.ADVANCE;
-        board.process(command);
+        board.process(new AdvanceTurn());
         break;
     }
   }
