@@ -1,11 +1,19 @@
 package com.dcg.game;
 
 import com.dcg.board.Board;
+import com.dcg.player.AddPlayer;
 import com.dcg.turn.AdvanceTurn;
+import com.dcg.turn.InitTurn;
 
 public class Game {
-  private final Board board = new Board(new String[] {"Alice", "Bob"});
+  private final Board board = new Board();
   private boolean gameOver = false;
+
+  public Game() {
+    board.process(new AddPlayer("Alice"));
+    board.process(new AddPlayer("Bob"));
+    board.process(new InitTurn("Alice"));
+  }
 
   public void process(String input) {
     if (input == null) return;

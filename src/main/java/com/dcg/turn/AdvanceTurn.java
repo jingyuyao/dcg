@@ -21,4 +21,9 @@ public class AdvanceTurn implements Command {
     mTurn.remove(currentPlayer);
     mTurn.create(nextPlayer);
   }
+
+  @Override
+  public String toString() {
+    return "AdvanceTurn{}";
+  }
 }
