@@ -1,21 +1,28 @@
 package com.dcg.game;
 
-import com.dcg.board.Board;
+import com.artemis.World;
+import com.artemis.WorldConfiguration;
+import com.artemis.WorldConfigurationBuilder;
+import com.dcg.command.Command;
+import com.dcg.command.CommandSystem;
+import com.dcg.debug.DebugSystem;
 import com.dcg.player.AddPlayer;
 import com.dcg.turn.AdvanceTurn;
 import com.dcg.turn.InitTurn;
 
 public class Game {
-  private final Board board = new Board();
+  private final WorldConfiguration configuration =
+      new WorldConfigurationBuilder().with(new CommandSystem(), new DebugSystem()).build();
+  private final World world = new World(configuration);
   private boolean gameOver = false;
 
   public Game() {
-    board.process(new AddPlayer("Alice"));
-    board.process(new AddPlayer("Bob"));
-    board.process(new InitTurn("Alice"));
+    process(new AddPlayer("Alice"));
+    process(new AddPlayer("Bob"));
+    process(new InitTurn("Alice"));
   }
 
-  public void process(String input) {
+  public void handleInput(String input) {
     if (input == null) return;
 
     switch (input) {
@@ -23,12 +30,17 @@ public class Game {
         gameOver = true;
         break;
       case "advance":
-        board.process(new AdvanceTurn());
+        process(new AdvanceTurn());
         break;
     }
   }
 
   public boolean isOver() {
     return gameOver;
+  }
+
+  private void process(Command... commands) {
+    world.getSystem(CommandSystem.class).setCurrent(commands);
+    world.process();
   }
 }

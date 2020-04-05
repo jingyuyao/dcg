@@ -9,7 +9,7 @@ public class Main {
     Game game = new Game();
     while (!game.isOver()) {
       System.out.print("command: ");
-      game.process(scanner.nextLine());
+      game.handleInput(scanner.nextLine());
     }
     System.out.println("goodbye");
   }
