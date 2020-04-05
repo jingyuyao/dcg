@@ -1,3 +1,5 @@
 package com.dcg.command;
 
-public interface Command {}
+public interface Command {
+  void run();
+}
