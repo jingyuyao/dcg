@@ -4,12 +4,12 @@ import com.artemis.BaseSystem;
 import com.artemis.SystemInvocationStrategy;
 import com.artemis.annotations.Wire;
 import com.dcg.command.Command;
-import com.dcg.command.CommandQueue;
+import com.dcg.command.CommandDeque;
 
 public class CommandInvocationStrategy extends SystemInvocationStrategy {
 
   @Wire
-  CommandQueue commandQueue;
+  CommandDeque commandDeque;
 
   @Override
   protected void initialize() {
@@ -19,11 +19,15 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
 
   @Override
   protected void process() {
-    while (!commandQueue.isEmpty()) {
-      Command command = commandQueue.remove();
+    while (!commandDeque.isEmpty()) {
+      Command command = commandDeque.remove();
       world.inject(command);
+
       System.out.println("running: " + command.toString());
+
+      updateEntityStates();
       command.run();
+
       processSystems();
     }
   }

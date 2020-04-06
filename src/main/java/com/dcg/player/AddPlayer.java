@@ -4,14 +4,18 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.command.Command;
 import com.dcg.deck.Card;
+import java.util.List;
 
 public class AddPlayer implements Command {
+
   private final String name;
+  private final List<Card> initCards;
   World world;
   ComponentMapper<Player> mPlayer;
 
-  public AddPlayer(String name) {
+  public AddPlayer(String name, List<Card> initCards) {
     this.name = name;
+    this.initCards = initCards;
   }
 
   @Override
@@ -19,10 +23,8 @@ public class AddPlayer implements Command {
     int entity = world.create();
     Player player = mPlayer.create(entity);
     player.name = name;
-    // TODO: replace with a command to add card to deck, perhaps a new player system
-    // and override inserted?
-    for (int i = 0; i < 7; i++) {
-      player.deck.add(new Card("P" + i));
+    for (Card card : initCards) {
+      player.deck.add(card);
     }
   }
 
