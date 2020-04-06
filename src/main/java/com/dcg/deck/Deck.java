@@ -17,7 +17,9 @@ public class Deck {
   public Card draw() {
     if (drawPile.isEmpty()) {
       // TODO: support shuffle
-      drawPile.addAll(discardPile);
+      for (Card card : discardPile) {
+        drawPile.push(card);
+      }
       discardPile.clear();
     }
     return drawPile.pop();

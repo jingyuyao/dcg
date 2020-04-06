@@ -2,24 +2,26 @@ package com.dcg.player;
 
 import com.dcg.command.Command;
 
-public class DrawCard implements Command {
+public class DrawCards implements Command {
 
   private final Player player;
+  private final int num;
 
-  public DrawCard(Player player) {
+  public DrawCards(Player player, int num) {
     this.player = player;
+    this.num = num;
   }
 
   @Override
   public void run() {
-    player.hand.add(player.deck.draw());
     // TODO: compute commands from the card and add them as options for the player
+    for (int i = 0; i < num; i++) {
+      player.hand.add(player.deck.draw());
+    }
   }
 
   @Override
   public String toString() {
-    return "DrawCard{" +
-        "playerName=" + player.name +
-        '}';
+    return "DrawCards{" + "name=" + player.name + ", num=" + num + '}';
   }
 }

@@ -28,6 +28,6 @@ public class InitTurn implements Command {
 
   @Override
   public String toString() {
-    return "InitTurn{" + "playerName='" + playerName + '\'' + '}';
+    return "InitTurn{" + "name='" + playerName + '\'' + '}';
   }
 }

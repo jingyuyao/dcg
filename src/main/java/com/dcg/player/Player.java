@@ -15,10 +15,6 @@ public class Player extends Component {
 
   @Override
   public String toString() {
-    return "Player{" +
-        "hand=" + hand +
-        ", health=" + health +
-        ", name='" + name + '\'' +
-        '}';
+    return "Player{" + "name='" + name + '\'' + ", health=" + health + ", hand=" + hand + '}';
   }
 }
