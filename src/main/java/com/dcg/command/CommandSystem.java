@@ -1,24 +1,32 @@
 package com.dcg.command;
 
 import com.artemis.BaseSystem;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class CommandSystem extends BaseSystem {
-  private List<Command> current = Collections.emptyList();
+
+  private final List<Command> buffer = new ArrayList<>();
 
   @Override
   protected void processSystem() {
-    for (Command command : current) {
+    for (Command command : buffer) {
+      // Dependency injection is crazy.
       world.inject(command);
       System.out.println("running: " + command.toString());
       command.run();
     }
-    current = Collections.emptyList();
+    buffer.clear();
   }
 
-  public void setCurrent(Command... commands) {
-    current = Arrays.asList(commands);
+  public void run(Command... commands) {
+    if (commands.length > 0) {
+      buffer.addAll(Arrays.asList(commands));
+      // We should only access entities and components while systems are being processed.
+      // That's why we only queue them up in this method and leave the actual command invocation
+      // to processSystem().
+      getWorld().process();
+    }
   }
 }

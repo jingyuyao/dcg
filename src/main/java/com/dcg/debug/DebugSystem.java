@@ -12,6 +12,6 @@ public class DebugSystem extends IteratingSystem {
 
   @Override
   protected void process(int entityId) {
-    System.out.println("current player: " + mPlayer.get(entityId).name);
+    System.out.println("current player: " + mPlayer.get(entityId));
   }
 }

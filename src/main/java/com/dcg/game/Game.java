@@ -7,19 +7,22 @@ import com.dcg.command.Command;
 import com.dcg.command.CommandSystem;
 import com.dcg.debug.DebugSystem;
 import com.dcg.player.AddPlayer;
+import com.dcg.player.PlayerTurnSystem;
 import com.dcg.turn.AdvanceTurn;
 import com.dcg.turn.InitTurn;
 
 public class Game {
+
   private final WorldConfiguration configuration =
-      new WorldConfigurationBuilder().with(new CommandSystem(), new DebugSystem()).build();
+      new WorldConfigurationBuilder()
+          .with(new CommandSystem(), new PlayerTurnSystem(), new DebugSystem())
+          .alwaysDelayComponentRemoval(true)
+          .build();
   private final World world = new World(configuration);
   private boolean gameOver = false;
 
   public Game() {
-    process(new AddPlayer("Alice"));
-    process(new AddPlayer("Bob"));
-    process(new InitTurn("Alice"));
+    process(new AddPlayer("Alice"), new AddPlayer("Bob"), new InitTurn("Alice"));
   }
 
   public void handleInput(String input) {
@@ -40,7 +43,6 @@ public class Game {
   }
 
   private void process(Command... commands) {
-    world.getSystem(CommandSystem.class).setCurrent(commands);
-    world.process();
+    world.getSystem(CommandSystem.class).run(commands);
   }
 }
