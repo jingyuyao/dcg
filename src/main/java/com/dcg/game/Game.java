@@ -52,6 +52,6 @@ public class Game {
   private void process(Command command) {
     world.getRegistered(CommandDeque.class).addLast(command);
     world.process();
-    world.getSystem(PlayerDebugSystem.class).printDebug();
+    world.getSystem(PlayerDebugSystem.class).printPlayers();
   }
 }

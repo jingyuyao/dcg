@@ -5,6 +5,7 @@ import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
+import com.dcg.card.Card.Location;
 import com.dcg.command.Command;
 
 public class DiscardHand implements Command {
@@ -12,8 +13,7 @@ public class DiscardHand implements Command {
   private final int playerEntity;
   AspectSubscriptionManager manager;
   ComponentMapper<PlayerOwned> mPlayerOwned;
-  ComponentMapper<Hand> mHand;
-  ComponentMapper<DiscardPile> mDiscardPile;
+  ComponentMapper<Card> mCard;
 
   public DiscardHand(int playerEntity) {
     this.playerEntity = playerEntity;
@@ -21,22 +21,18 @@ public class DiscardHand implements Command {
 
   @Override
   public void run() {
-    IntBag hand =
-        manager.get(Aspect.all(Card.class, PlayerOwned.class, Hand.class)).getEntities();
+    IntBag cards = manager.get(Aspect.all(Card.class, PlayerOwned.class)).getEntities();
 
-    for (int i = 0, s = hand.size(); i < s; i++) {
-      int cardEntity = hand.get(i);
+    for (int i = 0, s = cards.size(); i < s; i++) {
+      int cardEntity = cards.get(i);
       if (mPlayerOwned.get(cardEntity).playerEntity == playerEntity) {
-        mHand.remove(cardEntity);
-        mDiscardPile.create(cardEntity);
+        mCard.get(cardEntity).location = Location.DISCARD_PILE;
       }
     }
   }
 
   @Override
   public String toString() {
-    return "DiscardHand{" +
-        "playerEntity=" + playerEntity +
-        '}';
+    return "DiscardHand{" + "playerEntity=" + playerEntity + '}';
   }
 }

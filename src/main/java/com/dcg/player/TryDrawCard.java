@@ -6,6 +6,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
+import com.dcg.card.Card.Location;
 import com.dcg.command.Command;
 import com.dcg.command.CommandDeque;
 
@@ -17,8 +18,7 @@ public class TryDrawCard implements Command {
   CommandDeque commandDeque;
   AspectSubscriptionManager manager;
   ComponentMapper<PlayerOwned> mPlayerOwned;
-  ComponentMapper<DrawPile> mInDrawPile;
-  ComponentMapper<Hand> mInHand;
+  ComponentMapper<Card> mCard;
 
   public TryDrawCard(int playerEntity) {
     this.playerEntity = playerEntity;
@@ -26,14 +26,14 @@ public class TryDrawCard implements Command {
 
   @Override
   public void run() {
-    IntBag drawPile =
-        manager.get(Aspect.all(Card.class, PlayerOwned.class, DrawPile.class)).getEntities();
+    IntBag cards = manager.get(Aspect.all(Card.class, PlayerOwned.class)).getEntities();
 
-    for (int i = 0, s = drawPile.size(); i < s; i++) {
-      int cardEntity = drawPile.get(i);
-      if (mPlayerOwned.get(cardEntity).playerEntity == playerEntity) {
-        mInDrawPile.remove(cardEntity);
-        mInHand.create(cardEntity);
+    for (int i = 0, s = cards.size(); i < s; i++) {
+      int cardEntity = cards.get(i);
+      PlayerOwned owner = mPlayerOwned.get(cardEntity);
+      Card card = mCard.get(cardEntity);
+      if (owner.playerEntity == playerEntity && card.location == Location.DRAW_PILE) {
+        card.location = Location.HAND;
         return;
       }
     }
@@ -44,8 +44,6 @@ public class TryDrawCard implements Command {
 
   @Override
   public String toString() {
-    return "TryDrawCard{" +
-        "playerEntity=" + playerEntity +
-        '}';
+    return "TryDrawCard{" + "playerEntity=" + playerEntity + '}';
   }
 }
