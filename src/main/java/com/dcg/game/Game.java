@@ -5,7 +5,7 @@ import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.dcg.command.Command;
 import com.dcg.command.CommandDeque;
-import com.dcg.debug.DebugSystem;
+import com.dcg.debug.PlayerDebugSystem;
 import com.dcg.deck.Card;
 import com.dcg.player.AddPlayer;
 import com.dcg.player.PlayerTurnSystem;
@@ -23,7 +23,7 @@ public class Game {
           // Uses the command pattern for execution
           .register(new CommandInvocationStrategy())
           // Order matters!
-          .with(new PlayerTurnSystem(), new DebugSystem())
+          .with(new PlayerTurnSystem(), new PlayerDebugSystem())
           .build()
           .register(new CommandDeque());
   private final World world = new World(configuration);
@@ -55,6 +55,7 @@ public class Game {
   private void process(Command command) {
     world.getRegistered(CommandDeque.class).addLast(command);
     world.process();
+    world.getSystem(PlayerDebugSystem.class).printDebug();
   }
 
   private static List<Card> createPlayerDeck(String prefix) {

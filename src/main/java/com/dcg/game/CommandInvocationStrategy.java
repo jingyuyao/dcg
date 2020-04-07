@@ -19,11 +19,12 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
 
   @Override
   protected void process() {
+    System.out.println("processing");
     while (!commandDeque.isEmpty()) {
       Command command = commandDeque.remove();
       world.inject(command);
 
-      System.out.println("running: " + command.toString());
+      System.out.println("  " + command.toString());
 
       updateEntityStates();
       command.run();
@@ -34,7 +35,7 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
 
   private void processSystems() {
     BaseSystem[] systemsData = systems.getData();
-    for (int i = 0, s = systems.size(); s > i; i++) {
+    for (int i = 0, s = systems.size(); i < s; i++) {
       if (disabled.get(i)) {
         continue;
       }
