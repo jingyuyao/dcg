@@ -1,7 +1,6 @@
 package com.dcg.player;
 
 import com.artemis.BaseEntitySystem;
-import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
 import com.dcg.command.CommandDeque;
@@ -12,19 +11,21 @@ public class PlayerTurnSystem extends BaseEntitySystem {
 
   @Wire
   CommandDeque commandDeque;
-  ComponentMapper<Player> mPlayer;
 
   @Override
   protected void inserted(int entityId) {
     super.inserted(entityId);
-    Player player = mPlayer.get(entityId);
-    commandDeque.addLast(new DrawCards(player, 5));
+    commandDeque.addLast(new TryDrawCard(entityId));
+    commandDeque.addLast(new TryDrawCard(entityId));
+    commandDeque.addLast(new TryDrawCard(entityId));
+    commandDeque.addLast(new TryDrawCard(entityId));
+    commandDeque.addLast(new TryDrawCard(entityId));
   }
 
   @Override
   protected void removed(int entityId) {
     super.removed(entityId);
-    commandDeque.addLast(new DiscardHand(mPlayer.get(entityId)));
+    commandDeque.addLast(new DiscardHand(entityId));
   }
 
   @Override

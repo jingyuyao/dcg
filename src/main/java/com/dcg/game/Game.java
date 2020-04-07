@@ -6,13 +6,10 @@ import com.artemis.WorldConfigurationBuilder;
 import com.dcg.command.Command;
 import com.dcg.command.CommandDeque;
 import com.dcg.debug.PlayerDebugSystem;
-import com.dcg.deck.Card;
-import com.dcg.player.AddPlayer;
+import com.dcg.player.CreatePlayer;
 import com.dcg.player.PlayerTurnSystem;
 import com.dcg.turn.AdvanceTurn;
 import com.dcg.turn.InitTurn;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Game {
 
@@ -30,8 +27,8 @@ public class Game {
   private boolean gameOver = false;
 
   public Game() {
-    process(new AddPlayer("Alice", createPlayerDeck("A")));
-    process(new AddPlayer("Bob", createPlayerDeck("B")));
+    process(new CreatePlayer("Alice"));
+    process(new CreatePlayer("Bob"));
     process(new InitTurn("Alice"));
   }
 
@@ -56,13 +53,5 @@ public class Game {
     world.getRegistered(CommandDeque.class).addLast(command);
     world.process();
     world.getSystem(PlayerDebugSystem.class).printDebug();
-  }
-
-  private static List<Card> createPlayerDeck(String prefix) {
-    List<Card> cards = new ArrayList<>(10);
-    for (int i = 0; i < 10; i++) {
-      cards.add(new Card(prefix + i));
-    }
-    return cards;
   }
 }
