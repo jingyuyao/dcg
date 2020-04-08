@@ -30,7 +30,6 @@ public class PlayerDebugSystem extends BaseSystem {
     for (int i = 0, s = players.size(); i < s; i++) {
       int playerEntity = players.get(i);
       System.out.print(mTurn.has(playerEntity) ? " *" : "  ");
-      System.out.print(playerEntity + " ");
       System.out.print(mPlayer.get(playerEntity).name);
       printHand(playerEntity);
       System.out.println();

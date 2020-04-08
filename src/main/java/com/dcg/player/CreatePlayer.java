@@ -7,7 +7,6 @@ import com.dcg.card.Card.Location;
 import com.dcg.command.Command;
 
 public class CreatePlayer implements Command {
-
   private final String name;
   World world;
   ComponentMapper<Player> mPlayer;
@@ -33,6 +32,6 @@ public class CreatePlayer implements Command {
 
   @Override
   public String toString() {
-    return "CreatePlayer{" + "name='" + name + '\'' + '}';
+    return "CreatePlayer " + name;
   }
 }

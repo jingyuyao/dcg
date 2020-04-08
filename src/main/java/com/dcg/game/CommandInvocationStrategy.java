@@ -19,16 +19,13 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
 
   @Override
   protected void process() {
-    System.out.println("processing");
+    System.out.println("Processing");
     while (!commandDeque.isEmpty()) {
       Command command = commandDeque.remove();
       world.inject(command);
-
       System.out.println("  " + command.toString());
-
       updateEntityStates();
       command.run();
-
       processSystems();
     }
   }

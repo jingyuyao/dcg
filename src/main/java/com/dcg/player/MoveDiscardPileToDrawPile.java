@@ -12,6 +12,7 @@ public class MoveDiscardPileToDrawPile implements Command {
 
   private final int playerEntity;
   AspectSubscriptionManager manager;
+  ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
   ComponentMapper<Card> mCard;
 
@@ -33,6 +34,6 @@ public class MoveDiscardPileToDrawPile implements Command {
 
   @Override
   public String toString() {
-    return "MoveDiscardPileToDrawPile{" + "playerEntity=" + playerEntity + '}';
+    return "MoveDiscardPileToDrawPile " + mPlayer.get(playerEntity);
   }
 }

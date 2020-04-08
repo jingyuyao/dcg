@@ -12,6 +12,7 @@ public class DiscardHand implements Command {
 
   private final int playerEntity;
   AspectSubscriptionManager manager;
+  ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
   ComponentMapper<Card> mCard;
 
@@ -33,6 +34,6 @@ public class DiscardHand implements Command {
 
   @Override
   public String toString() {
-    return "DiscardHand{" + "playerEntity=" + playerEntity + '}';
+    return "DiscardHand " + mPlayer.get(playerEntity);
   }
 }

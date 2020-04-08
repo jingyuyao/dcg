@@ -17,6 +17,7 @@ public class TryDrawCard implements Command {
   @Wire
   CommandDeque commandDeque;
   AspectSubscriptionManager manager;
+  ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
   ComponentMapper<Card> mCard;
 
@@ -44,6 +45,6 @@ public class TryDrawCard implements Command {
 
   @Override
   public String toString() {
-    return "TryDrawCard{" + "playerEntity=" + playerEntity + '}';
+    return "TryDrawCard " + mPlayer.get(playerEntity);
   }
 }
