@@ -38,6 +38,6 @@ public class DiscardPlayArea implements Command {
 
   @Override
   public String toString() {
-    return "DiscardHand " + mPlayer.get(playerEntity);
+    return "DiscardPlayArea " + mPlayer.get(playerEntity);
   }
 }

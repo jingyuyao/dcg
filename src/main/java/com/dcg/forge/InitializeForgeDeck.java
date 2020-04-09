@@ -21,4 +21,9 @@ public class InitializeForgeDeck implements Command {
       mDrawPile.create(cardEntity);
     }
   }
+
+  @Override
+  public String toString() {
+    return "InitializeForgeDeck";
+  }
 }

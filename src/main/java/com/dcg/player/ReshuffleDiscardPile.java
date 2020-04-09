@@ -39,6 +39,6 @@ public class ReshuffleDiscardPile implements Command {
 
   @Override
   public String toString() {
-    return "MoveDiscardPileToDrawPile " + mPlayer.get(playerEntity);
+    return "ReshuffleDiscardPile " + mPlayer.get(playerEntity);
   }
 }
