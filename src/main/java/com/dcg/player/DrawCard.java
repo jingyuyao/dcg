@@ -4,32 +4,36 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
-import com.dcg.card.DiscardPile;
+import com.dcg.card.Deck;
+import com.dcg.card.Hand;
 import com.dcg.card.MoveLocation;
-import com.dcg.card.PlayArea;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 
-public class DiscardPlayArea implements Command {
+public class DrawCard implements Command {
   private final int playerEntity;
   @Wire CommandChain commandChain;
   PlayerOwnedSystem playerOwnedSystem;
   ComponentMapper<Player> mPlayer;
 
-  public DiscardPlayArea(int playerEntity) {
+  public DrawCard(int playerEntity) {
     this.playerEntity = playerEntity;
   }
 
   @Override
   public void run() {
-    Aspect.Builder playArea = Aspect.all(Card.class, PlayerOwned.class, PlayArea.class);
-    for (int cardEntity : playerOwnedSystem.filter(playArea, playerEntity)) {
-      commandChain.addStart(new MoveLocation(cardEntity, DiscardPile.class));
+    Aspect.Builder deck = Aspect.all(Card.class, PlayerOwned.class, Deck.class);
+
+    for (int cardEntity : playerOwnedSystem.filter(deck, playerEntity)) {
+      commandChain.addStart(new MoveLocation(cardEntity, Hand.class));
+      return;
     }
+
+    commandChain.addStart(new ReshuffleDiscardPile(playerEntity), new DrawCard(playerEntity));
   }
 
   @Override
   public String toString() {
-    return "DiscardPlayArea " + mPlayer.get(playerEntity);
+    return "TryDrawCard " + mPlayer.get(playerEntity);
   }
 }

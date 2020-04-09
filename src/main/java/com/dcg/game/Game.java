@@ -3,15 +3,17 @@ package com.dcg.game;
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
+import com.artemis.link.EntityLinkManager;
+import com.dcg.Input;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.debug.PlayerDebugSystem;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
-import com.dcg.player.BuyCard;
 import com.dcg.player.CreatePlayer;
+import com.dcg.player.CurrentPlayerActions;
+import com.dcg.player.PlayerOwnedSystem;
 import com.dcg.player.PlayerTurnSystem;
-import com.dcg.turn.AdvanceTurn;
 import com.dcg.turn.InitTurn;
 
 public class Game {
@@ -23,7 +25,12 @@ public class Game {
           // Uses the command pattern for execution
           .register(new CommandInvocationStrategy())
           // Order matters!
-          .with(new ForgeRowRefillSystem(), new PlayerTurnSystem(), new PlayerDebugSystem())
+          .with(
+              new EntityLinkManager(),
+              new ForgeRowRefillSystem(),
+              new PlayerTurnSystem(),
+              new PlayerOwnedSystem(),
+              new PlayerDebugSystem())
           .build()
           .register(new CommandChain());
   private final World world = new World(configuration);
@@ -36,19 +43,27 @@ public class Game {
     process(new InitTurn("Alice"));
   }
 
-  public void handleInput(String input) {
-    if (input == null) return;
-
-    switch (input) {
-      case "quit":
-        gameOver = true;
-        break;
-      case "advance":
-        process(new AdvanceTurn());
-        break;
-      case "buy":
-        process(new BuyCard());
-        break;
+  public void handleInput(Input input) {
+    if (input.quit) {
+      gameOver = true;
+    } else if (input.print) {
+      // TODO: make this a command
+      world.getSystem(PlayerDebugSystem.class).printPlayers();
+      CurrentPlayerActions query = new CurrentPlayerActions();
+      process(query);
+      for (int i = 0; i < query.getCommands().size(); i++) {
+        System.out.println(i + " " + query.getCommands().get(i));
+      }
+    } else if (input.choose != -1) {
+      CurrentPlayerActions query = new CurrentPlayerActions();
+      process(query);
+      try {
+        process(query.getCommands().get(input.choose));
+      } catch (ArrayIndexOutOfBoundsException e) {
+        System.out.println("unknown action: " + input.choose);
+      }
+    } else {
+      System.out.println("unknown parameters: " + input.parameters);
     }
   }
 
@@ -59,6 +74,5 @@ public class Game {
   private void process(Command command) {
     world.getRegistered(CommandChain.class).addEnd(command);
     world.process();
-    world.getSystem(PlayerDebugSystem.class).printPlayers();
   }
 }

@@ -10,17 +10,21 @@ import com.dcg.card.ForgeRow;
 import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
-import com.dcg.turn.Turn;
 
 public class BuyCard implements Command {
+  private final int playerEntity;
   @Wire CommandChain commandChain;
   AspectSubscriptionManager manager;
   ComponentMapper<PlayerOwned> mPlayerOwned;
 
+  public BuyCard(int playerEntity) {
+    this.playerEntity = playerEntity;
+  }
+
   @Override
   public void run() {
-    int playerEntity = manager.get(Aspect.all(Player.class, Turn.class)).getEntities().get(0);
     int cardEntity = manager.get(Aspect.all(Card.class, ForgeRow.class)).getEntities().get(0);
+    // TODO: make this a command
     mPlayerOwned.create(cardEntity).playerEntity = playerEntity;
     commandChain.addStart(new MoveLocation(cardEntity, Deck.class));
   }

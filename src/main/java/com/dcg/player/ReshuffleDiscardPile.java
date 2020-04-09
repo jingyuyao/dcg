@@ -1,10 +1,8 @@
 package com.dcg.player;
 
 import com.artemis.Aspect;
-import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
-import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
 import com.dcg.card.Deck;
 import com.dcg.card.DiscardPile;
@@ -16,7 +14,7 @@ public class ReshuffleDiscardPile implements Command {
 
   private final int playerEntity;
   @Wire CommandChain commandChain;
-  AspectSubscriptionManager manager;
+  PlayerOwnedSystem playerOwnedSystem;
   ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
 
@@ -26,11 +24,9 @@ public class ReshuffleDiscardPile implements Command {
 
   @Override
   public void run() {
-    IntBag discardPile =
-        manager.get(Aspect.all(Card.class, PlayerOwned.class, DiscardPile.class)).getEntities();
+    Aspect.Builder discardPile = Aspect.all(Card.class, PlayerOwned.class, DiscardPile.class);
 
-    for (int i = 0; i < discardPile.size(); i++) {
-      int cardEntity = discardPile.get(i);
+    for (int cardEntity : playerOwnedSystem.filter(discardPile, playerEntity)) {
       if (playerEntity == mPlayerOwned.get(cardEntity).playerEntity) {
         commandChain.addStart(new MoveLocation(cardEntity, Deck.class));
       }
