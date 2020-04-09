@@ -3,7 +3,7 @@ package com.dcg.player;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.card.Card;
-import com.dcg.card.Card.Location;
+import com.dcg.card.DrawPile;
 import com.dcg.command.Command;
 
 public class CreatePlayer implements Command {
@@ -12,6 +12,7 @@ public class CreatePlayer implements Command {
   ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
   ComponentMapper<Card> mCard;
+  ComponentMapper<DrawPile> mDrawPile;
 
   public CreatePlayer(String name) {
     this.name = name;
@@ -21,11 +22,12 @@ public class CreatePlayer implements Command {
   public void run() {
     int playerEntity = world.create();
     mPlayer.create(playerEntity).name = name;
+    // TODO: make these actions
     for (int i = 0; i < 11; i++) {
       int cardEntity = world.create();
       Card card = mCard.create(cardEntity);
-      card.name = "c" + i;
-      card.location = Location.DRAW_PILE;
+      card.name = "b" + i;
+      mDrawPile.create(cardEntity);
       mPlayerOwned.create(cardEntity).playerEntity = playerEntity;
     }
   }

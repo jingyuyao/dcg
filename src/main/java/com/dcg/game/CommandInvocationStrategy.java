@@ -32,7 +32,7 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
 
   private void processSystems() {
     BaseSystem[] systemsData = systems.getData();
-    for (int i = 0, s = systems.size(); i < s; i++) {
+    for (int i = 0; i < systems.size(); i++) {
       if (disabled.get(i)) {
         continue;
       }
