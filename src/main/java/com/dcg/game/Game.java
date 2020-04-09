@@ -8,6 +8,7 @@ import com.dcg.command.CommandDeque;
 import com.dcg.debug.PlayerDebugSystem;
 import com.dcg.forge.BuyPileRefillSystem;
 import com.dcg.forge.InitializeDrawPile;
+import com.dcg.player.BuyCard;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.PlayerTurnSystem;
 import com.dcg.turn.AdvanceTurn;
@@ -44,6 +45,9 @@ public class Game {
         break;
       case "advance":
         process(new AdvanceTurn());
+        break;
+      case "buy":
+        process(new BuyCard());
         break;
     }
   }
