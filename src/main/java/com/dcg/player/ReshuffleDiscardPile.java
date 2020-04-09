@@ -9,14 +9,16 @@ import com.dcg.card.DiscardPile;
 import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.ownership.Owned;
+import com.dcg.ownership.OwnershipSystem;
 
 public class ReshuffleDiscardPile extends Command {
 
   private final int playerEntity;
   @Wire CommandChain commandChain;
-  PlayerOwnedSystem playerOwnedSystem;
+  OwnershipSystem ownershipSystem;
   ComponentMapper<Player> mPlayer;
-  ComponentMapper<PlayerOwned> mPlayerOwned;
+  ComponentMapper<Owned> mOwned;
 
   public ReshuffleDiscardPile(int playerEntity) {
     this.playerEntity = playerEntity;
@@ -24,10 +26,10 @@ public class ReshuffleDiscardPile extends Command {
 
   @Override
   public void run() {
-    Aspect.Builder discardPile = Aspect.all(Card.class, PlayerOwned.class, DiscardPile.class);
+    Aspect.Builder discardPile = Aspect.all(Card.class, Owned.class, DiscardPile.class);
 
-    for (int cardEntity : playerOwnedSystem.filter(discardPile, playerEntity)) {
-      if (playerEntity == mPlayerOwned.get(cardEntity).playerEntity) {
+    for (int cardEntity : ownershipSystem.filter(discardPile, playerEntity)) {
+      if (playerEntity == mOwned.get(cardEntity).owner) {
         commandChain.addStart(new MoveLocation(cardEntity, Deck.class));
       }
     }

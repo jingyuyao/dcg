@@ -11,7 +11,7 @@ import com.dcg.card.Deck;
 import com.dcg.card.ForgeRow;
 import com.dcg.card.MoveLocation;
 import com.dcg.command.CommandChain;
-import com.dcg.player.PlayerOwned;
+import com.dcg.ownership.Owned;
 
 @All({Card.class, ForgeRow.class})
 public class ForgeRowRefillSystem extends BaseEntitySystem {
@@ -24,15 +24,11 @@ public class ForgeRowRefillSystem extends BaseEntitySystem {
   @Override
   protected void processSystem() {
     IntBag drawPile =
-        manager.get(Aspect.all(Card.class, Deck.class).exclude(PlayerOwned.class)).getEntities();
+        manager.get(Aspect.all(Card.class, Deck.class).exclude(Owned.class)).getEntities();
     // We only need to add one since adding a move location command will trigger this system to
     // be run again.
-    if (getEntityIds().size() < BUY_PILE_SIZE) {
-      if (drawPile.size() > 0) {
-        commandChain.addStart(new MoveLocation(drawPile.get(0), ForgeRow.class));
-      } else {
-        throw new RuntimeException("GG");
-      }
+    if (getEntityIds().size() < BUY_PILE_SIZE && drawPile.size() > 0) {
+      commandChain.addStart(new MoveLocation(drawPile.get(0), ForgeRow.class));
     }
   }
 }

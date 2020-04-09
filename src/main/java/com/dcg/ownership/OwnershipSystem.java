@@ -1,4 +1,4 @@
-package com.dcg.player;
+package com.dcg.ownership;
 
 import com.artemis.Aspect;
 import com.artemis.AspectSubscriptionManager;
@@ -8,20 +8,20 @@ import com.artemis.utils.IntBag;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerOwnedSystem extends BaseSystem {
+public class OwnershipSystem extends BaseSystem {
   AspectSubscriptionManager manager;
-  ComponentMapper<PlayerOwned> mPlayerOwned;
+  ComponentMapper<Owned> mOwned;
 
-  public List<Integer> filter(Aspect.Builder aspectBuilder, int playerEntity) {
-    List<Integer> playerOwned = new ArrayList<>();
+  public List<Integer> filter(Aspect.Builder aspectBuilder, int ownerEntity) {
+    List<Integer> owned = new ArrayList<>();
     IntBag entities = manager.get(aspectBuilder).getEntities();
     for (int i = 0; i < entities.size(); i++) {
       int entity = entities.get(i);
-      if (playerEntity == mPlayerOwned.get(entity).playerEntity) {
-        playerOwned.add(entity);
+      if (ownerEntity == mOwned.get(entity).owner) {
+        owned.add(entity);
       }
     }
-    return playerOwned;
+    return owned;
   }
 
   @Override

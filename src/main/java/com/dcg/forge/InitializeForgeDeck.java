@@ -1,24 +1,19 @@
 package com.dcg.forge;
 
-import com.artemis.ComponentMapper;
-import com.artemis.World;
-import com.dcg.card.Card;
+import com.artemis.annotations.Wire;
+import com.dcg.card.CreateCard;
 import com.dcg.card.Deck;
 import com.dcg.command.Command;
+import com.dcg.command.CommandChain;
 
 public class InitializeForgeDeck extends Command {
 
-  World world;
-  ComponentMapper<Card> mCard;
-  ComponentMapper<Deck> mDrawPile;
+  @Wire CommandChain commandChain;
 
   @Override
   public void run() {
     for (int i = 0; i < 50; i++) {
-      int cardEntity = world.create();
-      Card card = mCard.create(cardEntity);
-      card.name = "f" + i;
-      mDrawPile.create(cardEntity);
+      commandChain.addStart(new CreateCard("f" + i, Deck.class));
     }
   }
 }

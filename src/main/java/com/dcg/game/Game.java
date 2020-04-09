@@ -9,9 +9,9 @@ import com.dcg.command.CommandChain;
 import com.dcg.debug.PlayerDebugSystem;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
+import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.CurrentPlayerActions;
-import com.dcg.player.PlayerOwnedSystem;
 import com.dcg.player.PlayerTurnSystem;
 import com.dcg.turn.InitTurn;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Game {
               new EntityLinkManager(),
               new ForgeRowRefillSystem(),
               new PlayerTurnSystem(),
-              new PlayerOwnedSystem(),
+              new OwnershipSystem(),
               new PlayerDebugSystem())
           .build()
           .register(new CommandChain());

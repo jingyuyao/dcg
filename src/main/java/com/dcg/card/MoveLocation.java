@@ -5,7 +5,6 @@ import com.artemis.World;
 import com.dcg.command.Command;
 
 public class MoveLocation extends Command {
-
   private final int cardEntity;
   private final Class<? extends Location> location;
   World world;

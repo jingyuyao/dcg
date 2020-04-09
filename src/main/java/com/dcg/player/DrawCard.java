@@ -9,11 +9,13 @@ import com.dcg.card.Hand;
 import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.ownership.Owned;
+import com.dcg.ownership.OwnershipSystem;
 
 public class DrawCard extends Command {
   private final int playerEntity;
   @Wire CommandChain commandChain;
-  PlayerOwnedSystem playerOwnedSystem;
+  OwnershipSystem ownershipSystem;
   ComponentMapper<Player> mPlayer;
 
   public DrawCard(int playerEntity) {
@@ -22,9 +24,9 @@ public class DrawCard extends Command {
 
   @Override
   public void run() {
-    Aspect.Builder deck = Aspect.all(Card.class, PlayerOwned.class, Deck.class);
+    Aspect.Builder deck = Aspect.all(Card.class, Owned.class, Deck.class);
 
-    for (int cardEntity : playerOwnedSystem.filter(deck, playerEntity)) {
+    for (int cardEntity : ownershipSystem.filter(deck, playerEntity)) {
       commandChain.addStart(new MoveLocation(cardEntity, Hand.class));
       return;
     }

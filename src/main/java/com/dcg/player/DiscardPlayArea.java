@@ -9,11 +9,13 @@ import com.dcg.card.MoveLocation;
 import com.dcg.card.PlayArea;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.ownership.Owned;
+import com.dcg.ownership.OwnershipSystem;
 
 public class DiscardPlayArea extends Command {
   private final int playerEntity;
   @Wire CommandChain commandChain;
-  PlayerOwnedSystem playerOwnedSystem;
+  OwnershipSystem ownershipSystem;
   ComponentMapper<Player> mPlayer;
 
   public DiscardPlayArea(int playerEntity) {
@@ -22,8 +24,8 @@ public class DiscardPlayArea extends Command {
 
   @Override
   public void run() {
-    Aspect.Builder playArea = Aspect.all(Card.class, PlayerOwned.class, PlayArea.class);
-    for (int cardEntity : playerOwnedSystem.filter(playArea, playerEntity)) {
+    Aspect.Builder playArea = Aspect.all(Card.class, Owned.class, PlayArea.class);
+    for (int cardEntity : ownershipSystem.filter(playArea, playerEntity)) {
       commandChain.addStart(new MoveLocation(cardEntity, DiscardPile.class));
     }
   }

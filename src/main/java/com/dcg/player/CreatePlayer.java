@@ -2,17 +2,17 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
-import com.dcg.card.Card;
+import com.artemis.annotations.Wire;
+import com.dcg.card.CreateCard;
 import com.dcg.card.Deck;
 import com.dcg.command.Command;
+import com.dcg.command.CommandChain;
 
 public class CreatePlayer extends Command {
   private final String name;
+  @Wire CommandChain commandChain;
   World world;
   ComponentMapper<Player> mPlayer;
-  ComponentMapper<PlayerOwned> mPlayerOwned;
-  ComponentMapper<Card> mCard;
-  ComponentMapper<Deck> mDrawPile;
 
   public CreatePlayer(String name) {
     this.name = name;
@@ -22,13 +22,9 @@ public class CreatePlayer extends Command {
   public void run() {
     int playerEntity = world.create();
     mPlayer.create(playerEntity).name = name;
-    // TODO: make these actions
+    // TODO: pass in the data for the basic card
     for (int i = 0; i < 11; i++) {
-      int cardEntity = world.create();
-      Card card = mCard.create(cardEntity);
-      card.name = "b" + i;
-      mDrawPile.create(cardEntity);
-      mPlayerOwned.create(cardEntity).playerEntity = playerEntity;
+      commandChain.addStart(new CreateCard("b" + i, Deck.class, playerEntity));
     }
   }
 
