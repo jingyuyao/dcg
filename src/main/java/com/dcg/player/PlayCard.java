@@ -8,7 +8,8 @@ import com.dcg.card.PlayArea;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 
-public class PlayCard implements Command {
+public class PlayCard extends Command {
+
   private final int cardEntity;
   @Wire CommandChain commandChain;
   ComponentMapper<Card> mCard;
@@ -24,6 +25,6 @@ public class PlayCard implements Command {
 
   @Override
   public String toString() {
-    return "PlayCard " + mCard.get(cardEntity).name;
+    return super.toString() + mCard.get(cardEntity);
   }
 }

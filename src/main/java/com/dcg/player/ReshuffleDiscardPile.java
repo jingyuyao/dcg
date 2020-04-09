@@ -10,7 +10,7 @@ import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 
-public class ReshuffleDiscardPile implements Command {
+public class ReshuffleDiscardPile extends Command {
 
   private final int playerEntity;
   @Wire CommandChain commandChain;
@@ -35,6 +35,6 @@ public class ReshuffleDiscardPile implements Command {
 
   @Override
   public String toString() {
-    return "ReshuffleDiscardPile " + mPlayer.get(playerEntity);
+    return super.toString() + mPlayer.get(playerEntity);
   }
 }

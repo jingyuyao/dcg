@@ -11,7 +11,7 @@ import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 
-public class BuyCard implements Command {
+public class BuyCard extends Command {
   private final int playerEntity;
   @Wire CommandChain commandChain;
   AspectSubscriptionManager manager;
@@ -27,10 +27,5 @@ public class BuyCard implements Command {
     // TODO: make this a command
     mPlayerOwned.create(cardEntity).playerEntity = playerEntity;
     commandChain.addStart(new MoveLocation(cardEntity, Deck.class));
-  }
-
-  @Override
-  public String toString() {
-    return "BuyCard";
   }
 }

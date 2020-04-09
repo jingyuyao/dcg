@@ -1,5 +1,11 @@
 package com.dcg.command;
 
-public interface Command {
-  void run();
+public abstract class Command {
+
+  public abstract void run();
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + " ";
+  }
 }

@@ -6,7 +6,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.Command;
 import com.dcg.player.Player;
 
-public class InitTurn implements Command {
+public class InitTurn extends Command {
   private final String playerName;
   AspectSubscriptionManager manager;
   ComponentMapper<Player> mPlayer;
@@ -28,6 +28,6 @@ public class InitTurn implements Command {
 
   @Override
   public String toString() {
-    return "InitTurn{" + "name='" + playerName + '\'' + '}';
+    return super.toString() + playerName;
   }
 }

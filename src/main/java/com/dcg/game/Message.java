@@ -22,9 +22,7 @@ public class Message {
     return Arrays.asList(args);
   }
 
-  /**
-   * Invalid integer arguments are ignored.
-   */
+  /** Invalid integer arguments are ignored. */
   public List<Integer> getIntegerArgs() {
     List<Integer> result = new ArrayList<>(args.length);
     for (String arg : args) {

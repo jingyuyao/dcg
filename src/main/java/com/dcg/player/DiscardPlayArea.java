@@ -10,7 +10,7 @@ import com.dcg.card.PlayArea;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 
-public class DiscardPlayArea implements Command {
+public class DiscardPlayArea extends Command {
   private final int playerEntity;
   @Wire CommandChain commandChain;
   PlayerOwnedSystem playerOwnedSystem;
@@ -30,6 +30,6 @@ public class DiscardPlayArea implements Command {
 
   @Override
   public String toString() {
-    return "DiscardPlayArea " + mPlayer.get(playerEntity);
+    return super.toString() + mPlayer.get(playerEntity);
   }
 }

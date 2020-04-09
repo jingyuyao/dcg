@@ -4,7 +4,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.command.Command;
 
-public class MoveLocation implements Command {
+public class MoveLocation extends Command {
 
   private final int cardEntity;
   private final Class<? extends Location> location;
@@ -26,6 +26,6 @@ public class MoveLocation implements Command {
 
   @Override
   public String toString() {
-    return "MoveLocation " + mCard.get(cardEntity).name + " to " + location.getSimpleName();
+    return super.toString() + mCard.get(cardEntity) + " to " + location.getSimpleName();
   }
 }

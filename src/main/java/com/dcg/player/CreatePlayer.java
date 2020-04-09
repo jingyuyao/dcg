@@ -6,7 +6,7 @@ import com.dcg.card.Card;
 import com.dcg.card.Deck;
 import com.dcg.command.Command;
 
-public class CreatePlayer implements Command {
+public class CreatePlayer extends Command {
   private final String name;
   World world;
   ComponentMapper<Player> mPlayer;
@@ -34,6 +34,6 @@ public class CreatePlayer implements Command {
 
   @Override
   public String toString() {
-    return "CreatePlayer " + name;
+    return super.toString() + name;
   }
 }

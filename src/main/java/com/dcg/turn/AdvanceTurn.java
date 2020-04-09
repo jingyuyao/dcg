@@ -7,7 +7,8 @@ import com.artemis.utils.IntBag;
 import com.dcg.command.Command;
 import com.dcg.player.Player;
 
-public class AdvanceTurn implements Command {
+public class AdvanceTurn extends Command {
+
   AspectSubscriptionManager manager;
   ComponentMapper<Turn> mTurn;
 
@@ -20,10 +21,5 @@ public class AdvanceTurn implements Command {
     int nextPlayer = players.get(nextPlayerIndex);
     mTurn.remove(currentPlayer);
     mTurn.create(nextPlayer);
-  }
-
-  @Override
-  public String toString() {
-    return "AdvanceTurn{}";
   }
 }

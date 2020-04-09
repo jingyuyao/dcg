@@ -6,7 +6,7 @@ import com.dcg.card.Card;
 import com.dcg.card.Deck;
 import com.dcg.command.Command;
 
-public class InitializeForgeDeck implements Command {
+public class InitializeForgeDeck extends Command {
 
   World world;
   ComponentMapper<Card> mCard;
@@ -20,10 +20,5 @@ public class InitializeForgeDeck implements Command {
       card.name = "f" + i;
       mDrawPile.create(cardEntity);
     }
-  }
-
-  @Override
-  public String toString() {
-    return "InitializeForgeDeck";
   }
 }

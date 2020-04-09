@@ -9,7 +9,7 @@ import com.dcg.turn.AdvanceTurn;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CurrentPlayerActions implements Command {
+public class CurrentPlayerActions extends Command {
 
   private final List<Command> actions = new ArrayList<>();
   World world;
@@ -35,10 +35,5 @@ public class CurrentPlayerActions implements Command {
 
   public List<Command> getCommands() {
     return actions;
-  }
-
-  @Override
-  public String toString() {
-    return "CurrentPlayerActions";
   }
 }

@@ -24,9 +24,7 @@ public class ForgeRowRefillSystem extends BaseEntitySystem {
   @Override
   protected void processSystem() {
     IntBag drawPile =
-        manager
-            .get(Aspect.all(Card.class, Deck.class).exclude(PlayerOwned.class))
-            .getEntities();
+        manager.get(Aspect.all(Card.class, Deck.class).exclude(PlayerOwned.class)).getEntities();
     // We only need to add one since adding a move location command will trigger this system to
     // be run again.
     if (getEntityIds().size() < BUY_PILE_SIZE) {

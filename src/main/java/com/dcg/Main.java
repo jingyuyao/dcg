@@ -29,8 +29,8 @@ public class Main {
     try {
       String[] tokenized = input.split(" ");
       MessageType messageType = MessageType.valueOf(tokenized[0].toUpperCase());
-      return Optional
-          .of(new Message(messageType, Arrays.copyOfRange(tokenized, 1, tokenized.length)));
+      return Optional.of(
+          new Message(messageType, Arrays.copyOfRange(tokenized, 1, tokenized.length)));
     } catch (RuntimeException e) {
       return Optional.empty();
     }
