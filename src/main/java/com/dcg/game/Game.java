@@ -6,15 +6,16 @@ import com.artemis.WorldConfigurationBuilder;
 import com.artemis.link.EntityLinkManager;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
-import com.dcg.debug.PlayerDebugSystem;
+import com.dcg.debug.PrintCurrentActions;
+import com.dcg.debug.PrintCurrentPlayer;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.CreatePlayer;
-import com.dcg.player.CurrentPlayerActions;
+import com.dcg.player.PerformActions;
+import com.dcg.player.PlayerActionSystem;
 import com.dcg.turn.InitTurn;
 import com.dcg.turn.TurnSystem;
-import java.util.List;
 
 public class Game {
 
@@ -27,20 +28,21 @@ public class Game {
           // Order matters!
           .with(
               new EntityLinkManager(),
+              new OwnershipSystem(),
               new ForgeRowRefillSystem(),
               new TurnSystem(),
-              new OwnershipSystem(),
-              new PlayerDebugSystem())
+              new PlayerActionSystem())
           .build()
           .register(new CommandChain());
   private final World world = new World(configuration);
   private boolean gameOver = false;
 
   public Game() {
-    process(new InitializeForgeDeck());
-    process(new CreatePlayer("Alice"));
-    process(new CreatePlayer("Bob"));
-    process(new InitTurn("Alice"));
+    process(
+        new InitializeForgeDeck(),
+        new CreatePlayer("Alice"),
+        new CreatePlayer("Bob"),
+        new InitTurn("Alice"));
   }
 
   public void handleMessage(Message message) {
@@ -48,11 +50,11 @@ public class Game {
       case QUIT:
         gameOver = true;
         break;
-      case PLAYERS:
-        printPlayers();
+      case PRINT:
+        process(new PrintCurrentPlayer(), new PrintCurrentActions());
         break;
-      case CHOOSE:
-        choose(message.getIntegerArgs());
+      case PERFORM:
+        process(new PerformActions(message.getIntegerArgs().toArray(new Integer[0])));
         break;
       default:
         System.out.println("Unsupported input: " + message.getType());
@@ -64,30 +66,8 @@ public class Game {
     return gameOver;
   }
 
-  private void printPlayers() {
-    // TODO: make this a command
-    world.getSystem(PlayerDebugSystem.class).printPlayers();
-    CurrentPlayerActions query = new CurrentPlayerActions();
-    process(query);
-    for (int i = 0; i < query.getCommands().size(); i++) {
-      System.out.println(i + " " + query.getCommands().get(i));
-    }
-  }
-
-  private void choose(List<Integer> choices) {
-    CurrentPlayerActions query = new CurrentPlayerActions();
-    process(query);
-    for (int choice : choices) {
-      try {
-        process(query.getCommands().get(choice));
-      } catch (IndexOutOfBoundsException e) {
-        System.out.println("Unknown choice: " + choice);
-      }
-    }
-  }
-
-  private void process(Command command) {
-    world.getRegistered(CommandChain.class).addEnd(command);
+  private void process(Command... commands) {
+    world.getRegistered(CommandChain.class).addEnd(commands);
     world.process();
   }
 }

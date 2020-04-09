@@ -1,42 +1,39 @@
 package com.dcg.player;
 
 import com.artemis.Aspect;
-import com.artemis.World;
+import com.artemis.annotations.All;
+import com.artemis.systems.IteratingSystem;
 import com.dcg.card.Card;
 import com.dcg.card.Hand;
 import com.dcg.command.Command;
 import com.dcg.ownership.Owned;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.turn.AdvanceTurn;
-import com.dcg.turn.TurnSystem;
+import com.dcg.turn.Turn;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CurrentPlayerActions extends Command {
+@All({Player.class, Turn.class})
+public class PlayerActionSystem extends IteratingSystem {
 
   private final List<Command> actions = new ArrayList<>();
-  World world;
-  TurnSystem turnSystem;
   OwnershipSystem ownershipSystem;
 
   @Override
-  public void run() {
-    int playerEntity = turnSystem.getCurrentPlayerEntity();
+  protected void process(int entityId) {
+    actions.clear();
     Aspect.Builder hand = Aspect.all(Card.class, Owned.class, Hand.class);
-    for (int cardEntity : ownershipSystem.filter(hand, playerEntity)) {
+    for (int cardEntity : ownershipSystem.filter(hand, entityId)) {
       actions.add(new PlayCard(cardEntity));
     }
     if (actions.isEmpty()) {
       actions.add(new AdvanceTurn());
     }
-    actions.add(new BuyCard(playerEntity));
-    // TODO: get rid of this
-    for (Command command : actions) {
-      world.inject(command);
-    }
+    actions.add(new BuyCard(entityId));
   }
 
-  public List<Command> getCommands() {
-    return actions;
+  /** Snapshot the current actions so executing the results doesn't change the content. */
+  public List<Command> getActions() {
+    return new ArrayList<>(actions);
   }
 }
