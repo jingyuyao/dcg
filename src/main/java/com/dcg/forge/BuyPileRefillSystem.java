@@ -18,8 +18,7 @@ public class BuyPileRefillSystem extends BaseEntitySystem {
 
   private static final int BUY_PILE_SIZE = 6;
 
-  @Wire
-  CommandDeque commandDeque;
+  @Wire CommandDeque commandDeque;
   AspectSubscriptionManager manager;
 
   @Override

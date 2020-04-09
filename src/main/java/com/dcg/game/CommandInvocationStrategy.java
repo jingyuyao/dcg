@@ -8,8 +8,7 @@ import com.dcg.command.CommandDeque;
 
 public class CommandInvocationStrategy extends SystemInvocationStrategy {
 
-  @Wire
-  CommandDeque commandDeque;
+  @Wire CommandDeque commandDeque;
 
   @Override
   protected void initialize() {

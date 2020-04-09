@@ -15,8 +15,7 @@ import com.dcg.command.CommandDeque;
 public class ReshuffleDiscard implements Command {
 
   private final int playerEntity;
-  @Wire
-  CommandDeque commandDeque;
+  @Wire CommandDeque commandDeque;
   AspectSubscriptionManager manager;
   ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;

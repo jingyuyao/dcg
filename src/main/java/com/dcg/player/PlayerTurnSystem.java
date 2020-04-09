@@ -9,8 +9,7 @@ import com.dcg.turn.Turn;
 @All({Player.class, Turn.class})
 public class PlayerTurnSystem extends BaseEntitySystem {
 
-  @Wire
-  CommandDeque commandDeque;
+  @Wire CommandDeque commandDeque;
 
   @Override
   protected void inserted(int entityId) {

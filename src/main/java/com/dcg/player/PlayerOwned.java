@@ -5,6 +5,5 @@ import com.artemis.annotations.EntityId;
 
 public class PlayerOwned extends Component {
 
-  @EntityId
-  public int playerEntity = -1;
+  @EntityId public int playerEntity = -1;
 }

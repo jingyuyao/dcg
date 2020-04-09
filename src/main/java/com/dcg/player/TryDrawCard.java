@@ -16,8 +16,7 @@ public class TryDrawCard implements Command {
 
   private final int playerEntity;
 
-  @Wire
-  CommandDeque commandDeque;
+  @Wire CommandDeque commandDeque;
   AspectSubscriptionManager manager;
   ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
