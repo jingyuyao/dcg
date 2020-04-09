@@ -1,14 +1,16 @@
-package com.dcg.player;
+package com.dcg.turn;
 
 import com.artemis.BaseEntitySystem;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
 import com.artemis.utils.IntBag;
 import com.dcg.command.CommandChain;
-import com.dcg.turn.Turn;
+import com.dcg.player.DiscardPlayArea;
+import com.dcg.player.DrawCard;
+import com.dcg.player.Player;
 
 @All({Player.class, Turn.class})
-public class PlayerTurnSystem extends BaseEntitySystem {
+public class TurnSystem extends BaseEntitySystem {
 
   @Wire CommandChain commandChain;
 

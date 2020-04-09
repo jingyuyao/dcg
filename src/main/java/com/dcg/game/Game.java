@@ -12,8 +12,8 @@ import com.dcg.forge.InitializeForgeDeck;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.CurrentPlayerActions;
-import com.dcg.player.PlayerTurnSystem;
 import com.dcg.turn.InitTurn;
+import com.dcg.turn.TurnSystem;
 import java.util.List;
 
 public class Game {
@@ -28,7 +28,7 @@ public class Game {
           .with(
               new EntityLinkManager(),
               new ForgeRowRefillSystem(),
-              new PlayerTurnSystem(),
+              new TurnSystem(),
               new OwnershipSystem(),
               new PlayerDebugSystem())
           .build()
