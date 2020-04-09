@@ -6,13 +6,13 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
+import com.dcg.card.Deck;
 import com.dcg.card.DiscardPile;
-import com.dcg.card.DrawPile;
 import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 
-public class ReshuffleDiscard implements Command {
+public class ReshuffleDiscardPile implements Command {
 
   private final int playerEntity;
   @Wire CommandChain commandChain;
@@ -20,7 +20,7 @@ public class ReshuffleDiscard implements Command {
   ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
 
-  public ReshuffleDiscard(int playerEntity) {
+  public ReshuffleDiscardPile(int playerEntity) {
     this.playerEntity = playerEntity;
   }
 
@@ -32,7 +32,7 @@ public class ReshuffleDiscard implements Command {
     for (int i = 0; i < discardPile.size(); i++) {
       int cardEntity = discardPile.get(i);
       if (playerEntity == mPlayerOwned.get(cardEntity).playerEntity) {
-        commandChain.addStart(new MoveLocation(cardEntity, DrawPile.class));
+        commandChain.addStart(new MoveLocation(cardEntity, Deck.class));
       }
     }
   }

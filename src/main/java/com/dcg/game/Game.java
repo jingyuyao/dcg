@@ -6,8 +6,8 @@ import com.artemis.WorldConfigurationBuilder;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.debug.PlayerDebugSystem;
-import com.dcg.forge.BuyPileRefillSystem;
-import com.dcg.forge.InitializeDrawPile;
+import com.dcg.forge.ForgeRowRefillSystem;
+import com.dcg.forge.InitializeForgeDeck;
 import com.dcg.player.BuyCard;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.PlayerTurnSystem;
@@ -23,14 +23,14 @@ public class Game {
           // Uses the command pattern for execution
           .register(new CommandInvocationStrategy())
           // Order matters!
-          .with(new BuyPileRefillSystem(), new PlayerTurnSystem(), new PlayerDebugSystem())
+          .with(new ForgeRowRefillSystem(), new PlayerTurnSystem(), new PlayerDebugSystem())
           .build()
           .register(new CommandChain());
   private final World world = new World(configuration);
   private boolean gameOver = false;
 
   public Game() {
-    process(new InitializeDrawPile());
+    process(new InitializeForgeDeck());
     process(new CreatePlayer("Alice"));
     process(new CreatePlayer("Bob"));
     process(new InitTurn("Alice"));

@@ -24,7 +24,7 @@ public class PlayerTurnSystem extends BaseEntitySystem {
   @Override
   protected void removed(int entityId) {
     super.removed(entityId);
-    commandChain.addEnd(new DiscardHand(entityId));
+    commandChain.addEnd(new DiscardPlayArea(entityId));
   }
 
   @Override

@@ -4,9 +4,9 @@ import com.artemis.Aspect;
 import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
-import com.dcg.card.BuyPile;
 import com.dcg.card.Card;
-import com.dcg.card.DrawPile;
+import com.dcg.card.Deck;
+import com.dcg.card.ForgeRow;
 import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
@@ -20,9 +20,9 @@ public class BuyCard implements Command {
   @Override
   public void run() {
     int playerEntity = manager.get(Aspect.all(Player.class, Turn.class)).getEntities().get(0);
-    int cardEntity = manager.get(Aspect.all(Card.class, BuyPile.class)).getEntities().get(0);
+    int cardEntity = manager.get(Aspect.all(Card.class, ForgeRow.class)).getEntities().get(0);
     mPlayerOwned.create(cardEntity).playerEntity = playerEntity;
-    commandChain.addStart(new MoveLocation(cardEntity, DrawPile.class));
+    commandChain.addStart(new MoveLocation(cardEntity, Deck.class));
   }
 
   @Override

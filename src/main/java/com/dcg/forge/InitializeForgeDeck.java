@@ -3,14 +3,14 @@ package com.dcg.forge;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.card.Card;
-import com.dcg.card.DrawPile;
+import com.dcg.card.Deck;
 import com.dcg.command.Command;
 
-public class InitializeDrawPile implements Command {
+public class InitializeForgeDeck implements Command {
 
   World world;
   ComponentMapper<Card> mCard;
-  ComponentMapper<DrawPile> mDrawPile;
+  ComponentMapper<Deck> mDrawPile;
 
   @Override
   public void run() {

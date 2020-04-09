@@ -7,12 +7,12 @@ import com.artemis.annotations.Wire;
 import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
 import com.dcg.card.DiscardPile;
-import com.dcg.card.Hand;
 import com.dcg.card.MoveLocation;
+import com.dcg.card.PlayArea;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 
-public class DiscardHand implements Command {
+public class DiscardPlayArea implements Command {
 
   private final int playerEntity;
   @Wire CommandChain commandChain;
@@ -20,13 +20,13 @@ public class DiscardHand implements Command {
   ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
 
-  public DiscardHand(int playerEntity) {
+  public DiscardPlayArea(int playerEntity) {
     this.playerEntity = playerEntity;
   }
 
   @Override
   public void run() {
-    IntBag hand = manager.get(Aspect.all(Card.class, PlayerOwned.class, Hand.class)).getEntities();
+    IntBag hand = manager.get(Aspect.all(Card.class, PlayerOwned.class, PlayArea.class)).getEntities();
 
     for (int i = 0; i < hand.size(); i++) {
       int cardEntity = hand.get(i);

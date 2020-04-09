@@ -3,7 +3,7 @@ package com.dcg.player;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.card.Card;
-import com.dcg.card.DrawPile;
+import com.dcg.card.Deck;
 import com.dcg.command.Command;
 
 public class CreatePlayer implements Command {
@@ -12,7 +12,7 @@ public class CreatePlayer implements Command {
   ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
   ComponentMapper<Card> mCard;
-  ComponentMapper<DrawPile> mDrawPile;
+  ComponentMapper<Deck> mDrawPile;
 
   public CreatePlayer(String name) {
     this.name = name;

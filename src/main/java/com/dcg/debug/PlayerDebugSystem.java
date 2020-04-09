@@ -6,7 +6,7 @@ import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
-import com.dcg.card.Hand;
+import com.dcg.card.PlayArea;
 import com.dcg.player.Player;
 import com.dcg.player.PlayerOwned;
 import com.dcg.turn.Turn;
@@ -37,7 +37,7 @@ public class PlayerDebugSystem extends BaseSystem {
   }
 
   private void printHand(int playerEntity) {
-    IntBag hand = manager.get(Aspect.all(Card.class, PlayerOwned.class, Hand.class)).getEntities();
+    IntBag hand = manager.get(Aspect.all(Card.class, PlayerOwned.class, PlayArea.class)).getEntities();
     System.out.print(" hand: ");
     for (int i = 0; i < hand.size(); i++) {
       int cardEntity = hand.get(i);

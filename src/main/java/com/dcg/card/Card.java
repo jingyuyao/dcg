@@ -7,7 +7,7 @@ import java.util.List;
 public class Card extends Component {
 
   public static final List<Class<? extends Location>> LOCATIONS =
-      Arrays.asList(BuyPile.class, DrawPile.class, DiscardPile.class, Hand.class);
+      Arrays.asList(ForgeRow.class, Deck.class, DiscardPile.class, PlayArea.class);
 
   public String name;
 }
