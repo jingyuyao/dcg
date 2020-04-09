@@ -10,7 +10,7 @@ import com.dcg.card.BuyPile;
 import com.dcg.card.Card;
 import com.dcg.card.DrawPile;
 import com.dcg.card.MoveLocation;
-import com.dcg.command.CommandDeque;
+import com.dcg.command.CommandChain;
 import com.dcg.player.PlayerOwned;
 
 @All({Card.class, BuyPile.class})
@@ -18,7 +18,7 @@ public class BuyPileRefillSystem extends BaseEntitySystem {
 
   private static final int BUY_PILE_SIZE = 6;
 
-  @Wire CommandDeque commandDeque;
+  @Wire CommandChain commandChain;
   AspectSubscriptionManager manager;
 
   @Override
@@ -31,7 +31,7 @@ public class BuyPileRefillSystem extends BaseEntitySystem {
     // be run again.
     if (getEntityIds().size() < BUY_PILE_SIZE) {
       if (drawPile.size() > 0) {
-        commandDeque.addFirst(new MoveLocation(drawPile.get(0), BuyPile.class));
+        commandChain.addStart(new MoveLocation(drawPile.get(0), BuyPile.class));
       } else {
         throw new RuntimeException("GG");
       }

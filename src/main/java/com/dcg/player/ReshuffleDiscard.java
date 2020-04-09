@@ -10,12 +10,12 @@ import com.dcg.card.DiscardPile;
 import com.dcg.card.DrawPile;
 import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
-import com.dcg.command.CommandDeque;
+import com.dcg.command.CommandChain;
 
 public class ReshuffleDiscard implements Command {
 
   private final int playerEntity;
-  @Wire CommandDeque commandDeque;
+  @Wire CommandChain commandChain;
   AspectSubscriptionManager manager;
   ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
@@ -32,7 +32,7 @@ public class ReshuffleDiscard implements Command {
     for (int i = 0; i < discardPile.size(); i++) {
       int cardEntity = discardPile.get(i);
       if (playerEntity == mPlayerOwned.get(cardEntity).playerEntity) {
-        commandDeque.addFirst(new MoveLocation(cardEntity, DrawPile.class));
+        commandChain.addStart(new MoveLocation(cardEntity, DrawPile.class));
       }
     }
   }

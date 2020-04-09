@@ -10,12 +10,12 @@ import com.dcg.card.DiscardPile;
 import com.dcg.card.Hand;
 import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
-import com.dcg.command.CommandDeque;
+import com.dcg.command.CommandChain;
 
 public class DiscardHand implements Command {
 
   private final int playerEntity;
-  @Wire CommandDeque commandDeque;
+  @Wire CommandChain commandChain;
   AspectSubscriptionManager manager;
   ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
@@ -31,7 +31,7 @@ public class DiscardHand implements Command {
     for (int i = 0; i < hand.size(); i++) {
       int cardEntity = hand.get(i);
       if (playerEntity == mPlayerOwned.get(cardEntity).playerEntity) {
-        commandDeque.addFirst(new MoveLocation(cardEntity, DiscardPile.class));
+        commandChain.addStart(new MoveLocation(cardEntity, DiscardPile.class));
       }
     }
   }

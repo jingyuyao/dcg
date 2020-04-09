@@ -4,7 +4,7 @@ import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.dcg.command.Command;
-import com.dcg.command.CommandDeque;
+import com.dcg.command.CommandChain;
 import com.dcg.debug.PlayerDebugSystem;
 import com.dcg.forge.BuyPileRefillSystem;
 import com.dcg.forge.InitializeDrawPile;
@@ -25,7 +25,7 @@ public class Game {
           // Order matters!
           .with(new BuyPileRefillSystem(), new PlayerTurnSystem(), new PlayerDebugSystem())
           .build()
-          .register(new CommandDeque());
+          .register(new CommandChain());
   private final World world = new World(configuration);
   private boolean gameOver = false;
 
@@ -57,7 +57,7 @@ public class Game {
   }
 
   private void process(Command command) {
-    world.getRegistered(CommandDeque.class).addLast(command);
+    world.getRegistered(CommandChain.class).addEnd(command);
     world.process();
     world.getSystem(PlayerDebugSystem.class).printPlayers();
   }

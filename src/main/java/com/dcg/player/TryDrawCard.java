@@ -10,13 +10,13 @@ import com.dcg.card.DrawPile;
 import com.dcg.card.Hand;
 import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
-import com.dcg.command.CommandDeque;
+import com.dcg.command.CommandChain;
 
 public class TryDrawCard implements Command {
 
   private final int playerEntity;
 
-  @Wire CommandDeque commandDeque;
+  @Wire CommandChain commandChain;
   AspectSubscriptionManager manager;
   ComponentMapper<Player> mPlayer;
   ComponentMapper<PlayerOwned> mPlayerOwned;
@@ -33,12 +33,12 @@ public class TryDrawCard implements Command {
     for (int i = 0; i < drawPile.size(); i++) {
       int cardEntity = drawPile.get(i);
       if (playerEntity == mPlayerOwned.get(cardEntity).playerEntity) {
-        commandDeque.addFirst(new MoveLocation(cardEntity, Hand.class));
+        commandChain.addStart(new MoveLocation(cardEntity, Hand.class));
         return;
       }
     }
 
-    commandDeque.addFirst(new ReshuffleDiscard(playerEntity), new TryDrawCard(playerEntity));
+    commandChain.addStart(new ReshuffleDiscard(playerEntity), new TryDrawCard(playerEntity));
   }
 
   @Override
