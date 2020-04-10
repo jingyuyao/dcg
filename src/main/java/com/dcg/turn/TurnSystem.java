@@ -17,6 +17,7 @@ import java.util.List;
 public class TurnSystem extends BaseEntitySystem {
 
   @Wire CommandChain commandChain;
+  private int previousEntity = -1;
 
   public int getCurrentPlayerEntity() {
     IntBag entities = getEntityIds();
@@ -28,7 +29,7 @@ public class TurnSystem extends BaseEntitySystem {
   protected void inserted(int entityId) {
     super.inserted(entityId);
     List<Command> commands = new ArrayList<>();
-    commands.add(new Battle());
+    commands.add(new Battle(previousEntity, entityId));
     for (int i = 0; i < 5; i++) {
       commands.add(new DrawCard(entityId));
     }
@@ -38,6 +39,7 @@ public class TurnSystem extends BaseEntitySystem {
   @Override
   protected void removed(int entityId) {
     super.removed(entityId);
+    previousEntity = entityId;
     commandChain.addEnd(new DiscardPlayArea(entityId));
   }
 

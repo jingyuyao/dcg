@@ -1,20 +1,32 @@
 package com.dcg.forge;
 
-import com.artemis.annotations.Wire;
-import com.dcg.card.CreateCard;
+import com.artemis.ComponentMapper;
+import com.artemis.World;
+import com.dcg.card.Card;
+import com.dcg.card.Strength;
 import com.dcg.card.Unit;
 import com.dcg.command.Command;
-import com.dcg.command.CommandChain;
 import com.dcg.location.Deck;
 
 public class InitializeForgeDeck extends Command {
 
-  @Wire CommandChain commandChain;
+  World world;
+  ComponentMapper<Card> mCard;
+  ComponentMapper<Deck> mDeck;
+  ComponentMapper<Unit> mUnit;
+  ComponentMapper<Strength> mStrength;
 
   @Override
   public void run() {
     for (int i = 0; i < 50; i++) {
-      commandChain.addStart(new CreateCard("f" + i, Deck.class).addTag(Unit.class));
+      boolean isUnit = i % 2 == 0;
+      int cardEntity = world.create();
+      mCard.create(cardEntity).name = "F" + (isUnit ? "U" : "B") + " " + i;
+      mDeck.create(cardEntity);
+      if (isUnit) {
+        mUnit.create(cardEntity);
+        mStrength.create(cardEntity).value = i % 5;
+      }
     }
   }
 }

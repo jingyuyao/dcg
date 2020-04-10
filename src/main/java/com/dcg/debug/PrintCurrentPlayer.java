@@ -19,11 +19,12 @@ public class PrintCurrentPlayer extends Command {
   @Override
   public void run() {
     int playerEntity = turnSystem.getCurrentPlayerEntity();
-    System.out.print("    " + mPlayer.get(playerEntity).name);
+    Player player = mPlayer.get(playerEntity);
+    System.out.print("    " + player + " hp: " + player.hp);
     Aspect.Builder hand = Aspect.all(Card.class, Owned.class, Hand.class);
     System.out.print(" Hand: ");
     for (int cardEntity : ownershipSystem.filter(hand, playerEntity)) {
-      System.out.print(mCard.get(cardEntity).name + ", ");
+      System.out.print(mCard.get(cardEntity) + ", ");
     }
     System.out.println();
   }

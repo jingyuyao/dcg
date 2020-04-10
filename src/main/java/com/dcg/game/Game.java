@@ -12,6 +12,7 @@ import com.dcg.debug.PrintCurrentActions;
 import com.dcg.debug.PrintCurrentPlayer;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
+import com.dcg.game.Message.MessageType;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.PerformActions;
@@ -34,11 +35,11 @@ public class Game {
               new ForgeRowRefillSystem(),
               new TurnSystem(),
               new EnterBattleSystem(),
+              new GameOverSystem(),
               new PlayerActionSystem())
           .build()
           .register(new CommandChain());
   private final World world = new World(configuration);
-  private boolean gameOver = false;
 
   public Game() {
     process(
@@ -49,21 +50,15 @@ public class Game {
   }
 
   public void handleMessage(Message message) {
-    switch (message.getType()) {
-      case QUIT:
-        gameOver = true;
-        break;
-      case PERFORM:
-        process(new PerformActions(message.getIntegerArgs()));
-        break;
-      default:
-        System.out.println("Unsupported input: " + message.getType());
-        break;
+    if (message.getType() == MessageType.PERFORM) {
+      process(new PerformActions(message.getIntegerArgs()));
+    } else {
+      System.out.println("Unsupported input: " + message.getType());
     }
   }
 
   public boolean isOver() {
-    return gameOver;
+    return world.getSystem(GameOverSystem.class).isOver();
   }
 
   private void process(Command... commands) {

@@ -2,19 +2,22 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
-import com.artemis.annotations.Wire;
-import com.dcg.card.CreateCard;
-import com.dcg.card.Spell;
+import com.dcg.card.Card;
+import com.dcg.card.Strength;
 import com.dcg.card.Unit;
 import com.dcg.command.Command;
-import com.dcg.command.CommandChain;
 import com.dcg.location.Deck;
+import com.dcg.ownership.Owned;
 
 public class CreatePlayer extends Command {
   private final String name;
-  @Wire CommandChain commandChain;
   World world;
   ComponentMapper<Player> mPlayer;
+  ComponentMapper<Owned> mOwned;
+  ComponentMapper<Card> mCard;
+  ComponentMapper<Deck> mDeck;
+  ComponentMapper<Unit> mUnit;
+  ComponentMapper<Strength> mStrength;
 
   public CreatePlayer(String name) {
     this.name = name;
@@ -24,14 +27,16 @@ public class CreatePlayer extends Command {
   public void run() {
     int playerEntity = world.create();
     mPlayer.create(playerEntity).name = name;
-    // TODO: pass in the data for the basic card
-    for (int i = 0; i < 6; i++) {
-      commandChain.addStart(
-          new CreateCard("s" + i, Deck.class).setOwner(playerEntity).addTag(Spell.class));
-    }
-    for (int i = 0; i < 5; i++) {
-      commandChain.addStart(
-          new CreateCard("u" + i, Deck.class).setOwner(playerEntity).addTag(Unit.class));
+    for (int i = 0; i < 10; i++) {
+      boolean isUnit = i % 2 == 0;
+      int cardEntity = world.create();
+      mCard.create(cardEntity).name = "P" + (isUnit ? "U" : "B") + " " + i;
+      mDeck.create(cardEntity);
+      mOwned.create(cardEntity).owner = playerEntity;
+      if (isUnit) {
+        mUnit.create(cardEntity);
+        mStrength.create(cardEntity).value = i % 5;
+      }
     }
   }
 
