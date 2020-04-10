@@ -37,7 +37,6 @@ public class Message {
 
   public enum MessageType {
     QUIT,
-    PRINT,
     PERFORM,
   }
 }

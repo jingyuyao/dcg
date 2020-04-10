@@ -53,9 +53,6 @@ public class Game {
       case QUIT:
         gameOver = true;
         break;
-      case PRINT:
-        process(new PrintCurrentPlayer(), new PrintCurrentActions());
-        break;
       case PERFORM:
         process(new PerformActions(message.getIntegerArgs()));
         break;
@@ -70,7 +67,11 @@ public class Game {
   }
 
   private void process(Command... commands) {
-    world.getRegistered(CommandChain.class).addEnd(commands);
+    CommandChain commandChain = world.getRegistered(CommandChain.class);
+    commandChain.addEnd(commands);
+    world.process();
+
+    commandChain.addEnd(new PrintCurrentPlayer(), new PrintCurrentActions());
     world.process();
   }
 }
