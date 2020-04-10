@@ -17,7 +17,7 @@ public class MoveLocation extends Command {
 
   @Override
   public void run() {
-    for (Class<? extends Location> clazz : Card.LOCATIONS) {
+    for (Class<? extends Location> clazz : Location.ALL) {
       ComponentMapper<? extends Location> mapper = world.getMapper(clazz);
       mapper.set(cardEntity, location.equals(clazz));
     }

@@ -4,10 +4,14 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
 import com.artemis.utils.IntBag;
+import com.dcg.battle.Battle;
+import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.player.DiscardPlayArea;
 import com.dcg.player.DrawCard;
 import com.dcg.player.Player;
+import java.util.ArrayList;
+import java.util.List;
 
 @All({Player.class, Turn.class})
 public class TurnSystem extends BaseEntitySystem {
@@ -23,11 +27,12 @@ public class TurnSystem extends BaseEntitySystem {
   @Override
   protected void inserted(int entityId) {
     super.inserted(entityId);
-    commandChain.addEnd(new DrawCard(entityId));
-    commandChain.addEnd(new DrawCard(entityId));
-    commandChain.addEnd(new DrawCard(entityId));
-    commandChain.addEnd(new DrawCard(entityId));
-    commandChain.addEnd(new DrawCard(entityId));
+    List<Command> commands = new ArrayList<>();
+    commands.add(new Battle());
+    for (int i = 0; i < 5; i++) {
+      commands.add(new DrawCard(entityId));
+    }
+    commandChain.addEnd(commands);
   }
 
   @Override

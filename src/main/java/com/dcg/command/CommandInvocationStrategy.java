@@ -1,10 +1,8 @@
-package com.dcg.game;
+package com.dcg.command;
 
 import com.artemis.BaseSystem;
 import com.artemis.SystemInvocationStrategy;
 import com.artemis.annotations.Wire;
-import com.dcg.command.Command;
-import com.dcg.command.CommandChain;
 
 public class CommandInvocationStrategy extends SystemInvocationStrategy {
 

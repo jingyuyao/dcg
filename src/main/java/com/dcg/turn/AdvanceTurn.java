@@ -8,7 +8,6 @@ import com.dcg.command.Command;
 import com.dcg.player.Player;
 
 public class AdvanceTurn extends Command {
-
   AspectSubscriptionManager manager;
   ComponentMapper<Turn> mTurn;
 

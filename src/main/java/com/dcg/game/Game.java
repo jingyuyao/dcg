@@ -4,8 +4,10 @@ import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.artemis.link.EntityLinkManager;
+import com.dcg.battle.EnterBattleSystem;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.command.CommandInvocationStrategy;
 import com.dcg.debug.PrintCurrentActions;
 import com.dcg.debug.PrintCurrentPlayer;
 import com.dcg.forge.ForgeRowRefillSystem;
@@ -31,6 +33,7 @@ public class Game {
               new OwnershipSystem(),
               new ForgeRowRefillSystem(),
               new TurnSystem(),
+              new EnterBattleSystem(),
               new PlayerActionSystem())
           .build()
           .register(new CommandChain());
@@ -54,7 +57,7 @@ public class Game {
         process(new PrintCurrentPlayer(), new PrintCurrentActions());
         break;
       case PERFORM:
-        process(new PerformActions(message.getIntegerArgs().toArray(new Integer[0])));
+        process(new PerformActions(message.getIntegerArgs()));
         break;
       default:
         System.out.println("Unsupported input: " + message.getType());
