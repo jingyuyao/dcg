@@ -4,11 +4,11 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.card.CreateCard;
-import com.dcg.card.Deck;
 import com.dcg.card.Spell;
 import com.dcg.card.Unit;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.location.Deck;
 
 public class CreatePlayer extends Command {
   private final String name;

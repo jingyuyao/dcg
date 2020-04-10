@@ -3,10 +3,10 @@ package com.dcg.player;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
-import com.dcg.card.MoveLocation;
-import com.dcg.card.PlayArea;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.location.MoveLocation;
+import com.dcg.location.PlayArea;
 
 public class PlayCard extends Command {
 

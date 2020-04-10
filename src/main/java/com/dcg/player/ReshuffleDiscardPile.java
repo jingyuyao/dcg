@@ -4,11 +4,11 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
-import com.dcg.card.Deck;
-import com.dcg.card.DiscardPile;
-import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.location.Deck;
+import com.dcg.location.DiscardPile;
+import com.dcg.location.MoveLocation;
 import com.dcg.ownership.Owned;
 import com.dcg.ownership.OwnershipSystem;
 

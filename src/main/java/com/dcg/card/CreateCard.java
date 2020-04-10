@@ -6,6 +6,8 @@ import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.location.Location;
+import com.dcg.location.MoveLocation;
 import com.dcg.ownership.Own;
 import java.util.ArrayList;
 import java.util.List;

@@ -2,10 +2,10 @@ package com.dcg.forge;
 
 import com.artemis.annotations.Wire;
 import com.dcg.card.CreateCard;
-import com.dcg.card.Deck;
 import com.dcg.card.Unit;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.location.Deck;
 
 public class InitializeForgeDeck extends Command {
 

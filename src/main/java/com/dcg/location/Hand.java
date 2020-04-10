@@ -1,3 +1,3 @@
-package com.dcg.card;
+package com.dcg.location;
 
 public class Hand extends Location {}

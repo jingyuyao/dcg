@@ -4,12 +4,12 @@ import com.artemis.Aspect;
 import com.artemis.AspectSubscriptionManager;
 import com.artemis.annotations.Wire;
 import com.artemis.utils.IntBag;
-import com.dcg.card.BattleArea;
 import com.dcg.card.Card;
-import com.dcg.card.DiscardPile;
-import com.dcg.card.MoveLocation;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.location.BattleArea;
+import com.dcg.location.DiscardPile;
+import com.dcg.location.MoveLocation;
 import com.dcg.ownership.Owned;
 
 public class DiscardBattleArea extends Command {

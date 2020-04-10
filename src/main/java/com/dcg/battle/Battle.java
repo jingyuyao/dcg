@@ -5,10 +5,10 @@ import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.artemis.utils.IntBag;
-import com.dcg.card.BattleArea;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.location.BattleArea;
 import com.dcg.player.DiscardBattleArea;
 
 public class Battle extends Command {

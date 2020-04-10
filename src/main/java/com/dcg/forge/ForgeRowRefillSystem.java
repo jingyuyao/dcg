@@ -7,10 +7,10 @@ import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
 import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
-import com.dcg.card.Deck;
-import com.dcg.card.ForgeRow;
-import com.dcg.card.MoveLocation;
 import com.dcg.command.CommandChain;
+import com.dcg.location.Deck;
+import com.dcg.location.ForgeRow;
+import com.dcg.location.MoveLocation;
 import com.dcg.ownership.Owned;
 
 @All({Card.class, ForgeRow.class})

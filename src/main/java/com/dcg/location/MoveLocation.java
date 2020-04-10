@@ -1,7 +1,8 @@
-package com.dcg.card;
+package com.dcg.location;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
+import com.dcg.card.Card;
 import com.dcg.command.Command;
 
 public class MoveLocation extends Command {
