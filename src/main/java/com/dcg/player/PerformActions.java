@@ -21,7 +21,12 @@ public class PerformActions extends Command {
     List<Command> toPerform = new ArrayList<>(actionIndexes.size());
     for (int index : actionIndexes) {
       if (index >= 0 && index < actions.size()) {
-        toPerform.add(actions.get(index));
+        Command command = actions.get(index);
+        if (!toPerform.contains(command)) {
+          toPerform.add(command);
+        } else {
+          System.out.println("Ignoring duplicate actionIndex: " + index);
+        }
       } else {
         System.out.println("Invalid actionIndex: " + index);
       }
