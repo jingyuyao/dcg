@@ -5,7 +5,6 @@ import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.location.Hand;
-import com.dcg.ownership.Owned;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.Player;
 import com.dcg.turn.TurnSystem;
@@ -21,9 +20,9 @@ public class PrintCurrentPlayer extends Command {
     int playerEntity = turnSystem.getCurrentPlayerEntity();
     Player player = mPlayer.get(playerEntity);
     System.out.print("    " + player + " hp: " + player.hp);
-    Aspect.Builder hand = Aspect.all(Card.class, Owned.class, Hand.class);
+    Aspect.Builder hand = Aspect.all(Card.class, Hand.class);
     System.out.print(" Hand: ");
-    for (int cardEntity : ownershipSystem.filter(hand, playerEntity)) {
+    for (int cardEntity : ownershipSystem.getOwnedBy(hand, playerEntity)) {
       System.out.print(mCard.get(cardEntity) + ", ");
     }
     System.out.println();

@@ -6,7 +6,6 @@ import com.artemis.systems.IteratingSystem;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.location.Hand;
-import com.dcg.ownership.Owned;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.turn.AdvanceTurn;
 import com.dcg.turn.Turn;
@@ -22,8 +21,8 @@ public class PlayerActionSystem extends IteratingSystem {
   @Override
   protected void process(int entityId) {
     actions.clear();
-    Aspect.Builder hand = Aspect.all(Card.class, Owned.class, Hand.class);
-    for (int cardEntity : ownershipSystem.filter(hand, entityId)) {
+    Aspect.Builder hand = Aspect.all(Card.class, Hand.class);
+    for (int cardEntity : ownershipSystem.getOwnedBy(hand, entityId)) {
       actions.add(new PlayCard(cardEntity));
     }
     if (actions.isEmpty()) {

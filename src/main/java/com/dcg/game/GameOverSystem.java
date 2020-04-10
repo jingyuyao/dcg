@@ -12,7 +12,8 @@ public class GameOverSystem extends IteratingSystem {
 
   @Override
   protected void process(int entityId) {
-    if (mPlayer.get(entityId).hp <= 0) {
+    Player player = mPlayer.get(entityId);
+    if (player.hp <= 0) {
       isOver = true;
     }
   }

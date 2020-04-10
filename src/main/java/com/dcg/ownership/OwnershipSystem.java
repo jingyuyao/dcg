@@ -12,9 +12,10 @@ public class OwnershipSystem extends BaseSystem {
   AspectSubscriptionManager manager;
   ComponentMapper<Owned> mOwned;
 
-  public List<Integer> filter(Aspect.Builder aspectBuilder, int ownerEntity) {
+  /** Filters the aspect for the owner. Automatically adds one(Owned) to the builder. */
+  public List<Integer> getOwnedBy(Aspect.Builder aspectBuilder, int ownerEntity) {
     List<Integer> owned = new ArrayList<>();
-    IntBag entities = manager.get(aspectBuilder).getEntities();
+    IntBag entities = manager.get(aspectBuilder.one(Owned.class)).getEntities();
     for (int i = 0; i < entities.size(); i++) {
       int entity = entities.get(i);
       if (ownerEntity == mOwned.get(entity).owner) {

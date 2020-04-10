@@ -46,6 +46,7 @@ public class Game {
         new InitializeForgeDeck(),
         new CreatePlayer("Alice"),
         new CreatePlayer("Bob"),
+        new CreatePlayer("Charlie"),
         new InitTurn("Alice"));
   }
 
