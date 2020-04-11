@@ -24,7 +24,7 @@ public class DiscardPlayArea extends Command {
   @Override
   public void run() {
     Aspect.Builder playArea = Aspect.all(Card.class, PlayArea.class);
-    for (int cardEntity : ownershipSystem.getOwnedBy(playArea, playerEntity)) {
+    for (int cardEntity : ownershipSystem.getOwnedBy(playerEntity, playArea)) {
       commandChain.addStart(new MoveLocation(cardEntity, DiscardPile.class));
     }
   }

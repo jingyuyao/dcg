@@ -29,7 +29,7 @@ public class PrintPlayers extends Command {
     Player player = mPlayer.get(playerEntity);
     System.out.printf("    *%d %s hp: %d Hand: ", playerEntity, player.name, player.hp);
     Aspect.Builder hand = Aspect.all(Card.class, Hand.class);
-    for (int cardEntity : ownershipSystem.getOwnedBy(hand, playerEntity)) {
+    for (int cardEntity : ownershipSystem.getOwnedBy(playerEntity, hand)) {
       System.out.printf("%s, ", mCard.get(cardEntity));
     }
     System.out.println();

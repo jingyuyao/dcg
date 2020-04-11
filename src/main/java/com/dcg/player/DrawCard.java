@@ -25,7 +25,7 @@ public class DrawCard extends Command {
   public void run() {
     Aspect.Builder deck = Aspect.all(Card.class, Deck.class);
 
-    for (int cardEntity : ownershipSystem.getOwnedBy(deck, playerEntity)) {
+    for (int cardEntity : ownershipSystem.getOwnedBy(playerEntity, deck)) {
       commandChain.addStart(new MoveLocation(cardEntity, Hand.class));
       return;
     }
