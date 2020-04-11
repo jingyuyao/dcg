@@ -13,13 +13,13 @@ import com.dcg.debug.PrintCurrentActions;
 import com.dcg.debug.PrintPlayers;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
-import com.dcg.game.Message.MessageType;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.CreatePlayer;
-import com.dcg.player.PerformActions;
+import com.dcg.player.PerformAction;
 import com.dcg.player.PlayerActionSystem;
 import com.dcg.turn.InitTurn;
 import com.dcg.turn.TurnSystem;
+import java.util.List;
 
 public class Game {
 
@@ -51,12 +51,14 @@ public class Game {
         new InitTurn("Alice"));
   }
 
-  public void handleMessage(Message message) {
-    if (message.getType() == MessageType.PERFORM) {
-      process(new PerformActions(message.getIntegerArgs()));
-    } else {
-      System.out.println("Unsupported input: " + message.getType());
+  public void handleInput(List<Integer> input) {
+    if (input.size() == 0) {
+      System.out.println("No input");
+      return;
     }
+    PerformAction performAction = new PerformAction(input.get(0));
+    performAction.setArgs(input.subList(1, input.size()));
+    process(performAction);
   }
 
   public boolean isOver() {

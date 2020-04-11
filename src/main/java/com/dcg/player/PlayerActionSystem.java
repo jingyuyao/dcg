@@ -31,7 +31,7 @@ public class PlayerActionSystem extends IteratingSystem {
     actions.add(new BuyCard(entityId));
   }
 
-  /** Snapshot the current actions so executing the results doesn't change the content. */
+  /** Snapshot the current actions so executing any results doesn't change the content. */
   public List<Command> getActions() {
     return new ArrayList<>(actions);
   }
