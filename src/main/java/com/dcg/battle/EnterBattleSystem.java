@@ -1,6 +1,7 @@
 package com.dcg.battle;
 
 import com.artemis.BaseEntitySystem;
+import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
@@ -14,10 +15,12 @@ import com.dcg.ownership.Owned;
 @All({Card.class, Owned.class, PlayArea.class, Unit.class})
 public class EnterBattleSystem extends BaseEntitySystem {
   @Wire CommandChain commandChain;
+  ComponentMapper<Attacking> mAttacking;
 
   @Override
   protected void inserted(int entityId) {
     super.inserted(entityId);
+    mAttacking.create(entityId);
     commandChain.addStart(new MoveLocation(entityId, BattleArea.class));
   }
 

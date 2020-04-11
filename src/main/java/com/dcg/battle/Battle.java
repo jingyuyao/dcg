@@ -1,8 +1,10 @@
 package com.dcg.battle;
 
 import com.artemis.Aspect;
+import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
+import com.artemis.utils.IntBag;
 import com.dcg.card.Strength;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
@@ -12,16 +14,18 @@ import com.dcg.location.MoveLocation;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.Player;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Battle extends Command {
   private final int attackingPlayerEntity;
   private final int defendingPlayerEntity;
   @Wire CommandChain commandChain;
+  AspectSubscriptionManager manager;
   OwnershipSystem ownershipSystem;
   ComponentMapper<Player> mPlayer;
   ComponentMapper<Strength> mStrength;
+  ComponentMapper<Attacking> mAttacking;
   ComponentMapper<Blocking> mBlocking;
+  ComponentMapper<Blocked> mBlocked;
 
   public Battle(int attackingPlayerEntity, int defendingPlayerEntity) {
     this.attackingPlayerEntity = attackingPlayerEntity;
@@ -32,30 +36,24 @@ public class Battle extends Command {
   public void run() {
     List<Integer> attackingEntities =
         ownershipSystem.getOwnedBy(
-            attackingPlayerEntity, Aspect.all(BattleArea.class, Strength.class));
-    List<Integer> blockingEntities =
-        ownershipSystem.getOwnedBy(
-            defendingPlayerEntity, Aspect.all(BattleArea.class, Strength.class, Blocking.class));
-    List<Integer> blockedEntities =
-        blockingEntities.stream()
-            .map(e -> mBlocking.get(e).attackingEntity)
-            .collect(Collectors.toList());
-    Player defendingPlayer = mPlayer.get(defendingPlayerEntity);
+            attackingPlayerEntity, Aspect.all(BattleArea.class, Strength.class, Attacking.class));
 
+    Player defendingPlayer = mPlayer.get(defendingPlayerEntity);
     for (int attackingEntity : attackingEntities) {
-      if (!blockedEntities.contains(attackingEntity)) {
-        int damage = mStrength.get(attackingEntity).value;
-        defendingPlayer.hp -= damage;
-        System.out.printf("    %s got hit by %d\n", defendingPlayer.name, damage);
-      } else {
-        System.out.printf("    *%d was blocked\n", attackingEntity);
-      }
+      int damage = mStrength.get(attackingEntity).value;
+      defendingPlayer.hp -= damage;
+      System.out.printf("    %s got hit by %d\n", defendingPlayer.name, damage);
+      mAttacking.remove(attackingEntity);
       commandChain.addStart(new MoveLocation(attackingEntity, DiscardPile.class));
     }
 
-    for (int blockingEntity : blockedEntities) {
-      mBlocking.remove(blockingEntity);
-      commandChain.addStart(new MoveLocation(blockingEntity, DiscardPile.class));
+    IntBag blockedOrBlockingEntities =
+        manager.get(Aspect.all(BattleArea.class).one(Blocking.class, Blocked.class)).getEntities();
+    for (int i = 0; i < blockedOrBlockingEntities.size(); i++) {
+      int entity = blockedOrBlockingEntities.get(i);
+      mBlocking.remove(entity);
+      mBlocked.remove(entity);
+      commandChain.addStart(new MoveLocation(entity, DiscardPile.class));
     }
   }
 }

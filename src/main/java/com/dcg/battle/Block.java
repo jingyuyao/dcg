@@ -5,7 +5,9 @@ import com.dcg.command.Command;
 import java.util.List;
 
 public class Block extends Command {
+  ComponentMapper<Attacking> mAttacking;
   ComponentMapper<Blocking> mBlocking;
+  ComponentMapper<Blocked> mBlocked;
 
   @Override
   public void run() {
@@ -15,9 +17,14 @@ public class Block extends Command {
       return;
     }
 
-    int defenderEntity = args.get(0);
-    int attackerEntity = args.get(1);
+    int blockingEntity = args.get(0);
+    int attackingEntity = args.get(1);
 
-    mBlocking.create(defenderEntity).attackingEntity = attackerEntity;
+    // TODO: either add preconditions
+    // TODO: add target-able tag to help with preconditions
+
+    mAttacking.remove(attackingEntity);
+    mBlocking.create(blockingEntity).attackingEntity = attackingEntity;
+    mBlocked.create(attackingEntity).blockingEntity = blockingEntity;
   }
 }
