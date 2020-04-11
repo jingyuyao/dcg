@@ -21,7 +21,7 @@ public class InitializeForgeDeck extends Command {
     for (int i = 0; i < 50; i++) {
       boolean isUnit = i % 2 == 0;
       int cardEntity = world.create();
-      mCard.create(cardEntity).name = "F" + (isUnit ? "U" : "B") + " " + i;
+      mCard.create(cardEntity).name = "F" + i;
       mDeck.create(cardEntity);
       if (isUnit) {
         mUnit.create(cardEntity);

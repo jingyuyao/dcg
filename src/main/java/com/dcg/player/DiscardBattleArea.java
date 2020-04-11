@@ -1,27 +1,30 @@
 package com.dcg.player;
 
 import com.artemis.Aspect;
-import com.artemis.AspectSubscriptionManager;
 import com.artemis.annotations.Wire;
-import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.location.BattleArea;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
-import com.dcg.ownership.Owned;
+import com.dcg.ownership.OwnershipSystem;
 
 public class DiscardBattleArea extends Command {
+  private final int playerEntity;
   @Wire CommandChain commandChain;
-  AspectSubscriptionManager manager;
+  OwnershipSystem ownershipSystem;
+
+  public DiscardBattleArea(int playerEntity) {
+    this.playerEntity = playerEntity;
+  }
 
   @Override
   public void run() {
-    IntBag playArea =
-        manager.get(Aspect.all(Card.class, Owned.class, BattleArea.class)).getEntities();
-    for (int i = 0; i < playArea.size(); i++) {
-      commandChain.addStart(new MoveLocation(playArea.get(i), DiscardPile.class));
+    // TODO: also remove defending cards
+    Aspect.Builder battleArea = Aspect.all(Card.class, BattleArea.class);
+    for (int cardEntity : ownershipSystem.getOwnedBy(battleArea, playerEntity)) {
+      commandChain.addStart(new MoveLocation(cardEntity, DiscardPile.class));
     }
   }
 }

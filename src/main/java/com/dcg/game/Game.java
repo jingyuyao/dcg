@@ -8,8 +8,9 @@ import com.dcg.battle.EnterBattleSystem;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
+import com.dcg.debug.PrintBattleArea;
 import com.dcg.debug.PrintCurrentActions;
-import com.dcg.debug.PrintCurrentPlayer;
+import com.dcg.debug.PrintPlayers;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
 import com.dcg.game.Message.MessageType;
@@ -67,7 +68,7 @@ public class Game {
     commandChain.addEnd(commands);
     world.process();
 
-    commandChain.addEnd(new PrintCurrentPlayer(), new PrintCurrentActions());
+    commandChain.addEnd(new PrintPlayers(), new PrintBattleArea(), new PrintCurrentActions());
     world.process();
   }
 }

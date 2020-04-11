@@ -16,7 +16,8 @@ public class PrintCurrentActions extends Command {
       Command command = commands.get(i);
       // Some commands require injected members for toString().
       world.inject(command);
-      System.out.println("    " + i + " " + command);
+      System.out.printf("    <%d> %s", i, command);
+      System.out.println();
     }
   }
 }

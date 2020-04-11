@@ -29,7 +29,7 @@ public class TurnSystem extends BaseEntitySystem {
   protected void inserted(int entityId) {
     super.inserted(entityId);
     List<Command> commands = new ArrayList<>();
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 3; i++) {
       commands.add(new DrawCard(entityId));
     }
     commandChain.addEnd(commands);

@@ -1,29 +1,36 @@
 package com.dcg.debug;
 
 import com.artemis.Aspect;
+import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
+import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.location.Hand;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.Player;
-import com.dcg.turn.TurnSystem;
 
-public class PrintCurrentPlayer extends Command {
-  TurnSystem turnSystem;
+public class PrintPlayers extends Command {
+  AspectSubscriptionManager manager;
   OwnershipSystem ownershipSystem;
   ComponentMapper<Player> mPlayer;
   ComponentMapper<Card> mCard;
 
   @Override
   public void run() {
-    int playerEntity = turnSystem.getCurrentPlayerEntity();
+    IntBag playerEntities = manager.get(Aspect.all(Player.class)).getEntities();
+    for (int i = 0; i < playerEntities.size(); i++) {
+      int playerEntity = playerEntities.get(i);
+      printPlayer(playerEntity);
+    }
+  }
+
+  private void printPlayer(int playerEntity) {
     Player player = mPlayer.get(playerEntity);
-    System.out.print("    " + player + " hp: " + player.hp);
+    System.out.printf("    *%d %s hp: %d Hand: ", playerEntity, player.name, player.hp);
     Aspect.Builder hand = Aspect.all(Card.class, Hand.class);
-    System.out.print(" Hand: ");
     for (int cardEntity : ownershipSystem.getOwnedBy(hand, playerEntity)) {
-      System.out.print(mCard.get(cardEntity) + ", ");
+      System.out.printf("%s, ", mCard.get(cardEntity));
     }
     System.out.println();
   }

@@ -8,6 +8,6 @@ public class Owned extends Component {
 
   @Override
   public String toString() {
-    return Integer.toString(owner);
+    return "*" + owner;
   }
 }

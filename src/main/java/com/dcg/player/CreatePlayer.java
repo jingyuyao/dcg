@@ -27,10 +27,10 @@ public class CreatePlayer extends Command {
   public void run() {
     int playerEntity = world.create();
     mPlayer.create(playerEntity).name = name;
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 7; i++) {
       boolean isUnit = i % 2 == 0;
       int cardEntity = world.create();
-      mCard.create(cardEntity).name = "P" + (isUnit ? "U" : "B") + " " + i;
+      mCard.create(cardEntity).name = "P" + i;
       mDeck.create(cardEntity);
       mOwned.create(cardEntity).owner = playerEntity;
       if (isUnit) {
