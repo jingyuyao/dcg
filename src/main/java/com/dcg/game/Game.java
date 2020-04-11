@@ -19,6 +19,7 @@ import com.dcg.player.PerformAction;
 import com.dcg.player.PlayerActionSystem;
 import com.dcg.turn.InitTurn;
 import com.dcg.turn.TurnSystem;
+import com.dcg.util.AspectSystem;
 import java.util.List;
 
 public class Game {
@@ -32,6 +33,7 @@ public class Game {
           // Order matters!
           .with(
               new EntityLinkManager(),
+              new AspectSystem(),
               new OwnershipSystem(),
               new ForgeRowRefillSystem(),
               new TurnSystem(),

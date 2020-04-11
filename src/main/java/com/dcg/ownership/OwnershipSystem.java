@@ -1,28 +1,21 @@
 package com.dcg.ownership;
 
 import com.artemis.Aspect.Builder;
-import com.artemis.AspectSubscriptionManager;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
-import com.artemis.utils.IntBag;
-import java.util.ArrayList;
+import com.dcg.util.AspectSystem;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OwnershipSystem extends BaseSystem {
-  AspectSubscriptionManager manager;
+  AspectSystem aspectSystem;
   ComponentMapper<Owned> mOwned;
 
   /** Filters the aspect for the owner. Automatically adds one(Owned) to the builder. */
   public List<Integer> getOwnedBy(int ownerEntity, Builder aspectBuilder) {
-    List<Integer> owned = new ArrayList<>();
-    IntBag entities = manager.get(aspectBuilder.one(Owned.class)).getEntities();
-    for (int i = 0; i < entities.size(); i++) {
-      int entity = entities.get(i);
-      if (ownerEntity == mOwned.get(entity).owner) {
-        owned.add(entity);
-      }
-    }
-    return owned;
+    return aspectSystem.get(aspectBuilder.one(Owned.class)).stream()
+        .filter(e -> ownerEntity == mOwned.get(e).owner)
+        .collect(Collectors.toList());
   }
 
   @Override
