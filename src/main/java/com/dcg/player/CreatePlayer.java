@@ -4,7 +4,6 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.card.Card;
 import com.dcg.card.Strength;
-import com.dcg.card.Unit;
 import com.dcg.command.Command;
 import com.dcg.location.Deck;
 import com.dcg.ownership.Owned;
@@ -16,7 +15,6 @@ public class CreatePlayer extends Command {
   ComponentMapper<Owned> mOwned;
   ComponentMapper<Card> mCard;
   ComponentMapper<Deck> mDeck;
-  ComponentMapper<Unit> mUnit;
   ComponentMapper<Strength> mStrength;
 
   public CreatePlayer(String name) {
@@ -28,13 +26,12 @@ public class CreatePlayer extends Command {
     int playerEntity = world.create();
     mPlayer.create(playerEntity).name = name;
     for (int i = 0; i < 7; i++) {
-      boolean isUnit = i % 2 == 0;
+      boolean hasStrength = i % 2 == 0;
       int cardEntity = world.create();
       mCard.create(cardEntity).name = "P" + i;
       mDeck.create(cardEntity);
       mOwned.create(cardEntity).owner = playerEntity;
-      if (isUnit) {
-        mUnit.create(cardEntity);
+      if (hasStrength) {
         mStrength.create(cardEntity).value = i % 5;
       }
     }
