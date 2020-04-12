@@ -4,7 +4,6 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
-import com.dcg.card.Strength;
 import com.dcg.command.CommandChain;
 import com.dcg.location.BattleArea;
 import com.dcg.location.MoveLocation;

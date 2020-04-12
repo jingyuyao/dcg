@@ -1,4 +1,4 @@
-package com.dcg.card;
+package com.dcg.battle;
 
 import com.artemis.Component;
 

@@ -2,7 +2,6 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
-import com.dcg.card.Strength;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.location.DiscardPile;

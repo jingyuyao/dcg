@@ -2,8 +2,8 @@ package com.dcg.debug;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
+import com.dcg.battle.Strength;
 import com.dcg.card.Card;
-import com.dcg.card.Strength;
 import com.dcg.command.Command;
 import com.dcg.location.BattleArea;
 import com.dcg.ownership.Owned;
