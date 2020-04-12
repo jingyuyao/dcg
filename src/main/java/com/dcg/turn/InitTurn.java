@@ -8,9 +8,9 @@ import com.dcg.player.Player;
 
 public class InitTurn extends Command {
   private final String playerName;
-  AspectSubscriptionManager manager;
-  ComponentMapper<Player> mPlayer;
-  ComponentMapper<Turn> mTurn;
+  protected AspectSubscriptionManager manager;
+  protected ComponentMapper<Player> mPlayer;
+  protected ComponentMapper<Turn> mTurn;
 
   public InitTurn(String playerName) {
     this.playerName = playerName;

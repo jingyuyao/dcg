@@ -16,10 +16,10 @@ import java.util.List;
 public class Battle extends Command {
   private final int attackingPlayerEntity;
   private final int defendingPlayerEntity;
-  @Wire CommandChain commandChain;
-  OwnershipSystem ownershipSystem;
-  ComponentMapper<Player> mPlayer;
-  ComponentMapper<Strength> mStrength;
+  @Wire protected CommandChain commandChain;
+  protected OwnershipSystem ownershipSystem;
+  protected ComponentMapper<Player> mPlayer;
+  protected ComponentMapper<Strength> mStrength;
 
   public Battle(int attackingPlayerEntity, int defendingPlayerEntity) {
     this.attackingPlayerEntity = attackingPlayerEntity;

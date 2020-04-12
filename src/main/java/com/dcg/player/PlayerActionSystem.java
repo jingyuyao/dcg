@@ -19,9 +19,8 @@ import java.util.stream.Collectors;
 
 @All({Player.class, Turn.class})
 public class PlayerActionSystem extends IteratingSystem {
-
   private List<Command> actions = Collections.emptyList();
-  OwnershipSystem ownershipSystem;
+  protected OwnershipSystem ownershipSystem;
 
   @Override
   protected void process(int entityId) {

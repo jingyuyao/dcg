@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
-
   private final WorldConfiguration configuration =
       new WorldConfigurationBuilder()
           // Allows for component inspection during removed()

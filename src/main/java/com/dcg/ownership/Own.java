@@ -6,7 +6,7 @@ import com.dcg.command.Command;
 public class Own extends Command {
   private final int ownerEntity;
   private final int ownedEntity;
-  ComponentMapper<Owned> mOwned;
+  protected ComponentMapper<Owned> mOwned;
 
   public Own(int ownerEntity, int ownedEntity) {
     this.ownerEntity = ownerEntity;

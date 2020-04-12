@@ -13,9 +13,9 @@ import com.dcg.ownership.OwnershipSystem;
 
 public class DiscardPlayArea extends Command {
   private final int playerEntity;
-  @Wire CommandChain commandChain;
-  OwnershipSystem ownershipSystem;
-  ComponentMapper<Player> mPlayer;
+  @Wire protected CommandChain commandChain;
+  protected OwnershipSystem ownershipSystem;
+  protected ComponentMapper<Player> mPlayer;
 
   public DiscardPlayArea(int playerEntity) {
     this.playerEntity = playerEntity;

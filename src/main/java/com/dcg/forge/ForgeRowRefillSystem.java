@@ -16,12 +16,11 @@ import java.util.Random;
 
 @All({Card.class, ForgeRow.class})
 public class ForgeRowRefillSystem extends BaseEntitySystem {
-
   private static final int BUY_PILE_SIZE = 6;
 
-  @Wire CommandChain commandChain;
-  @Wire Random random;
-  AspectSubscriptionManager manager;
+  @Wire protected CommandChain commandChain;
+  @Wire protected Random random;
+  protected AspectSubscriptionManager manager;
 
   @Override
   protected void processSystem() {

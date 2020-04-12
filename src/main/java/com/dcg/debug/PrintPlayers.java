@@ -10,10 +10,10 @@ import com.dcg.player.Player;
 import com.dcg.util.AspectSystem;
 
 public class PrintPlayers extends Command {
-  AspectSystem aspectSystem;
-  OwnershipSystem ownershipSystem;
-  ComponentMapper<Player> mPlayer;
-  ComponentMapper<Card> mCard;
+  protected AspectSystem aspectSystem;
+  protected OwnershipSystem ownershipSystem;
+  protected ComponentMapper<Player> mPlayer;
+  protected ComponentMapper<Card> mCard;
 
   @Override
   public void run() {

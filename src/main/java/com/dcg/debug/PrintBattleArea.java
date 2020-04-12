@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrintBattleArea extends Command {
-  TurnSystem turnSystem;
-  AspectSystem aspectSystem;
-  ComponentMapper<Card> mCard;
-  ComponentMapper<Owned> mOwned;
-  ComponentMapper<Strength> mStrength;
+  protected TurnSystem turnSystem;
+  protected AspectSystem aspectSystem;
+  protected ComponentMapper<Card> mCard;
+  protected ComponentMapper<Owned> mOwned;
+  protected ComponentMapper<Strength> mStrength;
 
   @Override
   public void run() {

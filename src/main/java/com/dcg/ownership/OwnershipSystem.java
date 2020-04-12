@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OwnershipSystem extends BaseSystem {
-  AspectSystem aspectSystem;
-  ComponentMapper<Owned> mOwned;
+  protected AspectSystem aspectSystem;
+  protected ComponentMapper<Owned> mOwned;
 
   /** Filters the aspect for the owner. Automatically adds one(Owned) to the builder. */
   public List<Integer> getOwnedBy(int ownerEntity, Builder aspectBuilder) {

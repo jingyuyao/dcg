@@ -5,8 +5,7 @@ import com.artemis.SystemInvocationStrategy;
 import com.artemis.annotations.Wire;
 
 public class CommandInvocationStrategy extends SystemInvocationStrategy {
-
-  @Wire CommandChain commandChain;
+  @Wire protected CommandChain commandChain;
 
   @Override
   protected void initialize() {

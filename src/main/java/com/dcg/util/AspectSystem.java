@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AspectSystem extends BaseSystem {
-  AspectSubscriptionManager manager;
+  protected AspectSubscriptionManager manager;
 
   public List<Integer> get(Aspect.Builder builder) {
     // Slower than raw iteration since we are creating a new list per get() but clarity beats

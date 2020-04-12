@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CommandChain {
-
   private final Deque<Command> queue = new LinkedList<>();
 
   /** Add commands to the start of the deque while preserving the order of the arguments. */

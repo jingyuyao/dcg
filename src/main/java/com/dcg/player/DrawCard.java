@@ -15,10 +15,10 @@ import java.util.Random;
 
 public class DrawCard extends Command {
   private final int playerEntity;
-  @Wire CommandChain commandChain;
-  @Wire Random random;
-  OwnershipSystem ownershipSystem;
-  ComponentMapper<Player> mPlayer;
+  @Wire protected CommandChain commandChain;
+  @Wire protected Random random;
+  protected OwnershipSystem ownershipSystem;
+  protected ComponentMapper<Player> mPlayer;
 
   public DrawCard(int playerEntity) {
     this.playerEntity = playerEntity;

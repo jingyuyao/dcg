@@ -9,10 +9,9 @@ import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
 
 public class PlayCard extends Command {
-
   private final int cardEntity;
-  @Wire CommandChain commandChain;
-  ComponentMapper<Card> mCard;
+  @Wire protected CommandChain commandChain;
+  protected ComponentMapper<Card> mCard;
 
   public PlayCard(int cardEntity) {
     this.cardEntity = cardEntity;

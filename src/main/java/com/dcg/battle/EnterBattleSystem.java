@@ -12,7 +12,7 @@ import com.dcg.location.PlayArea;
 
 @All({Card.class, PlayArea.class, Strength.class})
 public class EnterBattleSystem extends BaseEntitySystem {
-  @Wire CommandChain commandChain;
+  @Wire protected CommandChain commandChain;
 
   @Override
   protected void inserted(int entityId) {

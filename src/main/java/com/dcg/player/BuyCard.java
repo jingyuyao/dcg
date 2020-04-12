@@ -13,8 +13,8 @@ import com.dcg.ownership.Own;
 
 public class BuyCard extends Command {
   private final int playerEntity;
-  @Wire CommandChain commandChain;
-  AspectSubscriptionManager manager;
+  @Wire protected CommandChain commandChain;
+  protected AspectSubscriptionManager manager;
 
   public BuyCard(int playerEntity) {
     this.playerEntity = playerEntity;

@@ -15,8 +15,7 @@ import java.util.List;
 
 @All({Player.class, Turn.class})
 public class TurnSystem extends BaseEntitySystem {
-
-  @Wire CommandChain commandChain;
+  @Wire protected CommandChain commandChain;
   private int lastRemoved = -1;
 
   public int getCurrentPlayerEntity() {

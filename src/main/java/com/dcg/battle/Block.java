@@ -12,10 +12,10 @@ import com.dcg.turn.TurnSystem;
 import java.util.List;
 
 public class Block extends Command {
-  @Wire CommandChain commandChain;
-  TurnSystem turnSystem;
-  OwnershipSystem ownershipSystem;
-  ComponentMapper<Strength> mStrength;
+  @Wire protected CommandChain commandChain;
+  protected TurnSystem turnSystem;
+  protected OwnershipSystem ownershipSystem;
+  protected ComponentMapper<Strength> mStrength;
 
   @Override
   public void run() {

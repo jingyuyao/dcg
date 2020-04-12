@@ -8,7 +8,7 @@ import com.dcg.player.Player;
 @All(Player.class)
 public class GameOverSystem extends IteratingSystem {
   private boolean isOver = false;
-  ComponentMapper<Player> mPlayer;
+  protected ComponentMapper<Player> mPlayer;
 
   @Override
   protected void process(int entityId) {

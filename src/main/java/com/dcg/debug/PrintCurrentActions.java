@@ -6,8 +6,8 @@ import com.dcg.player.PlayerActionSystem;
 import java.util.List;
 
 public class PrintCurrentActions extends Command {
-  World world;
-  PlayerActionSystem playerActionSystem;
+  protected World world;
+  protected PlayerActionSystem playerActionSystem;
 
   @Override
   public void run() {

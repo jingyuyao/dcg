@@ -4,12 +4,22 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
+import java.util.Arrays;
+import java.util.List;
 
 public class MoveLocation extends Command {
+  private static final List<Class<? extends Location>> ALL =
+      Arrays.asList(
+          Deck.class,
+          ForgeRow.class,
+          DiscardPile.class,
+          Hand.class,
+          PlayArea.class,
+          BattleArea.class);
   private final int cardEntity;
   private final Class<? extends Location> location;
-  World world;
-  ComponentMapper<Card> mCard;
+  protected World world;
+  protected ComponentMapper<Card> mCard;
 
   public MoveLocation(int cardEntity, Class<? extends Location> location) {
     this.cardEntity = cardEntity;
@@ -18,7 +28,7 @@ public class MoveLocation extends Command {
 
   @Override
   public void run() {
-    for (Class<? extends Location> clazz : Location.ALL) {
+    for (Class<? extends Location> clazz : ALL) {
       ComponentMapper<? extends Location> mapper = world.getMapper(clazz);
       mapper.set(cardEntity, location.equals(clazz));
     }

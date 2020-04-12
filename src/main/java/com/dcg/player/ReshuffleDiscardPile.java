@@ -13,12 +13,11 @@ import com.dcg.ownership.Owned;
 import com.dcg.ownership.OwnershipSystem;
 
 public class ReshuffleDiscardPile extends Command {
-
   private final int playerEntity;
-  @Wire CommandChain commandChain;
-  OwnershipSystem ownershipSystem;
-  ComponentMapper<Player> mPlayer;
-  ComponentMapper<Owned> mOwned;
+  @Wire protected CommandChain commandChain;
+  protected OwnershipSystem ownershipSystem;
+  protected ComponentMapper<Player> mPlayer;
+  protected ComponentMapper<Owned> mOwned;
 
   public ReshuffleDiscardPile(int playerEntity) {
     this.playerEntity = playerEntity;

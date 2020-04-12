@@ -7,8 +7,8 @@ import java.util.List;
 
 public class PerformAction extends Command {
   private final int actionIndex;
-  @Wire CommandChain commandChain;
-  PlayerActionSystem playerActionSystem;
+  @Wire protected CommandChain commandChain;
+  protected PlayerActionSystem playerActionSystem;
 
   public PerformAction(int actionIndex) {
     this.actionIndex = actionIndex;
