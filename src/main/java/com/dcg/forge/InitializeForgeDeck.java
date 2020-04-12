@@ -10,21 +10,22 @@ import com.dcg.location.Deck;
 import java.util.Random;
 
 public class InitializeForgeDeck extends Command {
-  @Wire Random random;
-  World world;
-  ComponentMapper<Card> mCard;
-  ComponentMapper<Deck> mDeck;
-  ComponentMapper<Strength> mStrength;
+  @Wire protected Random random;
+  protected World world;
+  protected ComponentMapper<Card> mCard;
+  protected ComponentMapper<Deck> mDeck;
+  protected ComponentMapper<Strength> mStrength;
 
   @Override
   public void run() {
     for (int i = 0; i < 50; i++) {
       int cardEntity = world.create();
-      mCard.create(cardEntity).name = "F" + i;
+      int cost = random.nextInt(5);
+      Card card = mCard.create(cardEntity);
+      card.name = "F" + cost;
+      card.cost = cost;
+      mStrength.create(cardEntity).value = cost + 1;
       mDeck.create(cardEntity);
-      if (random.nextBoolean()) {
-        mStrength.create(cardEntity).value = random.nextInt(5) + 1;
-      }
     }
   }
 }

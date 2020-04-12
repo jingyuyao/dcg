@@ -4,6 +4,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
+import com.dcg.card.Power;
 import com.dcg.card.Strength;
 import com.dcg.command.Command;
 import com.dcg.location.Deck;
@@ -12,13 +13,14 @@ import java.util.Random;
 
 public class CreatePlayer extends Command {
   private final String name;
-  @Wire Random random;
-  World world;
-  ComponentMapper<Player> mPlayer;
-  ComponentMapper<Owned> mOwned;
-  ComponentMapper<Card> mCard;
-  ComponentMapper<Deck> mDeck;
-  ComponentMapper<Strength> mStrength;
+  @Wire protected Random random;
+  protected World world;
+  protected ComponentMapper<Player> mPlayer;
+  protected ComponentMapper<Owned> mOwned;
+  protected ComponentMapper<Card> mCard;
+  protected ComponentMapper<Deck> mDeck;
+  protected ComponentMapper<Strength> mStrength;
+  protected ComponentMapper<Power> mPower;
 
   public CreatePlayer(String name) {
     this.name = name;
@@ -35,6 +37,8 @@ public class CreatePlayer extends Command {
       mOwned.create(cardEntity).owner = playerEntity;
       if (random.nextBoolean()) {
         mStrength.create(cardEntity).value = random.nextInt(5) + 1;
+      } else {
+        mPower.create(cardEntity);
       }
     }
   }
