@@ -6,9 +6,10 @@ import com.dcg.card.Card;
 import com.dcg.card.Strength;
 import com.dcg.command.Command;
 import com.dcg.location.Deck;
+import java.util.Random;
 
 public class InitializeForgeDeck extends Command {
-
+  private static final Random random = new Random();
   World world;
   ComponentMapper<Card> mCard;
   ComponentMapper<Deck> mDeck;
@@ -17,12 +18,11 @@ public class InitializeForgeDeck extends Command {
   @Override
   public void run() {
     for (int i = 0; i < 50; i++) {
-      boolean hasStrength = i % 2 == 0;
       int cardEntity = world.create();
       mCard.create(cardEntity).name = "F" + i;
       mDeck.create(cardEntity);
-      if (hasStrength) {
-        mStrength.create(cardEntity).value = i % 5;
+      if (random.nextBoolean()) {
+        mStrength.create(cardEntity).value = random.nextInt(5) + 1;
       }
     }
   }

@@ -7,8 +7,10 @@ import com.dcg.card.Strength;
 import com.dcg.command.Command;
 import com.dcg.location.Deck;
 import com.dcg.ownership.Owned;
+import java.util.Random;
 
 public class CreatePlayer extends Command {
+  private static final Random random = new Random();
   private final String name;
   World world;
   ComponentMapper<Player> mPlayer;
@@ -26,13 +28,12 @@ public class CreatePlayer extends Command {
     int playerEntity = world.create();
     mPlayer.create(playerEntity).name = name;
     for (int i = 0; i < 7; i++) {
-      boolean hasStrength = i % 2 == 0;
       int cardEntity = world.create();
       mCard.create(cardEntity).name = "P" + i;
       mDeck.create(cardEntity);
       mOwned.create(cardEntity).owner = playerEntity;
-      if (hasStrength) {
-        mStrength.create(cardEntity).value = i % 5;
+      if (random.nextBoolean()) {
+        mStrength.create(cardEntity).value = random.nextInt(5) + 1;
       }
     }
   }
