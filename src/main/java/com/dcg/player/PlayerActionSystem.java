@@ -4,7 +4,6 @@ import com.artemis.Aspect;
 import com.artemis.annotations.All;
 import com.artemis.systems.IteratingSystem;
 import com.dcg.battle.Block;
-import com.dcg.battle.Blocking;
 import com.dcg.card.Card;
 import com.dcg.card.Strength;
 import com.dcg.command.Command;
@@ -37,10 +36,7 @@ public class PlayerActionSystem extends IteratingSystem {
     }
     actions.add(new BuyCard(entityId));
     boolean canBlock =
-        ownershipSystem
-                .getOwnedBy(
-                    entityId, Aspect.all(BattleArea.class, Strength.class).exclude(Blocking.class))
-                .size()
+        ownershipSystem.getOwnedBy(entityId, Aspect.all(BattleArea.class, Strength.class)).size()
             > 0;
     if (canBlock) {
       actions.add(new Block());

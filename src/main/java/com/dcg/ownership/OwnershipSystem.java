@@ -18,6 +18,10 @@ public class OwnershipSystem extends BaseSystem {
         .collect(Collectors.toList());
   }
 
+  public boolean isOwnedBy(int ownerEntity, int entity) {
+    return mOwned.has(entity) && mOwned.get(entity).owner == ownerEntity;
+  }
+
   @Override
   protected void processSystem() {
     // No-op
