@@ -12,6 +12,7 @@ import com.dcg.location.Deck;
 import com.dcg.location.ForgeRow;
 import com.dcg.location.MoveLocation;
 import com.dcg.ownership.Owned;
+import java.util.Random;
 
 @All({Card.class, ForgeRow.class})
 public class ForgeRowRefillSystem extends BaseEntitySystem {
@@ -19,6 +20,7 @@ public class ForgeRowRefillSystem extends BaseEntitySystem {
   private static final int BUY_PILE_SIZE = 6;
 
   @Wire CommandChain commandChain;
+  @Wire Random random;
   AspectSubscriptionManager manager;
 
   @Override
@@ -28,7 +30,8 @@ public class ForgeRowRefillSystem extends BaseEntitySystem {
     // We only need to add one since adding a move location command will trigger this system to
     // be run again.
     if (getEntityIds().size() < BUY_PILE_SIZE && drawPile.size() > 0) {
-      commandChain.addStart(new MoveLocation(drawPile.get(0), ForgeRow.class));
+      commandChain.addStart(
+          new MoveLocation(drawPile.get(random.nextInt(drawPile.size())), ForgeRow.class));
     }
   }
 }

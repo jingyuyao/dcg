@@ -2,6 +2,7 @@ package com.dcg.forge;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
+import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
 import com.dcg.card.Strength;
 import com.dcg.command.Command;
@@ -9,7 +10,7 @@ import com.dcg.location.Deck;
 import java.util.Random;
 
 public class InitializeForgeDeck extends Command {
-  private static final Random random = new Random();
+  @Wire Random random;
   World world;
   ComponentMapper<Card> mCard;
   ComponentMapper<Deck> mDeck;

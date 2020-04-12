@@ -21,6 +21,7 @@ import com.dcg.turn.InitTurn;
 import com.dcg.turn.TurnSystem;
 import com.dcg.util.AspectSystem;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
 
@@ -41,6 +42,7 @@ public class Game {
               new GameOverSystem(),
               new PlayerActionSystem())
           .build()
+          .register(new Random())
           .register(new CommandChain());
   private final World world = new World(configuration);
 

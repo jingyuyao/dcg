@@ -10,10 +10,13 @@ import com.dcg.location.Deck;
 import com.dcg.location.Hand;
 import com.dcg.location.MoveLocation;
 import com.dcg.ownership.OwnershipSystem;
+import java.util.List;
+import java.util.Random;
 
 public class DrawCard extends Command {
   private final int playerEntity;
   @Wire CommandChain commandChain;
+  @Wire Random random;
   OwnershipSystem ownershipSystem;
   ComponentMapper<Player> mPlayer;
 
@@ -23,14 +26,15 @@ public class DrawCard extends Command {
 
   @Override
   public void run() {
-    Aspect.Builder deck = Aspect.all(Card.class, Deck.class);
+    List<Integer> deck =
+        ownershipSystem.getOwnedBy(playerEntity, Aspect.all(Card.class, Deck.class));
 
-    for (int cardEntity : ownershipSystem.getOwnedBy(playerEntity, deck)) {
+    if (deck.size() > 0) {
+      int cardEntity = deck.get(random.nextInt(deck.size()));
       commandChain.addStart(new MoveLocation(cardEntity, Hand.class));
-      return;
+    } else {
+      commandChain.addStart(new ReshuffleDiscardPile(playerEntity), new DrawCard(playerEntity));
     }
-
-    commandChain.addStart(new ReshuffleDiscardPile(playerEntity), new DrawCard(playerEntity));
   }
 
   @Override

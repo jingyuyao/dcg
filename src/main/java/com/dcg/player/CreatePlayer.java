@@ -2,6 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
+import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
 import com.dcg.card.Strength;
 import com.dcg.command.Command;
@@ -10,8 +11,8 @@ import com.dcg.ownership.Owned;
 import java.util.Random;
 
 public class CreatePlayer extends Command {
-  private static final Random random = new Random();
   private final String name;
+  @Wire Random random;
   World world;
   ComponentMapper<Player> mPlayer;
   ComponentMapper<Owned> mOwned;
