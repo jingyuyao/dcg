@@ -19,7 +19,7 @@ public class PerformAction extends Command {
     List<Command> actions = playerActionSystem.getActions();
     try {
       Command command = actions.get(actionIndex);
-      command.setArgs(getArgs());
+      command.setTargetEntities(getTargetEntities());
       commandChain.addStart(command);
     } catch (IndexOutOfBoundsException e) {
       System.out.printf("Invalid actionIndex: %d\n", actionIndex);

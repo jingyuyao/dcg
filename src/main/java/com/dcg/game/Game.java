@@ -10,10 +10,12 @@ import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
 import com.dcg.debug.PrintBattleArea;
 import com.dcg.debug.PrintCurrentActions;
+import com.dcg.debug.PrintForgeRow;
 import com.dcg.debug.PrintPlayers;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
 import com.dcg.ownership.OwnershipSystem;
+import com.dcg.player.AddPowerSystem;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.PerformAction;
 import com.dcg.player.PlayerActionSystem;
@@ -37,6 +39,7 @@ public class Game {
               new OwnershipSystem(),
               new ForgeRowRefillSystem(),
               new TurnSystem(),
+              new AddPowerSystem(),
               new EnterBattleSystem(),
               new GameOverSystem(),
               new PlayerActionSystem())
@@ -60,7 +63,7 @@ public class Game {
       return;
     }
     PerformAction performAction = new PerformAction(input.get(0));
-    performAction.setArgs(input.subList(1, input.size()));
+    performAction.setTargetEntities(input.subList(1, input.size()));
     process(performAction);
   }
 
@@ -73,7 +76,8 @@ public class Game {
     commandChain.addEnd(commands);
     world.process();
 
-    commandChain.addEnd(new PrintPlayers(), new PrintBattleArea(), new PrintCurrentActions());
+    commandChain.addEnd(
+        new PrintForgeRow(), new PrintPlayers(), new PrintBattleArea(), new PrintCurrentActions());
     world.process();
   }
 }

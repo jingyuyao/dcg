@@ -22,7 +22,7 @@ public class InitializeForgeDeck extends Command {
       int cardEntity = world.create();
       int cost = random.nextInt(5);
       Card card = mCard.create(cardEntity);
-      card.name = "F" + cost;
+      card.name = "F";
       card.cost = cost;
       mStrength.create(cardEntity).value = cost + 1;
       mDeck.create(cardEntity);

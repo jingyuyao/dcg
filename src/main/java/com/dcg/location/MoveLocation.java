@@ -36,6 +36,7 @@ public class MoveLocation extends Command {
 
   @Override
   public String toString() {
-    return super.toString() + mCard.get(cardEntity) + " to " + location.getSimpleName();
+    return String.format(
+        "%s %s to %s", super.toString(), mCard.get(cardEntity), location.getSimpleName());
   }
 }

@@ -24,6 +24,6 @@ public class PlayCard extends Command {
 
   @Override
   public String toString() {
-    return super.toString() + mCard.get(cardEntity);
+    return String.format("%s %s", super.toString(), mCard.get(cardEntity));
   }
 }

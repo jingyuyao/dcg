@@ -28,6 +28,6 @@ public class InitTurn extends Command {
 
   @Override
   public String toString() {
-    return super.toString() + playerName;
+    return String.format("%s %s", super.toString(), playerName);
   }
 }

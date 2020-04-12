@@ -20,14 +20,14 @@ public class Block extends Command {
   @Override
   public void run() {
     // TODO: add target-able tag to help with preconditions
-    List<Integer> args = getArgs();
-    if (args.size() != 2) {
-      System.out.println("    Invalid args for defend");
+    List<Integer> targets = getTargetEntities();
+    if (targets.size() != 2) {
+      System.out.println("    Invalid targets for defend");
       return;
     }
 
-    int blockingEntity = args.get(0);
-    int attackingEntity = args.get(1);
+    int blockingEntity = targets.get(0);
+    int attackingEntity = targets.get(1);
 
     if (!ownershipSystem.isOwnedBy(turnSystem.getCurrentPlayerEntity(), blockingEntity)) {
       System.out.printf("    *%d is not owned by the current player\n", blockingEntity);

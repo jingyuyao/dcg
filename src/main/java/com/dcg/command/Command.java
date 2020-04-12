@@ -4,20 +4,20 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Command {
-  private List<Integer> args = Collections.emptyList();
+  private List<Integer> targetEntities = Collections.emptyList();
 
   public abstract void run();
 
-  public void setArgs(List<Integer> args) {
-    this.args = args;
+  public void setTargetEntities(List<Integer> targetEntities) {
+    this.targetEntities = targetEntities;
   }
 
-  public List<Integer> getArgs() {
-    return args;
+  public List<Integer> getTargetEntities() {
+    return targetEntities;
   }
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + args + " ";
+    return String.format("%s%s", getClass().getSimpleName(), targetEntities);
   }
 }

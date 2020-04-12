@@ -39,6 +39,6 @@ public class DrawCard extends Command {
 
   @Override
   public String toString() {
-    return super.toString() + mPlayer.get(playerEntity);
+    return String.format("%s %s", super.toString(), mPlayer.get(playerEntity));
   }
 }

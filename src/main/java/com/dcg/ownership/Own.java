@@ -20,6 +20,6 @@ public class Own extends Command {
 
   @Override
   public String toString() {
-    return super.toString() + ownedEntity + " by " + ownerEntity;
+    return String.format("%s *%d by *%d", super.toString(), ownedEntity, ownerEntity);
   }
 }
