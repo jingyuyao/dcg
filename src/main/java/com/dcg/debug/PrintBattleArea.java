@@ -9,6 +9,8 @@ import com.dcg.location.BattleArea;
 import com.dcg.ownership.Owned;
 import com.dcg.turn.TurnSystem;
 import com.dcg.util.AspectSystem;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrintBattleArea extends Command {
   TurnSystem turnSystem;
@@ -19,16 +21,22 @@ public class PrintBattleArea extends Command {
 
   @Override
   public void run() {
-    for (int entity :
-        aspectSystem.get(Aspect.all(BattleArea.class, Card.class, Owned.class, Strength.class))) {
-      Owned owned = mOwned.get(entity);
-      Card card = mCard.get(entity);
-      Strength strength = mStrength.get(entity);
-      boolean isDefender = turnSystem.getCurrentPlayerEntity() == owned.owner;
-      System.out.printf(
-          "    *%d %s %s: %s str: %s",
-          entity, card, isDefender ? "defender" : "attacker", owned, strength);
-      System.out.println();
+    List<Integer> attacking = new ArrayList<>();
+    List<Integer> defending = new ArrayList<>();
+    for (int entity : aspectSystem.get(Aspect.all(BattleArea.class, Owned.class, Strength.class))) {
+      if (turnSystem.getCurrentPlayerEntity() == mOwned.get(entity).owner) {
+        defending.add(entity);
+      } else {
+        attacking.add(entity);
+      }
+    }
+    System.out.println("    Attacking");
+    for (int entity : attacking) {
+      System.out.printf("      *%d %s str: %s\n", entity, mCard.get(entity), mStrength.get(entity));
+    }
+    System.out.println("    Defending");
+    for (int entity : defending) {
+      System.out.printf("      *%d %s str: %s\n", entity, mCard.get(entity), mStrength.get(entity));
     }
   }
 }
