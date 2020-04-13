@@ -51,7 +51,7 @@ public class PlayerActionSystem extends IteratingSystem {
   }
 
   private Optional<Command> getBuyCard(int playerEntity) {
-    int availablePower = mPlayer.get(playerEntity).power;
+    int availablePower = mPlayer.get(playerEntity).powerPool;
     return availablePower > 0
         ? Optional.of(new BuyCard(playerEntity, availablePower))
         : Optional.empty();

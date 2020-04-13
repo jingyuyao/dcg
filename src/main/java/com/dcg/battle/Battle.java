@@ -12,6 +12,7 @@ import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.Player;
 import java.util.List;
 
+// TODO: how would temporary effects work?
 public class Battle extends Command {
   private final int attackingPlayerEntity;
   private final int defendingPlayerEntity;

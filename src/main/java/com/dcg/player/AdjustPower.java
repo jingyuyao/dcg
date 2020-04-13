@@ -15,7 +15,7 @@ public class AdjustPower extends Command {
 
   @Override
   public void run() {
-    mPlayer.get(turnSystem.getCurrentPlayerEntity()).power += power;
+    mPlayer.get(turnSystem.getCurrentPlayerEntity()).powerPool += power;
   }
 
   @Override

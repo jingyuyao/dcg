@@ -12,13 +12,14 @@ import com.dcg.debug.PrintBattleArea;
 import com.dcg.debug.PrintCurrentActions;
 import com.dcg.debug.PrintForgeRow;
 import com.dcg.debug.PrintPlayers;
+import com.dcg.effect.GeneratePowerSystem;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
 import com.dcg.ownership.OwnershipSystem;
-import com.dcg.player.AddPowerSystem;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.PerformAction;
 import com.dcg.player.PlayerActionSystem;
+import com.dcg.player.PowerPoolSystem;
 import com.dcg.turn.InitTurn;
 import com.dcg.turn.TurnSystem;
 import com.dcg.util.AspectSystem;
@@ -39,7 +40,8 @@ public class Game {
               new OwnershipSystem(),
               new ForgeRowRefillSystem(),
               new TurnSystem(),
-              new AddPowerSystem(),
+              new PowerPoolSystem(),
+              new GeneratePowerSystem(),
               new EnterBattleSystem(),
               new GameOverSystem(),
               new PlayerActionSystem())

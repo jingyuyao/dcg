@@ -1,24 +1,24 @@
-package com.dcg.player;
+package com.dcg.effect;
 
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
-import com.dcg.card.Card;
 import com.dcg.command.CommandChain;
 import com.dcg.location.PlayArea;
+import com.dcg.player.AdjustPower;
 
-@All({Card.class, PlayArea.class})
-public class AddPowerSystem extends BaseEntitySystem {
+@All({GeneratePower.class, PlayArea.class})
+public class GeneratePowerSystem extends BaseEntitySystem {
   @Wire protected CommandChain commandChain;
-  protected ComponentMapper<Card> mCard;
+  protected ComponentMapper<GeneratePower> mAddPower;
 
   @Override
   protected void inserted(int entityId) {
     super.inserted(entityId);
-    Card card = mCard.get(entityId);
-    if (card.power > 0) {
-      commandChain.addStart(new AdjustPower(card.power));
+    GeneratePower generatePower = mAddPower.get(entityId);
+    if (generatePower.power > 0) {
+      commandChain.addStart(new AdjustPower(generatePower.power));
     }
   }
 
