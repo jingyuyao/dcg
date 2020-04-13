@@ -19,6 +19,7 @@ public class AdvanceTurn extends Command {
     int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
     int nextPlayer = players.get(nextPlayerIndex);
     mTurn.remove(currentPlayer);
-    mTurn.create(nextPlayer);
+    Turn turn = mTurn.create(nextPlayer);
+    turn.previousPlayerEntity = currentPlayer;
   }
 }

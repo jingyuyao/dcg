@@ -25,7 +25,7 @@ public class PlayerActionSystem extends IteratingSystem {
   private List<Command> actions = Collections.emptyList();
   protected AspectSystem aspectSystem;
   protected OwnershipSystem ownershipSystem;
-  protected ComponentMapper<Player> mPlayer;
+  protected ComponentMapper<Turn> mTurn;
 
   @Override
   protected void process(int entityId) {
@@ -51,7 +51,7 @@ public class PlayerActionSystem extends IteratingSystem {
   }
 
   private Optional<Command> getBuyCard(int playerEntity) {
-    int availablePower = mPlayer.get(playerEntity).powerPool;
+    int availablePower = mTurn.get(playerEntity).powerPool;
     return availablePower > 0
         ? Optional.of(new BuyCard(playerEntity, availablePower))
         : Optional.empty();

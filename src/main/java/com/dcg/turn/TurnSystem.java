@@ -1,6 +1,7 @@
 package com.dcg.turn;
 
 import com.artemis.BaseEntitySystem;
+import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
 import com.artemis.utils.IntBag;
@@ -16,12 +17,16 @@ import java.util.List;
 @All({Player.class, Turn.class})
 public class TurnSystem extends BaseEntitySystem {
   @Wire protected CommandChain commandChain;
-  private int lastRemoved = -1;
+  protected ComponentMapper<Turn> mTurn;
 
   public int getCurrentPlayerEntity() {
     IntBag entities = getEntityIds();
     assert entities.size() < 2;
     return entities.size() == 1 ? getEntityIds().get(0) : -1;
+  }
+
+  public Turn getCurrentTurn() {
+    return mTurn.get(getEntityIds().get(0));
   }
 
   @Override
@@ -38,10 +43,10 @@ public class TurnSystem extends BaseEntitySystem {
   protected void removed(int entityId) {
     super.removed(entityId);
     commandChain.addEnd(new DiscardPlayArea(entityId));
-    if (lastRemoved != -1) {
-      commandChain.addEnd(new Battle(lastRemoved, entityId));
+    Turn turn = mTurn.get(entityId);
+    if (turn.previousPlayerEntity != -1) {
+      commandChain.addEnd(new Battle(turn.previousPlayerEntity, entityId));
     }
-    lastRemoved = entityId;
   }
 
   @Override

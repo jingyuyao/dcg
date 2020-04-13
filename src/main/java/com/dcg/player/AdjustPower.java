@@ -1,13 +1,11 @@
 package com.dcg.player;
 
-import com.artemis.ComponentMapper;
 import com.dcg.command.Command;
 import com.dcg.turn.TurnSystem;
 
 public class AdjustPower extends Command {
   private final int power;
-  TurnSystem turnSystem;
-  protected ComponentMapper<Player> mPlayer;
+  protected TurnSystem turnSystem;
 
   public AdjustPower(int power) {
     this.power = power;
@@ -15,7 +13,7 @@ public class AdjustPower extends Command {
 
   @Override
   public void run() {
-    mPlayer.get(turnSystem.getCurrentPlayerEntity()).powerPool += power;
+    turnSystem.getCurrentTurn().powerPool += power;
   }
 
   @Override

@@ -20,11 +20,11 @@ public class InitializeForgeDeck extends Command {
   public void run() {
     for (int i = 0; i < 50; i++) {
       int cardEntity = world.create();
-      int cost = random.nextInt(5);
+      int cost = random.nextInt(5) + 1;
       Card card = mCard.create(cardEntity);
       card.name = "F";
       card.cost = cost;
-      mStrength.create(cardEntity).value = cost + 1;
+      mStrength.create(cardEntity).value = cost;
       mDeck.create(cardEntity);
     }
   }

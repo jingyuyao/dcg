@@ -1,2 +1,3 @@
 *.class
 /target/classes/META-INF/
+.idea/dictionaries

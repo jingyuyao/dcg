@@ -19,7 +19,6 @@ import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.PerformAction;
 import com.dcg.player.PlayerActionSystem;
-import com.dcg.player.PowerPoolSystem;
 import com.dcg.turn.InitTurn;
 import com.dcg.turn.TurnSystem;
 import com.dcg.util.AspectSystem;
@@ -40,7 +39,6 @@ public class Game {
               new OwnershipSystem(),
               new ForgeRowRefillSystem(),
               new TurnSystem(),
-              new PowerPoolSystem(),
               new GeneratePowerSystem(),
               new EnterBattleSystem(),
               new GameOverSystem(),
@@ -53,10 +51,10 @@ public class Game {
   public Game() {
     process(
         new InitializeForgeDeck(),
-        new CreatePlayer("Alice"),
-        new CreatePlayer("Bob"),
-        new CreatePlayer("Charlie"),
-        new InitTurn("Alice"));
+        new CreatePlayer("Edelgard"),
+        new CreatePlayer("Dimitri"),
+        new CreatePlayer("Claude"),
+        new InitTurn("Edelgard"));
   }
 
   public void handleInput(List<Integer> input) {
