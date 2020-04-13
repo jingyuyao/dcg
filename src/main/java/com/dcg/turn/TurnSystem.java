@@ -4,7 +4,6 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
-import com.artemis.utils.IntBag;
 import com.dcg.battle.Battle;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
@@ -18,20 +17,20 @@ import java.util.List;
 public class TurnSystem extends BaseEntitySystem {
   @Wire protected CommandChain commandChain;
   protected ComponentMapper<Turn> mTurn;
+  private int currentPlayerEntity = -1;
 
   public int getCurrentPlayerEntity() {
-    IntBag entities = getEntityIds();
-    assert entities.size() < 2;
-    return entities.size() == 1 ? getEntityIds().get(0) : -1;
+    return currentPlayerEntity;
   }
 
   public Turn getCurrentTurn() {
-    return mTurn.get(getEntityIds().get(0));
+    return mTurn.get(currentPlayerEntity);
   }
 
   @Override
   protected void inserted(int entityId) {
     super.inserted(entityId);
+    currentPlayerEntity = entityId;
     List<Command> commands = new ArrayList<>();
     for (int i = 0; i < 3; i++) {
       commands.add(new DrawCard(entityId));
