@@ -8,11 +8,17 @@ public abstract class Command {
 
   public abstract void run();
 
-  public void setTargetEntities(List<Integer> targetEntities) {
+  // TODO: what about making this isPreconditionMet? so we can constantly check the commands in
+  // turn and auto execute when their conditions are met?
+  public boolean isInputRequired() {
+    return false;
+  }
+
+  public void setInputs(List<Integer> targetEntities) {
     this.targetEntities = targetEntities;
   }
 
-  public List<Integer> getTargetEntities() {
+  public List<Integer> getInputs() {
     return targetEntities;
   }
 

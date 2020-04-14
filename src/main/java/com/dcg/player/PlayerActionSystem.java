@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 @All({Player.class, Turn.class})
 public class PlayerActionSystem extends IteratingSystem {
+  // TODO: this should be tracked in Turn
   private List<Command> actions = Collections.emptyList();
   protected AspectSystem aspectSystem;
   protected OwnershipSystem ownershipSystem;

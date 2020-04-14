@@ -11,8 +11,7 @@ import com.dcg.debug.PrintBattleArea;
 import com.dcg.debug.PrintCurrentActions;
 import com.dcg.debug.PrintForgeRow;
 import com.dcg.debug.PrintPlayers;
-import com.dcg.effect.CreateUnitSystem;
-import com.dcg.effect.GeneratePowerSystem;
+import com.dcg.effect.OnPlaySystem;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
 import com.dcg.ownership.OwnershipSystem;
@@ -39,8 +38,7 @@ public class Game {
               new OwnershipSystem(),
               new ForgeRowRefillSystem(),
               new TurnSystem(),
-              new CreateUnitSystem(),
-              new GeneratePowerSystem(),
+              new OnPlaySystem(),
               new GameOverSystem(),
               new PlayerActionSystem())
           .build()
@@ -63,7 +61,7 @@ public class Game {
       return;
     }
     PerformAction performAction = new PerformAction(input.get(0));
-    performAction.setTargetEntities(input.subList(1, input.size()));
+    performAction.setInputs(input.subList(1, input.size()));
     process(performAction);
   }
 

@@ -22,8 +22,13 @@ public class BuyCard extends Command {
   }
 
   @Override
+  public boolean isInputRequired() {
+    return true;
+  }
+
+  @Override
   public void run() {
-    List<Integer> targets = getTargetEntities();
+    List<Integer> targets = getInputs();
     if (targets.size() != 1) {
       System.out.println("    Invalid targets for BuyCard");
       return;

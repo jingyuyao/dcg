@@ -6,6 +6,7 @@ import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.effect.CreateUnit;
+import com.dcg.effect.OnPlay;
 import com.dcg.location.Deck;
 import java.util.Random;
 
@@ -14,7 +15,7 @@ public class InitializeForgeDeck extends Command {
   protected World world;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Deck> mDeck;
-  protected ComponentMapper<CreateUnit> mCreateUnit;
+  protected ComponentMapper<OnPlay> mOnPlay;
 
   @Override
   public void run() {
@@ -23,9 +24,8 @@ public class InitializeForgeDeck extends Command {
       Card card = mCard.create(cardEntity);
       card.name = "F";
       card.cost = random.nextInt(5) + 1;
-      CreateUnit createUnit = mCreateUnit.create(cardEntity);
-      createUnit.name = card.name;
-      createUnit.strength = card.cost;
+      OnPlay onPlay = mOnPlay.create(cardEntity);
+      onPlay.effects.add(new CreateUnit(card.name, card.cost));
       mDeck.create(cardEntity);
     }
   }

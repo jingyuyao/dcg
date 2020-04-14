@@ -7,6 +7,7 @@ import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.effect.CreateUnit;
 import com.dcg.effect.GeneratePower;
+import com.dcg.effect.OnPlay;
 import com.dcg.location.Deck;
 import com.dcg.ownership.Owned;
 import java.util.Random;
@@ -19,8 +20,7 @@ public class CreatePlayer extends Command {
   protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Deck> mDeck;
-  protected ComponentMapper<CreateUnit> mCreateUnit;
-  protected ComponentMapper<GeneratePower> mAddPower;
+  protected ComponentMapper<OnPlay> mOnPlay;
 
   public CreatePlayer(String name) {
     this.name = name;
@@ -34,12 +34,11 @@ public class CreatePlayer extends Command {
       int cardEntity = world.create();
       Card card = mCard.create(cardEntity);
       card.name = "P";
+      OnPlay onPlay = mOnPlay.create(cardEntity);
       if (random.nextBoolean()) {
-        CreateUnit createUnit = mCreateUnit.create(cardEntity);
-        createUnit.name = card.name;
-        createUnit.strength = random.nextInt(5) + 1;
+        onPlay.effects.add(new CreateUnit(card.name, random.nextInt(5) + 1));
       } else {
-        mAddPower.create(cardEntity);
+        onPlay.effects.add(new GeneratePower(random.nextInt(2) + 1));
       }
       mDeck.create(cardEntity);
       mOwned.create(cardEntity).owner = playerEntity;

@@ -14,9 +14,14 @@ public class Block extends Command {
   protected ComponentMapper<Unit> mUnit;
 
   @Override
+  public boolean isInputRequired() {
+    return true;
+  }
+
+  @Override
   public void run() {
     // TODO: add target-able tag to help with preconditions
-    List<Integer> targets = getTargetEntities();
+    List<Integer> targets = getInputs();
     if (targets.size() != 2) {
       System.out.println("    Invalid targets for defend");
       return;
