@@ -1,7 +1,6 @@
 package com.dcg.player;
 
 import com.artemis.Aspect;
-import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
@@ -18,7 +17,6 @@ public class DrawCard extends Command {
   @Wire protected CommandChain commandChain;
   @Wire protected Random random;
   protected OwnershipSystem ownershipSystem;
-  protected ComponentMapper<Player> mPlayer;
 
   public DrawCard(int playerEntity) {
     this.playerEntity = playerEntity;
@@ -35,10 +33,5 @@ public class DrawCard extends Command {
     } else {
       commandChain.addStart(new ReshuffleDiscardPile(playerEntity), new DrawCard(playerEntity));
     }
-  }
-
-  @Override
-  public String toString() {
-    return String.format("%s %s", super.toString(), mPlayer.get(playerEntity));
   }
 }

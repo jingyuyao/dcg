@@ -5,13 +5,10 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
 import com.dcg.battle.AttackPlayer;
-import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.player.DiscardPlayArea;
-import com.dcg.player.DrawCard;
+import com.dcg.player.DrawCards;
 import com.dcg.player.Player;
-import java.util.ArrayList;
-import java.util.List;
 
 @All({Player.class, Turn.class})
 public class TurnSystem extends BaseEntitySystem {
@@ -28,23 +25,19 @@ public class TurnSystem extends BaseEntitySystem {
   }
 
   @Override
-  protected void inserted(int entityId) {
-    super.inserted(entityId);
-    currentPlayerEntity = entityId;
-    List<Command> commands = new ArrayList<>();
-    for (int i = 0; i < 3; i++) {
-      commands.add(new DrawCard(entityId));
-    }
-    commandChain.addEnd(commands);
+  protected void inserted(int playerEntity) {
+    super.inserted(playerEntity);
+    currentPlayerEntity = playerEntity;
+    commandChain.addEnd(new DrawCards(playerEntity, 3));
   }
 
   @Override
-  protected void removed(int entityId) {
-    super.removed(entityId);
-    commandChain.addEnd(new DiscardPlayArea(entityId));
-    Turn turn = mTurn.get(entityId);
+  protected void removed(int playerEntity) {
+    super.removed(playerEntity);
+    commandChain.addEnd(new DiscardPlayArea(playerEntity));
+    Turn turn = mTurn.get(playerEntity);
     if (turn.previousPlayerEntity != -1) {
-      commandChain.addEnd(new AttackPlayer(turn.previousPlayerEntity, entityId));
+      commandChain.addEnd(new AttackPlayer(turn.previousPlayerEntity, playerEntity));
     }
   }
 
