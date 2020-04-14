@@ -4,7 +4,7 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
-import com.dcg.battle.Battle;
+import com.dcg.battle.AttackPlayer;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.player.DiscardPlayArea;
@@ -44,7 +44,7 @@ public class TurnSystem extends BaseEntitySystem {
     commandChain.addEnd(new DiscardPlayArea(entityId));
     Turn turn = mTurn.get(entityId);
     if (turn.previousPlayerEntity != -1) {
-      commandChain.addEnd(new Battle(turn.previousPlayerEntity, entityId));
+      commandChain.addEnd(new AttackPlayer(turn.previousPlayerEntity, entityId));
     }
   }
 

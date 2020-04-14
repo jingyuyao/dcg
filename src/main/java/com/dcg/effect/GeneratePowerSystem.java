@@ -8,7 +8,7 @@ import com.dcg.command.CommandChain;
 import com.dcg.location.PlayArea;
 import com.dcg.player.AdjustPower;
 
-@All({GeneratePower.class, PlayArea.class})
+@All({PlayArea.class, GeneratePower.class})
 public class GeneratePowerSystem extends BaseEntitySystem {
   @Wire protected CommandChain commandChain;
   protected ComponentMapper<GeneratePower> mAddPower;

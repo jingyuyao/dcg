@@ -11,10 +11,17 @@ public class OwnershipSystem extends BaseSystem {
   protected AspectSystem aspectSystem;
   protected ComponentMapper<Owned> mOwned;
 
-  /** Filters the aspect for the owner. Automatically adds one(Owned) to the builder. */
+  /** Filters the aspect for entities owned by the owner. */
   public List<Integer> getOwnedBy(int ownerEntity, Builder aspectBuilder) {
     return aspectSystem.get(aspectBuilder.one(Owned.class)).stream()
         .filter(e -> ownerEntity == mOwned.get(e).owner)
+        .collect(Collectors.toList());
+  }
+
+  /** Filters the aspect for entities not owned by the owner. */
+  public List<Integer> getNotOwnedBy(int ownerEntity, Builder aspectBuilder) {
+    return aspectSystem.get(aspectBuilder.one(Owned.class)).stream()
+        .filter(e -> ownerEntity != mOwned.get(e).owner)
         .collect(Collectors.toList());
   }
 

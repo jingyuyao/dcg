@@ -5,10 +5,9 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.systems.IteratingSystem;
 import com.dcg.battle.Block;
-import com.dcg.battle.Strength;
+import com.dcg.battle.Unit;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
-import com.dcg.location.BattleArea;
 import com.dcg.location.Hand;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.turn.AdvanceTurn;
@@ -58,10 +57,10 @@ public class PlayerActionSystem extends IteratingSystem {
   }
 
   private Optional<Command> getBlock(int playerEntity) {
-    List<Integer> battleArea = aspectSystem.get(Aspect.all(BattleArea.class, Strength.class));
+    List<Integer> units = aspectSystem.get(Aspect.all(Unit.class));
     boolean hasAttacker = false;
     boolean hasDefender = false;
-    for (int entity : battleArea) {
+    for (int entity : units) {
       boolean isOwnedByPlayer = ownershipSystem.isOwnedBy(playerEntity, entity);
       hasAttacker |= !isOwnedByPlayer;
       hasDefender |= isOwnedByPlayer;

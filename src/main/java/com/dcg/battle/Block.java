@@ -1,20 +1,17 @@
 package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
-import com.artemis.annotations.Wire;
+import com.artemis.World;
 import com.dcg.command.Command;
-import com.dcg.command.CommandChain;
-import com.dcg.location.DiscardPile;
-import com.dcg.location.MoveLocation;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.turn.TurnSystem;
 import java.util.List;
 
 public class Block extends Command {
-  @Wire protected CommandChain commandChain;
+  protected World world;
   protected TurnSystem turnSystem;
   protected OwnershipSystem ownershipSystem;
-  protected ComponentMapper<Strength> mStrength;
+  protected ComponentMapper<Unit> mUnit;
 
   @Override
   public void run() {
@@ -33,23 +30,22 @@ public class Block extends Command {
       return;
     }
 
-    if (!mStrength.has(blockingEntity) || !mStrength.has(attackingEntity)) {
-      System.out.println("    Both entity must have strength");
+    if (!mUnit.has(blockingEntity) || !mUnit.has(attackingEntity)) {
+      System.out.println("    Both entity must be units");
       return;
     }
 
-    Strength blockingStrength = mStrength.get(blockingEntity);
-    Strength attackingStrength = mStrength.get(attackingEntity);
+    Unit blockingUnit = mUnit.get(blockingEntity);
+    Unit attackingUnit = mUnit.get(attackingEntity);
 
-    if (blockingStrength.value < attackingStrength.value) {
+    if (blockingUnit.strength < attackingUnit.strength) {
       System.out.printf(
           "    Defending strength %d is less than attacking strength %d\n",
-          blockingStrength.value, attackingStrength.value);
+          blockingUnit.strength, attackingUnit.strength);
       return;
     }
 
-    commandChain.addStart(
-        new MoveLocation(blockingEntity, DiscardPile.class),
-        new MoveLocation(attackingEntity, DiscardPile.class));
+    world.delete(attackingEntity);
+    world.delete(blockingEntity);
   }
 }

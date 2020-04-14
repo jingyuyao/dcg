@@ -4,7 +4,6 @@ import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.artemis.link.EntityLinkManager;
-import com.dcg.battle.EnterBattleSystem;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
@@ -12,6 +11,7 @@ import com.dcg.debug.PrintBattleArea;
 import com.dcg.debug.PrintCurrentActions;
 import com.dcg.debug.PrintForgeRow;
 import com.dcg.debug.PrintPlayers;
+import com.dcg.effect.CreateUnitSystem;
 import com.dcg.effect.GeneratePowerSystem;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
@@ -39,8 +39,8 @@ public class Game {
               new OwnershipSystem(),
               new ForgeRowRefillSystem(),
               new TurnSystem(),
+              new CreateUnitSystem(),
               new GeneratePowerSystem(),
-              new EnterBattleSystem(),
               new GameOverSystem(),
               new PlayerActionSystem())
           .build()

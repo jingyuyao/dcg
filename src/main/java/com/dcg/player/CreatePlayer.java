@@ -3,9 +3,9 @@ package com.dcg.player;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.artemis.annotations.Wire;
-import com.dcg.battle.Strength;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
+import com.dcg.effect.CreateUnit;
 import com.dcg.effect.GeneratePower;
 import com.dcg.location.Deck;
 import com.dcg.ownership.Owned;
@@ -19,7 +19,7 @@ public class CreatePlayer extends Command {
   protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Deck> mDeck;
-  protected ComponentMapper<Strength> mStrength;
+  protected ComponentMapper<CreateUnit> mCreateUnit;
   protected ComponentMapper<GeneratePower> mAddPower;
 
   public CreatePlayer(String name) {
@@ -35,7 +35,9 @@ public class CreatePlayer extends Command {
       Card card = mCard.create(cardEntity);
       card.name = "P";
       if (random.nextBoolean()) {
-        mStrength.create(cardEntity).value = random.nextInt(5) + 1;
+        CreateUnit createUnit = mCreateUnit.create(cardEntity);
+        createUnit.name = card.name;
+        createUnit.strength = random.nextInt(5) + 1;
       } else {
         mAddPower.create(cardEntity);
       }

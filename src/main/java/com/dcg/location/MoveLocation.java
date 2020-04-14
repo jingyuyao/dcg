@@ -9,13 +9,7 @@ import java.util.List;
 
 public class MoveLocation extends Command {
   private static final List<Class<? extends Location>> ALL =
-      Arrays.asList(
-          Deck.class,
-          ForgeRow.class,
-          DiscardPile.class,
-          Hand.class,
-          PlayArea.class,
-          BattleArea.class);
+      Arrays.asList(Deck.class, ForgeRow.class, DiscardPile.class, Hand.class, PlayArea.class);
   private final int cardEntity;
   private final Class<? extends Location> location;
   protected World world;
