@@ -5,6 +5,7 @@ import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
+import com.dcg.command.CommandChain;
 import com.dcg.effect.CreateUnit;
 import com.dcg.effect.GeneratePower;
 import com.dcg.effect.OnPlay;
@@ -14,6 +15,7 @@ import java.util.Random;
 
 public class CreatePlayer extends Command {
   private final String name;
+  @Wire CommandChain commandChain;
   @Wire protected Random random;
   protected World world;
   protected ComponentMapper<Player> mPlayer;
@@ -33,7 +35,7 @@ public class CreatePlayer extends Command {
     for (int i = 0; i < 7; i++) {
       int cardEntity = world.create();
       Card card = mCard.create(cardEntity);
-      card.name = "P";
+      card.name = "P" + i;
       OnPlay onPlay = mOnPlay.create(cardEntity);
       if (random.nextBoolean()) {
         onPlay.effects.add(new CreateUnit(card.name, random.nextInt(5) + 1));
@@ -43,6 +45,7 @@ public class CreatePlayer extends Command {
       mDeck.create(cardEntity);
       mOwned.create(cardEntity).owner = playerEntity;
     }
+    commandChain.addStart(new DrawCards(playerEntity, 5));
   }
 
   @Override

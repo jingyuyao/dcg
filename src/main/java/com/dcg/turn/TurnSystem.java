@@ -8,6 +8,7 @@ import com.dcg.battle.AttackPlayer;
 import com.dcg.command.CommandChain;
 import com.dcg.player.DiscardPlayArea;
 import com.dcg.player.DrawCards;
+import com.dcg.player.PlayHand;
 import com.dcg.player.Player;
 
 @All({Player.class, Turn.class})
@@ -28,7 +29,7 @@ public class TurnSystem extends BaseEntitySystem {
   protected void inserted(int playerEntity) {
     super.inserted(playerEntity);
     currentPlayerEntity = playerEntity;
-    commandChain.addEnd(new DrawCards(playerEntity, 3));
+    commandChain.addEnd(new PlayHand(playerEntity));
   }
 
   @Override
@@ -39,10 +40,11 @@ public class TurnSystem extends BaseEntitySystem {
     if (turn.previousPlayerEntity != -1) {
       commandChain.addEnd(new AttackPlayer(turn.previousPlayerEntity, playerEntity));
     }
+    commandChain.addEnd(new DrawCards(playerEntity, 5));
   }
 
   @Override
   protected void processSystem() {
-    // No-op.
+    // TODO: loop through turn.commands and execute if preconditions are met
   }
 }

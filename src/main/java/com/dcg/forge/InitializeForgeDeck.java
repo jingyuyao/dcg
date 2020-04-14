@@ -22,7 +22,7 @@ public class InitializeForgeDeck extends Command {
     for (int i = 0; i < 50; i++) {
       int cardEntity = world.create();
       Card card = mCard.create(cardEntity);
-      card.name = "F";
+      card.name = "F" + i;
       card.cost = random.nextInt(5) + 1;
       OnPlay onPlay = mOnPlay.create(cardEntity);
       onPlay.effects.add(new CreateUnit(card.name, card.cost));
