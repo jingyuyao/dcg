@@ -4,21 +4,19 @@ import com.artemis.Aspect;
 import com.artemis.AspectSubscriptionManager;
 import com.artemis.BaseSystem;
 import com.artemis.utils.IntBag;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.IntStream;
 
 public class AspectSystem extends BaseSystem {
   protected AspectSubscriptionManager manager;
 
-  public List<Integer> get(Aspect.Builder builder) {
-    // Slower than raw iteration since we are creating a new list per get() but clarity beats
-    // performance for our use cases.
-    List<Integer> result = new ArrayList<>();
-    IntBag bag = manager.get(builder).getEntities();
+  /** Get all entities matching the aspect as a stream. */
+  public IntStream getStream(Aspect.Builder aspectBuilder) {
+    IntStream.Builder streamBuilder = IntStream.builder();
+    IntBag bag = manager.get(aspectBuilder).getEntities();
     for (int i = 0; i < bag.size(); i++) {
-      result.add(bag.get(i));
+      streamBuilder.add(bag.get(i));
     }
-    return result;
+    return streamBuilder.build();
   }
 
   @Override

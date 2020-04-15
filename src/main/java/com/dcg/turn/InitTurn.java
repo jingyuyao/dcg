@@ -18,12 +18,11 @@ public class InitTurn extends Command {
 
   @Override
   public void run() {
-    for (int playerEntity : aspectSystem.get(Aspect.all(Player.class))) {
-      if (mPlayer.get(playerEntity).name.equals(playerName)) {
-        mTurn.create(playerEntity);
-        return;
-      }
-    }
+    aspectSystem
+        .getStream(Aspect.all(Player.class))
+        .filter(playerEntity -> mPlayer.get(playerEntity).name.equals(playerName))
+        .findFirst()
+        .ifPresent(playerEntity -> mTurn.create(playerEntity));
   }
 
   @Override

@@ -1,14 +1,11 @@
 package com.dcg.ownership;
 
 import com.artemis.Aspect;
-import com.artemis.Aspect.Builder;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.systems.IteratingSystem;
 import com.dcg.util.AspectSystem;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @All(Owned.class)
 public class OwnershipSystem extends IteratingSystem {
@@ -16,37 +13,38 @@ public class OwnershipSystem extends IteratingSystem {
   protected ComponentMapper<Owned> mOwned;
 
   /** Filters the aspect for entities owned by the owner. */
-  public List<Integer> getOwnedBy(int ownerEntity, Builder aspectBuilder) {
-    return aspectSystem.get(aspectBuilder.one(Owned.class)).stream()
-        .filter(e -> ownerEntity == mOwned.get(e).owner)
-        .collect(Collectors.toList());
+  public IntStream getOwnedBy(int ownerEntity, Aspect.Builder aspectBuilder) {
+    return aspectSystem
+        .getStream(aspectBuilder.one(Owned.class))
+        .filter(e -> ownerEntity == mOwned.get(e).owner);
   }
 
   /** Filters the aspect for entities not owned by the owner. */
-  public List<Integer> getNotOwnedBy(int ownerEntity, Builder aspectBuilder) {
-    return aspectSystem.get(aspectBuilder.one(Owned.class)).stream()
-        .filter(e -> ownerEntity != mOwned.get(e).owner)
-        .collect(Collectors.toList());
+  public IntStream getNotOwnedBy(int ownerEntity, Aspect.Builder aspectBuilder) {
+    return aspectSystem
+        .getStream(aspectBuilder.one(Owned.class))
+        .filter(e -> ownerEntity != mOwned.get(e).owner);
   }
 
   /** Filters the aspect for entities with the same owner as the owned entity. */
-  public List<Integer> getPeersOf(int ownedEntity, Builder aspectBuilder) {
+  public IntStream getPeersOf(int ownedEntity, Aspect.Builder aspectBuilder) {
     return getOwnedBy(getOwner(ownedEntity), aspectBuilder);
   }
 
   /** Get all descendants owned by the owner matching the aspect. */
-  public List<Integer> getDescendants(int ownerEntity, Builder aspectBuilder) {
-    List<Integer> result = new ArrayList<>();
-    getDescendantsImpl(ownerEntity, aspectBuilder, result);
-    return result;
+  public IntStream getDescendants(int ownerEntity, Aspect.Builder aspectBuilder) {
+    IntStream.Builder streamBuilder = IntStream.builder();
+    getDescendantsImpl(ownerEntity, aspectBuilder, streamBuilder);
+    return streamBuilder.build();
   }
 
   private void getDescendantsImpl(
-      int ownerEntity, Builder aspectBuilder, List<Integer> accumulator) {
-    accumulator.addAll(getOwnedBy(ownerEntity, aspectBuilder));
-    aspectSystem.get(Aspect.all(Owned.class)).stream()
-        .filter(e -> ownerEntity == mOwned.get(e).owner)
-        .forEach(e -> getDescendantsImpl(e, aspectBuilder, accumulator));
+      int ownerEntity, Aspect.Builder aspectBuilder, IntStream.Builder accumulator) {
+    getOwnedBy(ownerEntity, aspectBuilder).forEach(accumulator::add);
+    aspectSystem
+        .getStream(Aspect.all(Owned.class))
+        .filter(ownedEntity -> ownerEntity == mOwned.get(ownedEntity).owner)
+        .forEach(ownedEntity -> getDescendantsImpl(ownedEntity, aspectBuilder, accumulator));
   }
 
   public int getOwner(int ownedEntity) {

@@ -16,9 +16,7 @@ public class DeleteActions extends Command {
 
   @Override
   public void run() {
-    for (int actionEntity : ownershipSystem.getOwnedBy(ownerEntity, Aspect.all(Action.class))) {
-      world.delete(actionEntity);
-    }
+    ownershipSystem.getOwnedBy(ownerEntity, Aspect.all(Action.class)).forEach(world::delete);
   }
 
   @Override

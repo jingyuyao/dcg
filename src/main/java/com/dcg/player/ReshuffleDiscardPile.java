@@ -24,13 +24,14 @@ public class ReshuffleDiscardPile extends Command {
 
   @Override
   public void run() {
-    Aspect.Builder discardPile = Aspect.all(Card.class, DiscardPile.class);
-
-    for (int cardEntity : ownershipSystem.getOwnedBy(playerEntity, discardPile)) {
-      if (playerEntity == mOwned.get(cardEntity).owner) {
-        commandChain.addStart(new MoveLocation(cardEntity, Deck.class));
-      }
-    }
+    ownershipSystem
+        .getOwnedBy(playerEntity, Aspect.all(Card.class, DiscardPile.class))
+        .forEach(
+            cardEntity -> {
+              if (playerEntity == mOwned.get(cardEntity).owner) {
+                commandChain.addStart(new MoveLocation(cardEntity, Deck.class));
+              }
+            });
   }
 
   @Override

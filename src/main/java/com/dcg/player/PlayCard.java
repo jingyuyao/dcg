@@ -26,7 +26,7 @@ public class PlayCard extends Command {
   @Override
   public void run() {
     commandChain.addStart(new MoveLocation(cardEntity, PlayArea.class));
-    if (ownershipSystem.getPeersOf(cardEntity, Aspect.all(Card.class, Hand.class)).size() == 1) {
+    if (ownershipSystem.getPeersOf(cardEntity, Aspect.all(Card.class, Hand.class)).count() == 1) {
       commandChain.addEnd(new CreateAction(turnSystem.getCurrentPlayerEntity(), new AdvanceTurn()));
     }
   }

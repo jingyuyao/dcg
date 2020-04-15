@@ -12,6 +12,7 @@ import com.dcg.location.MoveLocation;
 import com.dcg.ownership.OwnershipSystem;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class DrawCard extends Command {
   private final int playerEntity;
@@ -26,7 +27,10 @@ public class DrawCard extends Command {
   @Override
   public void run() {
     List<Integer> deck =
-        ownershipSystem.getOwnedBy(playerEntity, Aspect.all(Card.class, Deck.class));
+        ownershipSystem
+            .getOwnedBy(playerEntity, Aspect.all(Card.class, Deck.class))
+            .boxed()
+            .collect(Collectors.toList());
 
     if (deck.size() > 0) {
       int cardEntity = deck.get(random.nextInt(deck.size()));

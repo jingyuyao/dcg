@@ -6,7 +6,6 @@ import com.artemis.World;
 import com.dcg.command.Command;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.Player;
-import java.util.List;
 
 public class AttackPlayer extends Command {
   private final int attackingPlayerEntity;
@@ -23,15 +22,16 @@ public class AttackPlayer extends Command {
 
   @Override
   public void run() {
-    List<Integer> attackingEntities =
-        ownershipSystem.getOwnedBy(attackingPlayerEntity, Aspect.all(Unit.class));
-
     Player defendingPlayer = mPlayer.get(defendingPlayerEntity);
-    for (int attackingEntity : attackingEntities) {
-      int damage = mUnit.get(attackingEntity).strength;
-      defendingPlayer.hp -= damage;
-      System.out.printf("    %s got hit by %d\n", defendingPlayer.name, damage);
-      world.delete(attackingEntity);
-    }
+    ownershipSystem
+        .getOwnedBy(attackingPlayerEntity, Aspect.all(Unit.class))
+        .forEach(unitEntity -> attack(unitEntity, defendingPlayer));
+  }
+
+  private void attack(int unitEntity, Player player) {
+    int damage = mUnit.get(unitEntity).strength;
+    player.hp -= damage;
+    System.out.printf("    %s got hit by %d\n", player.name, damage);
+    world.delete(unitEntity);
   }
 }
