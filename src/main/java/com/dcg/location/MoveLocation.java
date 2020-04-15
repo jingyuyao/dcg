@@ -2,7 +2,6 @@ package com.dcg.location;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
-import com.dcg.card.Card;
 import com.dcg.command.Command;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +12,6 @@ public class MoveLocation extends Command {
   private final int cardEntity;
   private final Class<? extends Location> location;
   protected World world;
-  protected ComponentMapper<Card> mCard;
 
   public MoveLocation(int cardEntity, Class<? extends Location> location) {
     this.cardEntity = cardEntity;
@@ -30,7 +28,6 @@ public class MoveLocation extends Command {
 
   @Override
   public String toString() {
-    return String.format(
-        "%s %s to %s", super.toString(), mCard.get(cardEntity), location.getSimpleName());
+    return String.format("%s *%d to %s", super.toString(), cardEntity, location.getSimpleName());
   }
 }

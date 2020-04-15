@@ -1,8 +1,8 @@
 package com.dcg.player;
 
 import com.artemis.Aspect;
-import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
+import com.dcg.action.DeleteActions;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
@@ -15,7 +15,6 @@ public class DiscardPlayArea extends Command {
   private final int playerEntity;
   @Wire protected CommandChain commandChain;
   protected OwnershipSystem ownershipSystem;
-  protected ComponentMapper<Player> mPlayer;
 
   public DiscardPlayArea(int playerEntity) {
     this.playerEntity = playerEntity;
@@ -25,12 +24,13 @@ public class DiscardPlayArea extends Command {
   public void run() {
     Aspect.Builder playArea = Aspect.all(Card.class, PlayArea.class);
     for (int cardEntity : ownershipSystem.getOwnedBy(playerEntity, playArea)) {
-      commandChain.addStart(new MoveLocation(cardEntity, DiscardPile.class));
+      commandChain.addStart(
+          new MoveLocation(cardEntity, DiscardPile.class), new DeleteActions(cardEntity));
     }
   }
 
   @Override
   public String toString() {
-    return super.toString() + mPlayer.get(playerEntity);
+    return String.format("%s *%d", super.toString(), playerEntity);
   }
 }

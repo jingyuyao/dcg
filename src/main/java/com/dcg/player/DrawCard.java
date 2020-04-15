@@ -2,6 +2,7 @@ package com.dcg.player;
 
 import com.artemis.Aspect;
 import com.artemis.annotations.Wire;
+import com.dcg.action.CreateAction;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
@@ -29,7 +30,9 @@ public class DrawCard extends Command {
 
     if (deck.size() > 0) {
       int cardEntity = deck.get(random.nextInt(deck.size()));
-      commandChain.addStart(new MoveLocation(cardEntity, Hand.class));
+      commandChain.addStart(
+          new MoveLocation(cardEntity, Hand.class),
+          new CreateAction(playerEntity, new PlayCard(cardEntity)));
     } else {
       commandChain.addStart(new ReshuffleDiscardPile(playerEntity), new DrawCard(playerEntity));
     }

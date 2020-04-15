@@ -4,6 +4,7 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
+import com.dcg.action.DeleteActions;
 import com.dcg.battle.AttackPlayer;
 import com.dcg.command.CommandChain;
 import com.dcg.player.DiscardPlayArea;
@@ -34,6 +35,7 @@ public class TurnSystem extends BaseEntitySystem {
   protected void removed(int playerEntity) {
     super.removed(playerEntity);
     commandChain.addEnd(new DiscardPlayArea(playerEntity));
+    commandChain.addEnd(new DeleteActions(playerEntity));
     Turn turn = mTurn.get(playerEntity);
     if (turn.previousPlayerEntity != -1) {
       commandChain.addEnd(new AttackPlayer(turn.previousPlayerEntity, playerEntity));
@@ -42,7 +44,5 @@ public class TurnSystem extends BaseEntitySystem {
   }
 
   @Override
-  protected void processSystem() {
-    // TODO: loop through turn.commands and execute if preconditions are met
-  }
+  protected void processSystem() {}
 }

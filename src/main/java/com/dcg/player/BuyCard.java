@@ -8,52 +8,41 @@ import com.dcg.command.CommandChain;
 import com.dcg.location.Deck;
 import com.dcg.location.MoveLocation;
 import com.dcg.ownership.Own;
-import java.util.List;
+import com.dcg.turn.Turn;
+import com.dcg.turn.TurnSystem;
 
 public class BuyCard extends Command {
-  private final int playerEntity;
-  private final int availablePower;
+  private final int cardEntity;
   @Wire protected CommandChain commandChain;
+  protected TurnSystem turnSystem;
   protected ComponentMapper<Card> mCard;
 
-  public BuyCard(int playerEntity, int availablePower) {
-    this.playerEntity = playerEntity;
-    this.availablePower = availablePower;
+  public BuyCard(int cardEntity) {
+    this.cardEntity = cardEntity;
   }
 
   @Override
-  public boolean isInputRequired() {
+  public boolean canRun() {
+    Turn turn = turnSystem.getCurrentTurn();
+    Card card = mCard.get(cardEntity);
+    if (turn.powerPool < card.cost) {
+      System.out.printf("    Not enough power to buy *%s\n", card);
+      return false;
+    }
     return true;
   }
 
   @Override
   public void run() {
-    List<Integer> targets = getInputs();
-    if (targets.size() != 1) {
-      System.out.println("    Invalid targets for BuyCard");
-      return;
-    }
-
-    int cardEntity = targets.get(0);
-    if (!mCard.has(cardEntity)) {
-      System.out.println("    Invalid target for BuyCard");
-      return;
-    }
-
     Card card = mCard.get(cardEntity);
-    if (availablePower < card.cost) {
-      System.out.printf("    Not enough power to buy *%s\n", card);
-      return;
-    }
-
     commandChain.addStart(
         new AdjustPower(-card.cost),
-        new Own(playerEntity, cardEntity),
+        new Own(turnSystem.getCurrentPlayerEntity(), cardEntity),
         new MoveLocation(cardEntity, Deck.class));
   }
 
   @Override
   public String toString() {
-    return String.format("%s(availablePower:%d)", super.toString(), availablePower);
+    return String.format("%s *%d", super.toString(), cardEntity);
   }
 }

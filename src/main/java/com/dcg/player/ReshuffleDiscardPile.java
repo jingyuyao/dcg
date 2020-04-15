@@ -16,7 +16,6 @@ public class ReshuffleDiscardPile extends Command {
   private final int playerEntity;
   @Wire protected CommandChain commandChain;
   protected OwnershipSystem ownershipSystem;
-  protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Owned> mOwned;
 
   public ReshuffleDiscardPile(int playerEntity) {
@@ -36,6 +35,6 @@ public class ReshuffleDiscardPile extends Command {
 
   @Override
   public String toString() {
-    return super.toString() + mPlayer.get(playerEntity);
+    return String.format("%s *%d", super.toString(), playerEntity);
   }
 }

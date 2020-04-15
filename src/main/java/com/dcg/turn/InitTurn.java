@@ -21,6 +21,7 @@ public class InitTurn extends Command {
     for (int playerEntity : aspectSystem.get(Aspect.all(Player.class))) {
       if (mPlayer.get(playerEntity).name.equals(playerName)) {
         mTurn.create(playerEntity);
+        return;
       }
     }
   }
