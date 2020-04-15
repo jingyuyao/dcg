@@ -8,13 +8,20 @@ import java.util.List;
 public class CommandChain {
   private final Deque<Command> queue = new LinkedList<>();
 
-  /** Add commands to the start of the deque while preserving the order of the arguments. */
+  /**
+   * Add commands to the start of the deque while preserving the order of the arguments. Exercise
+   * caution when using this. Prefer addEnd when possible.
+   */
   public void addStart(List<Command> commands) {
     for (int i = commands.size() - 1; i >= 0; i--) {
       queue.addFirst(commands.get(i));
     }
   }
 
+  /**
+   * Add commands to the start of the deque while preserving the order of the arguments. Exercise
+   * caution when using this. Prefer addEnd when possible.
+   */
   public void addStart(Command... commands) {
     addStart(Arrays.asList(commands));
   }
@@ -26,6 +33,7 @@ public class CommandChain {
     }
   }
 
+  /** Add commands to the end of the deque while preserving the order of the arguments. */
   public void addEnd(Command... commands) {
     addEnd(Arrays.asList(commands));
   }

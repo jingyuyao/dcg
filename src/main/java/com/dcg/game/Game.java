@@ -5,7 +5,7 @@ import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.artemis.link.EntityLinkManager;
 import com.dcg.action.ExecuteAction;
-import com.dcg.card.OnPlaySystem;
+import com.dcg.card.CardEffectSystem;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
@@ -35,7 +35,7 @@ public class Game {
               new OwnershipSystem(),
               new ForgeRowRefillSystem(),
               new TurnSystem(),
-              new OnPlaySystem(),
+              new CardEffectSystem(),
               new GameOverSystem())
           .build()
           .register(new Random())

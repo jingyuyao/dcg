@@ -4,27 +4,18 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.battle.CreateUnit;
-import com.dcg.card.Card;
-import com.dcg.card.OnPlay;
+import com.dcg.card.CreateCard;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
-import com.dcg.location.Deck;
-import com.dcg.ownership.Owned;
 import com.dcg.player.DrawCards;
 import com.dcg.player.Player;
 import com.dcg.turn.AdjustPower;
-import java.util.Random;
 
 public class CreatePlayer extends Command {
   private final String name;
   @Wire CommandChain commandChain;
-  @Wire protected Random random;
   protected World world;
   protected ComponentMapper<Player> mPlayer;
-  protected ComponentMapper<Owned> mOwned;
-  protected ComponentMapper<Card> mCard;
-  protected ComponentMapper<Deck> mDeck;
-  protected ComponentMapper<OnPlay> mOnPlay;
 
   public CreatePlayer(String name) {
     this.name = name;
@@ -34,20 +25,16 @@ public class CreatePlayer extends Command {
   public void run() {
     int playerEntity = world.create();
     mPlayer.create(playerEntity).name = name;
-    for (int i = 0; i < 7; i++) {
-      int cardEntity = world.create();
-      Card card = mCard.create(cardEntity);
-      card.name = "P" + i;
-      OnPlay onPlay = mOnPlay.create(cardEntity);
-      if (random.nextBoolean()) {
-        onPlay.effects.add(new CreateUnit(card.name, random.nextInt(5) + 1));
-      } else {
-        onPlay.effects.add(new AdjustPower(random.nextInt(2) + 1));
-      }
-      mDeck.create(cardEntity);
-      mOwned.create(cardEntity).owner = playerEntity;
+    for (int i = 0; i < 6; i++) {
+      commandChain.addEnd(
+          new CreateCard("Diplomacy", 0).addEffects(new AdjustPower(1)).setOwner(playerEntity));
     }
-    commandChain.addStart(new DrawCards(playerEntity, 5));
+    commandChain.addEnd(
+        new CreateCard("Eager Owlet", 0)
+            .addEffects(new CreateUnit("Eager Owlet", 2))
+            .setOwner(playerEntity),
+        new CreateCard("Secret Pages", 0).addEffects(new AdjustPower(2)).setOwner(playerEntity));
+    commandChain.addEnd(new DrawCards(playerEntity, 5));
   }
 
   @Override

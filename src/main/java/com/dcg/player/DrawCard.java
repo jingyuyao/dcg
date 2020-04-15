@@ -21,6 +21,7 @@ public class DrawCard extends Command {
   @Wire protected Random random;
   protected OwnershipSystem ownershipSystem;
 
+  // TODO: get rid of player entity identifier, update downstream
   public DrawCard(int playerEntity) {
     this.playerEntity = playerEntity;
   }
