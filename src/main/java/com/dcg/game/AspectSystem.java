@@ -1,4 +1,4 @@
-package com.dcg.util;
+package com.dcg.game;
 
 import com.artemis.Aspect;
 import com.artemis.AspectSubscriptionManager;

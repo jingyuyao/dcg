@@ -5,7 +5,6 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.Command;
 import com.dcg.player.Player;
 import com.dcg.turn.Turn;
-import com.dcg.util.AspectSystem;
 
 public class InitTurn extends Command {
   private final String playerName;

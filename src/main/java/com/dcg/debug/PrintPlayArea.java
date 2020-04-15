@@ -3,8 +3,8 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
+import com.dcg.game.AspectSystem;
 import com.dcg.location.PlayArea;
-import com.dcg.util.AspectSystem;
 
 public class PrintPlayArea extends DebugEntityCommand {
   protected AspectSystem aspectSystem;

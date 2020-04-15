@@ -4,7 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.systems.IteratingSystem;
-import com.dcg.util.AspectSystem;
+import com.dcg.game.AspectSystem;
 import java.util.stream.IntStream;
 
 @All(Owned.class)
