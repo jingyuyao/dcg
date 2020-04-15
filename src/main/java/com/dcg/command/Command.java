@@ -13,8 +13,8 @@ public abstract class Command {
     return true;
   }
 
-  public void setInput(List<Integer> targetEntities) {
-    this.input = targetEntities;
+  public void setInput(List<Integer> input) {
+    this.input = input;
   }
 
   public List<Integer> getInput() {
