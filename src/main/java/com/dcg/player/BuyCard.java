@@ -40,9 +40,4 @@ public class BuyCard extends Command {
         new Own(turnSystem.getCurrentPlayerEntity(), cardEntity),
         new MoveLocation(cardEntity, Deck.class));
   }
-
-  @Override
-  public String toString() {
-    return String.format("%s *%d", super.toString(), cardEntity);
-  }
 }

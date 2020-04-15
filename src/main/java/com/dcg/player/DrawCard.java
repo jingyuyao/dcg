@@ -36,7 +36,7 @@ public class DrawCard extends Command {
       int cardEntity = deck.get(random.nextInt(deck.size()));
       commandChain.addStart(
           new MoveLocation(cardEntity, Hand.class),
-          new CreateAction(playerEntity, new PlayCard(cardEntity)));
+          new CreateAction(cardEntity, new PlayCard(cardEntity)));
     } else {
       commandChain.addStart(new ReshuffleDiscardPile(playerEntity), new DrawCard(playerEntity));
     }

@@ -3,11 +3,10 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
-import com.dcg.command.Command;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.turn.TurnSystem;
 
-public class PrintBattleArea extends Command {
+public class PrintBattleArea extends DebugEntityCommand {
   protected TurnSystem turnSystem;
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Unit> mUnit;
@@ -27,5 +26,6 @@ public class PrintBattleArea extends Command {
 
   private void printUnit(int unitEntity) {
     System.out.printf("      *%d %s\n", unitEntity, mUnit.get(unitEntity));
+    printActions(unitEntity);
   }
 }

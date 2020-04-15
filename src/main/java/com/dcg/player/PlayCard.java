@@ -30,9 +30,4 @@ public class PlayCard extends Command {
       commandChain.addEnd(new CreateAction(turnSystem.getCurrentPlayerEntity(), new AdvanceTurn()));
     }
   }
-
-  @Override
-  public String toString() {
-    return String.format("%s *%d", super.toString(), cardEntity);
-  }
 }

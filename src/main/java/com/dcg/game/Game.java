@@ -8,9 +8,10 @@ import com.dcg.action.ExecuteAction;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
-import com.dcg.debug.PrintActions;
 import com.dcg.debug.PrintBattleArea;
+import com.dcg.debug.PrintCurrentPlayerHand;
 import com.dcg.debug.PrintForgeRow;
+import com.dcg.debug.PrintPlayArea;
 import com.dcg.debug.PrintPlayers;
 import com.dcg.effect.OnPlaySystem;
 import com.dcg.forge.ForgeRowRefillSystem;
@@ -72,9 +73,12 @@ public class Game {
     commandChain.addEnd(commands);
     world.process();
 
-    // TODO: print turn
     commandChain.addEnd(
-        new PrintForgeRow(), new PrintPlayers(), new PrintBattleArea(), new PrintActions());
+        new PrintForgeRow(),
+        new PrintBattleArea(),
+        new PrintPlayArea(),
+        new PrintPlayers(),
+        new PrintCurrentPlayerHand());
     world.process();
   }
 }
