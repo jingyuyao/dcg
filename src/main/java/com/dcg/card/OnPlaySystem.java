@@ -1,11 +1,10 @@
-package com.dcg.effect;
+package com.dcg.card;
 
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
-import com.dcg.card.Card;
 import com.dcg.command.CommandChain;
 import com.dcg.location.PlayArea;
 import java.util.stream.Collectors;

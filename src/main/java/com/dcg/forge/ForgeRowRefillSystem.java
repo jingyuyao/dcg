@@ -13,7 +13,6 @@ import com.dcg.location.Deck;
 import com.dcg.location.ForgeRow;
 import com.dcg.location.MoveLocation;
 import com.dcg.ownership.Owned;
-import com.dcg.player.BuyCard;
 import java.util.Random;
 
 @All({Card.class, ForgeRow.class})

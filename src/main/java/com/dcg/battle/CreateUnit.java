@@ -1,11 +1,9 @@
-package com.dcg.effect;
+package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
-import com.dcg.battle.Block;
-import com.dcg.battle.Unit;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.ownership.Owned;

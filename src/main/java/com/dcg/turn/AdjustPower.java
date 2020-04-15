@@ -1,7 +1,6 @@
-package com.dcg.player;
+package com.dcg.turn;
 
 import com.dcg.command.Command;
-import com.dcg.turn.TurnSystem;
 
 public class AdjustPower extends Command {
   private final int power;

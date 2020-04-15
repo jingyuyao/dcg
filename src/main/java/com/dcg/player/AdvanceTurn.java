@@ -1,11 +1,11 @@
-package com.dcg.turn;
+package com.dcg.player;
 
 import com.artemis.Aspect;
 import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.dcg.command.Command;
-import com.dcg.player.Player;
+import com.dcg.turn.Turn;
 
 public class AdvanceTurn extends Command {
   protected AspectSubscriptionManager manager;

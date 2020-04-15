@@ -1,4 +1,4 @@
-package com.dcg.player;
+package com.dcg.forge;
 
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
@@ -8,6 +8,7 @@ import com.dcg.command.CommandChain;
 import com.dcg.location.Deck;
 import com.dcg.location.MoveLocation;
 import com.dcg.ownership.Own;
+import com.dcg.turn.AdjustPower;
 import com.dcg.turn.Turn;
 import com.dcg.turn.TurnSystem;
 

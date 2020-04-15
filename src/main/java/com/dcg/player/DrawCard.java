@@ -4,6 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
 import com.dcg.card.Card;
+import com.dcg.card.PlayCard;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.location.Deck;

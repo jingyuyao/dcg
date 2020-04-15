@@ -1,4 +1,4 @@
-package com.dcg.effect;
+package com.dcg.card;
 
 import com.artemis.Component;
 import com.dcg.command.Command;

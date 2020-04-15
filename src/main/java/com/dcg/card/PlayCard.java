@@ -1,16 +1,15 @@
-package com.dcg.player;
+package com.dcg.card;
 
 import com.artemis.Aspect;
 import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
-import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.location.Hand;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
 import com.dcg.ownership.OwnershipSystem;
-import com.dcg.turn.AdvanceTurn;
+import com.dcg.player.AdvanceTurn;
 import com.dcg.turn.TurnSystem;
 
 public class PlayCard extends Command {

@@ -1,16 +1,18 @@
-package com.dcg.player;
+package com.dcg.game;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.artemis.annotations.Wire;
+import com.dcg.battle.CreateUnit;
 import com.dcg.card.Card;
+import com.dcg.card.OnPlay;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
-import com.dcg.effect.CreateUnit;
-import com.dcg.effect.GeneratePower;
-import com.dcg.effect.OnPlay;
 import com.dcg.location.Deck;
 import com.dcg.ownership.Owned;
+import com.dcg.player.DrawCards;
+import com.dcg.player.Player;
+import com.dcg.turn.AdjustPower;
 import java.util.Random;
 
 public class CreatePlayer extends Command {
@@ -40,7 +42,7 @@ public class CreatePlayer extends Command {
       if (random.nextBoolean()) {
         onPlay.effects.add(new CreateUnit(card.name, random.nextInt(5) + 1));
       } else {
-        onPlay.effects.add(new GeneratePower(random.nextInt(2) + 1));
+        onPlay.effects.add(new AdjustPower(random.nextInt(2) + 1));
       }
       mDeck.create(cardEntity);
       mOwned.create(cardEntity).owner = playerEntity;
