@@ -1,6 +1,7 @@
 package com.dcg.debug;
 
 import com.artemis.Aspect;
+import com.artemis.Aspect.Builder;
 import com.artemis.ComponentMapper;
 import com.dcg.action.Action;
 import com.dcg.card.Card;
@@ -19,20 +20,17 @@ public class PrintActions extends Command {
 
   @Override
   public void run() {
-    // TODO: yikes, clean this up
+    Builder actionBuilder = Aspect.all(Action.class);
     List<Integer> forgeRowEntities = aspectSystem.get(Aspect.all(Card.class, ForgeRow.class));
     int currentPlayerEntity = turnSystem.getCurrentPlayerEntity();
-    for (int actionEntity : aspectSystem.get(Aspect.all(Action.class))) {
-      if (ownershipSystem.isOwnedBy(currentPlayerEntity, actionEntity)) {
+    for (int actionEntity : ownershipSystem.getDescendants(currentPlayerEntity, actionBuilder)) {
+      Action action = mAction.get(actionEntity);
+      System.out.printf("    *%d %s\n", actionEntity, action.command);
+    }
+    for (int cardEntity : forgeRowEntities) {
+      for (int actionEntity : ownershipSystem.getDescendants(cardEntity, actionBuilder)) {
         Action action = mAction.get(actionEntity);
         System.out.printf("    *%d %s\n", actionEntity, action.command);
-      } else {
-        for (int cardEntity : forgeRowEntities) {
-          if (ownershipSystem.isOwnedBy(cardEntity, actionEntity)) {
-            Action action = mAction.get(actionEntity);
-            System.out.printf("    *%d %s\n", actionEntity, action.command);
-          }
-        }
       }
     }
   }

@@ -49,4 +49,9 @@ public class Block extends Command {
     world.delete(attackingEntity);
     world.delete(blockingEntity);
   }
+
+  @Override
+  public String toString() {
+    return String.format("%s *%d", super.toString(), blockingEntity);
+  }
 }

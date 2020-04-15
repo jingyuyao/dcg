@@ -26,7 +26,9 @@ public class ExecuteAction extends Command {
       return false;
     }
 
+    List<Integer> inputPassThrough = input.subList(1, input.size());
     Action action = mAction.get(actionEntity);
+    action.command.setInput(inputPassThrough);
     world.inject(action.command);
     return action.command.canRun();
   }
@@ -34,9 +36,9 @@ public class ExecuteAction extends Command {
   @Override
   public void run() {
     List<Integer> input = getInput();
+    List<Integer> inputPassThrough = input.subList(1, input.size());
     int actionEntity = input.get(0);
     Action action = mAction.get(actionEntity);
-    List<Integer> inputPassThrough = input.subList(1, input.size());
     action.command.setInput(inputPassThrough);
     commandChain.addEnd(action.command);
     world.delete(actionEntity);
