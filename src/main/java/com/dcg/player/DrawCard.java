@@ -43,14 +43,14 @@ public class DrawCard extends Command {
 
     if (deck.size() > 0) {
       int cardEntity = deck.get(random.nextInt(deck.size()));
-      commandChain.addStart(
+      commandChain.addEnd(
           new MoveLocation(cardEntity, Hand.class),
           new CreateAction(new PlayCard(cardEntity)).setOwner(cardEntity));
     } else if (ownershipSystem
             .getOwnedBy(playerEntity, Aspect.all(Card.class, DiscardPile.class))
             .count()
         > 0) {
-      commandChain.addStart(new ReshuffleDiscardPile(playerEntity), new DrawCard(playerEntity));
+      commandChain.addEnd(new ReshuffleDiscardPile(playerEntity), new DrawCard(playerEntity));
     } else {
       System.out.println("    Couldn't draw card");
     }

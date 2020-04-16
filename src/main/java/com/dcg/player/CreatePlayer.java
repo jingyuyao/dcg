@@ -12,7 +12,7 @@ import com.dcg.turn.AdjustPower;
 
 public class CreatePlayer extends CreateEntity {
   private final String name;
-  @Wire CommandChain commandChain;
+  @Wire protected CommandChain commandChain;
   protected World world;
   protected ComponentMapper<Player> mPlayer;
 

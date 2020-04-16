@@ -16,7 +16,7 @@ import com.dcg.turn.Turn;
 @All(Effect.class)
 @One({Turn.class, PlayArea.class, Unit.class})
 public class EffectSystem extends BaseEntitySystem {
-  @Wire CommandChain commandChain;
+  @Wire protected CommandChain commandChain;
   protected World world;
   protected ComponentMapper<Effect> mEffect;
 

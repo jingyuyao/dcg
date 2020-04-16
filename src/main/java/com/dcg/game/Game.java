@@ -14,8 +14,7 @@ import com.dcg.debug.PrintPlayArea;
 import com.dcg.debug.PrintPlayers;
 import com.dcg.debug.PrintUnits;
 import com.dcg.effect.EffectSystem;
-import com.dcg.forge.ForgeRowRefillSystem;
-import com.dcg.forge.InitializeForgeDeck;
+import com.dcg.forge.InitializeForge;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.CreatePlayer;
 import com.dcg.turn.TurnSystem;
@@ -34,7 +33,6 @@ public class Game {
               new EntityLinkManager(),
               new AspectSystem(),
               new OwnershipSystem(),
-              new ForgeRowRefillSystem(),
               new TurnSystem(),
               new EffectSystem(),
               new GameOverSystem())
@@ -45,7 +43,7 @@ public class Game {
 
   public Game() {
     process(
-        new InitializeForgeDeck(),
+        new InitializeForge(),
         new CreatePlayer("Edelgard"),
         new CreatePlayer("Dimitri"),
         new CreatePlayer("Claude"),

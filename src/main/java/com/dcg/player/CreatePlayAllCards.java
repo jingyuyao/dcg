@@ -14,7 +14,7 @@ import java.util.Collections;
 
 /** Create an action that plays all cards and attach it to the player. */
 public class CreatePlayAllCards extends Command {
-  @Wire CommandChain commandChain;
+  @Wire protected CommandChain commandChain;
   protected OwnershipSystem ownershipSystem;
 
   @Override

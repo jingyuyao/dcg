@@ -10,7 +10,7 @@ import com.dcg.ownership.OwnershipSystem;
 
 public class FillHand extends Command {
   private final int num;
-  @Wire CommandChain commandChain;
+  @Wire protected CommandChain commandChain;
   protected OwnershipSystem ownershipSystem;
 
   public FillHand(int num) {
@@ -22,7 +22,7 @@ public class FillHand extends Command {
     long cardsInHandCount =
         ownershipSystem.getOwnedBy(owner, Aspect.all(Card.class, Hand.class)).count();
     for (int i = 0; i < num - cardsInHandCount; i++) {
-      commandChain.addStart(new DrawCard(owner));
+      commandChain.addEnd(new DrawCard(owner));
     }
   }
 }

@@ -9,7 +9,7 @@ import com.dcg.ownership.OwnershipSystem;
 import java.util.List;
 
 public class ExecuteAction extends Command {
-  @Wire CommandChain commandChain;
+  @Wire protected CommandChain commandChain;
   protected World world;
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Action> mAction;

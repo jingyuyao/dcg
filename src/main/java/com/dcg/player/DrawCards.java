@@ -7,7 +7,7 @@ import com.dcg.command.CommandChain;
 public class DrawCards extends Command {
   private final int playerEntity;
   private final int num;
-  @Wire CommandChain commandChain;
+  @Wire protected CommandChain commandChain;
 
   public DrawCards(int num) {
     this.playerEntity = -1;
@@ -22,7 +22,7 @@ public class DrawCards extends Command {
   @Override
   protected void run() {
     for (int i = 0; i < num; i++) {
-      commandChain.addStart(playerEntity != -1 ? new DrawCard(playerEntity) : new DrawCard());
+      commandChain.addEnd(playerEntity != -1 ? new DrawCard(playerEntity) : new DrawCard());
     }
   }
 

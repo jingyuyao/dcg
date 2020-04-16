@@ -7,7 +7,7 @@ import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.player.DrawCards;
 
-public class InitializeForgeDeck extends Command {
+public class InitializeForge extends Command {
   @Wire protected CommandChain commandChain;
 
   @Override
@@ -16,7 +16,11 @@ public class InitializeForgeDeck extends Command {
       commandChain.addEnd(new CreateCard("Yeti", 2).addOnEnterEffects(new CreateUnit("Yeti", 2)));
     }
     for (int i = 0; i < 5; i++) {
-      commandChain.addEnd(new CreateCard("Wisdom of the Elders", 5).addOnEnterEffects(new DrawCards(2)));
+      commandChain.addEnd(
+          new CreateCard("Wisdom of the Elders", 5).addOnEnterEffects(new DrawCards(2)));
+    }
+    for (int i = 0; i < 6; i++) {
+      commandChain.addEnd(new DrawFromForge());
     }
   }
 }

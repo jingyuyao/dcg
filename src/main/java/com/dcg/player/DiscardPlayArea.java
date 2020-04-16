@@ -26,7 +26,7 @@ public class DiscardPlayArea extends Command {
         .getOwnedBy(playerEntity, Aspect.all(Card.class, PlayArea.class))
         .forEach(
             cardEntity ->
-                commandChain.addStart(
+                commandChain.addEnd(
                     new MoveLocation(cardEntity, DiscardPile.class),
                     new DeleteActions(cardEntity)));
   }

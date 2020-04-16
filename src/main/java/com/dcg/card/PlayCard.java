@@ -16,6 +16,6 @@ public class PlayCard extends Command {
 
   @Override
   protected void run() {
-    commandChain.addStart(new MoveLocation(cardEntity, PlayArea.class));
+    commandChain.addEnd(new MoveLocation(cardEntity, PlayArea.class));
   }
 }

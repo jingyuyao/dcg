@@ -29,7 +29,7 @@ public class ReshuffleDiscardPile extends Command {
         .forEach(
             cardEntity -> {
               if (playerEntity == mOwned.get(cardEntity).owner) {
-                commandChain.addStart(new MoveLocation(cardEntity, Deck.class));
+                commandChain.addEnd(new MoveLocation(cardEntity, Deck.class));
               }
             });
   }
