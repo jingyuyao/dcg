@@ -45,7 +45,7 @@ public class DrawCard extends Command {
       int cardEntity = deck.get(random.nextInt(deck.size()));
       commandChain.addStart(
           new MoveLocation(cardEntity, Hand.class),
-          new CreateAction(cardEntity, new PlayCard(cardEntity)));
+          new CreateAction(new PlayCard(cardEntity)).setOwner(cardEntity));
     } else if (ownershipSystem
             .getOwnedBy(playerEntity, Aspect.all(Card.class, DiscardPile.class))
             .count()

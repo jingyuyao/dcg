@@ -28,7 +28,7 @@ public class EffectSystem extends BaseEntitySystem {
       if (command.canRun(world)) {
         commandChain.addEnd(command);
       } else {
-        commandChain.addEnd(new CreateAction(entityId, command));
+        commandChain.addEnd(new CreateAction(command).setOwner(entityId));
       }
     }
   }

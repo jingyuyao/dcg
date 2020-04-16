@@ -19,29 +19,21 @@ public class CreatePlayAllCards extends Command {
 
   @Override
   protected void run() {
-    commandChain.addEnd(
-        new CreateAction(
-            owner,
-            new Command() {
-              @Override
-              protected void run() {
-                ownershipSystem
-                    .getOwnedBy(owner, Aspect.all(Card.class, Hand.class))
-                    .flatMap(
-                        cardEntity ->
-                            ownershipSystem.getOwnedBy(cardEntity, Aspect.all(Action.class)))
-                    .forEach(
-                        actionEntity -> {
-                          ExecuteAction executeAction = new ExecuteAction();
-                          executeAction.setInput(Collections.singletonList(actionEntity));
-                          commandChain.addEnd(executeAction);
-                        });
-              }
+    commandChain.addEnd(new CreateAction(new PlayAllCards()).setOwner(owner));
+  }
 
-              @Override
-              public String toString() {
-                return "PlayAllCards";
-              }
-            }));
+  private class PlayAllCards extends Command {
+    @Override
+    protected void run() {
+      ownershipSystem
+          .getOwnedBy(owner, Aspect.all(Card.class, Hand.class))
+          .flatMap(cardEntity -> ownershipSystem.getOwnedBy(cardEntity, Aspect.all(Action.class)))
+          .forEach(
+              actionEntity -> {
+                ExecuteAction executeAction = new ExecuteAction();
+                executeAction.setInput(Collections.singletonList(actionEntity));
+                commandChain.addEnd(executeAction);
+              });
+    }
   }
 }

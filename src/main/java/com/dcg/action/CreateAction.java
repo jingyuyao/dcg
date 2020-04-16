@@ -3,26 +3,21 @@ package com.dcg.action;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.command.Command;
-import com.dcg.ownership.Owned;
+import com.dcg.game.CreateEntity;
 
-public class CreateAction extends Command {
-  private final int ownerEntity;
+public class CreateAction extends CreateEntity {
   private final Command command;
   protected World world;
   protected ComponentMapper<Action> mAction;
-  protected ComponentMapper<Owned> mOwned;
 
-  public CreateAction(int ownerEntity, Command command) {
-    this.ownerEntity = ownerEntity;
+  public CreateAction(Command command) {
     this.command = command;
   }
 
   @Override
   protected void run() {
-    int actionEntity = world.create();
+    int actionEntity = createEntity();
     mAction.create(actionEntity).command = command;
-    // TODO: inherit from CreateEntity and use this.owner
-    mOwned.create(actionEntity).owner = ownerEntity;
   }
 
   @Override

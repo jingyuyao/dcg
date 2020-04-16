@@ -33,7 +33,7 @@ public class ForgeRowRefillSystem extends BaseEntitySystem {
       int cardEntity = drawPile.get(random.nextInt(drawPile.size()));
       commandChain.addStart(
           new MoveLocation(cardEntity, ForgeRow.class),
-          new CreateAction(cardEntity, new BuyCard(cardEntity)));
+          new CreateAction(new BuyCard(cardEntity)).setOwner(cardEntity));
     }
   }
 }

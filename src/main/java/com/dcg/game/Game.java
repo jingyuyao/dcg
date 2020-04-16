@@ -72,10 +72,10 @@ public class Game {
     world.process();
 
     commandChain.addEnd(
+        new PrintPlayers(),
         new PrintForgeRow(),
         new PrintUnits(),
         new PrintPlayArea(),
-        new PrintPlayers(),
         new PrintCurrentPlayerHand());
     world.process();
   }
