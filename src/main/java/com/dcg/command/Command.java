@@ -14,6 +14,7 @@ public abstract class Command {
    */
   public abstract void run();
 
+  // TODO: make this return an Optional<String>, if empty = canRun, else string contains error.
   /**
    * Returns whether this command can run. The command instance must be injected before this can be
    * called.

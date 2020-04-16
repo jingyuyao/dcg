@@ -4,12 +4,26 @@ import com.artemis.Aspect;
 import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
+import com.dcg.card.Card;
 import com.dcg.command.Command;
+import com.dcg.location.Hand;
+import com.dcg.ownership.OwnershipSystem;
 import com.dcg.turn.Turn;
+import com.dcg.turn.TurnSystem;
 
 public class AdvanceTurn extends Command {
   protected AspectSubscriptionManager manager;
+  protected TurnSystem turnSystem;
+  protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Turn> mTurn;
+
+  @Override
+  public boolean canRun() {
+    return ownershipSystem
+            .getOwnedBy(turnSystem.getCurrentPlayerEntity(), Aspect.all(Card.class, Hand.class))
+            .count()
+        == 0;
+  }
 
   @Override
   public void run() {
