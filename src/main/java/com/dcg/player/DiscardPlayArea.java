@@ -21,7 +21,7 @@ public class DiscardPlayArea extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     ownershipSystem
         .getOwnedBy(playerEntity, Aspect.all(Card.class, PlayArea.class))
         .forEach(

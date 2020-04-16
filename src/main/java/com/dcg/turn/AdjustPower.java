@@ -11,7 +11,7 @@ public class AdjustPower extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     turnSystem.getTurn().powerPool += power;
   }
 

@@ -37,7 +37,7 @@ public class CreateCard extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     int cardEntity = world.create();
     Card card = mCard.create(cardEntity);
     card.name = name;

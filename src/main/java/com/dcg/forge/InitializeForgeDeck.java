@@ -10,7 +10,7 @@ public class InitializeForgeDeck extends Command {
   @Wire protected CommandChain commandChain;
 
   @Override
-  public void run() {
+  protected void run() {
     for (int i = 0; i < 50; i++) {
       commandChain.addEnd(new CreateCard("Yeti", 2).addEffects(new CreateUnit("Yeti", 2)));
     }

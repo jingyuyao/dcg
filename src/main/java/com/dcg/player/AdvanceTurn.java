@@ -18,7 +18,7 @@ public class AdvanceTurn extends Command {
   protected ComponentMapper<Turn> mTurn;
 
   @Override
-  public boolean canRun() {
+  protected boolean canRun() {
     return ownershipSystem
             .getOwnedBy(turnSystem.getPlayerEntity(), Aspect.all(Card.class, Hand.class))
             .count()
@@ -26,7 +26,7 @@ public class AdvanceTurn extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     int currentPlayer = manager.get(Aspect.all(Player.class, Turn.class)).getEntities().get(0);
     IntBag players = manager.get(Aspect.all(Player.class)).getEntities();
     int currentPlayerIndex = players.indexOf(currentPlayer);

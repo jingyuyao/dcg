@@ -24,7 +24,7 @@ public class CreateUnit extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     int unitEntity = world.create();
     mOwned.create(unitEntity).owner = turnSystem.getPlayerEntity();
     Unit unit = mUnit.create(unitEntity);

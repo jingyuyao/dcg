@@ -33,7 +33,7 @@ public class DrawCard extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     int playerEntity = this.playerEntity != -1 ? this.playerEntity : turnSystem.getPlayerEntity();
     List<Integer> deck =
         ownershipSystem

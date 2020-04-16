@@ -12,7 +12,7 @@ public class PrintPlayers extends DebugEntityCommand {
   protected TurnSystem turnSystem;
 
   @Override
-  public void run() {
+  protected void run() {
     aspectSystem.getStream(Aspect.all(Player.class)).forEach(this::printPlayer);
   }
 

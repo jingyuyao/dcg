@@ -11,7 +11,7 @@ public class PrintPlayArea extends DebugEntityCommand {
   protected ComponentMapper<Card> mCard;
 
   @Override
-  public void run() {
+  protected void run() {
     aspectSystem.getStream(Aspect.all(Card.class, PlayArea.class)).forEach(this::printCard);
   }
 

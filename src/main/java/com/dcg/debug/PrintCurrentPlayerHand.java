@@ -13,7 +13,7 @@ public class PrintCurrentPlayerHand extends DebugEntityCommand {
   protected ComponentMapper<Card> mCard;
 
   @Override
-  public void run() {
+  protected void run() {
     ownershipSystem
         .getOwnedBy(turnSystem.getPlayerEntity(), Aspect.all(Card.class, Hand.class))
         .forEach(this::printCard);

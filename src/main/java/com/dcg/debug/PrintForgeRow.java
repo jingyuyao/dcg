@@ -11,7 +11,7 @@ public class PrintForgeRow extends DebugEntityCommand {
   protected ComponentMapper<Card> mCard;
 
   @Override
-  public void run() {
+  protected void run() {
     aspectSystem.getStream(Aspect.all(Card.class, ForgeRow.class)).forEach(this::printCard);
   }
 

@@ -14,7 +14,7 @@ public class Own extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     mOwned.create(ownedEntity).owner = ownerEntity;
   }
 

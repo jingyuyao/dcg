@@ -5,6 +5,7 @@ import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.command.CommandExecutor;
 import java.util.List;
 
 public class ExecuteAction extends Command {
@@ -13,7 +14,7 @@ public class ExecuteAction extends Command {
   protected ComponentMapper<Action> mAction;
 
   @Override
-  public boolean canRun() {
+  protected boolean canRun() {
     List<Integer> input = getInput();
     if (input.size() < 1) {
       System.out.println("    ExecuteAction requires at least one input.");
@@ -29,12 +30,12 @@ public class ExecuteAction extends Command {
     List<Integer> inputPassThrough = input.subList(1, input.size());
     Action action = mAction.get(actionEntity);
     action.command.setInput(inputPassThrough);
-    world.inject(action.command);
-    return action.command.canRun();
+    CommandExecutor commandExecutor = world.getInvocationStrategy();
+    return commandExecutor.canExecute(action.command);
   }
 
   @Override
-  public void run() {
+  protected void run() {
     List<Integer> input = getInput();
     List<Integer> inputPassThrough = input.subList(1, input.size());
     int actionEntity = input.get(0);

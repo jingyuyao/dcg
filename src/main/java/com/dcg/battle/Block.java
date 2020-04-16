@@ -15,7 +15,7 @@ public class Block extends Command {
   }
 
   @Override
-  public boolean canRun() {
+  protected boolean canRun() {
     List<Integer> input = getInput();
     if (input.size() != 1) {
       System.out.println("    Block requires one input");
@@ -43,7 +43,7 @@ public class Block extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     List<Integer> input = getInput();
     int attackingEntity = input.get(0);
     world.delete(attackingEntity);

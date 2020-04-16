@@ -18,7 +18,7 @@ public class CreateAction extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     int actionEntity = world.create();
     mAction.create(actionEntity).command = command;
     mOwned.create(actionEntity).owner = ownerEntity;

@@ -21,7 +21,7 @@ public class AttackPlayer extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     Player defendingPlayer = mPlayer.get(defendingPlayerEntity);
     ownershipSystem
         .getOwnedBy(attackingPlayerEntity, Aspect.all(Unit.class))

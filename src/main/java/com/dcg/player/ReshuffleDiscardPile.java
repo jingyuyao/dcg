@@ -23,7 +23,7 @@ public class ReshuffleDiscardPile extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     ownershipSystem
         .getOwnedBy(playerEntity, Aspect.all(Card.class, DiscardPile.class))
         .forEach(

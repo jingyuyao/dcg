@@ -20,7 +20,7 @@ public class CreatePlayer extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     int playerEntity = world.create();
     mPlayer.create(playerEntity).name = name;
     for (int i = 0; i < 6; i++) {

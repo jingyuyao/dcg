@@ -17,7 +17,7 @@ public class InitTurn extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     aspectSystem
         .getStream(Aspect.all(Player.class))
         .filter(playerEntity -> mPlayer.get(playerEntity).name.equals(playerName))

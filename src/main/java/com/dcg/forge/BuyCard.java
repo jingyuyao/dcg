@@ -23,7 +23,7 @@ public class BuyCard extends Command {
   }
 
   @Override
-  public boolean canRun() {
+  protected boolean canRun() {
     Turn turn = turnSystem.getTurn();
     Card card = mCard.get(cardEntity);
     if (turn.powerPool < card.cost) {
@@ -34,7 +34,7 @@ public class BuyCard extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     Card card = mCard.get(cardEntity);
     commandChain.addStart(
         new AdjustPower(-card.cost),

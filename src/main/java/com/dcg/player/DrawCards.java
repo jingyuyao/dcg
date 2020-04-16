@@ -20,7 +20,7 @@ public class DrawCards extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     for (int i = 0; i < num; i++) {
       commandChain.addStart(playerEntity != -1 ? new DrawCard(playerEntity) : new DrawCard());
     }

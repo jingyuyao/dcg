@@ -12,7 +12,7 @@ public class PrintBattleArea extends DebugEntityCommand {
   protected ComponentMapper<Unit> mUnit;
 
   @Override
-  public void run() {
+  protected void run() {
     int currentPlayerEntity = turnSystem.getPlayerEntity();
     System.out.println("    Attacking");
     ownershipSystem
