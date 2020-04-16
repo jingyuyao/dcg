@@ -18,7 +18,7 @@ public class CreatePlayer extends CreateEntity {
 
   public CreatePlayer(String name) {
     this.name = name;
-    addOnEnterEffects(new FillHand(5), new AdvanceTurn());
+    addOnEnterEffects(new FillHand(5), new AdvanceTurn(), new CreatePlayAllCards());
   }
 
   @Override
