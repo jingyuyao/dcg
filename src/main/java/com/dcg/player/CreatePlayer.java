@@ -18,7 +18,7 @@ public class CreatePlayer extends CreateEntity {
 
   public CreatePlayer(String name) {
     this.name = name;
-    addOnEnterEffects(new FillHand(5), new AdvanceTurn(), new CreatePlayAllCards());
+    addOnEnterEffects(new AdvanceTurn(), new CreatePlayAllCards());
   }
 
   @Override
@@ -40,7 +40,8 @@ public class CreatePlayer extends CreateEntity {
             .setOwner(playerEntity),
         new CreateCard("Secret Pages", 0)
             .addOnEnterEffects(new AdjustPower(2))
-            .setOwner(playerEntity));
+            .setOwner(playerEntity),
+        new FillHand(5).setOwner(playerEntity));
   }
 
   @Override
