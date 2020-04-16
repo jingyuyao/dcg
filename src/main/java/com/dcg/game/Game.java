@@ -8,11 +8,11 @@ import com.dcg.action.ExecuteAction;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandExecutor;
-import com.dcg.debug.PrintBattleArea;
 import com.dcg.debug.PrintCurrentPlayerHand;
 import com.dcg.debug.PrintForgeRow;
 import com.dcg.debug.PrintPlayArea;
 import com.dcg.debug.PrintPlayers;
+import com.dcg.debug.PrintUnits;
 import com.dcg.effect.EffectSystem;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
@@ -73,7 +73,7 @@ public class Game {
 
     commandChain.addEnd(
         new PrintForgeRow(),
-        new PrintBattleArea(),
+        new PrintUnits(),
         new PrintPlayArea(),
         new PrintPlayers(),
         new PrintCurrentPlayerHand());

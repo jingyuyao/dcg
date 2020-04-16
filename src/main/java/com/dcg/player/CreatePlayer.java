@@ -22,6 +22,7 @@ public class CreatePlayer extends Command {
 
   @Override
   protected void run() {
+    // TODO: inherit from CreateEntity then add AdvanceTurn
     int playerEntity = world.create();
     mPlayer.create(playerEntity).name = name;
     commandChain.addEnd(

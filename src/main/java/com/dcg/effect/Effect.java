@@ -12,4 +12,5 @@ import java.util.List;
 public class Effect extends Component {
   /** Commands to run when the associated entity is created. */
   public List<Command> onCreate = Collections.emptyList();
+  // TODO: add onLeave effects for things such as DrawCards, DiscardThings, etc
 }

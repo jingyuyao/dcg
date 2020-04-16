@@ -21,6 +21,7 @@ public class CreateAction extends Command {
   protected void run() {
     int actionEntity = world.create();
     mAction.create(actionEntity).command = command;
+    // TODO: inherit from CreateEntity and use this.owner
     mOwned.create(actionEntity).owner = ownerEntity;
   }
 
