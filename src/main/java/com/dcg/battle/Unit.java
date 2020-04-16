@@ -10,6 +10,7 @@ import com.artemis.Component;
 public class Unit extends Component {
   public String name = "Token";
   public int strength = 0;
+  public int defense = 0;
 
   @Override
   public String toString() {

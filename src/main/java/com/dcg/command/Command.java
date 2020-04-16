@@ -9,18 +9,20 @@ public abstract class Command {
   private boolean injected = false;
 
   /** Sets the optional user input for this command. */
-  public void setInput(List<Integer> input) {
+  public final void setInput(List<Integer> input) {
     this.input = input;
   }
 
   /** Execute the logic associated with this command. */
-  public void run(World world) {
+  public final void run(World world) {
     injectFrom(world);
     run();
   }
 
+  // TODO: split world state validation from input validation so invalid world state commands
+  // can be hidden from players.
   /** Returns whether the preconditions this command is satisfied. */
-  public boolean canRun(World world) {
+  public final boolean canRun(World world) {
     injectFrom(world);
     return canRun();
   }
