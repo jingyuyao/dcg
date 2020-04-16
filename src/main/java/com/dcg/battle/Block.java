@@ -6,17 +6,17 @@ import com.dcg.command.Command;
 import com.dcg.ownership.OwnershipSystem;
 
 public class Block extends Command {
-  private final int blockingEntity;
   protected World world;
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Unit> mUnit;
 
-  public Block(int blockingEntity) {
-    this.blockingEntity = blockingEntity;
-  }
-
   @Override
   protected boolean isInputValid() {
+    if (owner == -1) {
+      System.out.println("    Owner required");
+      return false;
+    }
+
     if (input.size() != 1) {
       System.out.println("    Block requires one input");
       return false;
@@ -29,12 +29,12 @@ public class Block extends Command {
       return false;
     }
 
-    if (ownershipSystem.getOwner(blockingEntity) == ownershipSystem.getOwner(attackingEntity)) {
+    if (ownershipSystem.getOwner(owner) == ownershipSystem.getOwner(attackingEntity)) {
       System.out.println("    Can't block your own units");
       return false;
     }
 
-    Unit blockingUnit = mUnit.get(blockingEntity);
+    Unit blockingUnit = mUnit.get(owner);
     Unit attackingUnit = mUnit.get(attackingEntity);
 
     if (blockingUnit.strength + blockingUnit.defense < attackingUnit.strength) {
@@ -51,6 +51,6 @@ public class Block extends Command {
   protected void run() {
     int attackingEntity = input.get(0);
     world.delete(attackingEntity);
-    world.delete(blockingEntity);
+    world.delete(owner);
   }
 }

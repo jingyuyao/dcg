@@ -29,6 +29,7 @@ public class ExecuteAction extends Command {
 
     List<Integer> inputPassThrough = input.subList(1, input.size());
     Action action = mAction.get(actionEntity);
+    action.command.setOwner(ownershipSystem.getOwner(actionEntity));
     action.command.setInput(inputPassThrough);
     return action.command.canRun(world);
   }
