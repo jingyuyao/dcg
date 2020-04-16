@@ -23,7 +23,7 @@ public class BuyCard extends Command {
   }
 
   @Override
-  protected boolean canRun() {
+  protected boolean isInputValid() {
     Turn turn = turnSystem.getTurn();
     Card card = mCard.get(cardEntity);
     if (turn.powerPool < card.cost) {

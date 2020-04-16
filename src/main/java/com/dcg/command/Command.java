@@ -21,20 +21,45 @@ public abstract class Command {
 
   // TODO: split world state validation from input validation so invalid world state commands
   // can be hidden from players.
-  /** Returns whether the preconditions this command is satisfied. */
+  /** Returns whether all the preconditions for this command are satisfied. */
   public final boolean canRun(World world) {
     injectFrom(world);
-    return canRun();
+    return isInputValid() && isWorldValid();
   }
 
-  /** Override to provide the logic for this command. This must be repeatedly callable. */
+  /** Returns whether the current input is valid for the command. */
+  public final boolean isInputValid(World world) {
+    injectFrom(world);
+    return isInputValid();
+  }
+
+  /** Returns whether the command can be run in the current world state. */
+  public final boolean isWorldValid(World world) {
+    injectFrom(world);
+    return isWorldValid();
+  }
+
+  /**
+   * Override to provide the logic for this command. This must be repeatedly callable. Do not call
+   * this from anywhere outside of this class. Use {@link #run(World)} instead.
+   */
   protected abstract void run();
 
   /**
-   * Override to provide whether the preconditions for this command is satisfied. No side effects
-   * allowed.
+   * Override to provide whether the current input is valid for this command is satisfied. No side
+   * effects allowed. Do not call this from anywhere outside of this class. Use {@link
+   * #isInputValid(World)} instead.
    */
-  protected boolean canRun() {
+  protected boolean isInputValid() {
+    return true;
+  }
+
+  /**
+   * Override to provide whether the command can be run in the current world state. No side effects
+   * allowed. Do not call this from anywhere outside of this class. Use {@link #isWorldValid(World)}
+   * instead.
+   */
+  protected boolean isWorldValid() {
     return true;
   }
 

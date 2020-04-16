@@ -18,7 +18,7 @@ public class AdvanceTurn extends Command {
   protected ComponentMapper<Turn> mTurn;
 
   @Override
-  protected boolean canRun() {
+  protected boolean isWorldValid() {
     return ownershipSystem
             .getOwnedBy(turnSystem.getPlayerEntity(), Aspect.all(Card.class, Hand.class))
             .count()

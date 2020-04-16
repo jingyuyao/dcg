@@ -47,6 +47,7 @@ public class OwnershipSystem extends IteratingSystem {
         .forEach(ownedEntity -> getDescendantsImpl(ownedEntity, aspectBuilder, accumulator));
   }
 
+  /** Returns the direct owner of the owned entity or -1 if it does not have an owner. */
   public int getOwner(int ownedEntity) {
     return mOwned.has(ownedEntity) ? mOwned.get(ownedEntity).owner : -1;
   }

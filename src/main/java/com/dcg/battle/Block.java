@@ -16,7 +16,7 @@ public class Block extends Command {
   }
 
   @Override
-  protected boolean canRun() {
+  protected boolean isInputValid() {
     if (input.size() != 1) {
       System.out.println("    Block requires one input");
       return false;

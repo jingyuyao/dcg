@@ -13,7 +13,7 @@ public class ExecuteAction extends Command {
   protected ComponentMapper<Action> mAction;
 
   @Override
-  protected boolean canRun() {
+  protected boolean isInputValid() {
     if (input.size() < 1) {
       System.out.println("    ExecuteAction requires at least one input.");
       return false;

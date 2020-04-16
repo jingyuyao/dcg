@@ -12,7 +12,7 @@ public class AddDefense extends Command {
   }
 
   @Override
-  protected boolean canRun() {
+  protected boolean isInputValid() {
     return input.size() == 1 && mUnit.has(input.get(0));
   }
 
