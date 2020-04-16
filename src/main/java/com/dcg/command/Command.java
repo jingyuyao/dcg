@@ -4,6 +4,10 @@ import com.artemis.World;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Contains logic that can be executed. Commands may be provided with an owner entity and user
+ * input.
+ */
 public abstract class Command {
   protected int owner = -1;
   protected List<Integer> input = Collections.emptyList();

@@ -4,7 +4,8 @@ import com.artemis.BaseSystem;
 import com.artemis.SystemInvocationStrategy;
 import com.artemis.annotations.Wire;
 
-public class CommandExecutor extends SystemInvocationStrategy {
+/** Steps: 1. Execute a command 2. Update systems 3. Go to 1 if command chain is not empty */
+public class CommandInvocationStrategy extends SystemInvocationStrategy {
   @Wire protected CommandChain commandChain;
 
   @Override

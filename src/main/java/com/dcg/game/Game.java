@@ -7,7 +7,7 @@ import com.artemis.link.EntityLinkManager;
 import com.dcg.action.ExecuteAction;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
-import com.dcg.command.CommandExecutor;
+import com.dcg.command.CommandInvocationStrategy;
 import com.dcg.debug.PrintCurrentPlayerHand;
 import com.dcg.debug.PrintForgeRow;
 import com.dcg.debug.PrintPlayArea;
@@ -28,7 +28,7 @@ public class Game {
           // Allows for component inspection during removed()
           .alwaysDelayComponentRemoval(true)
           // Uses the command pattern for execution
-          .register(new CommandExecutor())
+          .register(new CommandInvocationStrategy())
           // Order matters!
           .with(
               new EntityLinkManager(),
