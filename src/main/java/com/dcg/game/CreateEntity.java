@@ -10,13 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class CreateEntity extends Command {
-  protected final List<Command> onCreateEffects = new ArrayList<>();
+  protected final List<Command> onEnterEffects = new ArrayList<>();
   protected World world;
   protected ComponentMapper<Effect> mEffect;
   protected ComponentMapper<Owned> mOwned;
 
-  public CreateEntity addOnCreateEffects(Command... effects) {
-    this.onCreateEffects.addAll(Arrays.asList(effects));
+  public CreateEntity addOnEnterEffects(Command... effects) {
+    this.onEnterEffects.addAll(Arrays.asList(effects));
     return this;
   }
 
@@ -26,9 +26,9 @@ public abstract class CreateEntity extends Command {
       Owned owned = mOwned.create(unitEntity);
       owned.owner = owner;
     }
-    if (!onCreateEffects.isEmpty()) {
+    if (!onEnterEffects.isEmpty()) {
       Effect effect = mEffect.create(unitEntity);
-      effect.onCreate = onCreateEffects;
+      effect.onEnter = onEnterEffects;
     }
     return unitEntity;
   }

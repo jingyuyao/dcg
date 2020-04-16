@@ -25,8 +25,8 @@ public class EffectSystem extends BaseEntitySystem {
   protected void inserted(int entityId) {
     Effect effect = mEffect.get(entityId);
     // Looping in reverse so the effects are added to the chain in the correct order.
-    for (int i = effect.onCreate.size() - 1; i >= 0; i--) {
-      Command command = effect.onCreate.get(i);
+    for (int i = effect.onEnter.size() - 1; i >= 0; i--) {
+      Command command = effect.onEnter.get(i);
       if (command.canRun(world)) {
         command.setOwner(entityId);
         commandChain.addStart(command);

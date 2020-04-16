@@ -27,24 +27,24 @@ public class CreatePlayer extends Command {
     mPlayer.create(playerEntity).name = name;
     commandChain.addEnd(
         new CreateCard("Diplomacy", 0)
-            .addOnCreateEffects(new AdjustPower(1))
+            .addOnEnterEffects(new AdjustPower(1))
             .setOwner(playerEntity),
         new CreateCard("Diplomacy", 0)
-            .addOnCreateEffects(new AdjustPower(1))
+            .addOnEnterEffects(new AdjustPower(1))
             .setOwner(playerEntity),
         new CreateCard("Worn Shield", 0)
-            .addOnCreateEffects(new AddDefense(2))
+            .addOnEnterEffects(new AddDefense(2))
             .setOwner(playerEntity),
         new CreateCard("Eager Owlet", 0)
-            .addOnCreateEffects(new CreateUnit("Eager Owlet", 2))
+            .addOnEnterEffects(new CreateUnit("Eager Owlet", 2))
             .setOwner(playerEntity),
         new CreateCard("Withering Witch", 0)
-            .addOnCreateEffects(
+            .addOnEnterEffects(
                 new CreateUnit("Withering Witch", 2)
-                    .addOnCreateEffects(new AddDefense(3).toOwner()))
+                    .addOnEnterEffects(new AddDefense(3).toOwner()))
             .setOwner(playerEntity),
         new CreateCard("Secret Pages", 0)
-            .addOnCreateEffects(new AdjustPower(2))
+            .addOnEnterEffects(new AdjustPower(2))
             .setOwner(playerEntity));
     commandChain.addEnd(new DrawCards(playerEntity, 5));
   }
