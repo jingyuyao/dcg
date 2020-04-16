@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Command {
-  private List<Integer> input = Collections.emptyList();
+  protected List<Integer> input = Collections.emptyList();
 
   /** Sets the optional user input for this command. */
   public void setInput(List<Integer> input) {

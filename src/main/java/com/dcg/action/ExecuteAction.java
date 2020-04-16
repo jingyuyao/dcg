@@ -15,7 +15,6 @@ public class ExecuteAction extends Command {
 
   @Override
   protected boolean canRun() {
-    List<Integer> input = getInput();
     if (input.size() < 1) {
       System.out.println("    ExecuteAction requires at least one input.");
       return false;
@@ -36,7 +35,6 @@ public class ExecuteAction extends Command {
 
   @Override
   protected void run() {
-    List<Integer> input = getInput();
     List<Integer> inputPassThrough = input.subList(1, input.size());
     int actionEntity = input.get(0);
     Action action = mAction.get(actionEntity);

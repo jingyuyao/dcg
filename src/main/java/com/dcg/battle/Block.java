@@ -3,7 +3,6 @@ package com.dcg.battle;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.command.Command;
-import java.util.List;
 
 public class Block extends Command {
   private final int blockingEntity;
@@ -16,7 +15,6 @@ public class Block extends Command {
 
   @Override
   protected boolean canRun() {
-    List<Integer> input = getInput();
     if (input.size() != 1) {
       System.out.println("    Block requires one input");
       return false;
@@ -44,7 +42,6 @@ public class Block extends Command {
 
   @Override
   protected void run() {
-    List<Integer> input = getInput();
     int attackingEntity = input.get(0);
     world.delete(attackingEntity);
     world.delete(blockingEntity);
