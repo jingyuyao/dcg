@@ -24,7 +24,7 @@ public class AttackPlayer extends Command {
   protected void run() {
     Player defendingPlayer = mPlayer.get(defendingPlayerEntity);
     ownershipSystem
-        .getOwnedBy(attackingPlayerEntity, Aspect.all(Unit.class))
+        .getDescendants(attackingPlayerEntity, Aspect.all(Unit.class))
         .forEach(unitEntity -> attack(unitEntity, defendingPlayer));
   }
 
