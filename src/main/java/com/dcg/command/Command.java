@@ -1,48 +1,46 @@
 package com.dcg.command;
 
+import com.artemis.World;
 import java.util.Collections;
 import java.util.List;
 
 public abstract class Command {
   protected List<Integer> input = Collections.emptyList();
+  private boolean injected = false;
 
   /** Sets the optional user input for this command. */
   public void setInput(List<Integer> input) {
     this.input = input;
   }
 
-  /** Returns the optional user input for this command. */
-  public List<Integer> getInput() {
-    return input;
-  }
-
-  /**
-   * Execute the logic associated with this command. This should only be called by {@link
-   * CommandExecutor}.
-   */
-  void execute() {
+  /** Execute the logic associated with this command. */
+  public void run(World world) {
+    injectFrom(world);
     run();
   }
 
-  /**
-   * Returns whether the preconditions this command is satisfied. This should only be called by
-   * {@link CommandExecutor}.
-   */
-  boolean canExecute() {
+  /** Returns whether the preconditions this command is satisfied. */
+  public boolean canRun(World world) {
+    injectFrom(world);
     return canRun();
   }
 
   /** Override to provide the logic for this command. This must be repeatedly callable. */
   protected abstract void run();
 
-  // TODO: make this return an Optional<String>, if empty = canRun, else string contains error.
-
   /**
-   * Override to provide whether the preconditions for this command is satisfied. This must not have
-   * any side effects.
+   * Override to provide whether the preconditions for this command is satisfied. No side effects
+   * allowed.
    */
   protected boolean canRun() {
     return true;
+  }
+
+  private void injectFrom(World world) {
+    if (!injected) {
+      world.inject(this);
+      injected = true;
+    }
   }
 
   @Override

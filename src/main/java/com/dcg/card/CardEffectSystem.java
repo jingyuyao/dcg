@@ -8,7 +8,6 @@ import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
-import com.dcg.command.CommandExecutor;
 import com.dcg.location.PlayArea;
 
 @All({Card.class, PlayArea.class})
@@ -23,8 +22,7 @@ public class CardEffectSystem extends BaseEntitySystem {
     // Looping in reverse so the effects are added to the chain in the correct order.
     for (int i = card.effects.size() - 1; i >= 0; i--) {
       Command command = card.effects.get(i);
-      CommandExecutor commandExecutor = world.getInvocationStrategy();
-      if (commandExecutor.canExecute(command)) {
+      if (command.canRun(world)) {
         commandChain.addStart(command);
       } else {
         commandChain.addStart(new CreateAction(cardEntity, command));

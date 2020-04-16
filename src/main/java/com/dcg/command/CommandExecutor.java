@@ -7,15 +7,6 @@ import com.artemis.annotations.Wire;
 public class CommandExecutor extends SystemInvocationStrategy {
   @Wire protected CommandChain commandChain;
 
-  /**
-   * Returns whether the preconditions for this command is satisfied. Will automatically inject the
-   * given command.
-   */
-  public boolean canExecute(Command command) {
-    world.inject(command);
-    return command.canExecute();
-  }
-
   @Override
   protected void initialize() {
     super.initialize();
@@ -29,8 +20,8 @@ public class CommandExecutor extends SystemInvocationStrategy {
       Command command = commandChain.pop();
       System.out.printf("  %s\n", command.toString());
       updateEntityStates();
-      if (canExecute(command)) {
-        command.execute();
+      if (command.canRun(world)) {
+        command.run(world);
       } else {
         System.out.printf("  %s ignored\n", command.toString());
       }

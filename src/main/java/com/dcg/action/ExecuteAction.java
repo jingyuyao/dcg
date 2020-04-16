@@ -5,7 +5,6 @@ import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
-import com.dcg.command.CommandExecutor;
 import java.util.List;
 
 public class ExecuteAction extends Command {
@@ -29,8 +28,7 @@ public class ExecuteAction extends Command {
     List<Integer> inputPassThrough = input.subList(1, input.size());
     Action action = mAction.get(actionEntity);
     action.command.setInput(inputPassThrough);
-    CommandExecutor commandExecutor = world.getInvocationStrategy();
-    return commandExecutor.canExecute(action.command);
+    return action.command.canRun(world);
   }
 
   @Override
