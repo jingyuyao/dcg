@@ -8,6 +8,9 @@ import java.util.List;
 public class CommandChain {
   private final Deque<Command> queue = new LinkedList<>();
 
+  // TODO: audit where addStart is used, perhaps we can live without it since having it increase
+  // complexity.
+
   /**
    * Add commands to the start of the deque while preserving the order of the arguments. Exercise
    * caution when using this. Prefer addEnd when possible.

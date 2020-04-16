@@ -5,11 +5,13 @@ import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.ownership.OwnershipSystem;
 import java.util.List;
 
 public class ExecuteAction extends Command {
   @Wire CommandChain commandChain;
   protected World world;
+  protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Action> mAction;
 
   @Override
@@ -36,6 +38,7 @@ public class ExecuteAction extends Command {
     List<Integer> inputPassThrough = input.subList(1, input.size());
     int actionEntity = input.get(0);
     Action action = mAction.get(actionEntity);
+    action.command.setOwner(ownershipSystem.getOwner(actionEntity));
     action.command.setInput(inputPassThrough);
     commandChain.addEnd(action.command);
     world.delete(actionEntity);

@@ -14,18 +14,18 @@ public class PrintBattleArea extends DebugEntityCommand {
   @Override
   protected void run() {
     int currentPlayerEntity = turnSystem.getPlayerEntity();
-    System.out.println("    Attacking");
+    System.out.println("  Attacking");
     ownershipSystem
         .getNotOwnedBy(currentPlayerEntity, Aspect.all(Unit.class))
         .forEach(actionEntity -> printUnit(actionEntity, false));
-    System.out.println("    Defending");
+    System.out.println("  Defending");
     ownershipSystem
         .getOwnedBy(currentPlayerEntity, Aspect.all(Unit.class))
         .forEach(actionEntity -> printUnit(actionEntity, true));
   }
 
   private void printUnit(int unitEntity, boolean withActions) {
-    System.out.printf("      *%d %s\n", unitEntity, mUnit.get(unitEntity));
+    System.out.printf("    *%d %s\n", unitEntity, mUnit.get(unitEntity));
     if (withActions) {
       printActions(unitEntity);
     }

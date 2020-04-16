@@ -20,7 +20,7 @@ public abstract class DebugEntityCommand extends Command {
     Command command = mAction.get(actionEntity).command;
     // Only show actions that are valid in the current world state.
     if (command.isWorldValid(world)) {
-      System.out.printf("< *%d %s\n", actionEntity, command);
+      System.out.printf("    - %d %s\n", actionEntity, command);
     }
   }
 }

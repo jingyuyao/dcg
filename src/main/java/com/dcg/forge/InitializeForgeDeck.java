@@ -13,10 +13,10 @@ public class InitializeForgeDeck extends Command {
   @Override
   protected void run() {
     for (int i = 0; i < 50; i++) {
-      commandChain.addEnd(new CreateCard("Yeti", 2).addEffects(new CreateUnit("Yeti", 2)));
+      commandChain.addEnd(new CreateCard("Yeti", 2).addOnCreateEffects(new CreateUnit("Yeti", 2)));
     }
     for (int i = 0; i < 5; i++) {
-      commandChain.addEnd(new CreateCard("Wisdom of the Elders", 5).addEffects(new DrawCards(2)));
+      commandChain.addEnd(new CreateCard("Wisdom of the Elders", 5).addOnCreateEffects(new DrawCards(2)));
     }
   }
 }

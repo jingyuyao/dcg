@@ -5,13 +5,24 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Command {
+  protected int owner = -1;
   protected List<Integer> input = Collections.emptyList();
   private boolean injected = false;
+
+  public final Command setOwner(int owner) {
+    this.owner = owner;
+    return this;
+  }
 
   /** Sets the optional user input for this command. */
   public final void setInput(List<Integer> input) {
     this.input = input;
   }
+
+  // TODO: consider creating a build(World) method that returns an ExecutableCommand with public
+  // versions of run, canRun, etc.
+  // TODO: OR, consider split into two different interfaces, Command with setOwner, setInput, build
+  // and ExecutableCommand with run, canRun, etc.
 
   /** Execute the logic associated with this command. */
   public final void run(World world) {
@@ -19,8 +30,6 @@ public abstract class Command {
     run();
   }
 
-  // TODO: split world state validation from input validation so invalid world state commands
-  // can be hidden from players.
   /** Returns whether all the preconditions for this command are satisfied. */
   public final boolean canRun(World world) {
     injectFrom(world);

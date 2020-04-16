@@ -5,7 +5,6 @@ import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.artemis.link.EntityLinkManager;
 import com.dcg.action.ExecuteAction;
-import com.dcg.card.CardEffectSystem;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandExecutor;
@@ -14,6 +13,7 @@ import com.dcg.debug.PrintCurrentPlayerHand;
 import com.dcg.debug.PrintForgeRow;
 import com.dcg.debug.PrintPlayArea;
 import com.dcg.debug.PrintPlayers;
+import com.dcg.effect.EffectSystem;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
 import com.dcg.ownership.OwnershipSystem;
@@ -36,7 +36,7 @@ public class Game {
               new OwnershipSystem(),
               new ForgeRowRefillSystem(),
               new TurnSystem(),
-              new CardEffectSystem(),
+              new EffectSystem(),
               new GameOverSystem())
           .build()
           .register(new Random())
