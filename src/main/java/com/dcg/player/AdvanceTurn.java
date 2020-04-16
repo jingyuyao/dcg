@@ -20,7 +20,7 @@ public class AdvanceTurn extends Command {
   @Override
   public boolean canRun() {
     return ownershipSystem
-            .getOwnedBy(turnSystem.getCurrentPlayerEntity(), Aspect.all(Card.class, Hand.class))
+            .getOwnedBy(turnSystem.getPlayerEntity(), Aspect.all(Card.class, Hand.class))
             .count()
         == 0;
   }

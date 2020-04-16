@@ -15,7 +15,7 @@ public class PrintCurrentPlayerHand extends DebugEntityCommand {
   @Override
   public void run() {
     ownershipSystem
-        .getOwnedBy(turnSystem.getCurrentPlayerEntity(), Aspect.all(Card.class, Hand.class))
+        .getOwnedBy(turnSystem.getPlayerEntity(), Aspect.all(Card.class, Hand.class))
         .forEach(this::printCard);
   }
 

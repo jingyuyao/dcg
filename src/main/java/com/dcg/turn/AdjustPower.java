@@ -12,7 +12,7 @@ public class AdjustPower extends Command {
 
   @Override
   public void run() {
-    turnSystem.getCurrentTurn().powerPool += power;
+    turnSystem.getTurn().powerPool += power;
   }
 
   @Override

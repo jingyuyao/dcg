@@ -18,8 +18,8 @@ public class PrintPlayers extends DebugEntityCommand {
 
   private void printPlayer(int playerEntity) {
     System.out.printf("    *%d %s\n", playerEntity, mPlayer.get(playerEntity));
-    if (playerEntity == turnSystem.getCurrentPlayerEntity()) {
-      System.out.printf("      %s\n", turnSystem.getCurrentTurn());
+    if (playerEntity == turnSystem.getPlayerEntity()) {
+      System.out.printf("      %s\n", turnSystem.getTurn());
       printActions(playerEntity);
     }
   }

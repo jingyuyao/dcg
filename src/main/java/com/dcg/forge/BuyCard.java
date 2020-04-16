@@ -24,7 +24,7 @@ public class BuyCard extends Command {
 
   @Override
   public boolean canRun() {
-    Turn turn = turnSystem.getCurrentTurn();
+    Turn turn = turnSystem.getTurn();
     Card card = mCard.get(cardEntity);
     if (turn.powerPool < card.cost) {
       System.out.printf("    Not enough power to buy *%s\n", card);
@@ -38,7 +38,7 @@ public class BuyCard extends Command {
     Card card = mCard.get(cardEntity);
     commandChain.addStart(
         new AdjustPower(-card.cost),
-        new Own(turnSystem.getCurrentPlayerEntity(), cardEntity),
+        new Own(turnSystem.getPlayerEntity(), cardEntity),
         new MoveLocation(cardEntity, Deck.class));
   }
 }

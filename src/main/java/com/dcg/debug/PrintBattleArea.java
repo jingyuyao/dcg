@@ -13,7 +13,7 @@ public class PrintBattleArea extends DebugEntityCommand {
 
   @Override
   public void run() {
-    int currentPlayerEntity = turnSystem.getCurrentPlayerEntity();
+    int currentPlayerEntity = turnSystem.getPlayerEntity();
     System.out.println("    Attacking");
     ownershipSystem
         .getNotOwnedBy(currentPlayerEntity, Aspect.all(Unit.class))
