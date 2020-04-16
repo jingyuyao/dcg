@@ -7,6 +7,10 @@ import com.artemis.systems.IteratingSystem;
 import com.dcg.game.AspectSystem;
 import java.util.stream.IntStream;
 
+/**
+ * A system that provide methods to query a tree based entity relationship. Also automatically
+ * removes child entities when its parent is deleted.
+ */
 @All(Owned.class)
 public class OwnershipSystem extends IteratingSystem {
   protected AspectSystem aspectSystem;

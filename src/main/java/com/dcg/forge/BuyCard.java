@@ -37,9 +37,9 @@ public class BuyCard extends Command {
   protected void run() {
     Card card = mCard.get(cardEntity);
     commandChain.addEnd(
-        new AdjustPower(-card.cost),
-        new Own(turnSystem.getPlayerEntity(), cardEntity),
-        new MoveLocation(cardEntity, Deck.class),
-        new DrawFromForge());
+        new AdjustPower(-card.cost).setOwner(owner),
+        new Own(turnSystem.getPlayerEntity(), cardEntity).setOwner(owner),
+        new MoveLocation(cardEntity, Deck.class).setOwner(owner),
+        new DrawFromForge().setOwner(owner));
   }
 }

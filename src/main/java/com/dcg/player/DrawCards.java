@@ -5,24 +5,17 @@ import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 
 public class DrawCards extends Command {
-  private final int playerEntity;
   private final int num;
   @Wire protected CommandChain commandChain;
 
   public DrawCards(int num) {
-    this.playerEntity = -1;
-    this.num = num;
-  }
-
-  public DrawCards(int playerEntity, int num) {
-    this.playerEntity = playerEntity;
     this.num = num;
   }
 
   @Override
   protected void run() {
     for (int i = 0; i < num; i++) {
-      commandChain.addEnd(playerEntity != -1 ? new DrawCard(playerEntity) : new DrawCard());
+      commandChain.addEnd(new DrawCard().setOwner(owner));
     }
   }
 

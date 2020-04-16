@@ -1,10 +1,10 @@
 package com.dcg.player;
 
 import com.artemis.ComponentMapper;
-import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.battle.AddDefense;
 import com.dcg.battle.CreateUnit;
+import com.dcg.battle.PerformBattle;
 import com.dcg.card.CreateCard;
 import com.dcg.command.CommandChain;
 import com.dcg.game.CreateEntity;
@@ -13,12 +13,12 @@ import com.dcg.turn.AdjustPower;
 public class CreatePlayer extends CreateEntity {
   private final String name;
   @Wire protected CommandChain commandChain;
-  protected World world;
   protected ComponentMapper<Player> mPlayer;
 
   public CreatePlayer(String name) {
     this.name = name;
     addOnEnterEffects(new AdvanceTurn(), new CreatePlayAllCards());
+    addOnLeaveEffects(new DiscardPlayArea(), new DrawCards(5), new PerformBattle());
   }
 
   @Override
@@ -41,7 +41,7 @@ public class CreatePlayer extends CreateEntity {
         new CreateCard("Secret Pages", 0)
             .addOnEnterEffects(new AdjustPower(2))
             .setOwner(playerEntity),
-        new FillHand(5).setOwner(playerEntity));
+        new DrawCards(5).setOwner(playerEntity));
   }
 
   @Override

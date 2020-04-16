@@ -20,7 +20,7 @@ public class InitializeForge extends Command {
           new CreateCard("Wisdom of the Elders", 5).addOnEnterEffects(new DrawCards(2)));
     }
     for (int i = 0; i < 6; i++) {
-      commandChain.addEnd(new DrawFromForge());
+      commandChain.addEnd(new DrawFromForge().setOwner(owner));
     }
   }
 }

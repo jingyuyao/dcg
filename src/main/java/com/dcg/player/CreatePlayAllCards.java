@@ -19,7 +19,7 @@ public class CreatePlayAllCards extends Command {
 
   @Override
   protected void run() {
-    commandChain.addEnd(new CreateAction(new PlayAllCards()).setOwner(owner));
+    commandChain.addEnd(new CreateAction(new PlayAllCards().setOwner(owner)).setOwner(owner));
   }
 
   private class PlayAllCards extends Command {

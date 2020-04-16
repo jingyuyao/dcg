@@ -10,7 +10,8 @@ import java.util.List;
  * attached entity's life cycle. Effect can be attached to players, cards or units.
  */
 public class Effect extends Component {
-  /** Commands to run when the associated entity is created. */
+  /** Commands to run when the associated entity is inserted into one of the activation tags. */
   public List<Command> onEnter = Collections.emptyList();
-  // TODO: add onLeave effects for things such as DrawCards, DiscardThings, etc
+  /** Commands to run when the associated entity is removed from one of the activation tags. */
+  public List<Command> onLeave = Collections.emptyList();
 }

@@ -12,7 +12,12 @@ import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.location.PlayArea;
 import com.dcg.turn.Turn;
+import java.util.List;
 
+/**
+ * System to trigger effects. Effects are only triggered when entities enter and leave certain
+ * activation tags such as Turn, PlayArea or they are just plainly created.
+ */
 @All(Effect.class)
 @One({Turn.class, PlayArea.class, Unit.class})
 public class EffectSystem extends BaseEntitySystem {
@@ -22,8 +27,19 @@ public class EffectSystem extends BaseEntitySystem {
 
   @Override
   protected void inserted(int entityId) {
-    Effect effect = mEffect.get(entityId);
-    for (Command command : effect.onEnter) {
+    triggerEffects(entityId, mEffect.get(entityId).onEnter);
+  }
+
+  @Override
+  protected void removed(int entityId) {
+    triggerEffects(entityId, mEffect.get(entityId).onLeave);
+  }
+
+  @Override
+  protected void processSystem() {}
+
+  private void triggerEffects(int entityId, List<Command> effects) {
+    for (Command command : effects) {
       command.setOwner(entityId);
       if (command.canRun(world)) {
         commandChain.addEnd(command);
@@ -32,7 +48,4 @@ public class EffectSystem extends BaseEntitySystem {
       }
     }
   }
-
-  @Override
-  protected void processSystem() {}
 }

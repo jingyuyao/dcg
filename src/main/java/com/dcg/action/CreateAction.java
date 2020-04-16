@@ -1,15 +1,14 @@
 package com.dcg.action;
 
 import com.artemis.ComponentMapper;
-import com.artemis.World;
 import com.dcg.command.Command;
 import com.dcg.game.CreateEntity;
 
 public class CreateAction extends CreateEntity {
   private final Command command;
-  protected World world;
   protected ComponentMapper<Action> mAction;
 
+  // TODO: consider making owner mandatory?
   public CreateAction(Command command) {
     this.command = command;
   }

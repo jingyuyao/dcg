@@ -6,26 +6,25 @@ import com.artemis.World;
 import com.dcg.command.Command;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.Player;
+import com.dcg.turn.Turn;
+import com.dcg.turn.TurnSystem;
 
-public class AttackPlayer extends Command {
-  private final int attackingPlayerEntity;
-  private final int defendingPlayerEntity;
+public class PerformBattle extends Command {
   protected World world;
   protected OwnershipSystem ownershipSystem;
+  protected TurnSystem turnSystem;
   protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Unit> mUnit;
 
-  public AttackPlayer(int attackingPlayerEntity, int defendingPlayerEntity) {
-    this.attackingPlayerEntity = attackingPlayerEntity;
-    this.defendingPlayerEntity = defendingPlayerEntity;
-  }
-
   @Override
   protected void run() {
-    Player defendingPlayer = mPlayer.get(defendingPlayerEntity);
-    ownershipSystem
-        .getDescendants(attackingPlayerEntity, Aspect.all(Unit.class))
-        .forEach(unitEntity -> attack(unitEntity, defendingPlayer));
+    Turn turn = turnSystem.getTurn();
+    if (turn.previousPlayerEntity != -1) {
+      Player defendingPlayer = mPlayer.get(owner);
+      ownershipSystem
+          .getDescendants(turn.previousPlayerEntity, Aspect.all(Unit.class))
+          .forEach(unitEntity -> attack(unitEntity, defendingPlayer));
+    }
   }
 
   private void attack(int unitEntity, Player player) {

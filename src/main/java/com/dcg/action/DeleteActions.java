@@ -6,21 +6,11 @@ import com.dcg.command.Command;
 import com.dcg.ownership.OwnershipSystem;
 
 public class DeleteActions extends Command {
-  private final int ownerEntity;
   protected OwnershipSystem ownershipSystem;
   protected World world;
 
-  public DeleteActions(int ownerEntity) {
-    this.ownerEntity = ownerEntity;
-  }
-
   @Override
   protected void run() {
-    ownershipSystem.getOwnedBy(ownerEntity, Aspect.all(Action.class)).forEach(world::delete);
-  }
-
-  @Override
-  public String toString() {
-    return String.format("%s *%d", super.toString(), ownerEntity);
+    ownershipSystem.getOwnedBy(owner, Aspect.all(Action.class)).forEach(world::delete);
   }
 }

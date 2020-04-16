@@ -27,6 +27,7 @@ public class DrawFromForge extends Command {
             .boxed()
             .collect(Collectors.toList());
     commandChain.addEnd(
-        new MoveLocation(forgeDeck.get(random.nextInt(forgeDeck.size())), ForgeRow.class));
+        new MoveLocation(forgeDeck.get(random.nextInt(forgeDeck.size())), ForgeRow.class)
+            .setOwner(owner));
   }
 }

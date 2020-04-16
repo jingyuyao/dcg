@@ -12,45 +12,32 @@ import com.dcg.location.DiscardPile;
 import com.dcg.location.Hand;
 import com.dcg.location.MoveLocation;
 import com.dcg.ownership.OwnershipSystem;
-import com.dcg.turn.TurnSystem;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 public class DrawCard extends Command {
-  private final int playerEntity;
   @Wire protected CommandChain commandChain;
   @Wire protected Random random;
   protected OwnershipSystem ownershipSystem;
-  protected TurnSystem turnSystem;
-
-  public DrawCard() {
-    this.playerEntity = -1;
-  }
-
-  public DrawCard(int playerEntity) {
-    this.playerEntity = playerEntity;
-  }
 
   @Override
   protected void run() {
-    int playerEntity = this.playerEntity != -1 ? this.playerEntity : turnSystem.getPlayerEntity();
     List<Integer> deck =
         ownershipSystem
-            .getOwnedBy(playerEntity, Aspect.all(Card.class, Deck.class))
+            .getOwnedBy(owner, Aspect.all(Card.class, Deck.class))
             .boxed()
             .collect(Collectors.toList());
 
     if (deck.size() > 0) {
       int cardEntity = deck.get(random.nextInt(deck.size()));
       commandChain.addEnd(
-          new MoveLocation(cardEntity, Hand.class),
-          new CreateAction(new PlayCard(cardEntity)).setOwner(cardEntity));
-    } else if (ownershipSystem
-            .getOwnedBy(playerEntity, Aspect.all(Card.class, DiscardPile.class))
-            .count()
+          new MoveLocation(cardEntity, Hand.class).setOwner(owner),
+          new CreateAction(new PlayCard(cardEntity).setOwner(cardEntity)).setOwner(cardEntity));
+    } else if (ownershipSystem.getOwnedBy(owner, Aspect.all(Card.class, DiscardPile.class)).count()
         > 0) {
-      commandChain.addEnd(new ReshuffleDiscardPile(playerEntity), new DrawCard(playerEntity));
+      commandChain.addEnd(
+          new ReshuffleDiscardPile().setOwner(owner), new DrawCard().setOwner(owner));
     } else {
       System.out.println("    Couldn't draw card");
     }

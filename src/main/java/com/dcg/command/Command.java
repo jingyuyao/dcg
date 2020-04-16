@@ -13,6 +13,7 @@ public abstract class Command {
   protected List<Integer> input = Collections.emptyList();
   private boolean injected = false;
 
+  /** Sets the owner for this action. */
   public final Command setOwner(int owner) {
     this.owner = owner;
     return this;
@@ -85,6 +86,6 @@ public abstract class Command {
 
   @Override
   public String toString() {
-    return String.format("%s%s", getClass().getSimpleName(), input);
+    return String.format("%s(owner:*%d)%s", getClass().getSimpleName(), owner, input);
   }
 }
