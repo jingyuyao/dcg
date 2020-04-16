@@ -48,4 +48,9 @@ public class CreateCard extends Command {
       commandChain.addStart(new Own(owner, cardEntity));
     }
   }
+
+  @Override
+  public String toString() {
+    return String.format("%s %s", super.toString(), name);
+  }
 }

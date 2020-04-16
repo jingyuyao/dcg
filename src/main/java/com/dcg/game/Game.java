@@ -17,6 +17,7 @@ import com.dcg.debug.PrintPlayers;
 import com.dcg.forge.ForgeRowRefillSystem;
 import com.dcg.forge.InitializeForgeDeck;
 import com.dcg.ownership.OwnershipSystem;
+import com.dcg.player.CreatePlayer;
 import com.dcg.turn.TurnSystem;
 import java.util.List;
 import java.util.Random;

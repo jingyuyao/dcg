@@ -1,4 +1,4 @@
-package com.dcg.game;
+package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
@@ -7,8 +7,6 @@ import com.dcg.battle.CreateUnit;
 import com.dcg.card.CreateCard;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
-import com.dcg.player.DrawCards;
-import com.dcg.player.Player;
 import com.dcg.turn.AdjustPower;
 
 public class CreatePlayer extends Command {
@@ -30,6 +28,7 @@ public class CreatePlayer extends Command {
           new CreateCard("Diplomacy", 0).addEffects(new AdjustPower(1)).setOwner(playerEntity));
     }
     commandChain.addEnd(
+        new CreateCard("Pot of Greed", 0).addEffects(new DrawCards(2)).setOwner(playerEntity),
         new CreateCard("Eager Owlet", 0)
             .addEffects(new CreateUnit("Eager Owlet", 2))
             .setOwner(playerEntity),
