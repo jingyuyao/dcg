@@ -6,11 +6,11 @@ import com.artemis.annotations.Wire;
 import com.dcg.battle.AddDefense;
 import com.dcg.battle.CreateUnit;
 import com.dcg.card.CreateCard;
-import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.game.CreateEntity;
 import com.dcg.turn.AdjustPower;
 
-public class CreatePlayer extends Command {
+public class CreatePlayer extends CreateEntity {
   private final String name;
   @Wire CommandChain commandChain;
   protected World world;
@@ -18,20 +18,16 @@ public class CreatePlayer extends Command {
 
   public CreatePlayer(String name) {
     this.name = name;
+    addOnEnterEffects(new FillHand(5), new AdvanceTurn());
   }
 
   @Override
   protected void run() {
-    // TODO: inherit from CreateEntity then add AdvanceTurn
-    int playerEntity = world.create();
+    int playerEntity = createEntity();
     mPlayer.create(playerEntity).name = name;
     commandChain.addEnd(
-        new CreateCard("Diplomacy", 0)
-            .addOnEnterEffects(new AdjustPower(1))
-            .setOwner(playerEntity),
-        new CreateCard("Diplomacy", 0)
-            .addOnEnterEffects(new AdjustPower(1))
-            .setOwner(playerEntity),
+        new CreateCard("Diplomacy", 0).addOnEnterEffects(new AdjustPower(1)).setOwner(playerEntity),
+        new CreateCard("Diplomacy", 0).addOnEnterEffects(new AdjustPower(1)).setOwner(playerEntity),
         new CreateCard("Worn Shield", 0)
             .addOnEnterEffects(new AddDefense(2))
             .setOwner(playerEntity),
@@ -40,13 +36,11 @@ public class CreatePlayer extends Command {
             .setOwner(playerEntity),
         new CreateCard("Withering Witch", 0)
             .addOnEnterEffects(
-                new CreateUnit("Withering Witch", 2)
-                    .addOnEnterEffects(new AddDefense(3).toOwner()))
+                new CreateUnit("Withering Witch", 2).addOnEnterEffects(new AddDefense(3).toOwner()))
             .setOwner(playerEntity),
         new CreateCard("Secret Pages", 0)
             .addOnEnterEffects(new AdjustPower(2))
             .setOwner(playerEntity));
-    commandChain.addEnd(new DrawCards(playerEntity, 5));
   }
 
   @Override

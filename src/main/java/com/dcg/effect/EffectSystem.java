@@ -11,11 +11,10 @@ import com.dcg.battle.Unit;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.location.PlayArea;
+import com.dcg.turn.Turn;
 
-// TODO: make AdvanceTurn or draw card an effect of player going into turn?
-// damn this is opening up so many possibilities
 @All(Effect.class)
-@One({PlayArea.class, Unit.class})
+@One({Turn.class, PlayArea.class, Unit.class})
 public class EffectSystem extends BaseEntitySystem {
   @Wire CommandChain commandChain;
   protected World world;
@@ -24,14 +23,12 @@ public class EffectSystem extends BaseEntitySystem {
   @Override
   protected void inserted(int entityId) {
     Effect effect = mEffect.get(entityId);
-    // Looping in reverse so the effects are added to the chain in the correct order.
-    for (int i = effect.onEnter.size() - 1; i >= 0; i--) {
-      Command command = effect.onEnter.get(i);
+    for (Command command : effect.onEnter) {
+      command.setOwner(entityId);
       if (command.canRun(world)) {
-        command.setOwner(entityId);
-        commandChain.addStart(command);
+        commandChain.addEnd(command);
       } else {
-        commandChain.addStart(new CreateAction(entityId, command));
+        commandChain.addEnd(new CreateAction(entityId, command));
       }
     }
   }

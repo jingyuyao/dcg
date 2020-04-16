@@ -7,22 +7,23 @@ import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
 import com.dcg.command.Command;
 import com.dcg.location.Hand;
+import com.dcg.location.PlayArea;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.turn.Turn;
-import com.dcg.turn.TurnSystem;
 
 public class AdvanceTurn extends Command {
   protected AspectSubscriptionManager manager;
-  protected TurnSystem turnSystem;
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Turn> mTurn;
 
   @Override
   protected boolean isWorldValid() {
-    return ownershipSystem
-            .getOwnedBy(turnSystem.getPlayerEntity(), Aspect.all(Card.class, Hand.class))
-            .count()
-        == 0;
+    long cardsInHandCount =
+        ownershipSystem.getOwnedBy(owner, Aspect.all(Card.class, Hand.class)).count();
+    long cardsInPlayCount =
+        ownershipSystem.getOwnedBy(owner, Aspect.all(Card.class, PlayArea.class)).count();
+    // Check cardsInPlay so this doesn't get automatically triggered on enter.
+    return cardsInHandCount == 0 && cardsInPlayCount != 0;
   }
 
   @Override
