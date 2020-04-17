@@ -16,7 +16,20 @@ public class Unit extends Component {
 
   @Override
   public String toString() {
-    return String.format(
-        "%s(str:%d,def:%d,flying:%s,lifeSteal:%s)", name, strength, defense, flying, lifeSteal);
+    StringBuilder builder = new StringBuilder(name);
+    builder.append(" ");
+    if (strength > 0) {
+      builder.append("atk️️:").append(strength).append(" ");
+    }
+    if (defense > 0) {
+      builder.append("def:").append(defense).append(" ");
+    }
+    if (flying) {
+      builder.append("fly").append(" ");
+    }
+    if (lifeSteal) {
+      builder.append("lifeSteal").append(" ");
+    }
+    return builder.toString();
   }
 }
