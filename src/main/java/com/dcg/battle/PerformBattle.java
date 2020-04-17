@@ -15,7 +15,6 @@ public class PerformBattle extends CommandBase {
 
   @Override
   protected void run() {
-    // TODO: dedupe logic with print unit
     List<Integer> currentPlayerUnits =
         coreSystem
             .getDescendants(sourceEntity, Aspect.all(Unit.class))
