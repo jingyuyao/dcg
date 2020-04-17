@@ -15,7 +15,7 @@ public abstract class DebugEntityCommand extends AbstractCommandBuilder {;
 
   private void printAction(int actionEntity) {
     Action action = mAction.get(actionEntity);
-    Command command = action.command.build(world, coreSystem.getOwner(actionEntity));
+    Command command = action.command;
     // Only show actions that are valid in the current world state.
     if (command.isWorldValid()) {
       System.out.printf("    - %d %s\n", actionEntity, action.command);

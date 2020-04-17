@@ -5,21 +5,21 @@ import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
 
 public class CreateAction extends CreateEntity {
-  private final CommandBuilder command;
+  private final CommandBuilder builder;
   protected ComponentMapper<Action> mAction;
 
-  public CreateAction(CommandBuilder command) {
-    this.command = command;
+  public CreateAction(CommandBuilder builder) {
+    this.builder = builder;
   }
 
   @Override
   protected void run() {
     int actionEntity = createEntity();
-    mAction.create(actionEntity).command = command;
+    mAction.create(actionEntity).command = builder.build(world, sourceEntity);
   }
 
   @Override
   public String toString() {
-    return String.format("%s %s", super.toString(), command);
+    return String.format("%s %s", super.toString(), builder);
   }
 }

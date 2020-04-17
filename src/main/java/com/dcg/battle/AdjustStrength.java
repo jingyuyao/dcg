@@ -31,4 +31,9 @@ public class AdjustStrength extends AbstractCommandBuilder {
       world.delete(targetEntity);
     }
   }
+
+  @Override
+  public String toString() {
+    return String.format("%s %d", super.toString(), strength);
+  }
 }

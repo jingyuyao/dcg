@@ -6,7 +6,6 @@ import com.dcg.command.Command;
 import java.util.List;
 
 public class ExecuteAction extends AbstractCommandBuilder {;
-
   protected ComponentMapper<Action> mAction;
 
   @Override
@@ -34,7 +33,7 @@ public class ExecuteAction extends AbstractCommandBuilder {;
 
     List<Integer> inputPassThrough = input.subList(1, input.size());
     Action action = mAction.get(actionEntity);
-    Command command = action.command.build(world, coreSystem.getOwner(actionEntity));
+    Command command = action.command;
     command.setInput(inputPassThrough);
     return command.canRun();
   }
@@ -44,7 +43,7 @@ public class ExecuteAction extends AbstractCommandBuilder {;
     List<Integer> inputPassThrough = input.subList(1, input.size());
     int actionEntity = input.get(0);
     Action action = mAction.get(actionEntity);
-    Command command = action.command.build(world, coreSystem.getOwner(actionEntity));
+    Command command = action.command;
     command.setInput(inputPassThrough);
     commandChain.addEnd(command);
     world.delete(actionEntity);

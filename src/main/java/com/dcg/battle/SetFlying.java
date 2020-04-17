@@ -15,4 +15,9 @@ public class SetFlying extends AbstractCommandBuilder {
   protected void run() {
     mUnit.get(sourceEntity).flying = flying;
   }
+
+  @Override
+  public String toString() {
+    return String.format("%s %s", super.toString(), flying);
+  }
 }

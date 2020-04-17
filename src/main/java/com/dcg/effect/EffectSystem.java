@@ -40,12 +40,12 @@ public class EffectSystem extends BaseEntitySystem {
   protected void processSystem() {}
 
   private void triggerEffects(int entityId, List<CommandBuilder> effects) {
-    for (CommandBuilder commandBuilder : effects) {
-      Command command = commandBuilder.build(world, entityId);
+    for (CommandBuilder builder : effects) {
+      Command command = builder.build(world, entityId);
       if (command.canRun()) {
         commandChain.addEnd(command);
       } else {
-        commandChain.addEnd(new CreateAction(commandBuilder).build(world, entityId));
+        commandChain.addEnd(new CreateAction(builder).build(world, entityId));
       }
     }
   }
