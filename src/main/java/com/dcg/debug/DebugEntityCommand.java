@@ -3,12 +3,10 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.action.Action;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
-import com.dcg.command.CommandBase;
-import com.dcg.game.CoreSystem;
 
-public abstract class DebugEntityCommand extends CommandBase {
-  protected CoreSystem coreSystem;
+public abstract class DebugEntityCommand extends AbstractCommandBuilder {;
   protected ComponentMapper<Action> mAction;
 
   protected void printActions(int ownerEntity) {

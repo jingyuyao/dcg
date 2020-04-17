@@ -1,11 +1,9 @@
 package com.dcg.action;
 
 import com.artemis.Aspect;
-import com.dcg.command.CommandBase;
-import com.dcg.game.CoreSystem;
+import com.dcg.command.AbstractCommandBuilder;
 
-public class DeleteActions extends CommandBase {
-  protected CoreSystem coreSystem;
+public class DeleteActions extends AbstractCommandBuilder {;
 
   @Override
   protected void run() {

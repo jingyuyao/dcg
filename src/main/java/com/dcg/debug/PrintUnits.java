@@ -3,13 +3,11 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
-import com.dcg.game.CoreSystem;
 import com.dcg.player.Turn;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PrintUnits extends DebugEntityCommand {
-  protected CoreSystem coreSystem;
+public class PrintUnits extends DebugEntityCommand {;
   protected ComponentMapper<Unit> mUnit;
 
   @Override

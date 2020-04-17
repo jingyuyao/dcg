@@ -5,14 +5,12 @@ import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
-import com.dcg.command.CommandBase;
-import com.dcg.game.CoreSystem;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.location.Hand;
 import com.dcg.location.PlayArea;
 
-public class AdvanceTurn extends CommandBase {
+public class AdvanceTurn extends AbstractCommandBuilder {
   protected AspectSubscriptionManager manager;
-  protected CoreSystem coreSystem;
   protected ComponentMapper<Turn> mTurn;
 
   @Override

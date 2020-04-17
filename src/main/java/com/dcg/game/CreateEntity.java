@@ -3,7 +3,7 @@ package com.dcg.game;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.action.DeleteActions;
-import com.dcg.command.CommandBase;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
 import com.dcg.effect.Effect;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
  * the created entity if available and automatically adds an onLeave effect to cleanup any actions
  * tied to the created entity.
  */
-public abstract class CreateEntity extends CommandBase {
+public abstract class CreateEntity extends AbstractCommandBuilder {
   protected final List<CommandBuilder> onEnterEffects = new ArrayList<>();
   protected final List<CommandBuilder> onLeaveEffects = new ArrayList<>();
   protected World world;

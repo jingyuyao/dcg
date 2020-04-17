@@ -3,11 +3,9 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
-import com.dcg.game.CoreSystem;
 import com.dcg.location.PlayArea;
 
-public class PrintPlayArea extends DebugEntityCommand {
-  protected CoreSystem coreSystem;
+public class PrintPlayArea extends DebugEntityCommand {;
   protected ComponentMapper<Card> mCard;
 
   @Override

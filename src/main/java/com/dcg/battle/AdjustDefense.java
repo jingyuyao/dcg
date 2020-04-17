@@ -1,9 +1,9 @@
 package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.CommandBase;
+import com.dcg.command.AbstractCommandBuilder;
 
-public class AdjustDefense extends CommandBase {
+public class AdjustDefense extends AbstractCommandBuilder {
   private final int defense;
   private boolean addToSource = false;
   protected ComponentMapper<Unit> mUnit;

@@ -2,12 +2,10 @@ package com.dcg.debug;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
-import com.dcg.game.CoreSystem;
 import com.dcg.player.Player;
 import com.dcg.player.Turn;
 
-public class PrintPlayers extends DebugEntityCommand {
-  protected CoreSystem coreSystem;
+public class PrintPlayers extends DebugEntityCommand {;
   protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Turn> mTurn;
 

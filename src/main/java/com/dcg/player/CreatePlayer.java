@@ -1,19 +1,17 @@
 package com.dcg.player;
 
 import com.artemis.ComponentMapper;
-import com.artemis.annotations.Wire;
 import com.dcg.battle.AdjustDefense;
 import com.dcg.battle.AdjustStrength;
 import com.dcg.battle.CreateUnit;
 import com.dcg.battle.PerformBattle;
 import com.dcg.battle.SetFlying;
 import com.dcg.card.CreateCard;
-import com.dcg.command.CommandChain;
 import com.dcg.game.CreateEntity;
 
 public class CreatePlayer extends CreateEntity {
   private final String name;
-  @Wire protected CommandChain commandChain;
+
   protected ComponentMapper<Player> mPlayer;
 
   public CreatePlayer(String name) {

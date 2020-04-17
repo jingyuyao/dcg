@@ -2,11 +2,8 @@ package com.dcg.forge;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
-import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
-import com.dcg.command.CommandBase;
-import com.dcg.command.CommandChain;
-import com.dcg.game.CoreSystem;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.game.Owned;
 import com.dcg.location.Deck;
 import com.dcg.location.MoveLocation;
@@ -14,9 +11,8 @@ import com.dcg.player.AdjustPower;
 import com.dcg.player.Turn;
 import java.util.Optional;
 
-public class BuyCard extends CommandBase {
-  @Wire protected CommandChain commandChain;
-  protected CoreSystem coreSystem;
+public class BuyCard extends AbstractCommandBuilder {;
+
   protected ComponentMapper<Turn> mTurn;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Owned> mOwned;

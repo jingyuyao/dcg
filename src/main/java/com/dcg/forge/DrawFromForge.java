@@ -4,9 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
 import com.dcg.card.Card;
-import com.dcg.command.CommandBase;
-import com.dcg.command.CommandChain;
-import com.dcg.game.CoreSystem;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.game.Owned;
 import com.dcg.location.Deck;
 import com.dcg.location.ForgeRow;
@@ -15,10 +13,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class DrawFromForge extends CommandBase {
+public class DrawFromForge extends AbstractCommandBuilder {
   @Wire protected Random random;
-  @Wire protected CommandChain commandChain;
-  protected CoreSystem coreSystem;
 
   @Override
   protected void run() {

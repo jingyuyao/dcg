@@ -1,16 +1,20 @@
 package com.dcg.command;
 
 import com.artemis.World;
+import com.artemis.annotations.Wire;
+import com.dcg.game.CoreSystem;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: rename to AbstractCommandBuilder, add chain and core system as default
+// TODO: add chain and core system as default
 /**
  * Base class for a command. Guarantees the instance is injected by a world and has owner set upon
  * execution as long as only the public interfaces are used.
  */
-public abstract class CommandBase implements CommandBuilder {
+public abstract class AbstractCommandBuilder implements CommandBuilder {
+  @Wire protected CommandChain commandChain;
   protected World world;
+  protected CoreSystem coreSystem;
   protected int sourceEntity = -1;
   protected List<Integer> input = Collections.emptyList();
   private boolean injected = false;
@@ -43,13 +47,13 @@ public abstract class CommandBase implements CommandBuilder {
   private class CommandImpl implements Command {
     @Override
     public Command setInput(List<Integer> input) {
-      CommandBase.this.input = input;
+      AbstractCommandBuilder.this.input = input;
       return this;
     }
 
     @Override
     public void run() {
-      CommandBase.this.run();
+      AbstractCommandBuilder.this.run();
     }
 
     @Override
@@ -59,17 +63,17 @@ public abstract class CommandBase implements CommandBuilder {
 
     @Override
     public boolean isInputValid() {
-      return CommandBase.this.isInputValid();
+      return AbstractCommandBuilder.this.isInputValid();
     }
 
     @Override
     public boolean isWorldValid() {
-      return CommandBase.this.isWorldValid();
+      return AbstractCommandBuilder.this.isWorldValid();
     }
 
     @Override
     public String toString() {
-      return CommandBase.this.toString();
+      return AbstractCommandBuilder.this.toString();
     }
   }
 }

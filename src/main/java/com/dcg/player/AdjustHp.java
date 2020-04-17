@@ -1,12 +1,10 @@
 package com.dcg.player;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.CommandBase;
-import com.dcg.game.CoreSystem;
+import com.dcg.command.AbstractCommandBuilder;
 
-public class AdjustHp extends CommandBase {
+public class AdjustHp extends AbstractCommandBuilder {
   private final int hp;
-  protected CoreSystem coreSystem;
   protected ComponentMapper<Player> mPlayer;
 
   public AdjustHp(int hp) {

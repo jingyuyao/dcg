@@ -3,11 +3,9 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
-import com.dcg.game.CoreSystem;
 import com.dcg.location.ForgeRow;
 
-public class PrintForgeRow extends DebugEntityCommand {
-  protected CoreSystem coreSystem;
+public class PrintForgeRow extends DebugEntityCommand {;
   protected ComponentMapper<Card> mCard;
 
   @Override

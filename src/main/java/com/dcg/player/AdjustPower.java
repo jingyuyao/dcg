@@ -2,12 +2,10 @@ package com.dcg.player;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
-import com.dcg.command.CommandBase;
-import com.dcg.game.CoreSystem;
+import com.dcg.command.AbstractCommandBuilder;
 
-public class AdjustPower extends CommandBase {
+public class AdjustPower extends AbstractCommandBuilder {
   private final int power;
-  protected CoreSystem coreSystem;
   protected ComponentMapper<Turn> mTurn;
 
   public AdjustPower(int power) {

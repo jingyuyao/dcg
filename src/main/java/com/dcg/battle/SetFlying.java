@@ -1,9 +1,9 @@
 package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.CommandBase;
+import com.dcg.command.AbstractCommandBuilder;
 
-public class SetFlying extends CommandBase {
+public class SetFlying extends AbstractCommandBuilder {
   private final boolean flying;
   protected ComponentMapper<Unit> mUnit;
 

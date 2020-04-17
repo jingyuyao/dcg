@@ -1,13 +1,10 @@
 package com.dcg.forge;
 
-import com.artemis.annotations.Wire;
 import com.dcg.battle.CreateUnit;
 import com.dcg.card.CreateCard;
-import com.dcg.command.CommandBase;
-import com.dcg.command.CommandChain;
+import com.dcg.command.AbstractCommandBuilder;
 
-public class InitializeForge extends CommandBase {
-  @Wire protected CommandChain commandChain;
+public class InitializeForge extends AbstractCommandBuilder {
 
   @Override
   protected void run() {

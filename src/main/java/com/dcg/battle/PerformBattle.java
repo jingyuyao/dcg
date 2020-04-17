@@ -2,14 +2,12 @@ package com.dcg.battle;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
-import com.dcg.command.CommandBase;
-import com.dcg.game.CoreSystem;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.player.Player;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PerformBattle extends CommandBase {
-  protected CoreSystem coreSystem;
+public class PerformBattle extends AbstractCommandBuilder {;
   protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Unit> mUnit;
 

@@ -1,11 +1,11 @@
 package com.dcg.location;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.CommandBase;
+import com.dcg.command.AbstractCommandBuilder;
 import java.util.Arrays;
 import java.util.List;
 
-public class MoveLocation extends CommandBase {
+public class MoveLocation extends AbstractCommandBuilder {
   private static final List<Class<? extends Location>> ALL =
       Arrays.asList(Deck.class, ForgeRow.class, DiscardPile.class, Hand.class, PlayArea.class);
   private final Class<? extends Location> location;
