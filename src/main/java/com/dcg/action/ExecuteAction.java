@@ -13,8 +13,6 @@ public class ExecuteAction extends CommandBase {
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Action> mAction;
 
-  // TODO: require a single constructor specifying actionEntity, use inputs for pass through.
-
   @Override
   protected boolean isInputValid() {
     if (input.size() < 1) {
