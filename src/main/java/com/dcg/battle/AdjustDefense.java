@@ -3,16 +3,16 @@ package com.dcg.battle;
 import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBase;
 
-public class AddDefense extends CommandBase {
+public class AdjustDefense extends CommandBase {
   private final int defense;
   private boolean addToSource = false;
   protected ComponentMapper<Unit> mUnit;
 
-  public AddDefense(int defense) {
+  public AdjustDefense(int defense) {
     this.defense = defense;
   }
 
-  public AddDefense toSource() {
+  public AdjustDefense toSource() {
     this.addToSource = true;
     return this;
   }

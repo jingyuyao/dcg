@@ -2,7 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
-import com.dcg.battle.AddDefense;
+import com.dcg.battle.AdjustDefense;
 import com.dcg.battle.CreateUnit;
 import com.dcg.battle.PerformBattle;
 import com.dcg.card.CreateCard;
@@ -32,7 +32,7 @@ public class CreatePlayer extends CreateEntity {
             .addOnEnterEffects(new AdjustPower(1))
             .build(world, playerEntity),
         new CreateCard("Worn Shield", 0)
-            .addOnEnterEffects(new AddDefense(2))
+            .addOnEnterEffects(new AdjustDefense(2))
             .build(world, playerEntity),
         new CreateCard("Eager Owlet", 0)
             .addOnEnterEffects(new CreateUnit("Eager Owlet", 2))
@@ -40,8 +40,8 @@ public class CreatePlayer extends CreateEntity {
         new CreateCard("Xenan Cupbearer", 0)
             .addOnEnterEffects(
                 new CreateUnit("Xenan Cupbearer", 1)
-                    .addOnEnterEffects(new AddDefense(1).toSource()),
-                new AddHp(1))
+                    .addOnEnterEffects(new AdjustDefense(1).toSource()),
+                new AdjustHp(1))
             .build(world, playerEntity),
         new CreateCard("Grenadin Drone", 0)
             .addOnEnterEffects(new CreateUnit("Grenadin Drone", 2), new CreateUnit("Grenadin", 1))
@@ -49,7 +49,7 @@ public class CreatePlayer extends CreateEntity {
         new CreateCard("Withering Witch", 0)
             .addOnEnterEffects(
                 new CreateUnit("Withering Witch", 2)
-                    .addOnEnterEffects(new AddDefense(3).toSource()))
+                    .addOnEnterEffects(new AdjustDefense(3).toSource()))
             .build(world, playerEntity),
         new CreateCard("Secret Pages", 0)
             .addOnEnterEffects(new AdjustPower(2))
