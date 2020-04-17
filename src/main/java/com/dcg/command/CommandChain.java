@@ -6,22 +6,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CommandChain {
-  private final Deque<Command> queue = new LinkedList<>();
+  private final Deque<ExecutableCommand> queue = new LinkedList<>();
 
-  // TODO: consider making owner a required parameter
   /** Add commands to the end of the deque while preserving the order of the arguments. */
-  public void addEnd(List<Command> commands) {
-    for (Command command : commands) {
+  public void addEnd(List<ExecutableCommand> executableCommands) {
+    for (ExecutableCommand command : executableCommands) {
       queue.addLast(command);
     }
   }
 
   /** Add commands to the end of the deque while preserving the order of the arguments. */
-  public void addEnd(Command... commands) {
-    addEnd(Arrays.asList(commands));
+  public void addEnd(ExecutableCommand... executableCommands) {
+    addEnd(Arrays.asList(executableCommands));
   }
 
-  public Command pop() {
+  public ExecutableCommand pop() {
     return queue.remove();
   }
 

@@ -1,12 +1,10 @@
 package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
-import com.artemis.World;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBase;
 import com.dcg.ownership.OwnershipSystem;
 
-public class Block extends Command {
-  protected World world;
+public class Block extends CommandBase {
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Unit> mUnit;
 

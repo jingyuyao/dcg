@@ -18,6 +18,7 @@ import com.dcg.forge.InitializeForge;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.CreatePlayer;
 import com.dcg.turn.TurnSystem;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -42,12 +43,11 @@ public class Game {
   private final World world = new World(configuration);
 
   public Game() {
-    process(
-        new InitializeForge(),
-        new CreatePlayer("Edelgard"),
-        new CreatePlayer("Dimitri"),
-        new CreatePlayer("Claude"),
-        new InitTurn("Edelgard"));
+    process(new InitializeForge());
+    process(new CreatePlayer("Edelgard"));
+    process(new CreatePlayer("Dimitri"));
+    process(new CreatePlayer("Claude"));
+    process(new InitTurn("Edelgard"));
   }
 
   public void handleInput(List<Integer> input) {
@@ -55,26 +55,28 @@ public class Game {
       System.out.println("No input");
       return;
     }
-    ExecuteAction executeAction = new ExecuteAction();
-    executeAction.setInput(input);
-    process(executeAction);
+    process(new ExecuteAction(), input);
   }
 
   public boolean isOver() {
     return world.getSystem(GameOverSystem.class).isOver();
   }
 
-  private void process(Command... commands) {
+  private void process(Command command) {
+    process(command, Collections.emptyList());
+  }
+
+  private void process(Command command, List<Integer> input) {
     CommandChain commandChain = world.getRegistered(CommandChain.class);
-    commandChain.addEnd(commands);
+    commandChain.addEnd(command.build(world, -1).setInput(input));
     world.process();
 
     commandChain.addEnd(
-        new PrintPlayers(),
-        new PrintForgeRow(),
-        new PrintUnits(),
-        new PrintPlayArea(),
-        new PrintCurrentPlayerHand());
+        new PrintPlayers().build(world, -1),
+        new PrintForgeRow().build(world, -1),
+        new PrintUnits().build(world, -1),
+        new PrintPlayArea().build(world, -1),
+        new PrintCurrentPlayerHand().build(world, -1));
     world.process();
   }
 }

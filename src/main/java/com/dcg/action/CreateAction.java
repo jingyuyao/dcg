@@ -8,7 +8,6 @@ public class CreateAction extends CreateEntity {
   private final Command command;
   protected ComponentMapper<Action> mAction;
 
-  // TODO: consider making owner mandatory?
   public CreateAction(Command command) {
     this.command = command;
   }

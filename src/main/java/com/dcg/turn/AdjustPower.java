@@ -1,8 +1,8 @@
 package com.dcg.turn;
 
-import com.dcg.command.Command;
+import com.dcg.command.CommandBase;
 
-public class AdjustPower extends Command {
+public class AdjustPower extends CommandBase {
   private final int power;
   protected TurnSystem turnSystem;
 

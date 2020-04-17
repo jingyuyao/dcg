@@ -4,6 +4,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.action.DeleteActions;
 import com.dcg.command.Command;
+import com.dcg.command.CommandBase;
 import com.dcg.effect.Effect;
 import com.dcg.ownership.Owned;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
  * the created entity if available and automatically adds an onLeave effect to cleanup any actions
  * tied to the created entity.
  */
-public abstract class CreateEntity extends Command {
+public abstract class CreateEntity extends CommandBase {
   protected final List<Command> onEnterEffects = new ArrayList<>();
   protected final List<Command> onLeaveEffects = new ArrayList<>();
   protected World world;
@@ -26,12 +27,12 @@ public abstract class CreateEntity extends Command {
     addOnLeaveEffects(new DeleteActions());
   }
 
-  public CreateEntity addOnEnterEffects(Command... effects) {
+  public Command addOnEnterEffects(Command... effects) {
     this.onEnterEffects.addAll(Arrays.asList(effects));
     return this;
   }
 
-  public CreateEntity addOnLeaveEffects(Command... effects) {
+  public Command addOnLeaveEffects(Command... effects) {
     this.onLeaveEffects.addAll(Arrays.asList(effects));
     return this;
   }

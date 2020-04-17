@@ -2,7 +2,6 @@ package com.dcg.effect;
 
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
-import com.artemis.World;
 import com.artemis.annotations.All;
 import com.artemis.annotations.One;
 import com.artemis.annotations.Wire;
@@ -10,6 +9,7 @@ import com.dcg.action.CreateAction;
 import com.dcg.battle.Unit;
 import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
+import com.dcg.command.ExecutableCommand;
 import com.dcg.location.PlayArea;
 import com.dcg.turn.Turn;
 import java.util.List;
@@ -22,7 +22,6 @@ import java.util.List;
 @One({Turn.class, PlayArea.class, Unit.class})
 public class EffectSystem extends BaseEntitySystem {
   @Wire protected CommandChain commandChain;
-  protected World world;
   protected ComponentMapper<Effect> mEffect;
 
   @Override
@@ -40,11 +39,11 @@ public class EffectSystem extends BaseEntitySystem {
 
   private void triggerEffects(int entityId, List<Command> effects) {
     for (Command command : effects) {
-      command.setOwner(entityId);
-      if (command.canRun(world)) {
-        commandChain.addEnd(command);
+      ExecutableCommand executableCommand = command.build(world, entityId);
+      if (executableCommand.canRun()) {
+        commandChain.addEnd(executableCommand);
       } else {
-        commandChain.addEnd(new CreateAction(command).setOwner(entityId));
+        commandChain.addEnd(new CreateAction(command).build(world, entityId));
       }
     }
   }

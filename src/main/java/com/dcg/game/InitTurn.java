@@ -2,11 +2,11 @@ package com.dcg.game;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBase;
 import com.dcg.player.Player;
 import com.dcg.turn.Turn;
 
-public class InitTurn extends Command {
+public class InitTurn extends CommandBase {
   private final String playerName;
   protected AspectSystem aspectSystem;
   protected ComponentMapper<Player> mPlayer;

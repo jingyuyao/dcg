@@ -10,6 +10,7 @@ public class TurnSystem extends BaseEntitySystem {
   protected ComponentMapper<Turn> mTurn;
   private int currentPlayerEntity = -1;
 
+  // TODO: i don't like this
   public int getPlayerEntity() {
     return currentPlayerEntity;
   }
@@ -20,7 +21,6 @@ public class TurnSystem extends BaseEntitySystem {
 
   @Override
   protected void inserted(int playerEntity) {
-    super.inserted(playerEntity);
     currentPlayerEntity = playerEntity;
   }
 

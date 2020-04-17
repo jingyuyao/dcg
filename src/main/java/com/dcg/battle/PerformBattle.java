@@ -2,29 +2,32 @@ package com.dcg.battle;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
-import com.artemis.World;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBase;
+import com.dcg.game.AspectSystem;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.Player;
-import com.dcg.turn.Turn;
-import com.dcg.turn.TurnSystem;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class PerformBattle extends Command {
-  protected World world;
+public class PerformBattle extends CommandBase {
+  protected AspectSystem aspectSystem;
   protected OwnershipSystem ownershipSystem;
-  protected TurnSystem turnSystem;
   protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Unit> mUnit;
 
   @Override
   protected void run() {
-    Turn turn = turnSystem.getTurn();
-    if (turn.previousPlayerEntity != -1) {
-      Player defendingPlayer = mPlayer.get(owner);
-      ownershipSystem
-          .getDescendants(turn.previousPlayerEntity, Aspect.all(Unit.class))
-          .forEach(unitEntity -> attack(unitEntity, defendingPlayer));
-    }
+    // TODO: dedupe logic with print unit
+    List<Integer> currentPlayerUnits =
+        ownershipSystem
+            .getDescendants(owner, Aspect.all(Unit.class))
+            .boxed()
+            .collect(Collectors.toList());
+    Player defendingPlayer = mPlayer.get(owner);
+    aspectSystem
+        .getStream(Aspect.all(Unit.class))
+        .filter(unitEntity -> !currentPlayerUnits.contains(unitEntity))
+        .forEach(unitEntity -> attack(unitEntity, defendingPlayer));
   }
 
   private void attack(int unitEntity, Player player) {

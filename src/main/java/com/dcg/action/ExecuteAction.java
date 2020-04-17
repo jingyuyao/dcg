@@ -1,18 +1,19 @@
 package com.dcg.action;
 
 import com.artemis.ComponentMapper;
-import com.artemis.World;
 import com.artemis.annotations.Wire;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBase;
 import com.dcg.command.CommandChain;
+import com.dcg.command.ExecutableCommand;
 import com.dcg.ownership.OwnershipSystem;
 import java.util.List;
 
-public class ExecuteAction extends Command {
+public class ExecuteAction extends CommandBase {
   @Wire protected CommandChain commandChain;
-  protected World world;
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Action> mAction;
+
+  // TODO: require a single constructor specifying actionEntity, use inputs for pass through.
 
   @Override
   protected boolean isInputValid() {
@@ -29,9 +30,10 @@ public class ExecuteAction extends Command {
 
     List<Integer> inputPassThrough = input.subList(1, input.size());
     Action action = mAction.get(actionEntity);
-    action.command.setOwner(ownershipSystem.getOwner(actionEntity));
-    action.command.setInput(inputPassThrough);
-    return action.command.canRun(world);
+    ExecutableCommand executableCommand =
+        action.command.build(world, ownershipSystem.getOwner(actionEntity));
+    executableCommand.setInput(inputPassThrough);
+    return executableCommand.canRun();
   }
 
   @Override
@@ -39,9 +41,10 @@ public class ExecuteAction extends Command {
     List<Integer> inputPassThrough = input.subList(1, input.size());
     int actionEntity = input.get(0);
     Action action = mAction.get(actionEntity);
-    action.command.setOwner(ownershipSystem.getOwner(actionEntity));
-    action.command.setInput(inputPassThrough);
-    commandChain.addEnd(action.command);
+    ExecutableCommand executableCommand =
+        action.command.build(world, ownershipSystem.getOwner(actionEntity));
+    executableCommand.setInput(inputPassThrough);
+    commandChain.addEnd(executableCommand);
     world.delete(actionEntity);
   }
 }

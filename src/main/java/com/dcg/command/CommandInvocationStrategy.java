@@ -18,13 +18,13 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
   protected void process() {
     System.out.println("Executing");
     while (!commandChain.isEmpty()) {
-      Command command = commandChain.pop();
-      System.out.printf("  %s\n", command.toString());
+      ExecutableCommand executableCommand = commandChain.pop();
+      System.out.printf("  %s\n", executableCommand.toString());
       updateEntityStates();
-      if (command.canRun(world)) {
-        command.run(world);
+      if (executableCommand.canRun()) {
+        executableCommand.run();
       } else {
-        System.out.printf("  %s ignored\n", command.toString());
+        System.out.printf("  %s ignored\n", executableCommand.toString());
       }
       processSystems();
     }

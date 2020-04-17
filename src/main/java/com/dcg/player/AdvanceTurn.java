@@ -5,13 +5,13 @@ import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBase;
 import com.dcg.location.Hand;
 import com.dcg.location.PlayArea;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.turn.Turn;
 
-public class AdvanceTurn extends Command {
+public class AdvanceTurn extends CommandBase {
   protected AspectSubscriptionManager manager;
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Turn> mTurn;
@@ -34,7 +34,6 @@ public class AdvanceTurn extends Command {
     int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
     int nextPlayer = players.get(nextPlayerIndex);
     mTurn.remove(currentPlayer);
-    Turn turn = mTurn.create(nextPlayer);
-    turn.previousPlayerEntity = currentPlayer;
+    mTurn.create(nextPlayer);
   }
 }

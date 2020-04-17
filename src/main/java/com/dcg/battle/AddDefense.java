@@ -1,9 +1,9 @@
 package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBase;
 
-public class AddDefense extends Command {
+public class AddDefense extends CommandBase {
   private final int defense;
   private boolean addToOwner = false;
   protected ComponentMapper<Unit> mUnit;
@@ -23,7 +23,7 @@ public class AddDefense extends Command {
   }
 
   @Override
-  public void run() {
+  protected void run() {
     int targetEntity = addToOwner ? owner : input.get(0);
     mUnit.get(targetEntity).defense += defense;
   }

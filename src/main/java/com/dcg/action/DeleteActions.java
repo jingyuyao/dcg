@@ -1,13 +1,11 @@
 package com.dcg.action;
 
 import com.artemis.Aspect;
-import com.artemis.World;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBase;
 import com.dcg.ownership.OwnershipSystem;
 
-public class DeleteActions extends Command {
+public class DeleteActions extends CommandBase {
   protected OwnershipSystem ownershipSystem;
-  protected World world;
 
   @Override
   protected void run() {

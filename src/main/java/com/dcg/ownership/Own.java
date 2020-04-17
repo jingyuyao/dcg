@@ -1,25 +1,23 @@
 package com.dcg.ownership;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBase;
 
-public class Own extends Command {
-  private final int ownerEntity;
+public class Own extends CommandBase {
   private final int ownedEntity;
   protected ComponentMapper<Owned> mOwned;
 
-  public Own(int ownerEntity, int ownedEntity) {
-    this.ownerEntity = ownerEntity;
+  public Own(int ownedEntity) {
     this.ownedEntity = ownedEntity;
   }
 
   @Override
   protected void run() {
-    mOwned.create(ownedEntity).owner = ownerEntity;
+    mOwned.create(ownedEntity).owner = owner;
   }
 
   @Override
   public String toString() {
-    return String.format("%s *%d by *%d", super.toString(), ownedEntity, ownerEntity);
+    return String.format("%s owned *%d", super.toString(), ownedEntity);
   }
 }
