@@ -5,12 +5,11 @@ import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
 import com.dcg.game.AspectSystem;
 import com.dcg.ownership.OwnershipSystem;
-import com.dcg.turn.TurnSystem;
+import com.dcg.player.Turn;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PrintUnits extends DebugEntityCommand {
-  protected TurnSystem turnSystem;
   protected AspectSystem aspectSystem;
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Unit> mUnit;
@@ -18,8 +17,11 @@ public class PrintUnits extends DebugEntityCommand {
   @Override
   protected void run() {
     List<Integer> currentPlayerUnits =
-        ownershipSystem
-            .getDescendants(turnSystem.getPlayerEntity(), Aspect.all(Unit.class))
+        aspectSystem
+            .getStream(Aspect.all(Turn.class))
+            .flatMap(
+                playerEntity ->
+                    ownershipSystem.getDescendants(playerEntity, Aspect.all(Unit.class)))
             .boxed()
             .collect(Collectors.toList());
 

@@ -4,7 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBase;
 import com.dcg.player.Player;
-import com.dcg.turn.Turn;
+import com.dcg.player.Turn;
 
 public class InitTurn extends CommandBase {
   private final String playerName;

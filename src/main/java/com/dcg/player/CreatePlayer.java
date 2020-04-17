@@ -8,7 +8,6 @@ import com.dcg.battle.PerformBattle;
 import com.dcg.card.CreateCard;
 import com.dcg.command.CommandChain;
 import com.dcg.game.CreateEntity;
-import com.dcg.turn.AdjustPower;
 
 public class CreatePlayer extends CreateEntity {
   private final String name;

@@ -17,7 +17,6 @@ import com.dcg.effect.EffectSystem;
 import com.dcg.forge.InitializeForge;
 import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.CreatePlayer;
-import com.dcg.turn.TurnSystem;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -34,7 +33,6 @@ public class Game {
               new EntityLinkManager(),
               new AspectSystem(),
               new OwnershipSystem(),
-              new TurnSystem(),
               new EffectSystem(),
               new GameOverSystem())
           .build()

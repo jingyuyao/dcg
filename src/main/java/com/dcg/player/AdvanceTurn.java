@@ -9,7 +9,6 @@ import com.dcg.command.CommandBase;
 import com.dcg.location.Hand;
 import com.dcg.location.PlayArea;
 import com.dcg.ownership.OwnershipSystem;
-import com.dcg.turn.Turn;
 
 public class AdvanceTurn extends CommandBase {
   protected AspectSubscriptionManager manager;

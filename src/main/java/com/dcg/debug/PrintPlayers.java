@@ -4,12 +4,12 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.game.AspectSystem;
 import com.dcg.player.Player;
-import com.dcg.turn.TurnSystem;
+import com.dcg.player.Turn;
 
 public class PrintPlayers extends DebugEntityCommand {
   protected AspectSystem aspectSystem;
   protected ComponentMapper<Player> mPlayer;
-  protected TurnSystem turnSystem;
+  protected ComponentMapper<Turn> mTurn;
 
   @Override
   protected void run() {
@@ -18,8 +18,8 @@ public class PrintPlayers extends DebugEntityCommand {
 
   private void printPlayer(int playerEntity) {
     System.out.printf("    *%d %s\n", playerEntity, mPlayer.get(playerEntity));
-    if (playerEntity == turnSystem.getPlayerEntity()) {
-      System.out.printf("      %s\n", turnSystem.getTurn());
+    if (mTurn.has(playerEntity)) {
+      System.out.printf("      %s\n", mTurn.get(playerEntity));
       printActions(playerEntity);
     }
   }

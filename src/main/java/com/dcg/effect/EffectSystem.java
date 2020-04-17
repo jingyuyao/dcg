@@ -11,7 +11,7 @@ import com.dcg.command.Command;
 import com.dcg.command.CommandChain;
 import com.dcg.command.ExecutableCommand;
 import com.dcg.location.PlayArea;
-import com.dcg.turn.Turn;
+import com.dcg.player.Turn;
 import java.util.List;
 
 /**
