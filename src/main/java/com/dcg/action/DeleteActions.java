@@ -7,6 +7,6 @@ public class DeleteActions extends AbstractCommandBuilder {;
 
   @Override
   protected void run() {
-    coreSystem.getOwnedBy(sourceEntity, Aspect.all(Action.class)).forEach(world::delete);
+    coreSystem.getChildren(sourceEntity, Aspect.all(Action.class)).forEach(world::delete);
   }
 }

@@ -34,20 +34,20 @@ public class CoreSystem extends IteratingSystem {
   }
 
   /** Filters the aspect for entities owned by the owner. */
-  public IntStream getOwnedBy(int ownerEntity, Aspect.Builder aspectBuilder) {
+  public IntStream getChildren(int ownerEntity, Aspect.Builder aspectBuilder) {
     return getStream(aspectBuilder.one(Owned.class))
         .filter(e -> ownerEntity == mOwned.get(e).owner);
   }
 
   /** Filters the aspect for entities not owned by the owner. */
-  public IntStream getNotOwnedBy(int ownerEntity, Aspect.Builder aspectBuilder) {
+  public IntStream getNotChildren(int ownerEntity, Aspect.Builder aspectBuilder) {
     return getStream(aspectBuilder.one(Owned.class))
         .filter(e -> ownerEntity != mOwned.get(e).owner);
   }
 
   /** Filters the aspect for entities with the same owner as the owned entity. */
-  public IntStream getPeersOf(int ownedEntity, Aspect.Builder aspectBuilder) {
-    return getOwnedBy(getOwner(ownedEntity), aspectBuilder);
+  public IntStream getPeers(int ownedEntity, Aspect.Builder aspectBuilder) {
+    return getChildren(getParent(ownedEntity), aspectBuilder);
   }
 
   /** Get all descendants owned by the owner matching the aspect. */
@@ -59,14 +59,14 @@ public class CoreSystem extends IteratingSystem {
 
   private void getDescendantsImpl(
       int ownerEntity, Aspect.Builder aspectBuilder, IntStream.Builder accumulator) {
-    getOwnedBy(ownerEntity, aspectBuilder).forEach(accumulator::add);
+    getChildren(ownerEntity, aspectBuilder).forEach(accumulator::add);
     getStream(Aspect.all(Owned.class))
         .filter(ownedEntity -> ownerEntity == mOwned.get(ownedEntity).owner)
         .forEach(ownedEntity -> getDescendantsImpl(ownedEntity, aspectBuilder, accumulator));
   }
 
   /** Returns the direct owner of the owned entity or -1 if it does not have an owner. */
-  public int getOwner(int ownedEntity) {
+  public int getParent(int ownedEntity) {
     return mOwned.has(ownedEntity) ? mOwned.get(ownedEntity).owner : -1;
   }
 

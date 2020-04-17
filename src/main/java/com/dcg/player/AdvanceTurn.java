@@ -15,9 +15,9 @@ public class AdvanceTurn extends AbstractCommandBuilder {
   @Override
   protected boolean isWorldValid() {
     long cardsInHandCount =
-        coreSystem.getOwnedBy(sourceEntity, Aspect.all(Card.class, Hand.class)).count();
+        coreSystem.getChildren(sourceEntity, Aspect.all(Card.class, Hand.class)).count();
     long cardsInPlayCount =
-        coreSystem.getOwnedBy(sourceEntity, Aspect.all(Card.class, PlayArea.class)).count();
+        coreSystem.getChildren(sourceEntity, Aspect.all(Card.class, PlayArea.class)).count();
     // Check cardsInPlay so this doesn't get automatically triggered on enter.
     return cardsInHandCount == 0 && cardsInPlayCount != 0;
   }

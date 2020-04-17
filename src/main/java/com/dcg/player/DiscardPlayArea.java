@@ -12,7 +12,7 @@ public class DiscardPlayArea extends AbstractCommandBuilder {;
   @Override
   protected void run() {
     coreSystem
-        .getOwnedBy(sourceEntity, Aspect.all(Card.class, PlayArea.class))
+        .getChildren(sourceEntity, Aspect.all(Card.class, PlayArea.class))
         .forEach(
             cardEntity ->
                 commandChain.addEnd(new MoveLocation(DiscardPile.class).build(world, cardEntity)));

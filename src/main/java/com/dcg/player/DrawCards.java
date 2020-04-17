@@ -27,12 +27,12 @@ public class DrawCards extends AbstractCommandBuilder {
     int rootEntity = coreSystem.getRoot(sourceEntity);
     List<Integer> deck =
         coreSystem
-            .getOwnedBy(rootEntity, Aspect.all(Card.class, Deck.class))
+            .getChildren(rootEntity, Aspect.all(Card.class, Deck.class))
             .boxed()
             .collect(Collectors.toList());
     List<Integer> discardPile =
         coreSystem
-            .getOwnedBy(rootEntity, Aspect.all(Card.class, DiscardPile.class))
+            .getChildren(rootEntity, Aspect.all(Card.class, DiscardPile.class))
             .boxed()
             .collect(Collectors.toList());
 

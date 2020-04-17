@@ -12,7 +12,7 @@ public class ReshuffleDiscardPile extends AbstractCommandBuilder {;
   @Override
   protected void run() {
     coreSystem
-        .getOwnedBy(sourceEntity, Aspect.all(Card.class, DiscardPile.class))
+        .getChildren(sourceEntity, Aspect.all(Card.class, DiscardPile.class))
         .forEach(
             cardEntity ->
                 commandChain.addEnd(new MoveLocation(Deck.class).build(world, cardEntity)));

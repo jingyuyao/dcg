@@ -10,7 +10,7 @@ public abstract class DebugEntityCommand extends AbstractCommandBuilder {;
   protected ComponentMapper<Action> mAction;
 
   protected void printActions(int ownerEntity) {
-    coreSystem.getOwnedBy(ownerEntity, Aspect.all(Action.class)).forEach(this::printAction);
+    coreSystem.getChildren(ownerEntity, Aspect.all(Action.class)).forEach(this::printAction);
   }
 
   private void printAction(int actionEntity) {

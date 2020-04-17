@@ -34,7 +34,7 @@ public class PlayHandSystem extends BaseEntitySystem {
                         currentPlayerEntity -> {
                           for (int i = 0; i < cardEntities.size(); i++) {
                             int cardEntity = cardEntities.get(i);
-                            if (coreSystem.getOwner(cardEntity) == currentPlayerEntity) {
+                            if (coreSystem.getParent(cardEntity) == currentPlayerEntity) {
                               commandChain.addEnd(
                                   new MoveLocation(PlayArea.class).build(world, cardEntity));
                             }
@@ -50,7 +50,7 @@ public class PlayHandSystem extends BaseEntitySystem {
   @Override
   protected void inserted(int playerEntity) {
     coreSystem
-        .getOwnedBy(playerEntity, Aspect.all(Card.class, Hand.class))
+        .getChildren(playerEntity, Aspect.all(Card.class, Hand.class))
         .forEach(
             cardEntity ->
                 commandChain.addEnd(new MoveLocation(PlayArea.class).build(world, cardEntity)));

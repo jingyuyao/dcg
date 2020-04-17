@@ -20,7 +20,7 @@ public class Block extends AbstractCommandBuilder {;
       return false;
     }
 
-    if (coreSystem.getOwner(sourceEntity) == coreSystem.getOwner(attackingEntity)) {
+    if (coreSystem.getParent(sourceEntity) == coreSystem.getParent(attackingEntity)) {
       System.out.println("    Can't block your own units");
       return false;
     }
