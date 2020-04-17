@@ -3,6 +3,7 @@ package com.dcg.player;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.dcg.battle.AdjustDefense;
+import com.dcg.battle.AdjustStrength;
 import com.dcg.battle.CreateUnit;
 import com.dcg.battle.PerformBattle;
 import com.dcg.card.CreateCard;
@@ -36,6 +37,10 @@ public class CreatePlayer extends CreateEntity {
             .build(world, playerEntity),
         new CreateCard("Eager Owlet", 0)
             .addOnEnterEffects(new CreateUnit("Eager Owlet", 2))
+            .build(world, playerEntity),
+        new CreateCard("Oni Ronin", 1)
+            .addOnEnterEffects(
+                new CreateUnit("Oni Ronin", 1), new AdjustStrength(1), new AdjustStrength(1))
             .build(world, playerEntity),
         new CreateCard("Xenan Cupbearer", 0)
             .addOnEnterEffects(

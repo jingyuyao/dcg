@@ -4,13 +4,13 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.Command;
 import com.dcg.command.CommandBase;
 
-public class AdjustDefense extends CommandBase {
-  private final int defense;
-  private boolean addToSource = false;
+public class AdjustStrength extends CommandBase {
+  private final int strength;
+  private boolean addToSource;
   protected ComponentMapper<Unit> mUnit;
 
-  public AdjustDefense(int defense) {
-    this.defense = defense;
+  public AdjustStrength(int strength) {
+    this.strength = strength;
   }
 
   public Command toSource() {
@@ -26,11 +26,10 @@ public class AdjustDefense extends CommandBase {
   @Override
   protected void run() {
     int targetEntity = addToSource ? sourceEntity : input.get(0);
-    mUnit.get(targetEntity).defense += defense;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("%s %d", super.toString(), defense);
+    Unit unit = mUnit.get(targetEntity);
+    unit.strength += strength;
+    if (unit.strength <= 0) {
+      world.delete(targetEntity);
+    }
   }
 }
