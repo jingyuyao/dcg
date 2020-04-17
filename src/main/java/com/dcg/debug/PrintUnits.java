@@ -3,7 +3,6 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
-import com.dcg.player.Turn;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +13,7 @@ public class PrintUnits extends DebugEntityCommand {;
   protected void run() {
     List<Integer> currentPlayerUnits =
         coreSystem
-            .getStream(Aspect.all(Turn.class))
+            .getCurrentPlayerEntity()
             .flatMap(
                 playerEntity -> coreSystem.getDescendants(playerEntity, Aspect.all(Unit.class)))
             .boxed()

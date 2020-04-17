@@ -6,6 +6,8 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.systems.IteratingSystem;
 import com.artemis.utils.IntBag;
+import com.dcg.player.Player;
+import com.dcg.player.Turn;
 import java.util.stream.IntStream;
 
 /**
@@ -27,6 +29,10 @@ public class CoreSystem extends IteratingSystem {
       streamBuilder.add(bag.get(i));
     }
     return streamBuilder.build();
+  }
+
+  public IntStream getCurrentPlayerEntity() {
+    return getStream(Aspect.all(Player.class, Turn.class));
   }
 
   /** Filters the aspect for entities owned by the owner. */

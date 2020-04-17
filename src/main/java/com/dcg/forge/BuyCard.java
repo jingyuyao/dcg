@@ -1,6 +1,5 @@
 package com.dcg.forge;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
@@ -19,8 +18,7 @@ public class BuyCard extends AbstractCommandBuilder {;
 
   @Override
   protected boolean isInputValid() {
-    Optional<Turn> turn =
-        coreSystem.getStream(Aspect.all(Turn.class)).mapToObj(mTurn::get).findFirst();
+    Optional<Turn> turn = coreSystem.getCurrentPlayerEntity().mapToObj(mTurn::get).findFirst();
     if (!turn.isPresent()) {
       return false;
     }
@@ -35,7 +33,7 @@ public class BuyCard extends AbstractCommandBuilder {;
   @Override
   protected void run() {
     coreSystem
-        .getStream(Aspect.all(Turn.class))
+        .getCurrentPlayerEntity()
         .forEach(
             playerEntity -> {
               mOwned.create(sourceEntity).owner = playerEntity;

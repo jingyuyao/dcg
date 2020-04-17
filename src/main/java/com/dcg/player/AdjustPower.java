@@ -1,6 +1,5 @@
 package com.dcg.player;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 
@@ -15,7 +14,7 @@ public class AdjustPower extends AbstractCommandBuilder {
   @Override
   protected void run() {
     coreSystem
-        .getStream(Aspect.all(Turn.class))
+        .getCurrentPlayerEntity()
         .mapToObj(mTurn::get)
         .forEach(turn -> turn.powerPool += power);
   }

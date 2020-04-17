@@ -1,16 +1,15 @@
 package com.dcg.player;
 
 import com.artemis.Aspect;
-import com.artemis.AspectSubscriptionManager;
 import com.artemis.ComponentMapper;
-import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.location.Hand;
 import com.dcg.location.PlayArea;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdvanceTurn extends AbstractCommandBuilder {
-  protected AspectSubscriptionManager manager;
   protected ComponentMapper<Turn> mTurn;
 
   @Override
@@ -25,12 +24,12 @@ public class AdvanceTurn extends AbstractCommandBuilder {
 
   @Override
   protected void run() {
-    int currentPlayer = manager.get(Aspect.all(Player.class, Turn.class)).getEntities().get(0);
-    IntBag players = manager.get(Aspect.all(Player.class)).getEntities();
-    int currentPlayerIndex = players.indexOf(currentPlayer);
-    int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
-    int nextPlayer = players.get(nextPlayerIndex);
-    mTurn.remove(currentPlayer);
+    List<Integer> allPlayerEntities =
+        coreSystem.getStream(Aspect.all(Player.class)).boxed().collect(Collectors.toList());
+    int currentPlayerIndex = allPlayerEntities.indexOf(sourceEntity);
+    int nextPlayerIndex = (currentPlayerIndex + 1) % allPlayerEntities.size();
+    int nextPlayer = allPlayerEntities.get(nextPlayerIndex);
+    mTurn.remove(sourceEntity);
     mTurn.create(nextPlayer);
   }
 }

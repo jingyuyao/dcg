@@ -8,7 +8,6 @@ import com.dcg.action.ExecuteAction;
 import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
-import com.dcg.debug.PrintCurrentPlayerHand;
 import com.dcg.debug.PrintForgeRow;
 import com.dcg.debug.PrintPlayArea;
 import com.dcg.debug.PrintPlayers;
@@ -71,8 +70,7 @@ public class Game {
         new PrintPlayers().build(world, -1),
         new PrintForgeRow().build(world, -1),
         new PrintUnits().build(world, -1),
-        new PrintPlayArea().build(world, -1),
-        new PrintCurrentPlayerHand().build(world, -1));
+        new PrintPlayArea().build(world, -1));
     world.process();
   }
 }
