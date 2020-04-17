@@ -3,12 +3,11 @@ package com.dcg.battle;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.player.Player;
+import com.dcg.player.AdjustHp;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PerformBattle extends AbstractCommandBuilder {;
-  protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Unit> mUnit;
 
   @Override
@@ -18,17 +17,19 @@ public class PerformBattle extends AbstractCommandBuilder {;
             .getDescendants(sourceEntity, Aspect.all(Unit.class))
             .boxed()
             .collect(Collectors.toList());
-    Player defendingPlayer = mPlayer.get(sourceEntity);
     coreSystem
         .getStream(Aspect.all(Unit.class))
         .filter(unitEntity -> !currentPlayerUnits.contains(unitEntity))
-        .forEach(unitEntity -> attack(unitEntity, defendingPlayer));
+        .forEach(this::attack);
   }
 
-  private void attack(int unitEntity, Player player) {
-    int damage = mUnit.get(unitEntity).strength;
-    player.hp -= damage;
-    System.out.printf("    %s got hit by %d\n", player.name, damage);
-    world.delete(unitEntity);
+  private void attack(int attackingUnitEntity) {
+    Unit attackingUnit = mUnit.get(attackingUnitEntity);
+    commandChain.addEnd(new AdjustHp(-attackingUnit.strength).build(world, sourceEntity));
+    if (attackingUnit.lifeSteal) {
+      commandChain.addEnd(new AdjustHp(attackingUnit.strength).build(world, attackingUnitEntity));
+    }
+    // TODO: use command
+    world.delete(attackingUnitEntity);
   }
 }

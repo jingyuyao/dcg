@@ -13,7 +13,12 @@ public class AdjustHp extends AbstractCommandBuilder {
 
   @Override
   protected void run() {
-    Player player = mPlayer.get(coreSystem.getOwner(sourceEntity));
+    Player player = mPlayer.get(coreSystem.getRoot(sourceEntity));
     player.hp += hp;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("%s %s", super.toString(), hp);
   }
 }

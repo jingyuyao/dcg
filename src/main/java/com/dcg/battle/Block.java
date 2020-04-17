@@ -46,6 +46,7 @@ public class Block extends AbstractCommandBuilder {;
   @Override
   protected void run() {
     int attackingEntity = input.get(0);
+    // TODO: make these commands
     world.delete(attackingEntity);
     world.delete(sourceEntity);
   }

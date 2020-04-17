@@ -12,6 +12,7 @@ public class Unit extends Component {
   public int strength = 0;
   public int defense = 0;
   public boolean flying = false;
+  public boolean lifeSteal = false;
 
   @Override
   public String toString() {

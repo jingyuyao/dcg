@@ -1,9 +1,8 @@
 package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.AbstractCommandBuilder;
 
-public class SetFlying extends AbstractCommandBuilder {
+public class SetFlying extends AdjustUnit {
   private final boolean flying;
   protected ComponentMapper<Unit> mUnit;
 
@@ -13,7 +12,7 @@ public class SetFlying extends AbstractCommandBuilder {
 
   @Override
   protected void run() {
-    mUnit.get(sourceEntity).flying = flying;
+    mUnit.get(getTargetEntity()).flying = flying;
   }
 
   @Override
