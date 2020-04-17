@@ -10,8 +10,8 @@ import com.dcg.card.Card;
 import com.dcg.command.CommandBase;
 import com.dcg.command.CommandChain;
 import com.dcg.command.ExecutableCommand;
+import com.dcg.game.OwnershipSystem;
 import com.dcg.location.Hand;
-import com.dcg.ownership.OwnershipSystem;
 import java.util.Collections;
 
 /** Create an action that plays all cards and attach it to the player. */

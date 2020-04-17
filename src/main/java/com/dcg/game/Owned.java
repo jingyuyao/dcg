@@ -1,4 +1,4 @@
-package com.dcg.ownership;
+package com.dcg.game;
 
 import com.artemis.Component;
 import com.artemis.annotations.EntityId;

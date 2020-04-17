@@ -2,7 +2,7 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBase;
-import com.dcg.ownership.OwnershipSystem;
+import com.dcg.game.OwnershipSystem;
 
 public class Block extends CommandBase {
   protected OwnershipSystem ownershipSystem;

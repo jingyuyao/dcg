@@ -4,8 +4,8 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
 import com.dcg.game.AspectSystem;
+import com.dcg.game.OwnershipSystem;
 import com.dcg.location.Hand;
-import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.Turn;
 
 public class PrintCurrentPlayerHand extends DebugEntityCommand {

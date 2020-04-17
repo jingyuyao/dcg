@@ -5,7 +5,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.action.Action;
 import com.dcg.command.CommandBase;
 import com.dcg.command.ExecutableCommand;
-import com.dcg.ownership.OwnershipSystem;
+import com.dcg.game.OwnershipSystem;
 
 public abstract class DebugEntityCommand extends CommandBase {
   protected OwnershipSystem ownershipSystem;

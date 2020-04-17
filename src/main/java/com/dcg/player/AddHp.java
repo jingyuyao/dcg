@@ -2,7 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBase;
-import com.dcg.ownership.OwnershipSystem;
+import com.dcg.game.OwnershipSystem;
 
 public class AddHp extends CommandBase {
   private final int hp;

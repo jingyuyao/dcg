@@ -15,7 +15,6 @@ import com.dcg.debug.PrintPlayers;
 import com.dcg.debug.PrintUnits;
 import com.dcg.effect.EffectSystem;
 import com.dcg.forge.InitializeForge;
-import com.dcg.ownership.OwnershipSystem;
 import com.dcg.player.CreatePlayer;
 import java.util.Collections;
 import java.util.List;

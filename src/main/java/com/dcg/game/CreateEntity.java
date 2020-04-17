@@ -6,7 +6,6 @@ import com.dcg.action.DeleteActions;
 import com.dcg.command.Command;
 import com.dcg.command.CommandBase;
 import com.dcg.effect.Effect;
-import com.dcg.ownership.Owned;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

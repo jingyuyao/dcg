@@ -6,9 +6,9 @@ import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
 import com.dcg.command.CommandBase;
+import com.dcg.game.OwnershipSystem;
 import com.dcg.location.Hand;
 import com.dcg.location.PlayArea;
-import com.dcg.ownership.OwnershipSystem;
 
 public class AdvanceTurn extends CommandBase {
   protected AspectSubscriptionManager manager;

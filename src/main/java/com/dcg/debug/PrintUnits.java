@@ -4,7 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
 import com.dcg.game.AspectSystem;
-import com.dcg.ownership.OwnershipSystem;
+import com.dcg.game.OwnershipSystem;
 import com.dcg.player.Turn;
 import java.util.List;
 import java.util.stream.Collectors;
