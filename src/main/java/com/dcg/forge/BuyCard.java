@@ -9,7 +9,7 @@ import com.dcg.command.CommandChain;
 import com.dcg.game.AspectSystem;
 import com.dcg.location.Deck;
 import com.dcg.location.MoveLocation;
-import com.dcg.ownership.Own;
+import com.dcg.ownership.Owned;
 import com.dcg.player.AdjustPower;
 import com.dcg.player.Turn;
 import java.util.Optional;
@@ -19,6 +19,7 @@ public class BuyCard extends CommandBase {
   protected AspectSystem aspectSystem;
   protected ComponentMapper<Turn> mTurn;
   protected ComponentMapper<Card> mCard;
+  protected ComponentMapper<Owned> mOwned;
 
   @Override
   protected boolean isInputValid() {
@@ -40,11 +41,12 @@ public class BuyCard extends CommandBase {
     aspectSystem
         .getStream(Aspect.all(Turn.class))
         .forEach(
-            playerEntity ->
-                commandChain.addEnd(
-                    new AdjustPower(-mCard.get(sourceEntity).cost).build(world, sourceEntity),
-                    new Own(sourceEntity).build(world, playerEntity),
-                    new MoveLocation(Deck.class).build(world, sourceEntity),
-                    new DrawFromForge().build(world, -1)));
+            playerEntity -> {
+              mOwned.create(sourceEntity).owner = playerEntity;
+              commandChain.addEnd(
+                  new AdjustPower(-mCard.get(sourceEntity).cost).build(world, sourceEntity),
+                  new MoveLocation(Deck.class).build(world, sourceEntity),
+                  new DrawFromForge().build(world, -1));
+            });
   }
 }
