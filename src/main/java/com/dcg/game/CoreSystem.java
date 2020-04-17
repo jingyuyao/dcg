@@ -64,6 +64,11 @@ public class CoreSystem extends IteratingSystem {
     return mOwned.has(ownedEntity) ? mOwned.get(ownedEntity).owner : -1;
   }
 
+  /** Returns the root owner of the entity or itself if it does not have an owner. */
+  public int getRoot(int entity) {
+    return mOwned.has(entity) ? getRoot(mOwned.get(entity).owner) : entity;
+  }
+
   @Override
   protected void process(int ownedEntity) {
     if (mOwned.get(ownedEntity).owner == -1) {

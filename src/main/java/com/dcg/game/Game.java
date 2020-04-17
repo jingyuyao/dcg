@@ -16,6 +16,7 @@ import com.dcg.debug.PrintUnits;
 import com.dcg.effect.EffectSystem;
 import com.dcg.forge.InitializeForge;
 import com.dcg.player.CreatePlayer;
+import com.dcg.player.PlayHandSystem;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -26,7 +27,12 @@ public class Game {
           // Uses the command pattern for execution
           .register(new CommandInvocationStrategy())
           // Order matters!
-          .with(new EntityLinkManager(), new CoreSystem(), new EffectSystem(), new GameOverSystem())
+          .with(
+              new EntityLinkManager(),
+              new CoreSystem(),
+              new PlayHandSystem(),
+              new EffectSystem(),
+              new GameOverSystem())
           .build()
           .register(new Random())
           .register(new CommandChain());

@@ -18,7 +18,7 @@ public class CreatePlayer extends CreateEntity {
 
   public CreatePlayer(String name) {
     this.name = name;
-    addOnEnterEffects(new AdvanceTurn(), new CreatePlayAllCards());
+    addOnEnterEffects(new AdvanceTurn());
     addOnLeaveEffects(new DiscardPlayArea(), new DrawCards(5), new PerformBattle());
   }
 
@@ -33,12 +33,18 @@ public class CreatePlayer extends CreateEntity {
         new CreateCard("Diplomacy", 0)
             .addOnEnterEffects(new AdjustPower(1))
             .build(world, playerEntity),
+        new CreateCard("Diplomacy", 0)
+            .addOnEnterEffects(new AdjustPower(1))
+            .build(world, playerEntity),
         new CreateCard("Worn Shield", 0)
             .addOnEnterEffects(new AdjustDefense(2))
             .build(world, playerEntity),
         new CreateCard("Eager Owlet", 0)
             .addOnEnterEffects(
                 new CreateUnit("Eager Owlet", 2).addOnEnterEffects(new SetFlying(true)))
+            .build(world, playerEntity),
+        new CreateCard("Wisdom of the Elders", 5)
+            .addOnEnterEffects(new DrawCards(2))
             .build(world, playerEntity),
         new CreateCard("Oni Ronin", 1)
             .addOnEnterEffects(
