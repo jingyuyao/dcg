@@ -18,8 +18,7 @@ public class PrintUnits extends DebugEntityCommand {
         coreSystem
             .getStream(Aspect.all(Turn.class))
             .flatMap(
-                playerEntity ->
-                    coreSystem.getDescendants(playerEntity, Aspect.all(Unit.class)))
+                playerEntity -> coreSystem.getDescendants(playerEntity, Aspect.all(Unit.class)))
             .boxed()
             .collect(Collectors.toList());
 

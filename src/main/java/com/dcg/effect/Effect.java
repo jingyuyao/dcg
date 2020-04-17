@@ -1,7 +1,7 @@
 package com.dcg.effect;
 
 import com.artemis.Component;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBuilder;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Effect extends Component {
   /** Commands to run when the associated entity is inserted into one of the activation tags. */
-  public List<Command> onEnter = Collections.emptyList();
+  public List<CommandBuilder> onEnter = Collections.emptyList();
   /** Commands to run when the associated entity is removed from one of the activation tags. */
-  public List<Command> onLeave = Collections.emptyList();
+  public List<CommandBuilder> onLeave = Collections.emptyList();
 }

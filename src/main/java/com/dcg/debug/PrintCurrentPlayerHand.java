@@ -16,8 +16,7 @@ public class PrintCurrentPlayerHand extends DebugEntityCommand {
     coreSystem
         .getStream(Aspect.all(Turn.class))
         .flatMap(
-            playerEntity ->
-                coreSystem.getOwnedBy(playerEntity, Aspect.all(Card.class, Hand.class)))
+            playerEntity -> coreSystem.getOwnedBy(playerEntity, Aspect.all(Card.class, Hand.class)))
         .forEach(this::printCard);
   }
 

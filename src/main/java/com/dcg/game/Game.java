@@ -5,7 +5,7 @@ import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.artemis.link.EntityLinkManager;
 import com.dcg.action.ExecuteAction;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
 import com.dcg.debug.PrintCurrentPlayerHand;
@@ -58,13 +58,13 @@ public class Game {
     return world.getSystem(GameOverSystem.class).isOver();
   }
 
-  private void process(Command command) {
-    process(command, Collections.emptyList());
+  private void process(CommandBuilder commandBuilder) {
+    process(commandBuilder, Collections.emptyList());
   }
 
-  private void process(Command command, List<Integer> input) {
+  private void process(CommandBuilder commandBuilder, List<Integer> input) {
     CommandChain commandChain = world.getRegistered(CommandChain.class);
-    commandChain.addEnd(command.build(world, -1).setInput(input));
+    commandChain.addEnd(commandBuilder.build(world, -1).setInput(input));
     world.process();
 
     commandChain.addEnd(

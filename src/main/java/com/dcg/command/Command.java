@@ -1,12 +1,23 @@
 package com.dcg.command;
 
-import com.artemis.World;
+import java.util.List;
 
-/** Stores some logic that can be executed later. */
 public interface Command {
+  /** Sets the optional user input for this command. */
+  Command setInput(List<Integer> input);
+
+  /** Execute the logic for this command. This must be repeatedly callable. */
+  void run();
+
+  /** Returns whether all the preconditions for this command are satisfied. */
+  boolean canRun();
+
   /**
-   * Returns the executable interface for this command after it has been build for the given world
-   * and sourceEntity.
+   * Returns whether the current input is valid for this command is satisfied. No side effects
+   * allowed.
    */
-  ExecutableCommand build(World world, int sourceEntity);
+  boolean isInputValid();
+
+  /** Returns whether the command can be run in the current world state. No side effects allowed. */
+  boolean isWorldValid();
 }

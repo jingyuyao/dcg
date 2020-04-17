@@ -1,14 +1,14 @@
 package com.dcg.action;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.Command;
+import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
 
 public class CreateAction extends CreateEntity {
-  private final Command command;
+  private final CommandBuilder command;
   protected ComponentMapper<Action> mAction;
 
-  public CreateAction(Command command) {
+  public CreateAction(CommandBuilder command) {
     this.command = command;
   }
 

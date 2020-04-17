@@ -4,24 +4,25 @@ import com.artemis.World;
 import java.util.Collections;
 import java.util.List;
 
+// TODO: rename to AbstractCommandBuilder, add chain and core system as default
 /**
  * Base class for a command. Guarantees the instance is injected by a world and has owner set upon
  * execution as long as only the public interfaces are used.
  */
-public abstract class CommandBase implements Command {
+public abstract class CommandBase implements CommandBuilder {
   protected World world;
   protected int sourceEntity = -1;
   protected List<Integer> input = Collections.emptyList();
   private boolean injected = false;
 
   @Override
-  public ExecutableCommand build(World world, int sourceEntity) {
+  public Command build(World world, int sourceEntity) {
     if (!injected) {
       world.inject(this);
       injected = true;
     }
     this.sourceEntity = sourceEntity;
-    return this.new ExecutableCommandImpl();
+    return this.new CommandImpl();
   }
 
   protected abstract void run();
@@ -39,9 +40,9 @@ public abstract class CommandBase implements Command {
     return String.format("%s(source:*%d)%s", getClass().getSimpleName(), sourceEntity, input);
   }
 
-  private class ExecutableCommandImpl implements ExecutableCommand {
+  private class CommandImpl implements Command {
     @Override
-    public ExecutableCommand setInput(List<Integer> input) {
+    public Command setInput(List<Integer> input) {
       CommandBase.this.input = input;
       return this;
     }

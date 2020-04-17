@@ -8,8 +8,8 @@ import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
 import com.dcg.battle.Unit;
 import com.dcg.command.Command;
+import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
-import com.dcg.command.ExecutableCommand;
 import com.dcg.location.PlayArea;
 import com.dcg.player.Turn;
 import java.util.List;
@@ -39,13 +39,13 @@ public class EffectSystem extends BaseEntitySystem {
   @Override
   protected void processSystem() {}
 
-  private void triggerEffects(int entityId, List<Command> effects) {
-    for (Command command : effects) {
-      ExecutableCommand executableCommand = command.build(world, entityId);
-      if (executableCommand.canRun()) {
-        commandChain.addEnd(executableCommand);
+  private void triggerEffects(int entityId, List<CommandBuilder> effects) {
+    for (CommandBuilder commandBuilder : effects) {
+      Command command = commandBuilder.build(world, entityId);
+      if (command.canRun()) {
+        commandChain.addEnd(command);
       } else {
-        commandChain.addEnd(new CreateAction(command).build(world, entityId));
+        commandChain.addEnd(new CreateAction(commandBuilder).build(world, entityId));
       }
     }
   }

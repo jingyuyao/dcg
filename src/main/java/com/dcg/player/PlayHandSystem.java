@@ -21,8 +21,7 @@ public class PlayHandSystem extends IteratingSystem {
     coreSystem
         .getOwnedBy(playerEntity, Aspect.all(Card.class, Hand.class))
         .forEach(
-            cardEntity -> {
-              commandChain.addEnd(new MoveLocation(PlayArea.class).build(world, cardEntity));
-            });
+            cardEntity ->
+                commandChain.addEnd(new MoveLocation(PlayArea.class).build(world, cardEntity)));
   }
 }
