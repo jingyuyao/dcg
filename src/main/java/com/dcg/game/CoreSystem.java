@@ -50,7 +50,10 @@ public class CoreSystem extends IteratingSystem {
     return getChildren(getParent(ownedEntity), aspectBuilder);
   }
 
-  /** Get all descendants owned by the owner matching the aspect. */
+  /**
+   * Get all descendants owned by the owner matching the aspect. Intermediate nodes does not need to
+   * match the filter.
+   */
   public IntStream getDescendants(int ownerEntity, Aspect.Builder aspectBuilder) {
     IntStream.Builder streamBuilder = IntStream.builder();
     getDescendantsImpl(ownerEntity, aspectBuilder, streamBuilder);
@@ -60,9 +63,13 @@ public class CoreSystem extends IteratingSystem {
   private void getDescendantsImpl(
       int ownerEntity, Aspect.Builder aspectBuilder, IntStream.Builder accumulator) {
     getChildren(ownerEntity, aspectBuilder).forEach(accumulator::add);
-    getStream(Aspect.all(Owned.class))
-        .filter(ownedEntity -> ownerEntity == mOwned.get(ownedEntity).owner)
+    getChildren(ownerEntity, Aspect.all())
         .forEach(ownedEntity -> getDescendantsImpl(ownedEntity, aspectBuilder, accumulator));
+  }
+
+  /** Get all entities not owned by the owner matching the aspect. */
+  public IntStream getNotDescendants(int ownerEntity, Aspect.Builder aspectBuilder) {
+    return getStream(aspectBuilder).filter(entity -> getRoot(entity) != ownerEntity);
   }
 
   /** Returns the direct owner of the owned entity or -1 if it does not have an owner. */
