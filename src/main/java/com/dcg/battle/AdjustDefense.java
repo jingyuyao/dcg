@@ -1,6 +1,9 @@
 package com.dcg.battle;
 
-public class AdjustDefense extends AdjustUnit {
+import com.artemis.ComponentMapper;
+
+public class AdjustDefense extends UnitEffectBuilder {
+  protected ComponentMapper<Unit> mUnit;
   private final int defense;
 
   public AdjustDefense(int defense) {
@@ -9,7 +12,7 @@ public class AdjustDefense extends AdjustUnit {
 
   @Override
   protected void run() {
-    mUnit.get(getTargetEntity()).defense += defense;
+    getTargetEntities().forEach(targetEntity -> mUnit.get(targetEntity).defense += defense);
   }
 
   @Override

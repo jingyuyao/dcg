@@ -2,7 +2,7 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 
-public class SetFlying extends AdjustUnit {
+public class SetFlying extends UnitEffectBuilder {
   private final boolean flying;
   protected ComponentMapper<Unit> mUnit;
 
@@ -12,7 +12,7 @@ public class SetFlying extends AdjustUnit {
 
   @Override
   protected void run() {
-    mUnit.get(getTargetEntity()).flying = flying;
+    getTargetEntities().forEach(targetEntity -> mUnit.get(targetEntity).flying = flying);
   }
 
   @Override

@@ -1,6 +1,6 @@
 package com.dcg.battle;
 
-public class SetBerserk extends AdjustUnit {
+public class SetBerserk extends UnitEffectBuilder {
   private final boolean berserk;
 
   public SetBerserk(boolean berserk) {
@@ -9,6 +9,6 @@ public class SetBerserk extends AdjustUnit {
 
   @Override
   protected void run() {
-    mUnit.get(getTargetEntity()).berserk = berserk;
+    getTargetEntities().forEach(targetEntity -> mUnit.get(targetEntity).berserk = berserk);
   }
 }

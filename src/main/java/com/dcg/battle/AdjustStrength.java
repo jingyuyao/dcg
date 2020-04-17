@@ -1,6 +1,6 @@
 package com.dcg.battle;
 
-public class AdjustStrength extends AdjustUnit {
+public class AdjustStrength extends UnitEffectBuilder {
   private final int strength;
 
   public AdjustStrength(int strength) {
@@ -9,11 +9,15 @@ public class AdjustStrength extends AdjustUnit {
 
   @Override
   protected void run() {
-    Unit unit = mUnit.get(getTargetEntity());
-    unit.strength += strength;
-    if (unit.strength <= 0) {
-      commandChain.addEnd(new DestroyUnit().build(world, getTargetEntity()));
-    }
+    getTargetEntities()
+        .forEach(
+            targetEntity -> {
+              Unit unit = mUnit.get(targetEntity);
+              unit.strength += strength;
+              if (unit.strength <= 0) {
+                commandChain.addEnd(new DestroyUnit().build(world, targetEntity));
+              }
+            });
   }
 
   @Override

@@ -1,8 +1,8 @@
 package com.dcg.battle;
 
-public class DestroyUnit extends AdjustUnit {
+public class DestroyUnit extends UnitEffectBuilder {
   @Override
   protected void run() {
-    world.delete(getTargetEntity());
+    getTargetEntities().forEach(world::delete);
   }
 }

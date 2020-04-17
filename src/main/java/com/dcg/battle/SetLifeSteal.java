@@ -1,6 +1,6 @@
 package com.dcg.battle;
 
-public class SetLifeSteal extends AdjustUnit {
+public class SetLifeSteal extends UnitEffectBuilder {
   private final boolean lifeSteal;
 
   public SetLifeSteal(boolean lifeSteal) {
@@ -9,7 +9,7 @@ public class SetLifeSteal extends AdjustUnit {
 
   @Override
   protected void run() {
-    mUnit.get(getTargetEntity()).lifeSteal = lifeSteal;
+    getTargetEntities().forEach(targetEntity -> mUnit.get(targetEntity).lifeSteal = lifeSteal);
   }
 
   @Override
