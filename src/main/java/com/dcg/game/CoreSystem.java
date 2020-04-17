@@ -19,8 +19,6 @@ public class CoreSystem extends IteratingSystem {
   protected AspectSubscriptionManager manager;
   protected ComponentMapper<Owned> mOwned;
 
-  // TODO: add some common queries like, get current player/turn, get attacking entities, etc
-
   /** Get all entities matching the aspect as a stream. */
   public IntStream getStream(Aspect.Builder aspectBuilder) {
     IntStream.Builder streamBuilder = IntStream.builder();
