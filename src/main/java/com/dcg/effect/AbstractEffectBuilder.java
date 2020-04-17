@@ -20,7 +20,7 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
 
   protected IntStream getTargetEntities() {
     return isSourceEntityValid()
-        ? IntStream.of(sourceEntity)
+        ? IntStream.of(transformTargetEntity(sourceEntity))
         : input.stream().mapToInt(Integer::intValue);
   }
 
@@ -30,6 +30,11 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
   /** Override me to provide the max target count for this effect. Defaults to 1. */
   protected int getMaxTargetCount() {
     return 1;
+  }
+
+  /** Override me to transform the target entity into another entity. */
+  protected int transformTargetEntity(int targetEntity) {
+    return targetEntity;
   }
 
   private boolean isSourceEntityValid() {
@@ -43,6 +48,6 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
   }
 
   private boolean isTargetEntityValid(int targetEntity) {
-    return getComponentMapper().has(targetEntity);
+    return getComponentMapper().has(transformTargetEntity(targetEntity));
   }
 }

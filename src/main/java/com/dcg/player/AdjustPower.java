@@ -1,9 +1,9 @@
 package com.dcg.player;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.AbstractCommandBuilder;
+import com.dcg.effect.AbstractEffectBuilder;
 
-public class AdjustPower extends AbstractCommandBuilder {
+public class AdjustPower extends AbstractEffectBuilder<Turn> {
   private final int power;
   protected ComponentMapper<Turn> mTurn;
 
@@ -13,8 +13,17 @@ public class AdjustPower extends AbstractCommandBuilder {
 
   @Override
   protected void run() {
-    Turn turn = mTurn.get(coreSystem.getRoot(sourceEntity));
-    turn.powerPool += power;
+    getTargetComponents().forEach(turn -> turn.powerPool += power);
+  }
+
+  @Override
+  protected ComponentMapper<Turn> getComponentMapper() {
+    return mTurn;
+  }
+
+  @Override
+  protected int transformTargetEntity(int targetEntity) {
+    return coreSystem.getRoot(targetEntity);
   }
 
   @Override

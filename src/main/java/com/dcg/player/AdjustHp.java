@@ -1,9 +1,9 @@
 package com.dcg.player;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.AbstractCommandBuilder;
+import com.dcg.effect.AbstractEffectBuilder;
 
-public class AdjustHp extends AbstractCommandBuilder {
+public class AdjustHp extends AbstractEffectBuilder<Player> {
   private final int hp;
   protected ComponentMapper<Player> mPlayer;
 
@@ -13,8 +13,18 @@ public class AdjustHp extends AbstractCommandBuilder {
 
   @Override
   protected void run() {
-    Player player = mPlayer.get(coreSystem.getRoot(sourceEntity));
-    player.hp += hp;
+    // TODO: game over should be checked here.
+    getTargetComponents().forEach(player -> player.hp += hp);
+  }
+
+  @Override
+  protected ComponentMapper<Player> getComponentMapper() {
+    return mPlayer;
+  }
+
+  @Override
+  protected int transformTargetEntity(int targetEntity) {
+    return coreSystem.getRoot(targetEntity);
   }
 
   @Override
