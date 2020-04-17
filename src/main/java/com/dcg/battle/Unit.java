@@ -16,6 +16,7 @@ public class Unit extends Component {
 
   @Override
   public String toString() {
-    return String.format("%s(str:%d,def:%d)", name, strength, defense);
+    return String.format(
+        "%s(str:%d,def:%d,flying:%s,lifeSteal:%s)", name, strength, defense, flying, lifeSteal);
   }
 }
