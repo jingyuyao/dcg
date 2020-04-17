@@ -20,7 +20,7 @@ public class BuyCard extends CommandBase {
   @Override
   protected boolean isInputValid() {
     Turn turn = turnSystem.getTurn();
-    Card card = mCard.get(owner);
+    Card card = mCard.get(sourceEntity);
     if (turn.powerPool < card.cost) {
       System.out.printf("    Not enough power to buy *%s\n", card);
       return false;
@@ -30,11 +30,11 @@ public class BuyCard extends CommandBase {
 
   @Override
   protected void run() {
-    Card card = mCard.get(owner);
+    Card card = mCard.get(sourceEntity);
     commandChain.addEnd(
-        new AdjustPower(-card.cost).build(world, owner),
-        new Own(owner).build(world, turnSystem.getPlayerEntity()),
-        new MoveLocation(Deck.class).build(world, owner),
+        new AdjustPower(-card.cost).build(world, sourceEntity),
+        new Own(sourceEntity).build(world, turnSystem.getPlayerEntity()),
+        new MoveLocation(Deck.class).build(world, sourceEntity),
         new DrawFromForge().build(world, -1));
   }
 }

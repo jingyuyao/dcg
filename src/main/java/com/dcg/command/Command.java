@@ -6,7 +6,7 @@ import com.artemis.World;
 public interface Command {
   /**
    * Returns the executable interface for this command after it has been build for the given world
-   * and owner.
+   * and sourceEntity.
    */
-  ExecutableCommand build(World world, int owner);
+  ExecutableCommand build(World world, int sourceEntity);
 }

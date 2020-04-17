@@ -10,18 +10,17 @@ import java.util.List;
  */
 public abstract class CommandBase implements Command {
   protected World world;
-  // TODO: rename this to sourceEntity
-  protected int owner = -1;
+  protected int sourceEntity = -1;
   protected List<Integer> input = Collections.emptyList();
   private boolean injected = false;
 
   @Override
-  public ExecutableCommand build(World world, int owner) {
+  public ExecutableCommand build(World world, int sourceEntity) {
     if (!injected) {
       world.inject(this);
       injected = true;
     }
-    this.owner = owner;
+    this.sourceEntity = sourceEntity;
     return this.new ExecutableCommandImpl();
   }
 
@@ -37,7 +36,7 @@ public abstract class CommandBase implements Command {
 
   @Override
   public String toString() {
-    return String.format("%s(owner:*%d)%s", getClass().getSimpleName(), owner, input);
+    return String.format("%s(source:*%d)%s", getClass().getSimpleName(), sourceEntity, input);
   }
 
   private class ExecutableCommandImpl implements ExecutableCommand {

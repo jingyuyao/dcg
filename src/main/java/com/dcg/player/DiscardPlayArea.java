@@ -17,7 +17,7 @@ public class DiscardPlayArea extends CommandBase {
   @Override
   protected void run() {
     ownershipSystem
-        .getOwnedBy(owner, Aspect.all(Card.class, PlayArea.class))
+        .getOwnedBy(sourceEntity, Aspect.all(Card.class, PlayArea.class))
         .forEach(
             cardEntity ->
                 commandChain.addEnd(new MoveLocation(DiscardPile.class).build(world, cardEntity)));

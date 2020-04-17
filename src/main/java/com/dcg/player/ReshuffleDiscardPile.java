@@ -17,7 +17,7 @@ public class ReshuffleDiscardPile extends CommandBase {
   @Override
   protected void run() {
     ownershipSystem
-        .getOwnedBy(owner, Aspect.all(Card.class, DiscardPile.class))
+        .getOwnedBy(sourceEntity, Aspect.all(Card.class, DiscardPile.class))
         .forEach(
             cardEntity ->
                 commandChain.addEnd(new MoveLocation(Deck.class).build(world, cardEntity)));

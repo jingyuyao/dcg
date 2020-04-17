@@ -9,6 +9,6 @@ public class DeleteActions extends CommandBase {
 
   @Override
   protected void run() {
-    ownershipSystem.getOwnedBy(owner, Aspect.all(Action.class)).forEach(world::delete);
+    ownershipSystem.getOwnedBy(sourceEntity, Aspect.all(Action.class)).forEach(world::delete);
   }
 }

@@ -39,9 +39,9 @@ public abstract class CreateEntity extends CommandBase {
 
   protected int createEntity() {
     int unitEntity = world.create();
-    if (owner != -1) {
+    if (sourceEntity != -1) {
       Owned owned = mOwned.create(unitEntity);
-      owned.owner = owner;
+      owned.owner = sourceEntity;
     }
     Effect effect = mEffect.create(unitEntity);
     effect.onEnter = onEnterEffects;

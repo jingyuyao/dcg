@@ -20,10 +20,10 @@ public class PerformBattle extends CommandBase {
     // TODO: dedupe logic with print unit
     List<Integer> currentPlayerUnits =
         ownershipSystem
-            .getDescendants(owner, Aspect.all(Unit.class))
+            .getDescendants(sourceEntity, Aspect.all(Unit.class))
             .boxed()
             .collect(Collectors.toList());
-    Player defendingPlayer = mPlayer.get(owner);
+    Player defendingPlayer = mPlayer.get(sourceEntity);
     aspectSystem
         .getStream(Aspect.all(Unit.class))
         .filter(unitEntity -> !currentPlayerUnits.contains(unitEntity))

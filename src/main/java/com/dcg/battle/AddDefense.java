@@ -5,26 +5,26 @@ import com.dcg.command.CommandBase;
 
 public class AddDefense extends CommandBase {
   private final int defense;
-  private boolean addToOwner = false;
+  private boolean addToSource = false;
   protected ComponentMapper<Unit> mUnit;
 
   public AddDefense(int defense) {
     this.defense = defense;
   }
 
-  public AddDefense toOwner() {
-    this.addToOwner = true;
+  public AddDefense toSource() {
+    this.addToSource = true;
     return this;
   }
 
   @Override
   protected boolean isInputValid() {
-    return addToOwner || (input.size() == 1 && mUnit.has(input.get(0)));
+    return addToSource || (input.size() == 1 && mUnit.has(input.get(0)));
   }
 
   @Override
   protected void run() {
-    int targetEntity = addToOwner ? owner : input.get(0);
+    int targetEntity = addToSource ? sourceEntity : input.get(0);
     mUnit.get(targetEntity).defense += defense;
   }
 

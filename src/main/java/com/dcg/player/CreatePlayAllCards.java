@@ -22,14 +22,14 @@ public class CreatePlayAllCards extends CommandBase {
 
   @Override
   protected void run() {
-    commandChain.addEnd(new CreateAction(new PlayAllCards()).build(world, owner));
+    commandChain.addEnd(new CreateAction(new PlayAllCards()).build(world, sourceEntity));
   }
 
   private class PlayAllCards extends CommandBase {
     @Override
     protected void run() {
       ownershipSystem
-          .getOwnedBy(owner, Aspect.all(Card.class, Hand.class))
+          .getOwnedBy(sourceEntity, Aspect.all(Card.class, Hand.class))
           .flatMap(cardEntity -> ownershipSystem.getOwnedBy(cardEntity, Aspect.all(Action.class)))
           .forEach(
               actionEntity -> {

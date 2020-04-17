@@ -13,7 +13,7 @@ public class Own extends CommandBase {
 
   @Override
   protected void run() {
-    mOwned.create(ownedEntity).owner = owner;
+    mOwned.create(ownedEntity).owner = sourceEntity;
   }
 
   @Override

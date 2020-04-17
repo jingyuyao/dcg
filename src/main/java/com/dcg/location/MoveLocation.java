@@ -18,7 +18,7 @@ public class MoveLocation extends CommandBase {
   protected void run() {
     for (Class<? extends Location> clazz : ALL) {
       ComponentMapper<? extends Location> mapper = world.getMapper(clazz);
-      mapper.set(owner, location.equals(clazz));
+      mapper.set(sourceEntity, location.equals(clazz));
     }
   }
 

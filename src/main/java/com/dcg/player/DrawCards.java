@@ -30,12 +30,12 @@ public class DrawCards extends CommandBase {
   protected void run() {
     List<Integer> deck =
         ownershipSystem
-            .getOwnedBy(owner, Aspect.all(Card.class, Deck.class))
+            .getOwnedBy(sourceEntity, Aspect.all(Card.class, Deck.class))
             .boxed()
             .collect(Collectors.toList());
     List<Integer> discardPile =
         ownershipSystem
-            .getOwnedBy(owner, Aspect.all(Card.class, DiscardPile.class))
+            .getOwnedBy(sourceEntity, Aspect.all(Card.class, DiscardPile.class))
             .boxed()
             .collect(Collectors.toList());
 
@@ -46,10 +46,11 @@ public class DrawCards extends CommandBase {
           new CreateAction(new PlayCard()).build(world, cardEntity));
       if (numLeft > 1) {
         // NOTE: This must come after MoveLocation or else we may draw duplicate cards.
-        commandChain.addEnd(new DrawCards(numLeft - 1).build(world, owner));
+        commandChain.addEnd(new DrawCards(numLeft - 1).build(world, sourceEntity));
       }
     } else if (!discardPile.isEmpty()) {
-      commandChain.addEnd(new ReshuffleDiscardPile().build(world, owner), build(world, owner));
+      commandChain.addEnd(new ReshuffleDiscardPile().build(world, sourceEntity), build(world,
+          sourceEntity));
     } else {
       System.out.println("    Couldn't draw card");
     }

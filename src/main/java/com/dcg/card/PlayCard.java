@@ -11,6 +11,6 @@ public class PlayCard extends CommandBase {
 
   @Override
   protected void run() {
-    commandChain.addEnd(new MoveLocation(PlayArea.class).build(world, owner));
+    commandChain.addEnd(new MoveLocation(PlayArea.class).build(world, sourceEntity));
   }
 }

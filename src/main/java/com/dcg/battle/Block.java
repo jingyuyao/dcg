@@ -10,11 +10,6 @@ public class Block extends CommandBase {
 
   @Override
   protected boolean isInputValid() {
-    if (owner == -1) {
-      System.out.println("    Owner required");
-      return false;
-    }
-
     if (input.size() != 1) {
       System.out.println("    Block requires one input");
       return false;
@@ -27,12 +22,12 @@ public class Block extends CommandBase {
       return false;
     }
 
-    if (ownershipSystem.getOwner(owner) == ownershipSystem.getOwner(attackingEntity)) {
+    if (ownershipSystem.getOwner(sourceEntity) == ownershipSystem.getOwner(attackingEntity)) {
       System.out.println("    Can't block your own units");
       return false;
     }
 
-    Unit blockingUnit = mUnit.get(owner);
+    Unit blockingUnit = mUnit.get(sourceEntity);
     Unit attackingUnit = mUnit.get(attackingEntity);
 
     if (blockingUnit.strength + blockingUnit.defense < attackingUnit.strength) {
@@ -49,6 +44,6 @@ public class Block extends CommandBase {
   protected void run() {
     int attackingEntity = input.get(0);
     world.delete(attackingEntity);
-    world.delete(owner);
+    world.delete(sourceEntity);
   }
 }

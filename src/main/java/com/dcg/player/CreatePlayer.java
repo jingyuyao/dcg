@@ -40,7 +40,7 @@ public class CreatePlayer extends CreateEntity {
             .build(world, playerEntity),
         new CreateCard("Withering Witch", 0)
             .addOnEnterEffects(
-                new CreateUnit("Withering Witch", 2).addOnEnterEffects(new AddDefense(3).toOwner()))
+                new CreateUnit("Withering Witch", 2).addOnEnterEffects(new AddDefense(3).toSource()))
             .build(world, playerEntity),
         new CreateCard("Secret Pages", 0)
             .addOnEnterEffects(new AdjustPower(2))
