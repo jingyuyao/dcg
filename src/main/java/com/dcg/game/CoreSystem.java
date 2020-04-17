@@ -9,13 +9,13 @@ import com.artemis.utils.IntBag;
 import java.util.stream.IntStream;
 
 /**
- * A system that provide methods to query a tree based entity relationship. Also automatically
- * removes child entities when its parent is deleted.
+ * Manages auto deletion of owned entities when their parent is deleted. Provides methods to query
+ * entities as streams.
  */
 @All(Owned.class)
-public class OwnershipSystem extends IteratingSystem {
-  protected ComponentMapper<Owned> mOwned;
+public class CoreSystem extends IteratingSystem {
   protected AspectSubscriptionManager manager;
+  protected ComponentMapper<Owned> mOwned;
 
   /** Get all entities matching the aspect as a stream. */
   public IntStream getStream(Aspect.Builder aspectBuilder) {

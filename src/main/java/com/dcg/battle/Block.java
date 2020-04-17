@@ -2,10 +2,10 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBase;
-import com.dcg.game.OwnershipSystem;
+import com.dcg.game.CoreSystem;
 
 public class Block extends CommandBase {
-  protected OwnershipSystem ownershipSystem;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Unit> mUnit;
 
   @Override
@@ -22,7 +22,7 @@ public class Block extends CommandBase {
       return false;
     }
 
-    if (ownershipSystem.getOwner(sourceEntity) == ownershipSystem.getOwner(attackingEntity)) {
+    if (coreSystem.getOwner(sourceEntity) == coreSystem.getOwner(attackingEntity)) {
       System.out.println("    Can't block your own units");
       return false;
     }

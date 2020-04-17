@@ -3,28 +3,28 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
-import com.dcg.game.OwnershipSystem;
+import com.dcg.game.CoreSystem;
 import com.dcg.player.Turn;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PrintUnits extends DebugEntityCommand {
-  protected OwnershipSystem ownershipSystem;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Unit> mUnit;
 
   @Override
   protected void run() {
     List<Integer> currentPlayerUnits =
-        ownershipSystem
+        coreSystem
             .getStream(Aspect.all(Turn.class))
             .flatMap(
                 playerEntity ->
-                    ownershipSystem.getDescendants(playerEntity, Aspect.all(Unit.class)))
+                    coreSystem.getDescendants(playerEntity, Aspect.all(Unit.class)))
             .boxed()
             .collect(Collectors.toList());
 
     System.out.println("  Attacking");
-    ownershipSystem
+    coreSystem
         .getStream(Aspect.all(Unit.class))
         .filter(unitEntity -> !currentPlayerUnits.contains(unitEntity))
         .forEach(unitEntity -> printUnit(unitEntity, false));

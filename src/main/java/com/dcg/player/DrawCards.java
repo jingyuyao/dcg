@@ -7,7 +7,7 @@ import com.dcg.card.Card;
 import com.dcg.card.PlayCard;
 import com.dcg.command.CommandBase;
 import com.dcg.command.CommandChain;
-import com.dcg.game.OwnershipSystem;
+import com.dcg.game.CoreSystem;
 import com.dcg.location.Deck;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.Hand;
@@ -20,7 +20,7 @@ public class DrawCards extends CommandBase {
   private final int numLeft;
   @Wire protected CommandChain commandChain;
   @Wire protected Random random;
-  protected OwnershipSystem ownershipSystem;
+  protected CoreSystem coreSystem;
 
   public DrawCards(int numLeft) {
     this.numLeft = numLeft;
@@ -29,12 +29,12 @@ public class DrawCards extends CommandBase {
   @Override
   protected void run() {
     List<Integer> deck =
-        ownershipSystem
+        coreSystem
             .getOwnedBy(sourceEntity, Aspect.all(Card.class, Deck.class))
             .boxed()
             .collect(Collectors.toList());
     List<Integer> discardPile =
-        ownershipSystem
+        coreSystem
             .getOwnedBy(sourceEntity, Aspect.all(Card.class, DiscardPile.class))
             .boxed()
             .collect(Collectors.toList());

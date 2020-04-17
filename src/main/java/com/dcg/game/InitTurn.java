@@ -8,7 +8,7 @@ import com.dcg.player.Turn;
 
 public class InitTurn extends CommandBase {
   private final String playerName;
-  protected OwnershipSystem ownershipSystem;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Turn> mTurn;
 
@@ -18,7 +18,7 @@ public class InitTurn extends CommandBase {
 
   @Override
   protected void run() {
-    ownershipSystem
+    coreSystem
         .getStream(Aspect.all(Player.class))
         .filter(playerEntity -> mPlayer.get(playerEntity).name.equals(playerName))
         .findFirst()

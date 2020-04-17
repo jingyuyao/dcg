@@ -5,12 +5,12 @@ import com.artemis.annotations.Wire;
 import com.dcg.command.CommandBase;
 import com.dcg.command.CommandChain;
 import com.dcg.command.ExecutableCommand;
-import com.dcg.game.OwnershipSystem;
+import com.dcg.game.CoreSystem;
 import java.util.List;
 
 public class ExecuteAction extends CommandBase {
   @Wire protected CommandChain commandChain;
-  protected OwnershipSystem ownershipSystem;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Action> mAction;
 
   @Override
@@ -29,7 +29,7 @@ public class ExecuteAction extends CommandBase {
     List<Integer> inputPassThrough = input.subList(1, input.size());
     Action action = mAction.get(actionEntity);
     ExecutableCommand executableCommand =
-        action.command.build(world, ownershipSystem.getOwner(actionEntity));
+        action.command.build(world, coreSystem.getOwner(actionEntity));
     executableCommand.setInput(inputPassThrough);
     return executableCommand.canRun();
   }
@@ -40,7 +40,7 @@ public class ExecuteAction extends CommandBase {
     int actionEntity = input.get(0);
     Action action = mAction.get(actionEntity);
     ExecutableCommand executableCommand =
-        action.command.build(world, ownershipSystem.getOwner(actionEntity));
+        action.command.build(world, coreSystem.getOwner(actionEntity));
     executableCommand.setInput(inputPassThrough);
     commandChain.addEnd(executableCommand);
     world.delete(actionEntity);

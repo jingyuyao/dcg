@@ -3,13 +3,13 @@ package com.dcg.battle;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBase;
-import com.dcg.game.OwnershipSystem;
+import com.dcg.game.CoreSystem;
 import com.dcg.player.Player;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PerformBattle extends CommandBase {
-  protected OwnershipSystem ownershipSystem;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Unit> mUnit;
 
@@ -17,12 +17,12 @@ public class PerformBattle extends CommandBase {
   protected void run() {
     // TODO: dedupe logic with print unit
     List<Integer> currentPlayerUnits =
-        ownershipSystem
+        coreSystem
             .getDescendants(sourceEntity, Aspect.all(Unit.class))
             .boxed()
             .collect(Collectors.toList());
     Player defendingPlayer = mPlayer.get(sourceEntity);
-    ownershipSystem
+    coreSystem
         .getStream(Aspect.all(Unit.class))
         .filter(unitEntity -> !currentPlayerUnits.contains(unitEntity))
         .forEach(unitEntity -> attack(unitEntity, defendingPlayer));

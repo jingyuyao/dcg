@@ -30,7 +30,7 @@ public class Game {
           // Order matters!
           .with(
               new EntityLinkManager(),
-              new OwnershipSystem(),
+              new CoreSystem(),
               new EffectSystem(),
               new GameOverSystem())
           .build()

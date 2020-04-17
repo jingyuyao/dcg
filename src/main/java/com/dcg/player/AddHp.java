@@ -2,11 +2,11 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBase;
-import com.dcg.game.OwnershipSystem;
+import com.dcg.game.CoreSystem;
 
 public class AddHp extends CommandBase {
   private final int hp;
-  protected OwnershipSystem ownershipSystem;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Player> mPlayer;
 
   public AddHp(int hp) {
@@ -15,7 +15,7 @@ public class AddHp extends CommandBase {
 
   @Override
   protected void run() {
-    Player player = mPlayer.get(ownershipSystem.getOwner(sourceEntity));
+    Player player = mPlayer.get(coreSystem.getOwner(sourceEntity));
     player.hp += hp;
   }
 }

@@ -10,14 +10,14 @@ import com.dcg.card.Card;
 import com.dcg.command.CommandBase;
 import com.dcg.command.CommandChain;
 import com.dcg.command.ExecutableCommand;
-import com.dcg.game.OwnershipSystem;
+import com.dcg.game.CoreSystem;
 import com.dcg.location.Hand;
 import java.util.Collections;
 
 /** Create an action that plays all cards and attach it to the player. */
 public class CreatePlayAllCards extends CommandBase {
   @Wire protected CommandChain commandChain;
-  protected OwnershipSystem ownershipSystem;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Action> mAction;
 
   @Override
@@ -28,9 +28,9 @@ public class CreatePlayAllCards extends CommandBase {
   private class PlayAllCards extends CommandBase {
     @Override
     protected void run() {
-      ownershipSystem
+      coreSystem
           .getOwnedBy(sourceEntity, Aspect.all(Card.class, Hand.class))
-          .flatMap(cardEntity -> ownershipSystem.getOwnedBy(cardEntity, Aspect.all(Action.class)))
+          .flatMap(cardEntity -> coreSystem.getOwnedBy(cardEntity, Aspect.all(Action.class)))
           .forEach(
               actionEntity -> {
                 ExecutableCommand executableCommand = new ExecuteAction().build(world, -1);
