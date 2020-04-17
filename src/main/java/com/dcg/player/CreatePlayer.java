@@ -6,6 +6,7 @@ import com.dcg.battle.AdjustDefense;
 import com.dcg.battle.AdjustStrength;
 import com.dcg.battle.CreateUnit;
 import com.dcg.battle.PerformBattle;
+import com.dcg.battle.SetFlying;
 import com.dcg.card.CreateCard;
 import com.dcg.command.CommandChain;
 import com.dcg.game.CreateEntity;
@@ -36,7 +37,8 @@ public class CreatePlayer extends CreateEntity {
             .addOnEnterEffects(new AdjustDefense(2))
             .build(world, playerEntity),
         new CreateCard("Eager Owlet", 0)
-            .addOnEnterEffects(new CreateUnit("Eager Owlet", 2))
+            .addOnEnterEffects(
+                new CreateUnit("Eager Owlet", 2).addOnEnterEffects(new SetFlying(true)))
             .build(world, playerEntity),
         new CreateCard("Oni Ronin", 1)
             .addOnEnterEffects(

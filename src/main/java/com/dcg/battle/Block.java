@@ -30,6 +30,11 @@ public class Block extends CommandBase {
     Unit blockingUnit = mUnit.get(sourceEntity);
     Unit attackingUnit = mUnit.get(attackingEntity);
 
+    if (attackingUnit.flying && !blockingUnit.flying) {
+      System.out.printf("    *%d has flying but *%d does not\n", attackingEntity, sourceEntity);
+      return false;
+    }
+
     if (blockingUnit.strength + blockingUnit.defense < attackingUnit.strength) {
       System.out.printf(
           "    Defending strength %d is less than attacking strength %d\n",

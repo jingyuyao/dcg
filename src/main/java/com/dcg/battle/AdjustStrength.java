@@ -1,7 +1,6 @@
 package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.Command;
 import com.dcg.command.CommandBase;
 
 public class AdjustStrength extends CommandBase {
@@ -13,7 +12,7 @@ public class AdjustStrength extends CommandBase {
     this.strength = strength;
   }
 
-  public Command toSource() {
+  public AdjustStrength toSource() {
     this.addToSource = true;
     return this;
   }
