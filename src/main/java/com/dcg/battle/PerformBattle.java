@@ -29,7 +29,6 @@ public class PerformBattle extends AbstractCommandBuilder {;
     if (attackingUnit.lifeSteal) {
       commandChain.addEnd(new AdjustHp(attackingUnit.strength).build(world, attackingUnitEntity));
     }
-    // TODO: use command
-    world.delete(attackingUnitEntity);
+    commandChain.addEnd(new DestroyUnit().build(world, attackingUnitEntity));
   }
 }

@@ -67,10 +67,10 @@ public class Game {
     world.process();
 
     commandChain.addEnd(
-        new PrintPlayers().build(world, -1),
         new PrintForgeRow().build(world, -1),
         new PrintUnits().build(world, -1),
-        new PrintPlayArea().build(world, -1));
+        new PrintPlayArea().build(world, -1),
+        new PrintPlayers().build(world, -1));
     world.process();
   }
 }

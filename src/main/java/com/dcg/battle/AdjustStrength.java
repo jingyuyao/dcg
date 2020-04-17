@@ -12,8 +12,7 @@ public class AdjustStrength extends AdjustUnit {
     Unit unit = mUnit.get(getTargetEntity());
     unit.strength += strength;
     if (unit.strength <= 0) {
-      // TODO: use command
-      world.delete(getTargetEntity());
+      commandChain.addEnd(new DestroyUnit().build(world, getTargetEntity()));
     }
   }
 

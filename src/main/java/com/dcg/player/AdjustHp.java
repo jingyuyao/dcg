@@ -3,6 +3,7 @@ package com.dcg.player;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 
+// TODO: make a base class for adjusting the player as well
 public class AdjustHp extends AbstractCommandBuilder {
   private final int hp;
   protected ComponentMapper<Player> mPlayer;
