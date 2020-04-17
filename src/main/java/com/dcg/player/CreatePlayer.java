@@ -38,9 +38,19 @@ public class CreatePlayer extends CreateEntity {
         new CreateCard("Eager Owlet", 0)
             .addOnEnterEffects(new CreateUnit("Eager Owlet", 2))
             .build(world, playerEntity),
+        new CreateCard("Xenan Cupbearer", 0)
+            .addOnEnterEffects(
+                new CreateUnit("Xenan Cupbearer", 1)
+                    .addOnEnterEffects(new AddDefense(1).toSource()),
+                new AddHp(1))
+            .build(world, playerEntity),
+        new CreateCard("Grenadin Drone", 0)
+            .addOnEnterEffects(new CreateUnit("Grenadin Drone", 2), new CreateUnit("Grenadin", 1))
+            .build(world, playerEntity),
         new CreateCard("Withering Witch", 0)
             .addOnEnterEffects(
-                new CreateUnit("Withering Witch", 2).addOnEnterEffects(new AddDefense(3).toSource()))
+                new CreateUnit("Withering Witch", 2)
+                    .addOnEnterEffects(new AddDefense(3).toSource()))
             .build(world, playerEntity),
         new CreateCard("Secret Pages", 0)
             .addOnEnterEffects(new AdjustPower(2))
