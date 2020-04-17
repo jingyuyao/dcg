@@ -23,16 +23,10 @@ import java.util.Random;
 public class Game {
   private final WorldConfiguration configuration =
       new WorldConfigurationBuilder()
-          // Allows for component inspection during removed()
-          .alwaysDelayComponentRemoval(true)
           // Uses the command pattern for execution
           .register(new CommandInvocationStrategy())
           // Order matters!
-          .with(
-              new EntityLinkManager(),
-              new CoreSystem(),
-              new EffectSystem(),
-              new GameOverSystem())
+          .with(new EntityLinkManager(), new CoreSystem(), new EffectSystem(), new GameOverSystem())
           .build()
           .register(new Random())
           .register(new CommandChain());

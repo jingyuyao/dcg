@@ -31,7 +31,9 @@ public class EffectSystem extends BaseEntitySystem {
 
   @Override
   protected void removed(int entityId) {
-    triggerEffects(entityId, mEffect.get(entityId).onLeave);
+    if (mEffect.has(entityId)) {
+      triggerEffects(entityId, mEffect.get(entityId).onLeave);
+    }
   }
 
   @Override
