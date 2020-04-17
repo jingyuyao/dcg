@@ -6,6 +6,7 @@ import com.dcg.battle.AdjustStrength;
 import com.dcg.battle.CreateUnit;
 import com.dcg.battle.DestroyUnit;
 import com.dcg.battle.PerformBattle;
+import com.dcg.battle.SetBerserk;
 import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
 import com.dcg.card.CreateCard;
@@ -47,6 +48,9 @@ public class CreatePlayer extends CreateEntity {
         new CreateCard("Eager Owlet", 0)
             .addOnEnterEffects(
                 new CreateUnit("Eager Owlet", 2).addOnEnterEffects(new SetFlying(true))),
+        new CreateCard("Fearless Nomad", 0)
+            .addOnEnterEffects(
+                new CreateUnit("Fearless Nomad", 2).addOnEnterEffects(new SetBerserk(true))),
         new CreateCard("Stonepowder Alchemist", 0)
             .addOnEnterEffects(
                 new CreateUnit("Stonepowder Alchemist", 2)

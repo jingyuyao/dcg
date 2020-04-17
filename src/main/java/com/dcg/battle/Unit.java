@@ -13,6 +13,7 @@ public class Unit extends Component {
   public int defense = 0;
   public boolean flying = false;
   public boolean lifeSteal = false;
+  public boolean berserk = false;
 
   @Override
   public String toString() {
@@ -29,6 +30,9 @@ public class Unit extends Component {
     }
     if (lifeSteal) {
       builder.append("lifeSteal").append(" ");
+    }
+    if (berserk) {
+      builder.append("berserk").append(" ");
     }
     return builder.toString();
   }

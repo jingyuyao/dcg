@@ -25,9 +25,10 @@ public class PerformBattle extends AbstractCommandBuilder {;
 
   private void attack(int attackingUnitEntity) {
     Unit attackingUnit = mUnit.get(attackingUnitEntity);
-    commandChain.addEnd(new AdjustHp(-attackingUnit.strength).build(world, sourceEntity));
+    int damage = attackingUnit.berserk ? attackingUnit.strength : attackingUnit.strength * 2;
+    commandChain.addEnd(new AdjustHp(-damage).build(world, sourceEntity));
     if (attackingUnit.lifeSteal) {
-      commandChain.addEnd(new AdjustHp(attackingUnit.strength).build(world, attackingUnitEntity));
+      commandChain.addEnd(new AdjustHp(damage).build(world, attackingUnitEntity));
     }
     commandChain.addEnd(new DestroyUnit().build(world, attackingUnitEntity));
   }
