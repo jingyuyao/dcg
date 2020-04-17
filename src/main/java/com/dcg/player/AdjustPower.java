@@ -3,11 +3,11 @@ package com.dcg.player;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBase;
-import com.dcg.game.AspectSystem;
+import com.dcg.game.OwnershipSystem;
 
 public class AdjustPower extends CommandBase {
   private final int power;
-  protected AspectSystem aspectSystem;
+  protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Turn> mTurn;
 
   public AdjustPower(int power) {
@@ -16,7 +16,7 @@ public class AdjustPower extends CommandBase {
 
   @Override
   protected void run() {
-    aspectSystem
+    ownershipSystem
         .getStream(Aspect.all(Turn.class))
         .mapToObj(mTurn::get)
         .forEach(turn -> turn.powerPool += power);

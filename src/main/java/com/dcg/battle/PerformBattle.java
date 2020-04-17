@@ -3,14 +3,12 @@ package com.dcg.battle;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBase;
-import com.dcg.game.AspectSystem;
 import com.dcg.game.OwnershipSystem;
 import com.dcg.player.Player;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PerformBattle extends CommandBase {
-  protected AspectSystem aspectSystem;
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Unit> mUnit;
@@ -24,7 +22,7 @@ public class PerformBattle extends CommandBase {
             .boxed()
             .collect(Collectors.toList());
     Player defendingPlayer = mPlayer.get(sourceEntity);
-    aspectSystem
+    ownershipSystem
         .getStream(Aspect.all(Unit.class))
         .filter(unitEntity -> !currentPlayerUnits.contains(unitEntity))
         .forEach(unitEntity -> attack(unitEntity, defendingPlayer));

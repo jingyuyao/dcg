@@ -3,16 +3,16 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
-import com.dcg.game.AspectSystem;
+import com.dcg.game.OwnershipSystem;
 import com.dcg.location.PlayArea;
 
 public class PrintPlayArea extends DebugEntityCommand {
-  protected AspectSystem aspectSystem;
+  protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Card> mCard;
 
   @Override
   protected void run() {
-    aspectSystem.getStream(Aspect.all(Card.class, PlayArea.class)).forEach(this::printCard);
+    ownershipSystem.getStream(Aspect.all(Card.class, PlayArea.class)).forEach(this::printCard);
   }
 
   private void printCard(int cardEntity) {

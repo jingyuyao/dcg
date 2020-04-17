@@ -6,8 +6,8 @@ import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
 import com.dcg.command.CommandBase;
 import com.dcg.command.CommandChain;
-import com.dcg.game.AspectSystem;
 import com.dcg.game.Owned;
+import com.dcg.game.OwnershipSystem;
 import com.dcg.location.Deck;
 import com.dcg.location.MoveLocation;
 import com.dcg.player.AdjustPower;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class BuyCard extends CommandBase {
   @Wire protected CommandChain commandChain;
-  protected AspectSystem aspectSystem;
+  protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Turn> mTurn;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Owned> mOwned;
@@ -24,7 +24,7 @@ public class BuyCard extends CommandBase {
   @Override
   protected boolean isInputValid() {
     Optional<Turn> turn =
-        aspectSystem.getStream(Aspect.all(Turn.class)).mapToObj(mTurn::get).findFirst();
+        ownershipSystem.getStream(Aspect.all(Turn.class)).mapToObj(mTurn::get).findFirst();
     if (!turn.isPresent()) {
       return false;
     }
@@ -38,7 +38,7 @@ public class BuyCard extends CommandBase {
 
   @Override
   protected void run() {
-    aspectSystem
+    ownershipSystem
         .getStream(Aspect.all(Turn.class))
         .forEach(
             playerEntity -> {

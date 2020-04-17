@@ -3,19 +3,17 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
-import com.dcg.game.AspectSystem;
 import com.dcg.game.OwnershipSystem;
 import com.dcg.location.Hand;
 import com.dcg.player.Turn;
 
 public class PrintCurrentPlayerHand extends DebugEntityCommand {
-  protected AspectSystem aspectSystem;
   protected OwnershipSystem ownershipSystem;
   protected ComponentMapper<Card> mCard;
 
   @Override
   protected void run() {
-    aspectSystem
+    ownershipSystem
         .getStream(Aspect.all(Turn.class))
         .flatMap(
             playerEntity ->
