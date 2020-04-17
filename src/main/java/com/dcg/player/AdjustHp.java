@@ -13,8 +13,15 @@ public class AdjustHp extends AbstractEffectBuilder<Player> {
 
   @Override
   protected void run() {
-    // TODO: game over should be checked here.
-    getTargetComponents().forEach(player -> player.hp += hp);
+    getTargetEntities()
+        .forEach(
+            playerEntity -> {
+              Player player = mPlayer.get(playerEntity);
+              player.hp += hp;
+              if (player.hp <= 0) {
+                commandChain.addEnd(new DeletePlayer().build(world, playerEntity));
+              }
+            });
   }
 
   @Override
