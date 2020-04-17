@@ -20,6 +20,16 @@ public class ExecuteAction extends CommandBase {
       return false;
     }
 
+    try {
+      if (!input.stream().allMatch(entity -> world.getEntityManager().isActive(entity))) {
+        System.out.println("    One of the input entities is not active");
+        return false;
+      }
+    } catch (IndexOutOfBoundsException e) {
+      System.out.printf("    *%s is not a valid entity\n", e.getMessage());
+      return false;
+    }
+
     int actionEntity = input.get(0);
     if (!mAction.has(actionEntity)) {
       System.out.printf("    *%d is not a valid action entity\n", actionEntity);
