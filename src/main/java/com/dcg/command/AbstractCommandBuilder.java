@@ -6,7 +6,6 @@ import com.dcg.game.CoreSystem;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: add chain and core system as default
 /**
  * Base class for a command. Guarantees the instance is injected by a world and has owner set upon
  * execution as long as only the public interfaces are used.
