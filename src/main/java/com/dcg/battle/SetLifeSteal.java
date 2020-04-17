@@ -9,7 +9,7 @@ public class SetLifeSteal extends UnitEffectBuilder {
 
   @Override
   protected void run() {
-    getTargetEntities().forEach(targetEntity -> mUnit.get(targetEntity).lifeSteal = lifeSteal);
+    getTargetComponents().forEach(unit -> unit.lifeSteal = lifeSteal);
   }
 
   @Override

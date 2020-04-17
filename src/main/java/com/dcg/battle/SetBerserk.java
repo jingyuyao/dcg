@@ -9,6 +9,6 @@ public class SetBerserk extends UnitEffectBuilder {
 
   @Override
   protected void run() {
-    getTargetEntities().forEach(targetEntity -> mUnit.get(targetEntity).berserk = berserk);
+    getTargetComponents().forEach(unit -> unit.berserk = berserk);
   }
 }
