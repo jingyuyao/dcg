@@ -1,12 +1,12 @@
-package com.dcg.player;
+package com.dcg.card;
 
 import com.artemis.ComponentMapper;
 import com.dcg.effect.AbstractEffectBuilder;
 import java.util.List;
 import java.util.Optional;
 
-public class DeletePlayer extends AbstractEffectBuilder<Player> {
-  protected ComponentMapper<Player> mPlayer;
+public class DeleteCard extends AbstractEffectBuilder<Card> {
+  protected ComponentMapper<Card> mCard;
 
   @Override
   protected void run(List<Integer> input) {
@@ -14,7 +14,7 @@ public class DeletePlayer extends AbstractEffectBuilder<Player> {
   }
 
   @Override
-  protected Optional<ComponentMapper<Player>> getComponentMapper() {
-    return Optional.of(mPlayer);
+  protected Optional<ComponentMapper<Card>> getComponentMapper() {
+    return Optional.of(mCard);
   }
 }

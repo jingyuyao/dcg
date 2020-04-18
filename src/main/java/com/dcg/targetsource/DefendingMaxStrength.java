@@ -6,12 +6,12 @@ import com.dcg.game.CoreSystem;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MaxStrength implements TargetSource {
+public class DefendingMaxStrength implements TargetSource {
   private final int strength;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Unit> mUnit;
 
-  public MaxStrength(int strength) {
+  public DefendingMaxStrength(int strength) {
     this.strength = strength;
   }
 

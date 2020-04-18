@@ -1,9 +1,10 @@
 package com.dcg.player;
 
 import com.artemis.Aspect;
+import com.artemis.Component;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
-import com.dcg.command.AbstractCommandBuilder;
+import com.dcg.effect.AbstractEffectBuilder;
 import com.dcg.location.Deck;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.Hand;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class DrawCards extends AbstractCommandBuilder {
+public class DrawCards extends AbstractEffectBuilder<Component> {
   private final int numLeft;
 
   @Wire protected Random random;

@@ -4,6 +4,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.effect.AbstractEffectBuilder;
 import com.dcg.targetsource.SourceEntityRoot;
 import java.util.List;
+import java.util.Optional;
 
 public class AdjustHp extends AbstractEffectBuilder<Player> {
   private final int hp;
@@ -28,8 +29,8 @@ public class AdjustHp extends AbstractEffectBuilder<Player> {
   }
 
   @Override
-  protected ComponentMapper<Player> getComponentMapper() {
-    return mPlayer;
+  protected Optional<ComponentMapper<Player>> getComponentMapper() {
+    return Optional.of(mPlayer);
   }
 
   @Override

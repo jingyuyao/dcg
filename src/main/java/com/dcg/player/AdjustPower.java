@@ -4,6 +4,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.effect.AbstractEffectBuilder;
 import com.dcg.targetsource.SourceEntityRoot;
 import java.util.List;
+import java.util.Optional;
 
 public class AdjustPower extends AbstractEffectBuilder<Turn> {
   private final int power;
@@ -20,8 +21,8 @@ public class AdjustPower extends AbstractEffectBuilder<Turn> {
   }
 
   @Override
-  protected ComponentMapper<Turn> getComponentMapper() {
-    return mTurn;
+  protected Optional<ComponentMapper<Turn>> getComponentMapper() {
+    return Optional.of(mTurn);
   }
 
   @Override

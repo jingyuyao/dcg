@@ -1,5 +1,6 @@
 package com.dcg.card;
 
+import com.dcg.action.CreateAction;
 import com.dcg.battle.AdjustDefense;
 import com.dcg.battle.AdjustStrength;
 import com.dcg.battle.CreateUnit;
@@ -8,6 +9,7 @@ import com.dcg.battle.SetBerserk;
 import com.dcg.battle.SetEndurance;
 import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
+import com.dcg.battle.SetUnblockable;
 import com.dcg.command.CommandBuilder;
 import com.dcg.condition.AnySpell;
 import com.dcg.condition.MinAnyUnitStrength;
@@ -16,9 +18,12 @@ import com.dcg.condition.MinUnitCount;
 import com.dcg.player.AdjustHp;
 import com.dcg.player.AdjustPower;
 import com.dcg.player.DrawCards;
+import com.dcg.targetsource.AttackingMaxStrength;
 import com.dcg.targetsource.AttackingUnits;
+import com.dcg.targetsource.DefendingMaxStrength;
 import com.dcg.targetsource.DefendingUnits;
 import com.dcg.targetsource.Inputs;
+import com.dcg.targetsource.PlayAreaOrDiscardPile;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -96,12 +101,70 @@ public class Cards {
                   new AdjustStrength(2)
                       .setTargetSource(new DefendingUnits())
                       .addCondition(new MinPower(7))),
+          new CreateCard("Temple Scribe", 0)
+              .addOnEnterEffects(
+                  new CreateUnit("Storm Lynx", 1)
+                      .addOnEnterEffects(new AdjustPower(1))
+                      .addOnConditionEffects(new DrawCards(1).addCondition(new AnySpell()))),
+          new CreateCard("Mystic Ascendant", 6)
+              .addOnEnterEffects(
+                  new CreateUnit("Mystic Ascendant", 4)
+                      .addOnEnterEffects(new DrawCards(1))
+                      .addOnConditionEffects(new AdjustStrength(2).addCondition(new MinPower(7)))),
+          new CreateCard("Levitate", 2)
+              .addTags(Collections.singletonList(Spell.class))
+              .addOnEnterEffects(
+                  new AdjustPower(2), new SetFlying(true).setTargetSource(new Inputs())),
+          new CreateCard("Arcane Defense", 3)
+              .addTags(Collections.singletonList(Spell.class))
+              .addOnEnterEffects(
+                  new DrawCards(1),
+                  new AdjustStrength(-1).setTargetSource(new Inputs()),
+                  new AdjustStrength(-1).setTargetSource(new Inputs())),
+          new CreateCard("Lightning Storm", 2)
+              .addTags(Collections.singletonList(Spell.class))
+              .addOnEnterEffects(
+                  new DeleteCard().setTargetSource(new PlayAreaOrDiscardPile()),
+                  new CreateAction(new DestroyUnit().setTargetSource(new AttackingMaxStrength(2)))),
+          new CreateCard("Bolster", 3)
+              .addTags(Collections.singletonList(Spell.class))
+              .addOnEnterEffects(
+                  new AdjustPower(2), new AdjustDefense(3).setTargetSource(new Inputs())),
           new CreateCard("Splimespitter Slug", 5)
               .addOnEnterEffects(
                   new CreateUnit("Splimespitter Slug", 3)
                       .addOnEnterEffects(
                           new AdjustPower(1),
                           new AdjustStrength(1).setTargetSource(new AttackingUnits()))),
+          new CreateCard("Impending Doom", 4)
+              .addOnEnterEffects(
+                  new CreateUnit("Impending Doom", 5)
+                      .addOnEnterEffects(new SetFlying(true), new AdjustHp(-11))),
+          new CreateCard("Ridgeline Watcher", 4)
+              .addOnEnterEffects(
+                  new CreateUnit("Ridgeline Watcher", 3)
+                      .addOnEnterEffects(
+                          new AdjustDefense(2),
+                          new DeleteCard().setTargetSource(new PlayAreaOrDiscardPile()))),
+          new CreateCard("Pokpok, Rockpacker", 3)
+              .addOnEnterEffects(
+                  new CreateUnit("Pokpok, Rockpacker", 1)
+                      .addOnEnterEffects(
+                          new DrawCards(1), new AdjustHp(-1).setTargetSource(new Inputs()))),
+          new CreateCard("Snowrager", 2)
+              .addOnEnterEffects(
+                  new CreateUnit("Snowrager", 1)
+                      .addOnEnterEffects(new SetBerserk(true))
+                      .addOnConditionEffects(
+                          new AdjustStrength(1).addCondition(new MinUnitCount(3)))),
+          new CreateCard("Cabal Spymaster", 3)
+              .addOnEnterEffects(
+                  new CreateUnit("Cabal Spymaster", 1)
+                      .addOnEnterEffects(
+                          new SetUnblockable(true),
+                          new CreateAction(
+                              new SetUnblockable(true)
+                                  .setTargetSource(new DefendingMaxStrength(3))))),
           new CreateCard("Oni Ronin", 1)
               .addOnEnterEffects(
                   new CreateUnit("Oni Ronin", 1)

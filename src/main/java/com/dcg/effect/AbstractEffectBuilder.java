@@ -7,6 +7,7 @@ import com.dcg.targetsource.SourceEntity;
 import com.dcg.targetsource.TargetSource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -45,16 +46,20 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
   }
 
   protected Stream<T> getTargetComponents(List<Integer> input) {
-    ComponentMapper<T> componentMapper = getComponentMapper();
-    return getTargetEntities(input).mapToObj(componentMapper::get);
+    return getComponentMapper()
+        .map(cm -> getTargetEntities(input).mapToObj(cm::get))
+        .orElse(Stream.empty());
   }
 
   protected IntStream getTargetEntities(List<Integer> input) {
     return getTargetEntitiesInternal(input).stream().mapToInt(Integer::intValue);
   }
 
+  // TODO: make this a "condition"
   /** Provide the {@link ComponentMapper} used to validate and transform target entities. */
-  protected abstract ComponentMapper<T> getComponentMapper();
+  protected Optional<ComponentMapper<T>> getComponentMapper() {
+    return Optional.empty();
+  }
 
   /** Override me to provide the max target count for this effect. Defaults to 1. */
   protected int getMaxTargetCount() {
@@ -67,6 +72,6 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
   }
 
   private boolean isTargetEntityValid(int targetEntity) {
-    return getComponentMapper().has(targetEntity);
+    return getComponentMapper().map(cm -> cm.has(targetEntity)).orElse(true);
   }
 }
