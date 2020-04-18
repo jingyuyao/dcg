@@ -18,6 +18,7 @@ import java.util.List;
 public abstract class CreateEntity extends AbstractCommandBuilder {
   protected final List<CommandBuilder> onEnterEffects = new ArrayList<>();
   protected final List<CommandBuilder> onLeaveEffects = new ArrayList<>();
+  protected final List<CommandBuilder> onConditionEffects = new ArrayList<>();
   protected World world;
   protected ComponentMapper<Effect> mEffect;
   protected ComponentMapper<Owned> mOwned;
@@ -26,13 +27,18 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     addOnLeaveEffects(new DeleteActions());
   }
 
-  public CommandBuilder addOnEnterEffects(CommandBuilder... effects) {
+  public CreateEntity addOnEnterEffects(CommandBuilder... effects) {
     this.onEnterEffects.addAll(Arrays.asList(effects));
     return this;
   }
 
-  public CommandBuilder addOnLeaveEffects(CommandBuilder... effects) {
+  public CreateEntity addOnLeaveEffects(CommandBuilder... effects) {
     this.onLeaveEffects.addAll(Arrays.asList(effects));
+    return this;
+  }
+
+  public CreateEntity addOnConditionEffects(CommandBuilder... effects) {
+    this.onConditionEffects.addAll(Arrays.asList(effects));
     return this;
   }
 
@@ -45,6 +51,7 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     Effect effect = mEffect.create(unitEntity);
     effect.onEnter = onEnterEffects;
     effect.onLeave = onLeaveEffects;
+    effect.onCondition = onConditionEffects;
     return unitEntity;
   }
 }

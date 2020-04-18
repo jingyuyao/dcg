@@ -5,10 +5,14 @@ import com.dcg.effect.AbstractEffectBuilder;
 
 public class AdjustHp extends AbstractEffectBuilder<Player> {
   private final int hp;
+  // Whether to automatically use the root of target entities. If false this command will only
+  // trigger if attached has a source entity of player or has a player entity input.
+  private final boolean crawlRoot;
   protected ComponentMapper<Player> mPlayer;
 
-  public AdjustHp(int hp) {
+  public AdjustHp(int hp, boolean crawlRoot) {
     this.hp = hp;
+    this.crawlRoot = crawlRoot;
   }
 
   @Override
@@ -31,7 +35,7 @@ public class AdjustHp extends AbstractEffectBuilder<Player> {
 
   @Override
   protected int transformTargetEntity(int targetEntity) {
-    return coreSystem.getRoot(targetEntity);
+    return crawlRoot ? coreSystem.getRoot(targetEntity) : targetEntity;
   }
 
   @Override

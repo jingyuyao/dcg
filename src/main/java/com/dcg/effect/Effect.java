@@ -14,4 +14,9 @@ public class Effect extends Component {
   public List<CommandBuilder> onEnter = Collections.emptyList();
   /** Commands to run when the associated entity is removed from one of the activation tags. */
   public List<CommandBuilder> onLeave = Collections.emptyList();
+  /**
+   * Commands to run whenever its preconditions is satisfied. Conditions will be check on every
+   * process. Each command will run a max of once per enter/leave cycle.
+   */
+  public List<CommandBuilder> onCondition = Collections.emptyList();
 }

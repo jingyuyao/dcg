@@ -53,6 +53,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     @Override
     public void run() {
       AbstractCommandBuilder.this.run();
+      // TODO: tie input to a command instance.
+      AbstractCommandBuilder.this.input = Collections.emptyList();
     }
 
     @Override

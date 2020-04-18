@@ -1,15 +1,16 @@
 package com.dcg.effect;
 
-import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.One;
 import com.artemis.annotations.Wire;
+import com.artemis.systems.IteratingSystem;
 import com.dcg.action.CreateAction;
 import com.dcg.battle.Unit;
 import com.dcg.command.Command;
 import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
+import com.dcg.game.CoreSystem;
 import com.dcg.location.PlayArea;
 import com.dcg.player.Turn;
 import java.util.List;
@@ -20,9 +21,11 @@ import java.util.List;
  */
 @All(Effect.class)
 @One({Turn.class, PlayArea.class, Unit.class})
-public class EffectSystem extends BaseEntitySystem {
+public class EffectSystem extends IteratingSystem {
   @Wire protected CommandChain commandChain;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Effect> mEffect;
+  protected ComponentMapper<Turn> mTurn;
 
   @Override
   protected void inserted(int entityId) {
@@ -37,7 +40,29 @@ public class EffectSystem extends BaseEntitySystem {
   }
 
   @Override
-  protected void processSystem() {}
+  protected void process(int entityId) {
+    coreSystem
+        .getCurrentPlayerEntity()
+        .mapToObj(mTurn::get)
+        .forEach(
+            turn -> {
+              Effect effect = mEffect.get(entityId);
+              effect.onCondition.stream()
+                  .filter(builder -> !turn.triggeredConditionalEffects.contains(builder))
+                  .forEach(
+                      builder -> {
+                        Command command = builder.build(world, entityId);
+                        if (command.isWorldValid()) {
+                          if (command.canRun()) {
+                            commandChain.addEnd(command);
+                          } else {
+                            commandChain.addEnd(new CreateAction(builder).build(world, entityId));
+                          }
+                          turn.triggeredConditionalEffects.add(builder);
+                        }
+                      });
+            });
+  }
 
   private void triggerEffects(int entityId, List<CommandBuilder> effects) {
     for (CommandBuilder builder : effects) {

@@ -5,7 +5,7 @@ import com.artemis.Component;
 /** Primary tag for a "player entity". */
 public class Player extends Component {
   public String name;
-  public int hp = 5;
+  public int hp = 25;
 
   @Override
   public String toString() {
