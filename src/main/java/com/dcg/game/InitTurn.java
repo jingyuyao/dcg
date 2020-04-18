@@ -9,7 +9,6 @@ import com.dcg.player.Turn;
 
 public class InitTurn extends AbstractCommandBuilder {
   private final String playerName;
-  protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Turn> mTurn;
 
   public InitTurn(String playerName) {
@@ -19,8 +18,7 @@ public class InitTurn extends AbstractCommandBuilder {
   @Override
   protected void run(Target target) {
     coreSystem
-        .getStream(Aspect.all(Player.class))
-        .filter(playerEntity -> mPlayer.get(playerEntity).name.equals(playerName))
+        .findByName(playerName, Aspect.all(Player.class))
         .findFirst()
         .ifPresent(playerEntity -> mTurn.create(playerEntity));
   }

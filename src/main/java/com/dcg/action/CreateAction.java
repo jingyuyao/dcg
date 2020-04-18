@@ -10,6 +10,7 @@ public class CreateAction extends CreateEntity {
   protected ComponentMapper<Action> mAction;
 
   public CreateAction(CommandBuilder builder) {
+    super(builder.toString());
     this.builder = builder;
     addTargetConditions(target -> getOwner(target).isPresent());
   }
@@ -18,10 +19,5 @@ public class CreateAction extends CreateEntity {
   protected void run(Target target) {
     int actionEntity = createEntity(target);
     mAction.create(actionEntity).command = builder.build(world, getOwner(target).orElse(-1));
-  }
-
-  @Override
-  public String toString() {
-    return String.format("%s %s", super.toString(), builder);
   }
 }

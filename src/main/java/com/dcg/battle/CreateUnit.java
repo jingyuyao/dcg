@@ -5,12 +5,11 @@ import com.dcg.command.Target;
 import com.dcg.game.CreateEntity;
 
 public class CreateUnit extends CreateEntity {
-  public final String name;
   public final int strength;
   protected ComponentMapper<Unit> mUnit;
 
   public CreateUnit(String name, int strength) {
-    this.name = name;
+    super(name);
     this.strength = strength;
     addOnEnterEffects(new Block());
   }
@@ -19,7 +18,6 @@ public class CreateUnit extends CreateEntity {
   protected void run(Target target) {
     int unitEntity = createEntity(target);
     Unit unit = mUnit.create(unitEntity);
-    unit.name = name;
     unit.strength = strength;
   }
 }

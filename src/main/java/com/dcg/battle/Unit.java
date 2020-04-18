@@ -8,7 +8,6 @@ import com.artemis.Component;
  * easily cleaned up after each battle. Units are owned by a player.
  */
 public class Unit extends Component {
-  public String name = "Token";
   public int strength = 0;
   public int defense = 0;
   public boolean flying = false;
@@ -19,13 +18,12 @@ public class Unit extends Component {
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder(name);
-    builder.append(" ");
+    StringBuilder builder = new StringBuilder();
     if (strength > 0) {
-      builder.append("atk️️:").append(strength).append(" ");
+      builder.append("atk️️=").append(strength).append(" ");
     }
     if (defense > 0) {
-      builder.append("def:").append(defense).append(" ");
+      builder.append("def=").append(defense).append(" ");
     }
     if (flying) {
       builder.append("flying").append(" ");

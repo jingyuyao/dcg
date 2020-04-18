@@ -60,7 +60,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
   @Override
   public String toString() {
-    return String.format("%s(source:*%d)", getClass().getSimpleName(), sourceEntity);
+    return getClass().getSimpleName();
   }
 
   private class CommandImpl implements Command {
@@ -119,7 +119,11 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public String toString() {
-      return String.format("%s%s", AbstractCommandBuilder.this.toString(), input.get());
+      StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
+      for (int target : getMemorizedTarget(input).get()) {
+        builder.append(" ").append(coreSystem.toName(target));
+      }
+      return builder.toString();
     }
   }
 }

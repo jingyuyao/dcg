@@ -19,15 +19,18 @@ import java.util.OptionalInt;
  * tied to the created entity.
  */
 public abstract class CreateEntity extends AbstractCommandBuilder {
+  private final String name;
   private final List<Class<? extends Component>> tags = new ArrayList<>();
   private final List<CommandBuilder> onEnterEffects = new ArrayList<>();
   private final List<CommandBuilder> onLeaveEffects = new ArrayList<>();
   private final List<CommandBuilder> onConditionEffects = new ArrayList<>();
   protected World world;
-  protected ComponentMapper<Effect> mEffect;
+  protected ComponentMapper<Named> mNamed;
   protected ComponentMapper<Owned> mOwned;
+  protected ComponentMapper<Effect> mEffect;
 
-  public CreateEntity() {
+  public CreateEntity(String name) {
+    this.name = name;
     addOnLeaveEffects(new DeleteActions());
   }
 
@@ -53,6 +56,7 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
 
   protected int createEntity(Target target) {
     int entity = world.create();
+    mNamed.create(entity).name = name;
     getOwner(target)
         .ifPresent(
             ownerEntity -> {
@@ -72,5 +76,10 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
   protected OptionalInt getOwner(Target target) {
     int owner = target.get().get(0);
     return owner == -1 ? OptionalInt.empty() : OptionalInt.of(owner);
+  }
+
+  @Override
+  public String toString() {
+    return String.format("%s %s", super.toString(), name);
   }
 }

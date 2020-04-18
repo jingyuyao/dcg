@@ -7,11 +7,10 @@ import com.artemis.Component;
  * player.
  */
 public class Card extends Component {
-  public String name = "Dummy";
   public int cost = 0;
 
   @Override
   public String toString() {
-    return String.format("%s(%d)", name, cost);
+    return String.format("cost=%d", cost);
   }
 }

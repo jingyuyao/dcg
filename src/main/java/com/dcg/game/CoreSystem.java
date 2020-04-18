@@ -17,7 +17,9 @@ import java.util.stream.IntStream;
  */
 @All(Owned.class)
 public class CoreSystem extends IteratingSystem {
+  private static final Named DEFAULT_NAMED = new Named();
   protected AspectSubscriptionManager manager;
+  protected ComponentMapper<Named> mNamed;
   protected ComponentMapper<Owned> mOwned;
 
   /** Get all entities matching the aspect as a stream. */
@@ -28,6 +30,15 @@ public class CoreSystem extends IteratingSystem {
       streamBuilder.add(bag.get(i));
     }
     return streamBuilder.build();
+  }
+
+  public IntStream findByName(String name, Aspect.Builder aspectBuilder) {
+    return getStream(aspectBuilder.all(Named.class))
+        .filter(entity -> name.equalsIgnoreCase(mNamed.get(entity).name));
+  }
+
+  public String toName(int entity) {
+    return entity != -1 ? mNamed.getSafe(entity, DEFAULT_NAMED).name : "";
   }
 
   public IntStream getCurrentPlayerEntity() {

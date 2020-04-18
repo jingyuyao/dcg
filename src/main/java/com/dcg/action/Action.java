@@ -9,4 +9,9 @@ import com.dcg.command.Command;
  */
 public class Action extends Component {
   public Command command;
+
+  @Override
+  public String toString() {
+    return command.toString();
+  }
 }

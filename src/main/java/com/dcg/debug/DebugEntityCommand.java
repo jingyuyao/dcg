@@ -8,12 +8,16 @@ import com.dcg.command.AbstractCommandBuilder;
 public abstract class DebugEntityCommand extends AbstractCommandBuilder {
   protected ComponentMapper<Action> mAction;
 
+  protected String name(int entity) {
+    return coreSystem.toName(entity);
+  }
+
   protected void printActions(int ownerEntity) {
     coreSystem.getChildren(ownerEntity, Aspect.all(Action.class)).forEach(this::printAction);
   }
 
   private void printAction(int actionEntity) {
     Action action = mAction.get(actionEntity);
-    System.out.printf("    -- %d %s\n", actionEntity, action.command);
+    System.out.printf("    -- *%d %s\n", actionEntity, action);
   }
 }

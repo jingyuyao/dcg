@@ -15,7 +15,7 @@ public class PrintForgeRow extends DebugEntityCommand {
   }
 
   private void printCard(int cardEntity) {
-    System.out.printf("    *%d %s\n", cardEntity, mCard.get(cardEntity));
+    System.out.printf("    *%d %s %s\n", cardEntity, name(cardEntity), mCard.get(cardEntity));
     printActions(cardEntity);
   }
 }

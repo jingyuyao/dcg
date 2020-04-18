@@ -6,13 +6,12 @@ import com.dcg.game.CreateEntity;
 import com.dcg.location.Deck;
 
 public class CreateCard extends CreateEntity {
-  private final String name;
   private final int cost;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Deck> mDeck;
 
   public CreateCard(String name, int cost) {
-    this.name = name;
+    super(name);
     this.cost = cost;
   }
 
@@ -20,13 +19,7 @@ public class CreateCard extends CreateEntity {
   protected void run(Target target) {
     int cardEntity = createEntity(target);
     Card card = mCard.create(cardEntity);
-    card.name = name;
     card.cost = cost;
     mDeck.create(cardEntity);
-  }
-
-  @Override
-  public String toString() {
-    return String.format("%s %s", super.toString(), name);
   }
 }
