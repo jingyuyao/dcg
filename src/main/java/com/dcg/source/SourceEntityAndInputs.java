@@ -5,7 +5,7 @@ import com.dcg.command.Target;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SourceEntityAndInputs implements TargetSource {
+public class SourceEntityAndInputs implements CommandSource {
   @Override
   public Target apply(Integer sourceEntity, Input input) {
     return () -> {

@@ -41,7 +41,7 @@ public class Cards {
           new CreateCard("Diplomacy", 0).addOnEnterEffects(new AdjustPower(1)),
           new CreateCard("Diplomacy", 0).addOnEnterEffects(new AdjustPower(1)),
           new CreateCard("Worn Shield", 0)
-              .addOnEnterEffects(new AdjustDefense(2).setTargetSource(new Inputs())),
+              .addOnEnterEffects(new AdjustDefense(2).setCommandSource(new Inputs())),
           new CreateCard("Secret Pages", 0).addOnEnterEffects(new AdjustPower(2)));
 
   @SuppressWarnings("SpellCheckingInspection")
@@ -53,7 +53,7 @@ public class Cards {
                       .addOnEnterEffects(new SetFlying(true))
                       .addOnConditionEffects(
                           new AdjustHp(-2)
-                              .setTargetSource(new Inputs())
+                              .setCommandSource(new Inputs())
                               .addWorldConditions(new MinUnitCount(1)))),
           new CreateCard("Awakened Student", 0)
               .addOnEnterEffects(
@@ -99,7 +99,7 @@ public class Cards {
           new CreateCard("Hipshot", 3)
               .addTag(Spell.class)
               .addOnEnterEffects(
-                  new AdjustPower(1), new AdjustHp(-3).setTargetSource(new Inputs())),
+                  new AdjustPower(1), new AdjustHp(-3).setCommandSource(new Inputs())),
           new CreateCard("Stone shaker", 4)
               .addOnEnterEffects(
                   new CreateUnit("Stoneshaker", 1)
@@ -109,7 +109,7 @@ public class Cards {
           new CreateCard("Deathstrike", 3)
               .addTag(Spell.class)
               .addOnEnterEffects(
-                  new AdjustPower(1), new DestroyUnit().setTargetSource(new Inputs())),
+                  new AdjustPower(1), new DestroyUnit().setCommandSource(new Inputs())),
           new CreateCard("Wisdom of the Elders", 5)
               .addTag(Spell.class)
               .addOnEnterEffects(new DrawCards(2)),
@@ -118,7 +118,7 @@ public class Cards {
               .addOnEnterEffects(new AdjustPower(2))
               .addOnConditionEffects(
                   new AdjustStrength(2)
-                      .setTargetSource(new DefendingUnits())
+                      .setCommandSource(new DefendingUnits())
                       .addWorldConditions(new MinPower(7))),
           new CreateCard("Temple Scribe", 0)
               .addOnEnterEffects(
@@ -134,28 +134,28 @@ public class Cards {
           new CreateCard("Levitate", 2)
               .addTag(Spell.class)
               .addOnEnterEffects(
-                  new AdjustPower(2), new SetFlying(true).setTargetSource(new Inputs())),
+                  new AdjustPower(2), new SetFlying(true).setCommandSource(new Inputs())),
           new CreateCard("Arcane Defense", 3)
               .addTag(Spell.class)
               .addOnEnterEffects(
                   new DrawCards(1),
-                  new AdjustStrength(-1).setTargetSource(new Inputs()),
-                  new AdjustStrength(-1).setTargetSource(new Inputs())),
+                  new AdjustStrength(-1).setCommandSource(new Inputs()),
+                  new AdjustStrength(-1).setCommandSource(new Inputs())),
           new CreateCard("Lightning Storm", 2)
               .addTag(Spell.class)
               .addOnEnterEffects(
                   voidBind(),
-                  new CreateAction(new DestroyUnit().setTargetSource(new AttackingMaxStrength(2)))),
+                  new CreateAction(new DestroyUnit().setCommandSource(new AttackingMaxStrength(2)))),
           new CreateCard("Bolster", 3)
               .addTag(Spell.class)
               .addOnEnterEffects(
-                  new AdjustPower(2), new AdjustDefense(3).setTargetSource(new Inputs())),
+                  new AdjustPower(2), new AdjustDefense(3).setCommandSource(new Inputs())),
           new CreateCard("Splimespitter Slug", 5)
               .addOnEnterEffects(
                   new CreateUnit("Splimespitter Slug", 3)
                       .addOnEnterEffects(
                           new AdjustPower(1),
-                          new AdjustStrength(1).setTargetSource(new AttackingUnits()))),
+                          new AdjustStrength(1).setCommandSource(new AttackingUnits()))),
           new CreateCard("Impending Doom", 4)
               .addOnEnterEffects(
                   new CreateUnit("Impending Doom", 5)
@@ -168,7 +168,7 @@ public class Cards {
               .addOnEnterEffects(
                   new CreateUnit("Pokpok, Rockpacker", 1)
                       .addOnEnterEffects(
-                          new DrawCards(1), new AdjustHp(-1).setTargetSource(new Inputs()))),
+                          new DrawCards(1), new AdjustHp(-1).setCommandSource(new Inputs()))),
           new CreateCard("Snowrager", 2)
               .addOnEnterEffects(
                   new CreateUnit("Snowrager", 1)
@@ -182,13 +182,13 @@ public class Cards {
                           new SetUnblockable(true),
                           new CreateAction(
                               new SetUnblockable(true)
-                                  .setTargetSource(new DefendingMaxStrength(3))))),
+                                  .setCommandSource(new DefendingMaxStrength(3))))),
           new CreateCard("Oni Ronin", 1)
               .addOnEnterEffects(
                   new CreateUnit("Oni Ronin", 1)
                       .addOnEnterEffects(
-                          new AdjustStrength(1).setTargetSource(new Inputs()),
-                          new AdjustStrength(1).setTargetSource(new Inputs()))));
+                          new AdjustStrength(1).setCommandSource(new Inputs()),
+                          new AdjustStrength(1).setCommandSource(new Inputs()))));
 
   public static CreateEntity spell(String name, int cost) {
     return new CreateCard(name, cost).addTag(Spell.class);

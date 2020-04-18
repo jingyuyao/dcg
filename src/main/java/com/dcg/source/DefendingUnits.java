@@ -7,7 +7,7 @@ import com.dcg.command.Target;
 import com.dcg.game.CoreSystem;
 import java.util.stream.Collectors;
 
-public class DefendingUnits implements TargetSource {
+public class DefendingUnits implements CommandSource {
   protected CoreSystem coreSystem;
 
   @Override

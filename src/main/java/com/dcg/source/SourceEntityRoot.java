@@ -5,7 +5,7 @@ import com.dcg.command.Target;
 import com.dcg.game.CoreSystem;
 import java.util.Collections;
 
-public class SourceEntityRoot implements TargetSource {
+public class SourceEntityRoot implements CommandSource {
   protected CoreSystem coreSystem;
 
   @Override

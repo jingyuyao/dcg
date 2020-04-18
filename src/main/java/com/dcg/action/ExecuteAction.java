@@ -10,7 +10,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
   protected ComponentMapper<Action> mAction;
 
   public ExecuteAction() {
-    setTargetSource(new Inputs());
+    setCommandSource(new Inputs());
     addTargetConditions(
         target -> {
           try {

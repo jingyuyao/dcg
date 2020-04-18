@@ -9,7 +9,7 @@ public class Block extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   public Block() {
-    setTargetSource(new SourceEntityAndInputs());
+    setCommandSource(new SourceEntityAndInputs());
     addTargetConditions(
         target -> target.get().size() == 2,
         target -> coreSystem.getDefendingEntities().anyMatch(e -> e == getDefendingEntity(target)),

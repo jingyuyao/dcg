@@ -5,8 +5,8 @@ import com.artemis.annotations.Wire;
 import com.dcg.condition.TargetCondition;
 import com.dcg.condition.WorldCondition;
 import com.dcg.game.CoreSystem;
+import com.dcg.source.CommandSource;
 import com.dcg.source.SourceEntity;
-import com.dcg.source.TargetSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,8 +24,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   private boolean injected = false;
   // Child classes should only access the provided Target instance during conditions checks or run.
   private int sourceEntity = -1;
-  // TODO: allow multiple for composition
-  private TargetSource targetSource = new SourceEntity();
+  private CommandSource commandSource = new SourceEntity();
 
   public AbstractCommandBuilder() {
     addTargetConditions(target -> target.get().size() > 0);
@@ -51,8 +50,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  public AbstractCommandBuilder setTargetSource(TargetSource targetSource) {
-    this.targetSource = targetSource;
+  public AbstractCommandBuilder setCommandSource(CommandSource commandSource) {
+    this.commandSource = commandSource;
     return this;
   }
 
@@ -106,8 +105,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     private Target getMemorizedTarget(Input input) {
-      world.inject(targetSource);
-      List<Integer> result = targetSource.apply(sourceEntity, input).get();
+      world.inject(commandSource);
+      List<Integer> result = commandSource.apply(sourceEntity, input).get();
       // Cache result before passing to downstream so implementations don't have to cache
       // themselves.
       return () -> result;

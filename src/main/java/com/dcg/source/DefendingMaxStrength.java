@@ -7,7 +7,7 @@ import com.dcg.command.Target;
 import com.dcg.game.CoreSystem;
 import java.util.stream.Collectors;
 
-public class DefendingMaxStrength implements TargetSource {
+public class DefendingMaxStrength implements CommandSource {
   private final int strength;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Unit> mUnit;
