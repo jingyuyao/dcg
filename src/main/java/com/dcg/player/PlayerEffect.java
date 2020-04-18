@@ -1,10 +1,10 @@
 package com.dcg.player;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.AbstractCommandBuilder;
+import com.dcg.effect.AbstractEffectBuilder;
 import com.dcg.targetsource.SourceEntityRoot;
 
-abstract class PlayerEffect extends AbstractCommandBuilder {
+abstract class PlayerEffect extends AbstractEffectBuilder {
   protected ComponentMapper<Player> mPlayer;
 
   PlayerEffect() {

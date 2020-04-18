@@ -10,12 +10,16 @@ import com.dcg.battle.SetEndurance;
 import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
 import com.dcg.battle.SetUnblockable;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
+import com.dcg.condition.AnyDefendingUnit;
 import com.dcg.condition.AnySpell;
 import com.dcg.condition.MinAnyUnitStrength;
 import com.dcg.condition.MinPower;
 import com.dcg.condition.MinUnitCount;
 import com.dcg.condition.PlayAreaOrDiscardPile;
+import com.dcg.effect.TotalAttackingUnits;
+import com.dcg.game.CreateEntity;
 import com.dcg.player.AdjustHp;
 import com.dcg.player.AdjustPower;
 import com.dcg.player.DrawCards;
@@ -86,9 +90,16 @@ public class Cards {
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> FORGE_CARDS =
       Arrays.asList(
+          spell("Read the Stars", 2)
+              .addOnEnterEffects(new DrawCards(1))
+              .addOnConditionEffects(
+                  voidBind().addWorldConditions(new AnyDefendingUnit(unit -> unit.flying))),
+          unit("Throne Warden", 4, 2)
+              .addOnEnterEffects(new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
           new CreateCard("Hipshot", 3)
               .addTag(Spell.class)
-              .addOnEnterEffects(new AdjustPower(1), new AdjustHp(-3).setTargetSource(new Inputs())),
+              .addOnEnterEffects(
+                  new AdjustPower(1), new AdjustHp(-3).setTargetSource(new Inputs())),
           new CreateCard("Stone shaker", 4)
               .addOnEnterEffects(
                   new CreateUnit("Stoneshaker", 1)
@@ -133,7 +144,7 @@ public class Cards {
           new CreateCard("Lightning Storm", 2)
               .addTag(Spell.class)
               .addOnEnterEffects(
-                  new DeleteCard().addTargetConditions(new PlayAreaOrDiscardPile()),
+                  voidBind(),
                   new CreateAction(new DestroyUnit().setTargetSource(new AttackingMaxStrength(2)))),
           new CreateCard("Bolster", 3)
               .addTag(Spell.class)
@@ -152,10 +163,7 @@ public class Cards {
           new CreateCard("Ridgeline Watcher", 4)
               .addOnEnterEffects(
                   new CreateUnit("Ridgeline Watcher", 3)
-                      .addOnEnterEffects(
-                          new AdjustDefense(2),
-                          new CreateAction(
-                              new DeleteCard().addTargetConditions(new PlayAreaOrDiscardPile())))),
+                      .addOnEnterEffects(new AdjustDefense(2), voidBind())),
           new CreateCard("Pokpok, Rockpacker", 3)
               .addOnEnterEffects(
                   new CreateUnit("Pokpok, Rockpacker", 1)
@@ -181,4 +189,16 @@ public class Cards {
                       .addOnEnterEffects(
                           new AdjustStrength(1).setTargetSource(new Inputs()),
                           new AdjustStrength(1).setTargetSource(new Inputs()))));
+
+  public static CreateEntity spell(String name, int cost) {
+    return new CreateCard(name, cost).addTag(Spell.class);
+  }
+
+  public static CreateEntity unit(String name, int cost, int strength) {
+    return new CreateCard(name, cost).addOnEnterEffects(new CreateUnit(name, strength));
+  }
+
+  public static AbstractCommandBuilder voidBind() {
+    return new DeleteCard().addTargetConditions(new PlayAreaOrDiscardPile());
+  }
 }

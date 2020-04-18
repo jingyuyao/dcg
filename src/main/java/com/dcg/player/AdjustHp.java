@@ -1,12 +1,16 @@
 package com.dcg.player;
 
 import com.dcg.command.Target;
+import com.dcg.effect.EffectSource;
+import java.util.Collections;
 
 public class AdjustHp extends PlayerEffect {
-  private final int hp;
-
   public AdjustHp(int hp) {
-    this.hp = hp;
+    setEffectSource(() -> () -> Collections.singletonList(hp));
+  }
+
+  public AdjustHp(EffectSource effectSource) {
+    setEffectSource(effectSource);
   }
 
   @Override
@@ -16,15 +20,19 @@ public class AdjustHp extends PlayerEffect {
         .forEach(
             playerEntity -> {
               Player player = mPlayer.get(playerEntity);
-              player.hp += hp;
+              player.hp += getHp();
               if (player.hp <= 0) {
                 commandChain.addEnd(new DeletePlayer().build(world, playerEntity));
               }
             });
   }
 
+  private int getHp() {
+    return getEffectSource().get().stream().mapToInt(Integer::intValue).sum();
+  }
+
   @Override
   public String toString() {
-    return String.format("%s %s", super.toString(), hp);
+    return String.format("%s %s", super.toString(), getHp());
   }
 }
