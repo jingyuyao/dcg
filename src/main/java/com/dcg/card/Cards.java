@@ -25,7 +25,6 @@ import com.dcg.targetsource.DefendingMaxStrength;
 import com.dcg.targetsource.DefendingUnits;
 import com.dcg.targetsource.Inputs;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Cards {
@@ -94,14 +93,14 @@ public class Cards {
                       .addOnConditionEffects(
                           new AdjustStrength(2).addWorldConditions(new MinPower(7)))),
           new CreateCard("Deathstrike", 3)
-              .addTags(Collections.singletonList(Spell.class))
+              .addTag(Spell.class)
               .addOnEnterEffects(
                   new AdjustPower(1), new DestroyUnit().setTargetSource(new Inputs())),
           new CreateCard("Wisdom of the Elders", 5)
-              .addTags(Collections.singletonList(Spell.class))
+              .addTag(Spell.class)
               .addOnEnterEffects(new DrawCards(2)),
           new CreateCard("Pack Hunt", 4)
-              .addTags(Collections.singletonList(Spell.class))
+              .addTag(Spell.class)
               .addOnEnterEffects(new AdjustPower(2))
               .addOnConditionEffects(
                   new AdjustStrength(2)
@@ -119,23 +118,23 @@ public class Cards {
                       .addOnConditionEffects(
                           new AdjustStrength(2).addWorldConditions(new MinPower(7)))),
           new CreateCard("Levitate", 2)
-              .addTags(Collections.singletonList(Spell.class))
+              .addTag(Spell.class)
               .addOnEnterEffects(
                   new AdjustPower(2), new SetFlying(true).setTargetSource(new Inputs())),
           new CreateCard("Arcane Defense", 3)
-              .addTags(Collections.singletonList(Spell.class))
+              .addTag(Spell.class)
               .addOnEnterEffects(
                   new DrawCards(1),
                   new AdjustStrength(-1).setTargetSource(new Inputs()),
                   new AdjustStrength(-1).setTargetSource(new Inputs())),
           new CreateCard("Lightning Storm", 2)
-              .addTags(Collections.singletonList(Spell.class))
+              .addTag(Spell.class)
               .addOnEnterEffects(
                   new CreateAction(
                       new DeleteCard().addTargetConditions(new PlayAreaOrDiscardPile())),
                   new CreateAction(new DestroyUnit().setTargetSource(new AttackingMaxStrength(2)))),
           new CreateCard("Bolster", 3)
-              .addTags(Collections.singletonList(Spell.class))
+              .addTag(Spell.class)
               .addOnEnterEffects(
                   new AdjustPower(2), new AdjustDefense(3).setTargetSource(new Inputs())),
           new CreateCard("Splimespitter Slug", 5)

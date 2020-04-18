@@ -31,9 +31,8 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     addOnLeaveEffects(new DeleteActions());
   }
 
-  public CreateEntity addTags(List<Class<? extends Component>> tags) {
-    // NOTE: Needs to take a list because of generics
-    this.tags.addAll(tags);
+  public CreateEntity addTag(Class<? extends Component> tag) {
+    this.tags.add(tag);
     return this;
   }
 
