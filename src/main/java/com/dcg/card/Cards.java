@@ -14,7 +14,7 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
 import com.dcg.condition.AnyDefendingUnit;
 import com.dcg.condition.AnySpell;
-import com.dcg.condition.MinAnyUnitStrength;
+import com.dcg.condition.MinDefendingUnitStrength;
 import com.dcg.condition.MinPower;
 import com.dcg.condition.MinUnitCount;
 import com.dcg.condition.PlayAreaOrDiscardPile;
@@ -59,7 +59,8 @@ public class Cards {
               .addOnEnterEffects(
                   new CreateUnit("Awakened Student", 2)
                       .addOnConditionEffects(
-                          new AdjustStrength(2).addWorldConditions(new MinAnyUnitStrength(4)))),
+                          new AdjustStrength(2)
+                              .addTargetConditions(new MinDefendingUnitStrength(4, false)))),
           new CreateCard("Eager Owlet", 0)
               .addOnEnterEffects(
                   new CreateUnit("Eager Owlet", 2).addOnEnterEffects(new SetFlying(true))),
@@ -90,6 +91,14 @@ public class Cards {
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> FORGE_CARDS =
       Arrays.asList(
+          unit("Brightmace Paladin", 2, 3)
+              .addOnEnterEffects(
+                  new SetEndurance(true),
+                  new SetLifeSteal(true)
+                      .addTargetConditions(new MinDefendingUnitStrength(4, true))),
+          unit("Tinker Apprentice", 1, 1)
+              .addOnEnterEffects(
+                  new AdjustPower(1), new AdjustStrength(1).setCommandSource(new Inputs())),
           spell("Read the Stars", 2)
               .addOnEnterEffects(new DrawCards(1))
               .addOnConditionEffects(
@@ -145,7 +154,8 @@ public class Cards {
               .addTag(Spell.class)
               .addOnEnterEffects(
                   voidBind(),
-                  new CreateAction(new DestroyUnit().setCommandSource(new AttackingMaxStrength(2)))),
+                  new CreateAction(
+                      new DestroyUnit().setCommandSource(new AttackingMaxStrength(2)))),
           new CreateCard("Bolster", 3)
               .addTag(Spell.class)
               .addOnEnterEffects(
