@@ -85,11 +85,9 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     @Override
     public boolean isInputValid() {
       Target target = getMemorizedTarget(input);
-      for (int i = 0; i < targetConditions.size(); i++) {
-        TargetCondition condition = targetConditions.get(i);
+      for (TargetCondition condition : targetConditions) {
         world.inject(condition);
         if (!condition.test(target)) {
-          System.out.printf("    %s target condition #%d failed\n", this.toString(), i);
           return false;
         }
       }
@@ -98,11 +96,9 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean isWorldValid() {
-      for (int i = 0; i < worldConditions.size(); i++) {
-        WorldCondition condition = worldConditions.get(i);
+      for (WorldCondition condition : worldConditions) {
         world.inject(condition);
         if (!condition.test(coreSystem)) {
-          System.out.printf("    %s world condition #%d failed\n", this.toString(), i);
           return false;
         }
       }
