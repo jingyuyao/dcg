@@ -1,5 +1,6 @@
 package com.dcg.game;
 
+import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.dcg.action.DeleteActions;
@@ -16,15 +17,22 @@ import java.util.List;
  * tied to the created entity.
  */
 public abstract class CreateEntity extends AbstractCommandBuilder {
-  protected final List<CommandBuilder> onEnterEffects = new ArrayList<>();
-  protected final List<CommandBuilder> onLeaveEffects = new ArrayList<>();
-  protected final List<CommandBuilder> onConditionEffects = new ArrayList<>();
+  private final List<Class<? extends Component>> tags = new ArrayList<>();
+  private final List<CommandBuilder> onEnterEffects = new ArrayList<>();
+  private final List<CommandBuilder> onLeaveEffects = new ArrayList<>();
+  private final List<CommandBuilder> onConditionEffects = new ArrayList<>();
   protected World world;
   protected ComponentMapper<Effect> mEffect;
   protected ComponentMapper<Owned> mOwned;
 
   public CreateEntity() {
     addOnLeaveEffects(new DeleteActions());
+  }
+
+  public CreateEntity addTags(List<Class<? extends Component>> tags) {
+    // NOTE: Needs to take a list because of generics
+    this.tags.addAll(tags);
+    return this;
   }
 
   public CreateEntity addOnEnterEffects(CommandBuilder... effects) {
@@ -43,15 +51,18 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
   }
 
   protected int createEntity() {
-    int unitEntity = world.create();
+    int entity = world.create();
     if (sourceEntity != -1) {
-      Owned owned = mOwned.create(unitEntity);
+      Owned owned = mOwned.create(entity);
       owned.owner = sourceEntity;
     }
-    Effect effect = mEffect.create(unitEntity);
+    for (Class<? extends Component> tag : tags) {
+      world.getMapper(tag).create(entity);
+    }
+    Effect effect = mEffect.create(entity);
     effect.onEnter = onEnterEffects;
     effect.onLeave = onLeaveEffects;
     effect.onCondition = onConditionEffects;
-    return unitEntity;
+    return entity;
   }
 }

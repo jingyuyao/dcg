@@ -10,11 +10,14 @@ import com.dcg.battle.SetBerserk;
 import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
 import com.dcg.card.CreateCard;
+import com.dcg.card.Spell;
 import com.dcg.command.CommandBuilder;
+import com.dcg.effect.AnySpell;
 import com.dcg.effect.MinAnyUnitStrength;
 import com.dcg.effect.MinUnitCount;
 import com.dcg.game.CreateEntity;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +49,9 @@ public class CreatePlayer extends CreateEntity {
         new CreateCard("Diplomacy", 0).addOnEnterEffects(new AdjustPower(1)),
         new CreateCard("Diplomacy", 0).addOnEnterEffects(new AdjustPower(1)),
         new CreateCard("Worn Shield", 0).addOnEnterEffects(new AdjustDefense(2)),
-        new CreateCard("Deathstrike", 3).addOnEnterEffects(new AdjustPower(1), new DestroyUnit()),
+        new CreateCard("Deathstrike", 3)
+            .addTags(Collections.singletonList(Spell.class))
+            .addOnEnterEffects(new AdjustPower(1), new DestroyUnit()),
         new CreateCard("Yeti Windflyer", 0)
             .addOnEnterEffects(
                 new CreateUnit("Yeti Windflyer", 1)
@@ -68,7 +73,13 @@ public class CreatePlayer extends CreateEntity {
             .addOnEnterEffects(
                 new CreateUnit("Stonepowder Alchemist", 2)
                     .addOnEnterEffects(new SetLifeSteal(true))),
-        new CreateCard("Wisdom of the Elders", 5).addOnEnterEffects(new DrawCards(2)),
+        new CreateCard("Wisdom of the Elders", 5)
+            .addTags(Collections.singletonList(Spell.class))
+            .addOnEnterEffects(new DrawCards(2)),
+        new CreateCard("Storm Lynx", 0)
+            .addOnEnterEffects(
+                new CreateUnit("Storm Lynx", 1)
+                    .addOnConditionEffects(new AdjustStrength(2).addCondition(new AnySpell()))),
         new CreateCard("Oni Ronin", 1)
             .addOnEnterEffects(
                 new CreateUnit("Oni Ronin", 1), new AdjustStrength(1), new AdjustStrength(1)),
