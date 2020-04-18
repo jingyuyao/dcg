@@ -29,15 +29,18 @@ public class Block extends AbstractCommandBuilder {;
     Unit blockingUnit = mUnit.get(sourceEntity);
     Unit attackingUnit = mUnit.get(attackingEntity);
 
+    if (attackingUnit.unblockable) {
+      System.out.printf("    %s is unblockable\n", attackingUnit);
+      return false;
+    }
+
     if (attackingUnit.flying && !blockingUnit.flying) {
-      System.out.printf("    *%d has flying but *%d does not\n", attackingEntity, sourceEntity);
+      System.out.printf("    %s has flying but %s does not\n", attackingUnit, blockingUnit);
       return false;
     }
 
     if (blockingUnit.strength + blockingUnit.defense < attackingUnit.strength) {
-      System.out.printf(
-          "    Defending strength %d is less than attacking strength %d\n",
-          blockingUnit.strength, attackingUnit.strength);
+      System.out.printf("    %s has less strength than %s\n", blockingUnit, attackingUnit);
       return false;
     }
 

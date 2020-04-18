@@ -15,6 +15,7 @@ public class Unit extends Component {
   public boolean lifeSteal = false;
   public boolean berserk = false;
   public boolean endurance = false;
+  public boolean unblockable = false;
 
   @Override
   public String toString() {
@@ -37,6 +38,9 @@ public class Unit extends Component {
     }
     if (endurance) {
       builder.append("endurance").append(" ");
+    }
+    if (unblockable) {
+      builder.append("unblockable").append(" ");
     }
     return builder.toString();
   }
