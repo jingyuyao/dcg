@@ -11,7 +11,8 @@ import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
 import com.dcg.card.CreateCard;
 import com.dcg.command.CommandBuilder;
-import com.dcg.effect.MinPlayerUnitCount;
+import com.dcg.effect.MinAnyUnitStrength;
+import com.dcg.effect.MinUnitCount;
 import com.dcg.game.CreateEntity;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +52,12 @@ public class CreatePlayer extends CreateEntity {
                 new CreateUnit("Yeti Windflyer", 1)
                     .addOnEnterEffects(new SetFlying(true))
                     .addOnConditionEffects(
-                        new AdjustHp(-2, false).addCondition(new MinPlayerUnitCount(1)))),
+                        new AdjustHp(-2, false).addCondition(new MinUnitCount(1)))),
+        new CreateCard("Awakened Student", 0)
+            .addOnEnterEffects(
+                new CreateUnit("Awakened Student", 2)
+                    .addOnConditionEffects(
+                        new AdjustStrength(2).addCondition(new MinAnyUnitStrength(4)))),
         new CreateCard("Eager Owlet", 0)
             .addOnEnterEffects(
                 new CreateUnit("Eager Owlet", 2).addOnEnterEffects(new SetFlying(true))),

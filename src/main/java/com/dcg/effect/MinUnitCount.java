@@ -5,11 +5,11 @@ import com.dcg.battle.Unit;
 import com.dcg.game.CoreSystem;
 import java.util.function.BooleanSupplier;
 
-public class MinPlayerUnitCount implements BooleanSupplier {
+public class MinUnitCount implements BooleanSupplier {
   private final int count;
   protected CoreSystem coreSystem;
 
-  public MinPlayerUnitCount(int count) {
+  public MinUnitCount(int count) {
     this.count = count;
   }
 
