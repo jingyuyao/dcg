@@ -1,5 +1,7 @@
 package com.dcg.battle;
 
+import java.util.List;
+
 public class SetBerserk extends UnitEffectBuilder {
   private final boolean berserk;
 
@@ -8,7 +10,7 @@ public class SetBerserk extends UnitEffectBuilder {
   }
 
   @Override
-  protected void run() {
-    getTargetComponents().forEach(unit -> unit.berserk = berserk);
+  protected void run(List<Integer> input) {
+    getTargetComponents(input).forEach(unit -> unit.berserk = berserk);
   }
 }

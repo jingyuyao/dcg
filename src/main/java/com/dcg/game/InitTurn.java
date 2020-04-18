@@ -5,6 +5,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.player.Player;
 import com.dcg.player.Turn;
+import java.util.List;
 
 public class InitTurn extends AbstractCommandBuilder {
   private final String playerName;
@@ -16,7 +17,7 @@ public class InitTurn extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     coreSystem
         .getStream(Aspect.all(Player.class))
         .filter(playerEntity -> mPlayer.get(playerEntity).name.equals(playerName))

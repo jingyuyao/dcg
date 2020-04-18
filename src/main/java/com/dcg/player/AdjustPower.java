@@ -2,6 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.dcg.effect.AbstractEffectBuilder;
+import java.util.List;
 
 public class AdjustPower extends AbstractEffectBuilder<Turn> {
   private final int power;
@@ -12,8 +13,8 @@ public class AdjustPower extends AbstractEffectBuilder<Turn> {
   }
 
   @Override
-  protected void run() {
-    getTargetComponents().forEach(turn -> turn.powerPool += power);
+  protected void run(List<Integer> input) {
+    getTargetComponents(input).forEach(turn -> turn.powerPool += power);
   }
 
   @Override

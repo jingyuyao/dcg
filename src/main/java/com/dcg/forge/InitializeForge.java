@@ -3,11 +3,12 @@ package com.dcg.forge;
 import com.dcg.battle.CreateUnit;
 import com.dcg.card.CreateCard;
 import com.dcg.command.AbstractCommandBuilder;
+import java.util.List;
 
 public class InitializeForge extends AbstractCommandBuilder {
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     for (int i = 0; i < 50; i++) {
       commandChain.addEnd(
           new CreateCard("Yeti", 2).addOnEnterEffects(new CreateUnit("Yeti", 2)).build(world, -1));

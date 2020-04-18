@@ -8,6 +8,7 @@ import com.dcg.location.Deck;
 import com.dcg.location.MoveLocation;
 import com.dcg.player.AdjustPower;
 import com.dcg.player.Turn;
+import java.util.List;
 import java.util.Optional;
 
 public class BuyCard extends AbstractCommandBuilder {;
@@ -17,7 +18,7 @@ public class BuyCard extends AbstractCommandBuilder {;
   protected ComponentMapper<Owned> mOwned;
 
   @Override
-  protected boolean isInputValid() {
+  protected boolean isInputValid(List<Integer> input) {
     Optional<Turn> turn = coreSystem.getCurrentPlayerEntity().mapToObj(mTurn::get).findFirst();
     if (!turn.isPresent()) {
       return false;
@@ -31,7 +32,7 @@ public class BuyCard extends AbstractCommandBuilder {;
   }
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     coreSystem
         .getCurrentPlayerEntity()
         .forEach(

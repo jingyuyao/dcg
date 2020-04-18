@@ -3,6 +3,7 @@ package com.dcg.card;
 import com.artemis.ComponentMapper;
 import com.dcg.game.CreateEntity;
 import com.dcg.location.Deck;
+import java.util.List;
 
 public class CreateCard extends CreateEntity {
   private final String name;
@@ -16,7 +17,7 @@ public class CreateCard extends CreateEntity {
   }
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     int cardEntity = createEntity();
     Card card = mCard.create(cardEntity);
     card.name = name;

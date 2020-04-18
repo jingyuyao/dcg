@@ -22,7 +22,7 @@ public class DrawCards extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     // Ensures this command can be added to both player and card.
     int rootEntity = coreSystem.getRoot(sourceEntity);
     List<Integer> deck =

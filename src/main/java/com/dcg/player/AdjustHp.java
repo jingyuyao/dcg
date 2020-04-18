@@ -2,6 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.dcg.effect.AbstractEffectBuilder;
+import java.util.List;
 
 public class AdjustHp extends AbstractEffectBuilder<Player> {
   private final int hp;
@@ -16,8 +17,8 @@ public class AdjustHp extends AbstractEffectBuilder<Player> {
   }
 
   @Override
-  protected void run() {
-    getTargetEntities()
+  protected void run(List<Integer> input) {
+    getTargetEntities(input)
         .forEach(
             playerEntity -> {
               Player player = mPlayer.get(playerEntity);

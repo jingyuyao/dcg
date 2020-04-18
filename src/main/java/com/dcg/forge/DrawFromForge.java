@@ -17,7 +17,7 @@ public class DrawFromForge extends AbstractCommandBuilder {
   @Wire protected Random random;
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     List<Integer> forgeDeck =
         coreSystem
             .getStream(Aspect.all(Card.class, Deck.class).exclude(Owned.class))

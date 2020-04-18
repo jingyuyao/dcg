@@ -1,5 +1,7 @@
 package com.dcg.battle;
 
+import java.util.List;
+
 public class AdjustStrength extends UnitEffectBuilder {
   private final int strength;
 
@@ -8,8 +10,8 @@ public class AdjustStrength extends UnitEffectBuilder {
   }
 
   @Override
-  protected void run() {
-    getTargetEntities()
+  protected void run(List<Integer> input) {
+    getTargetEntities(input)
         .forEach(
             targetEntity -> {
               Unit unit = mUnit.get(targetEntity);

@@ -4,12 +4,13 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.player.AdjustHp;
+import java.util.List;
 
 public class PerformBattle extends AbstractCommandBuilder {;
   protected ComponentMapper<Unit> mUnit;
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     coreSystem.getNotDescendants(sourceEntity, Aspect.all(Unit.class)).forEach(this::attack);
   }
 

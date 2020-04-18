@@ -23,8 +23,8 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
   }
 
   @Override
-  protected boolean isInputValid() {
-    return isSourceEntityValid() || isTargetEntitiesValid();
+  protected boolean isInputValid(List<Integer> input) {
+    return isSourceEntityValid() || isTargetEntitiesValid(input);
   }
 
   @Override
@@ -33,12 +33,12 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
         || conditions.stream().peek(world::inject).allMatch(BooleanSupplier::getAsBoolean);
   }
 
-  protected Stream<T> getTargetComponents() {
+  protected Stream<T> getTargetComponents(List<Integer> input) {
     ComponentMapper<T> componentMapper = getComponentMapper();
-    return getTargetEntities().mapToObj(componentMapper::get);
+    return getTargetEntities(input).mapToObj(componentMapper::get);
   }
 
-  protected IntStream getTargetEntities() {
+  protected IntStream getTargetEntities(List<Integer> input) {
     return isSourceEntityValid()
         ? IntStream.of(transformTargetEntity(sourceEntity))
         : input.stream().mapToInt(Integer::intValue);
@@ -61,7 +61,7 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
     return isTargetEntityValid(sourceEntity);
   }
 
-  private boolean isTargetEntitiesValid() {
+  private boolean isTargetEntitiesValid(List<Integer> input) {
     return input.size() > 0
         && input.size() <= getMaxTargetCount()
         && input.stream().allMatch(this::isTargetEntityValid);

@@ -15,7 +15,6 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   protected World world;
   protected CoreSystem coreSystem;
   protected int sourceEntity = -1;
-  protected List<Integer> input = Collections.emptyList();
   private boolean injected = false;
 
   @Override
@@ -28,9 +27,9 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this.new CommandImpl();
   }
 
-  protected abstract void run();
+  protected abstract void run(List<Integer> input);
 
-  protected boolean isInputValid() {
+  protected boolean isInputValid(List<Integer> input) {
     return true;
   }
 
@@ -40,21 +39,21 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
   @Override
   public String toString() {
-    return String.format("%s(source:*%d)%s", getClass().getSimpleName(), sourceEntity, input);
+    return String.format("%s(source:*%d)", getClass().getSimpleName(), sourceEntity);
   }
 
   private class CommandImpl implements Command {
+    private List<Integer> input = Collections.emptyList();
+
     @Override
     public Command setInput(List<Integer> input) {
-      AbstractCommandBuilder.this.input = input;
+      this.input = input;
       return this;
     }
 
     @Override
     public void run() {
-      AbstractCommandBuilder.this.run();
-      // TODO: tie input to a command instance.
-      AbstractCommandBuilder.this.input = Collections.emptyList();
+      AbstractCommandBuilder.this.run(input);
     }
 
     @Override
@@ -64,7 +63,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean isInputValid() {
-      return AbstractCommandBuilder.this.isInputValid();
+      return AbstractCommandBuilder.this.isInputValid(input);
     }
 
     @Override
@@ -74,7 +73,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public String toString() {
-      return AbstractCommandBuilder.this.toString();
+      return String.format("%s%s", AbstractCommandBuilder.this.toString(), input);
     }
   }
 }

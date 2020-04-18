@@ -2,12 +2,13 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
+import java.util.List;
 
 public class Block extends AbstractCommandBuilder {;
   protected ComponentMapper<Unit> mUnit;
 
   @Override
-  protected boolean isInputValid() {
+  protected boolean isInputValid(List<Integer> input) {
     if (input.size() != 1) {
       System.out.println("    Block requires one input");
       return false;
@@ -44,7 +45,7 @@ public class Block extends AbstractCommandBuilder {;
   }
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     int attackingEntity = input.get(0);
     commandChain.addEnd(
         new DestroyUnit().build(world, attackingEntity),

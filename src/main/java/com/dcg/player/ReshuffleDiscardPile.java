@@ -6,11 +6,12 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.location.Deck;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
+import java.util.List;
 
 public class ReshuffleDiscardPile extends AbstractCommandBuilder {;
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     coreSystem
         .getChildren(sourceEntity, Aspect.all(Card.class, DiscardPile.class))
         .forEach(

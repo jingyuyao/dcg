@@ -9,7 +9,7 @@ public class ExecuteAction extends AbstractCommandBuilder {;
   protected ComponentMapper<Action> mAction;
 
   @Override
-  protected boolean isInputValid() {
+  protected boolean isInputValid(List<Integer> input) {
     if (input.size() < 1) {
       System.out.println("    ExecuteAction requires at least one input.");
       return false;
@@ -39,7 +39,7 @@ public class ExecuteAction extends AbstractCommandBuilder {;
   }
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     List<Integer> inputPassThrough = input.subList(1, input.size());
     int actionEntity = input.get(0);
     Action action = mAction.get(actionEntity);

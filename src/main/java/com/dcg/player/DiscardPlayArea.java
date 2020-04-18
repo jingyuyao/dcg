@@ -6,11 +6,12 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
+import java.util.List;
 
 public class DiscardPlayArea extends AbstractCommandBuilder {;
 
   @Override
-  protected void run() {
+  protected void run(List<Integer> input) {
     coreSystem
         .getChildren(sourceEntity, Aspect.all(Card.class, PlayArea.class))
         .forEach(
