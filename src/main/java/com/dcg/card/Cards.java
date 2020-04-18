@@ -87,6 +87,12 @@ public class Cards {
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> FORGE_CARDS =
       Arrays.asList(
+          new CreateCard("Stone shaker", 4)
+              .addOnEnterEffects(
+                  new CreateUnit("Stoneshaker", 1)
+                      .addOnEnterEffects(new AdjustPower(2), new SetBerserk(true))
+                      .addOnConditionEffects(
+                          new AdjustStrength(2).addWorldConditions(new MinPower(7)))),
           new CreateCard("Deathstrike", 3)
               .addTags(Collections.singletonList(Spell.class))
               .addOnEnterEffects(
