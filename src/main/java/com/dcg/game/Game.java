@@ -63,7 +63,7 @@ public class Game {
 
   private void process(CommandBuilder commandBuilder, List<Integer> input) {
     CommandChain commandChain = world.getRegistered(CommandChain.class);
-    commandChain.addEnd(commandBuilder.build(world, -1).setInput(input));
+    commandChain.addEnd(commandBuilder.build(world, -1).setInput(() -> input));
     world.process();
 
     commandChain.addEnd(

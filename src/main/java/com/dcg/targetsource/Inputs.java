@@ -1,10 +1,11 @@
 package com.dcg.targetsource;
 
-import java.util.List;
+import com.dcg.command.Input;
+import com.dcg.command.Target;
 
 public class Inputs implements TargetSource {
   @Override
-  public List<Integer> get(int sourceEntity, List<Integer> input) {
-    return input;
+  public Target apply(Integer sourceEntity, Input input) {
+    return input::get;
   }
 }

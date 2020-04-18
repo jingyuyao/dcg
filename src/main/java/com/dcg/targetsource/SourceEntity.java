@@ -1,11 +1,12 @@
 package com.dcg.targetsource;
 
+import com.dcg.command.Input;
+import com.dcg.command.Target;
 import java.util.Collections;
-import java.util.List;
 
 public class SourceEntity implements TargetSource {
   @Override
-  public List<Integer> get(int sourceEntity, List<Integer> input) {
-    return Collections.singletonList(sourceEntity);
+  public Target apply(Integer sourceEntity, Input input) {
+    return () -> Collections.singletonList(sourceEntity);
   }
 }

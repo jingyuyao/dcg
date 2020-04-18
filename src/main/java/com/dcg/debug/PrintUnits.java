@@ -3,13 +3,13 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
-import java.util.List;
+import com.dcg.command.Target;
 
 public class PrintUnits extends DebugEntityCommand {;
   protected ComponentMapper<Unit> mUnit;
 
   @Override
-  protected void run(List<Integer> input) {
+  protected void run(Target target) {
     coreSystem
         .getCurrentPlayerEntity()
         .forEach(

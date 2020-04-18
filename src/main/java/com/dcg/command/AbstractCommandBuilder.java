@@ -12,19 +12,24 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Base class for a command. Guarantees the instance is injected by a world and has source entity
- * set upon execution as long as only the public interfaces are used.
+ * Base class for {@link CommandBuilder}. Guarantees the generated {@link Command} instance is
+ * injected by a world.
  */
 public abstract class AbstractCommandBuilder implements CommandBuilder {
-  private final List<WorldCondition> worldConditions = new ArrayList<>();
-  private final List<TargetCondition> targetConditions = new ArrayList<>();
   @Wire protected CommandChain commandChain;
   protected World world;
   protected CoreSystem coreSystem;
-  protected int sourceEntity = -1;
+  private final List<WorldCondition> worldConditions = new ArrayList<>();
+  private final List<TargetCondition> targetConditions = new ArrayList<>();
   private boolean injected = false;
+  // Child classes should only access the provided Target instance during conditions checks or run.
+  private int sourceEntity = -1;
   // TODO: allow multiple for composition
   private TargetSource targetSource = new SourceEntity();
+
+  public AbstractCommandBuilder() {
+    addTargetConditions(target -> target.get().size() > 0);
+  }
 
   @Override
   public Command build(World world, int sourceEntity) {
@@ -51,26 +56,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  protected abstract void run(List<Integer> input);
-
-  // TODO: type both input and target
-  protected List<Integer> getTargetEntities(List<Integer> input) {
-    world.inject(targetSource);
-    return targetSource.get(sourceEntity, input);
-  }
-
-  private boolean isWorldValid() {
-    return worldConditions.stream()
-        .peek(world::inject)
-        .allMatch(worldCondition -> worldCondition.test(coreSystem));
-  }
-
-  private boolean isInputValid(List<Integer> input) {
-    List<Integer> targetEntities = getTargetEntities(input);
-    return targetConditions.stream()
-        .peek(world::inject)
-        .allMatch(targetCondition -> targetCondition.test(targetEntities));
-  }
+  protected abstract void run(Target target);
 
   @Override
   public String toString() {
@@ -78,17 +64,17 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   }
 
   private class CommandImpl implements Command {
-    private List<Integer> input = Collections.emptyList();
+    private Input input = Collections::emptyList;
 
     @Override
-    public Command setInput(List<Integer> input) {
+    public Command setInput(Input input) {
       this.input = input;
       return this;
     }
 
     @Override
     public void run() {
-      AbstractCommandBuilder.this.run(input);
+      AbstractCommandBuilder.this.run(getMemorizedTarget(input));
     }
 
     @Override
@@ -98,17 +84,42 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean isInputValid() {
-      return AbstractCommandBuilder.this.isInputValid(input);
+      Target target = getMemorizedTarget(input);
+      for (int i = 0; i < targetConditions.size(); i++) {
+        TargetCondition condition = targetConditions.get(i);
+        world.inject(condition);
+        if (!condition.test(target)) {
+          System.out.printf("    %s target condition #%d failed\n", this.toString(), i);
+          return false;
+        }
+      }
+      return true;
     }
 
     @Override
     public boolean isWorldValid() {
-      return AbstractCommandBuilder.this.isWorldValid();
+      for (int i = 0; i < worldConditions.size(); i++) {
+        WorldCondition condition = worldConditions.get(i);
+        world.inject(condition);
+        if (!condition.test(coreSystem)) {
+          System.out.printf("    %s world condition #%d failed\n", this.toString(), i);
+          return false;
+        }
+      }
+      return true;
+    }
+
+    private Target getMemorizedTarget(Input input) {
+      world.inject(targetSource);
+      List<Integer> result = targetSource.apply(sourceEntity, input).get();
+      // Cache result before passing to downstream so implementations don't have to cache
+      // themselves.
+      return () -> result;
     }
 
     @Override
     public String toString() {
-      return String.format("%s%s", AbstractCommandBuilder.this.toString(), input);
+      return String.format("%s%s", AbstractCommandBuilder.this.toString(), input.get());
     }
   }
 }

@@ -3,14 +3,14 @@ package com.dcg.debug;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
+import com.dcg.command.Target;
 import com.dcg.location.PlayArea;
-import java.util.List;
 
 public class PrintPlayArea extends DebugEntityCommand {;
   protected ComponentMapper<Card> mCard;
 
   @Override
-  protected void run(List<Integer> input) {
+  protected void run(Target target) {
     coreSystem.getStream(Aspect.all(Card.class, PlayArea.class)).forEach(this::printCard);
   }
 

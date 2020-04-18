@@ -1,10 +1,8 @@
 package com.dcg.command;
 
-import java.util.List;
-
 public interface Command {
   /** Sets the optional user input for this command. */
-  Command setInput(List<Integer> input);
+  Command setInput(Input input);
 
   /** Execute the logic for this command. This must be repeatedly callable. */
   void run();

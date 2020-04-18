@@ -5,8 +5,8 @@ import com.artemis.annotations.Wire;
 import com.dcg.battle.PerformBattle;
 import com.dcg.card.Cards;
 import com.dcg.command.CommandBuilder;
+import com.dcg.command.Target;
 import com.dcg.game.CreateEntity;
-import java.util.List;
 import java.util.Random;
 
 public class CreatePlayer extends CreateEntity {
@@ -21,8 +21,8 @@ public class CreatePlayer extends CreateEntity {
   }
 
   @Override
-  protected void run(List<Integer> input) {
-    int playerEntity = createEntity();
+  protected void run(Target target) {
+    int playerEntity = createEntity(target);
     mPlayer.create(playerEntity).name = name;
     for (CommandBuilder builder : Cards.BASIC_CARDS) {
       commandChain.addEnd(builder.build(world, playerEntity));

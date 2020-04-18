@@ -2,62 +2,41 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.targetsource.Inputs;
-import java.util.List;
+import com.dcg.command.Target;
+import com.dcg.targetsource.SourceEntityAndInputs;
 
 public class Block extends AbstractCommandBuilder {;
   protected ComponentMapper<Unit> mUnit;
 
   public Block() {
-    setTargetSource(new Inputs());
+    setTargetSource(new SourceEntityAndInputs());
     addTargetConditions(
-        input -> {
-          if (input.size() != 1) {
-            System.out.println("    Block requires one input");
-            return false;
-          }
+        target -> target.get().size() == 2,
+        target -> coreSystem.getDefendingEntities().anyMatch(e -> e == getDefendingEntity(target)),
+        target -> coreSystem.getAttackingEntities().anyMatch(e -> e == getAttackingEntity(target)),
+        target -> !mUnit.get(getAttackingEntity(target)).unblockable,
+        target ->
+            !mUnit.get(getAttackingEntity(target)).flying
+                || mUnit.get(getDefendingEntity(target)).flying,
+        target ->
+            mUnit.get(getDefendingEntity(target)).strength
+                >= mUnit.get(getAttackingEntity(target)).strength);
+  }
 
-          int attackingEntity = input.get(0);
+  private int getDefendingEntity(Target target) {
+    return target.get().get(0);
+  }
 
-          if (!mUnit.has(attackingEntity)) {
-            System.out.printf("    *%d is not a unit\n", attackingEntity);
-            return false;
-          }
-
-          if (coreSystem.getParent(sourceEntity) == coreSystem.getParent(attackingEntity)) {
-            System.out.println("    Can't block your own units");
-            return false;
-          }
-
-          Unit blockingUnit = mUnit.get(sourceEntity);
-          Unit attackingUnit = mUnit.get(attackingEntity);
-
-          if (attackingUnit.unblockable) {
-            System.out.printf("    %s is unblockable\n", attackingUnit);
-            return false;
-          }
-
-          if (attackingUnit.flying && !blockingUnit.flying) {
-            System.out.printf("    %s has flying but %s does not\n", attackingUnit, blockingUnit);
-            return false;
-          }
-
-          if (blockingUnit.strength + blockingUnit.defense < attackingUnit.strength) {
-            System.out.printf("    %s has less strength than %s\n", blockingUnit, attackingUnit);
-            return false;
-          }
-
-          return true;
-        });
+  private int getAttackingEntity(Target target) {
+    return target.get().get(1);
   }
 
   @Override
-  protected void run(List<Integer> input) {
-    int attackingEntity = input.get(0);
-    commandChain.addEnd(new DestroyUnit().build(world, attackingEntity));
-    Unit blockingUnit = mUnit.get(sourceEntity);
+  protected void run(Target target) {
+    commandChain.addEnd(new DestroyUnit().build(world, getAttackingEntity(target)));
+    Unit blockingUnit = mUnit.get(getDefendingEntity(target));
     if (!blockingUnit.endurance) {
-      commandChain.addEnd(new DestroyUnit().build(world, sourceEntity));
+      commandChain.addEnd(new DestroyUnit().build(world, getDefendingEntity(target)));
     }
   }
 }

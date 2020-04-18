@@ -1,6 +1,6 @@
 package com.dcg.battle;
 
-import java.util.List;
+import com.dcg.command.Target;
 
 public class SetEndurance extends UnitEffectBuilder {
   private final boolean endurance;
@@ -10,7 +10,7 @@ public class SetEndurance extends UnitEffectBuilder {
   }
 
   @Override
-  protected void run(List<Integer> input) {
-    getUnits(input).forEach(unit -> unit.endurance = endurance);
+  protected void run(Target target) {
+    getUnits(target).forEach(unit -> unit.endurance = endurance);
   }
 }

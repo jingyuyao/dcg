@@ -2,8 +2,9 @@ package com.dcg.targetsource;
 
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
+import com.dcg.command.Input;
+import com.dcg.command.Target;
 import com.dcg.game.CoreSystem;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class DefendingMaxStrength implements TargetSource {
@@ -16,11 +17,12 @@ public class DefendingMaxStrength implements TargetSource {
   }
 
   @Override
-  public List<Integer> get(int sourceEntity, List<Integer> input) {
-    return coreSystem
-        .getDefendingEntities()
-        .filter(unitEntity -> mUnit.get(unitEntity).strength <= strength)
-        .boxed()
-        .collect(Collectors.toList());
+  public Target apply(Integer sourceEntity, Input input) {
+    return () ->
+        coreSystem
+            .getDefendingEntities()
+            .filter(unitEntity -> mUnit.get(unitEntity).strength <= strength)
+            .boxed()
+            .collect(Collectors.toList());
   }
 }

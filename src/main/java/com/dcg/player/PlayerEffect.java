@@ -9,6 +9,6 @@ abstract class PlayerEffect extends AbstractCommandBuilder {
 
   PlayerEffect() {
     setTargetSource(new SourceEntityRoot());
-    addTargetConditions(input -> input.stream().allMatch(mPlayer::has));
+    addTargetConditions(target -> target.get().stream().allMatch(mPlayer::has));
   }
 }

@@ -1,9 +1,9 @@
 package com.dcg.card;
 
 import com.artemis.ComponentMapper;
+import com.dcg.command.Target;
 import com.dcg.game.CreateEntity;
 import com.dcg.location.Deck;
-import java.util.List;
 
 public class CreateCard extends CreateEntity {
   private final String name;
@@ -17,8 +17,8 @@ public class CreateCard extends CreateEntity {
   }
 
   @Override
-  protected void run(List<Integer> input) {
-    int cardEntity = createEntity();
+  protected void run(Target target) {
+    int cardEntity = createEntity(target);
     Card card = mCard.create(cardEntity);
     card.name = name;
     card.cost = cost;

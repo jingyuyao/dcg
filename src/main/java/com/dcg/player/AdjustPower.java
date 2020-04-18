@@ -1,23 +1,20 @@
 package com.dcg.player;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.targetsource.SourceEntityRoot;
-import java.util.List;
+import com.dcg.command.Target;
 
-public class AdjustPower extends AbstractCommandBuilder {
+public class AdjustPower extends PlayerEffect {
   private final int power;
   protected ComponentMapper<Turn> mTurn;
 
   public AdjustPower(int power) {
     this.power = power;
-    setTargetSource(new SourceEntityRoot());
-    addTargetConditions(input -> input.stream().allMatch(mTurn::has));
+    addTargetConditions(target -> target.get().stream().allMatch(mTurn::has));
   }
 
   @Override
-  protected void run(List<Integer> input) {
-    getTargetEntities(input).stream().map(mTurn::get).forEach(turn -> turn.powerPool += power);
+  protected void run(Target target) {
+    target.get().stream().map(mTurn::get).forEach(turn -> turn.powerPool += power);
   }
 
   @Override

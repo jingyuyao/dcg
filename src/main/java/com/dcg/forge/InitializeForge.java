@@ -3,12 +3,11 @@ package com.dcg.forge;
 import com.dcg.card.Cards;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
-import java.util.List;
+import com.dcg.command.Target;
 
 public class InitializeForge extends AbstractCommandBuilder {
-
   @Override
-  protected void run(List<Integer> input) {
+  protected void run(Target target) {
     for (CommandBuilder builder : Cards.FORGE_CARDS) {
       commandChain.addEnd(builder.build(world, -1));
     }

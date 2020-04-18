@@ -1,6 +1,6 @@
 package com.dcg.battle;
 
-import java.util.List;
+import com.dcg.command.Target;
 
 public class SetFlying extends UnitEffectBuilder {
   private final boolean flying;
@@ -10,8 +10,8 @@ public class SetFlying extends UnitEffectBuilder {
   }
 
   @Override
-  protected void run(List<Integer> input) {
-    getUnits(input).forEach(unit -> unit.flying = flying);
+  protected void run(Target target) {
+    getUnits(target).forEach(unit -> unit.flying = flying);
   }
 
   @Override

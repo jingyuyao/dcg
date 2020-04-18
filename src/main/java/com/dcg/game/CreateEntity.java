@@ -6,10 +6,12 @@ import com.artemis.World;
 import com.dcg.action.DeleteActions;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
+import com.dcg.command.Target;
 import com.dcg.effect.Effect;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.OptionalInt;
 
 /**
  * Base class for commands that create entities. Automatically propagates owner of the command to
@@ -50,12 +52,14 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     return this;
   }
 
-  protected int createEntity() {
+  protected int createEntity(Target target) {
     int entity = world.create();
-    if (sourceEntity != -1) {
-      Owned owned = mOwned.create(entity);
-      owned.owner = sourceEntity;
-    }
+    getOwner(target)
+        .ifPresent(
+            ownerEntity -> {
+              Owned owned = mOwned.create(entity);
+              owned.owner = ownerEntity;
+            });
     for (Class<? extends Component> tag : tags) {
       world.getMapper(tag).create(entity);
     }
@@ -64,5 +68,10 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     effect.onLeave = onLeaveEffects;
     effect.onCondition = onConditionEffects;
     return entity;
+  }
+
+  protected OptionalInt getOwner(Target target) {
+    int owner = target.get().get(0);
+    return owner == -1 ? OptionalInt.empty() : OptionalInt.of(owner);
   }
 }

@@ -1,6 +1,6 @@
 package com.dcg.player;
 
-import java.util.List;
+import com.dcg.command.Target;
 
 public class AdjustHp extends PlayerEffect {
   private final int hp;
@@ -10,8 +10,9 @@ public class AdjustHp extends PlayerEffect {
   }
 
   @Override
-  protected void run(List<Integer> input) {
-    getTargetEntities(input)
+  protected void run(Target target) {
+    target
+        .get()
         .forEach(
             playerEntity -> {
               Player player = mPlayer.get(playerEntity);
