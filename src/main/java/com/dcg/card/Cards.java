@@ -10,7 +10,10 @@ import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
 import com.dcg.command.CommandBuilder;
 import com.dcg.effect.AnySpell;
+import com.dcg.effect.CurrentPlayerUnits;
+import com.dcg.effect.Inputs;
 import com.dcg.effect.MinAnyUnitStrength;
+import com.dcg.effect.MinPower;
 import com.dcg.effect.MinUnitCount;
 import com.dcg.player.AdjustHp;
 import com.dcg.player.AdjustPower;
@@ -28,7 +31,8 @@ public class Cards {
           new CreateCard("Diplomacy", 0).addOnEnterEffects(new AdjustPower(1)),
           new CreateCard("Diplomacy", 0).addOnEnterEffects(new AdjustPower(1)),
           new CreateCard("Diplomacy", 0).addOnEnterEffects(new AdjustPower(1)),
-          new CreateCard("Worn Shield", 0).addOnEnterEffects(new AdjustDefense(2)),
+          new CreateCard("Worn Shield", 0)
+              .addOnEnterEffects(new AdjustDefense(2).setTargetSource(new Inputs())),
           new CreateCard("Secret Pages", 0).addOnEnterEffects(new AdjustPower(2)));
 
   @SuppressWarnings("SpellCheckingInspection")
@@ -39,7 +43,9 @@ public class Cards {
                   new CreateUnit("Yeti Windflyer", 1)
                       .addOnEnterEffects(new SetFlying(true))
                       .addOnConditionEffects(
-                          new AdjustHp(-2, false).addCondition(new MinUnitCount(1)))),
+                          new AdjustHp(-2)
+                              .setTargetSource(new Inputs())
+                              .addCondition(new MinUnitCount(1)))),
           new CreateCard("Awakened Student", 0)
               .addOnEnterEffects(
                   new CreateUnit("Awakened Student", 2)
@@ -63,8 +69,8 @@ public class Cards {
                           new SetEndurance(true).addCondition(new AnySpell()))),
           new CreateCard("Xenan Cupbearer", 0)
               .addOnEnterEffects(
-                  new CreateUnit("Xenan Cupbearer", 1).addOnEnterEffects(new AdjustDefense(1)),
-                  new AdjustHp(1, true)),
+                  new CreateUnit("Xenan Cupbearer", 1)
+                      .addOnEnterEffects(new AdjustDefense(1), new AdjustHp(1))),
           new CreateCard("Grenadin Drone", 0)
               .addOnEnterEffects(
                   new CreateUnit("Grenadin Drone", 2), new CreateUnit("Grenadin", 1)),
@@ -77,11 +83,22 @@ public class Cards {
       Arrays.asList(
           new CreateCard("Deathstrike", 3)
               .addTags(Collections.singletonList(Spell.class))
-              .addOnEnterEffects(new AdjustPower(1), new DestroyUnit()),
+              .addOnEnterEffects(
+                  new AdjustPower(1), new DestroyUnit().setTargetSource(new Inputs())),
           new CreateCard("Wisdom of the Elders", 5)
               .addTags(Collections.singletonList(Spell.class))
               .addOnEnterEffects(new DrawCards(2)),
+          new CreateCard("Pack Hunt", 4)
+              .addTags(Collections.singletonList(Spell.class))
+              .addOnEnterEffects(new AdjustPower(2))
+              .addOnConditionEffects(
+                  new AdjustStrength(2)
+                      .setTargetSource(new CurrentPlayerUnits())
+                      .addCondition(new MinPower(1))),
           new CreateCard("Oni Ronin", 1)
               .addOnEnterEffects(
-                  new CreateUnit("Oni Ronin", 1), new AdjustStrength(1), new AdjustStrength(1)));
+                  new CreateUnit("Oni Ronin", 1)
+                      .addOnEnterEffects(
+                          new AdjustStrength(1).setTargetSource(new Inputs()),
+                          new AdjustStrength(1).setTargetSource(new Inputs()))));
 }

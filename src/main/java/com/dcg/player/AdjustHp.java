@@ -2,18 +2,16 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.dcg.effect.AbstractEffectBuilder;
+import com.dcg.effect.SourceEntityRoot;
 import java.util.List;
 
 public class AdjustHp extends AbstractEffectBuilder<Player> {
   private final int hp;
-  // Whether to automatically use the root of target entities. If false this command will only
-  // trigger if attached has a source entity of player or has a player entity input.
-  private final boolean crawlRoot;
   protected ComponentMapper<Player> mPlayer;
 
-  public AdjustHp(int hp, boolean crawlRoot) {
+  public AdjustHp(int hp) {
     this.hp = hp;
-    this.crawlRoot = crawlRoot;
+    setTargetSource(new SourceEntityRoot());
   }
 
   @Override
@@ -32,11 +30,6 @@ public class AdjustHp extends AbstractEffectBuilder<Player> {
   @Override
   protected ComponentMapper<Player> getComponentMapper() {
     return mPlayer;
-  }
-
-  @Override
-  protected int transformTargetEntity(int targetEntity) {
-    return crawlRoot ? coreSystem.getRoot(targetEntity) : targetEntity;
   }
 
   @Override

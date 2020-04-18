@@ -2,6 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.dcg.effect.AbstractEffectBuilder;
+import com.dcg.effect.SourceEntityRoot;
 import java.util.List;
 
 public class AdjustPower extends AbstractEffectBuilder<Turn> {
@@ -10,6 +11,7 @@ public class AdjustPower extends AbstractEffectBuilder<Turn> {
 
   public AdjustPower(int power) {
     this.power = power;
+    setTargetSource(new SourceEntityRoot());
   }
 
   @Override
@@ -20,11 +22,6 @@ public class AdjustPower extends AbstractEffectBuilder<Turn> {
   @Override
   protected ComponentMapper<Turn> getComponentMapper() {
     return mTurn;
-  }
-
-  @Override
-  protected int transformTargetEntity(int targetEntity) {
-    return coreSystem.getRoot(targetEntity);
   }
 
   @Override

@@ -12,6 +12,12 @@ import java.util.stream.Stream;
 /** A specialized command with structured trigger logic against entities. */
 public abstract class AbstractEffectBuilder<T extends Component> extends AbstractCommandBuilder {
   private final List<BooleanSupplier> conditions = new ArrayList<>();
+  private TargetSource targetSource = new SourceEntity();
+
+  public AbstractEffectBuilder<T> setTargetSource(TargetSource targetSource) {
+    this.targetSource = targetSource;
+    return this;
+  }
 
   /**
    * Add a generic condition to be checked before execution. Intended to be used in conjunction with
@@ -24,7 +30,10 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
 
   @Override
   protected boolean isInputValid(List<Integer> input) {
-    return isSourceEntityValid() || isTargetEntitiesValid(input);
+    List<Integer> targetEntities = getTargetEntitiesInternal(input);
+    return targetEntities.size() > 0
+        && targetEntities.size() <= getMaxTargetCount()
+        && targetEntities.stream().allMatch(this::isTargetEntityValid);
   }
 
   @Override
@@ -39,9 +48,7 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
   }
 
   protected IntStream getTargetEntities(List<Integer> input) {
-    return isSourceEntityValid()
-        ? IntStream.of(transformTargetEntity(sourceEntity))
-        : input.stream().mapToInt(Integer::intValue);
+    return getTargetEntitiesInternal(input).stream().mapToInt(Integer::intValue);
   }
 
   /** Provide the {@link ComponentMapper} used to validate and transform target entities. */
@@ -52,22 +59,12 @@ public abstract class AbstractEffectBuilder<T extends Component> extends Abstrac
     return 1;
   }
 
-  /** Override me to transform the target entity into another entity. */
-  protected int transformTargetEntity(int targetEntity) {
-    return targetEntity;
-  }
-
-  private boolean isSourceEntityValid() {
-    return isTargetEntityValid(sourceEntity);
-  }
-
-  private boolean isTargetEntitiesValid(List<Integer> input) {
-    return input.size() > 0
-        && input.size() <= getMaxTargetCount()
-        && input.stream().allMatch(this::isTargetEntityValid);
+  private List<Integer> getTargetEntitiesInternal(List<Integer> input) {
+    world.inject(targetSource);
+    return targetSource.get(sourceEntity, input);
   }
 
   private boolean isTargetEntityValid(int targetEntity) {
-    return getComponentMapper().has(transformTargetEntity(targetEntity));
+    return getComponentMapper().has(targetEntity);
   }
 }
