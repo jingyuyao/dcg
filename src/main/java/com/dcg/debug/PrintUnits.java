@@ -14,11 +14,11 @@ public class PrintUnits extends DebugEntityCommand {
         .getCurrentPlayerEntity()
         .forEach(
             playerEntity -> {
-              System.out.println("  Attacking");
+              System.out.println("    Attacking");
               coreSystem
                   .getNotDescendants(playerEntity, Aspect.all(Unit.class))
                   .forEach(unitEntity -> printUnit(unitEntity, false));
-              System.out.println("  Defending");
+              System.out.println("    Defending");
               coreSystem
                   .getDescendants(playerEntity, Aspect.all(Unit.class))
                   .forEach(unitEntity -> printUnit(unitEntity, true));
@@ -26,9 +26,10 @@ public class PrintUnits extends DebugEntityCommand {
   }
 
   private void printUnit(int unitEntity, boolean withActions) {
-    System.out.printf("    *%d %s %s\n", unitEntity, name(unitEntity), mUnit.get(unitEntity));
     if (withActions) {
       printActions(unitEntity);
+    } else {
+      System.out.printf("    *%d %s %s\n", unitEntity, name(unitEntity), mUnit.get(unitEntity));
     }
   }
 }
