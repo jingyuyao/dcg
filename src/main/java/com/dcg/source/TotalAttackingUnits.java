@@ -1,4 +1,4 @@
-package com.dcg.effect;
+package com.dcg.source;
 
 import com.dcg.command.Target;
 import com.dcg.game.CoreSystem;

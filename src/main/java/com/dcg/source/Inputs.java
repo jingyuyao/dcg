@@ -1,4 +1,4 @@
-package com.dcg.targetsource;
+package com.dcg.source;
 
 import com.dcg.command.Input;
 import com.dcg.command.Target;

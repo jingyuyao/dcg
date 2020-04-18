@@ -3,7 +3,7 @@ package com.dcg.battle;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Target;
-import com.dcg.targetsource.SourceEntityAndInputs;
+import com.dcg.source.SourceEntityAndInputs;
 
 public class Block extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;

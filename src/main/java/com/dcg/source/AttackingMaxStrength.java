@@ -1,4 +1,4 @@
-package com.dcg.targetsource;
+package com.dcg.source;
 
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;

@@ -1,4 +1,4 @@
-package com.dcg.targetsource;
+package com.dcg.source;
 
 import com.artemis.Aspect;
 import com.dcg.battle.Unit;

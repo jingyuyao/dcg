@@ -1,7 +1,7 @@
 package com.dcg.player;
 
 import com.dcg.command.Target;
-import com.dcg.effect.EffectSource;
+import com.dcg.source.EffectSource;
 import java.util.Collections;
 
 public class AdjustHp extends PlayerEffect {
