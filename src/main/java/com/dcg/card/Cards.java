@@ -51,12 +51,12 @@ public class Cards {
                       .addOnConditionEffects(
                           new AdjustHp(-2)
                               .setTargetSource(new Inputs())
-                              .addCondition(new MinUnitCount(1)))),
+                              .addWorldConditions(new MinUnitCount(1)))),
           new CreateCard("Awakened Student", 0)
               .addOnEnterEffects(
                   new CreateUnit("Awakened Student", 2)
                       .addOnConditionEffects(
-                          new AdjustStrength(2).addCondition(new MinAnyUnitStrength(4)))),
+                          new AdjustStrength(2).addWorldConditions(new MinAnyUnitStrength(4)))),
           new CreateCard("Eager Owlet", 0)
               .addOnEnterEffects(
                   new CreateUnit("Eager Owlet", 2).addOnEnterEffects(new SetFlying(true))),
@@ -71,8 +71,8 @@ public class Cards {
               .addOnEnterEffects(
                   new CreateUnit("Storm Lynx", 1)
                       .addOnConditionEffects(
-                          new AdjustStrength(2).addCondition(new AnySpell()),
-                          new SetEndurance(true).addCondition(new AnySpell()))),
+                          new AdjustStrength(2).addWorldConditions(new AnySpell()),
+                          new SetEndurance(true).addWorldConditions(new AnySpell()))),
           new CreateCard("Xenan Cupbearer", 0)
               .addOnEnterEffects(
                   new CreateUnit("Xenan Cupbearer", 1)
@@ -100,17 +100,17 @@ public class Cards {
               .addOnConditionEffects(
                   new AdjustStrength(2)
                       .setTargetSource(new DefendingUnits())
-                      .addCondition(new MinPower(7))),
+                      .addWorldConditions(new MinPower(7))),
           new CreateCard("Temple Scribe", 0)
               .addOnEnterEffects(
                   new CreateUnit("Storm Lynx", 1)
                       .addOnEnterEffects(new AdjustPower(1))
-                      .addOnConditionEffects(new DrawCards(1).addCondition(new AnySpell()))),
+                      .addOnConditionEffects(new DrawCards(1).addWorldConditions(new AnySpell()))),
           new CreateCard("Mystic Ascendant", 6)
               .addOnEnterEffects(
                   new CreateUnit("Mystic Ascendant", 4)
                       .addOnEnterEffects(new DrawCards(1))
-                      .addOnConditionEffects(new AdjustStrength(2).addCondition(new MinPower(7)))),
+                      .addOnConditionEffects(new AdjustStrength(2).addWorldConditions(new MinPower(7)))),
           new CreateCard("Levitate", 2)
               .addTags(Collections.singletonList(Spell.class))
               .addOnEnterEffects(
@@ -156,7 +156,7 @@ public class Cards {
                   new CreateUnit("Snowrager", 1)
                       .addOnEnterEffects(new SetBerserk(true))
                       .addOnConditionEffects(
-                          new AdjustStrength(1).addCondition(new MinUnitCount(3)))),
+                          new AdjustStrength(1).addWorldConditions(new MinUnitCount(3)))),
           new CreateCard("Cabal Spymaster", 3)
               .addOnEnterEffects(
                   new CreateUnit("Cabal Spymaster", 1)

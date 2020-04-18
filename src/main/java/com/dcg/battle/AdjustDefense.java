@@ -11,7 +11,7 @@ public class AdjustDefense extends UnitEffectBuilder {
 
   @Override
   protected void run(List<Integer> input) {
-    getTargetComponents(input).forEach(unit -> unit.defense += defense);
+    getUnits(input).forEach(unit -> unit.defense += defense);
   }
 
   @Override

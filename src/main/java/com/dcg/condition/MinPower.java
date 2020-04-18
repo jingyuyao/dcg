@@ -3,11 +3,9 @@ package com.dcg.condition;
 import com.artemis.ComponentMapper;
 import com.dcg.game.CoreSystem;
 import com.dcg.player.Turn;
-import java.util.function.BooleanSupplier;
 
-public class MinPower implements BooleanSupplier {
+public class MinPower implements WorldCondition {
   private final int power;
-  protected CoreSystem coreSystem;
   protected ComponentMapper<Turn> mTurn;
 
   public MinPower(int power) {
@@ -15,7 +13,7 @@ public class MinPower implements BooleanSupplier {
   }
 
   @Override
-  public boolean getAsBoolean() {
+  public boolean test(CoreSystem coreSystem) {
     return coreSystem
         .getCurrentPlayerEntity()
         .mapToObj(mTurn::get)

@@ -4,11 +4,9 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
 import com.dcg.game.CoreSystem;
-import java.util.function.BooleanSupplier;
 
-public class MinAnyUnitStrength implements BooleanSupplier {
+public class MinAnyUnitStrength implements WorldCondition {
   private final int strength;
-  protected CoreSystem coreSystem;
   protected ComponentMapper<Unit> mUnit;
 
   public MinAnyUnitStrength(int strength) {
@@ -16,7 +14,7 @@ public class MinAnyUnitStrength implements BooleanSupplier {
   }
 
   @Override
-  public boolean getAsBoolean() {
+  public boolean test(CoreSystem coreSystem) {
     return coreSystem
         .getCurrentPlayerEntity()
         .flatMap(playerEntity -> coreSystem.getDescendants(playerEntity, Aspect.all(Unit.class)))

@@ -11,6 +11,6 @@ public class SetEndurance extends UnitEffectBuilder {
 
   @Override
   protected void run(List<Integer> input) {
-    getTargetComponents(input).forEach(unit -> unit.endurance = endurance);
+    getUnits(input).forEach(unit -> unit.endurance = endurance);
   }
 }

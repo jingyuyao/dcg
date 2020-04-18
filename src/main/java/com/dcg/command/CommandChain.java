@@ -1,6 +1,6 @@
 package com.dcg.command;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,14 +10,12 @@ public class CommandChain {
 
   /** Add commands to the end of the deque while preserving the order of the arguments. */
   public void addEnd(List<Command> commands) {
-    for (Command command : commands) {
-      queue.addLast(command);
-    }
+    queue.addAll(commands);
   }
 
   /** Add commands to the end of the deque while preserving the order of the arguments. */
   public void addEnd(Command... commands) {
-    addEnd(Arrays.asList(commands));
+    Collections.addAll(queue, commands);
   }
 
   public Command pop() {

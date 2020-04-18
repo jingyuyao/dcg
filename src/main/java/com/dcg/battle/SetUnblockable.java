@@ -11,6 +11,6 @@ public class SetUnblockable extends UnitEffectBuilder {
 
   @Override
   protected void run(List<Integer> input) {
-    getTargetComponents(input).forEach(unit -> unit.unblockable = unblockable);
+    getUnits(input).forEach(unit -> unit.unblockable = unblockable);
   }
 }

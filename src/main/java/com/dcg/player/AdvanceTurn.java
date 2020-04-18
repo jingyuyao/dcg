@@ -12,14 +12,16 @@ import java.util.stream.Collectors;
 public class AdvanceTurn extends AbstractCommandBuilder {
   protected ComponentMapper<Turn> mTurn;
 
-  @Override
-  protected boolean isWorldValid() {
-    long cardsInHandCount =
-        coreSystem.getChildren(sourceEntity, Aspect.all(Card.class, Hand.class)).count();
-    long cardsInPlayCount =
-        coreSystem.getChildren(sourceEntity, Aspect.all(Card.class, PlayArea.class)).count();
-    // Check cardsInPlay so this doesn't get automatically triggered on enter.
-    return cardsInHandCount == 0 && cardsInPlayCount != 0;
+  public AdvanceTurn() {
+    addWorldConditions(
+        coreSystem -> {
+          long cardsInHandCount =
+              coreSystem.getChildren(sourceEntity, Aspect.all(Card.class, Hand.class)).count();
+          long cardsInPlayCount =
+              coreSystem.getChildren(sourceEntity, Aspect.all(Card.class, PlayArea.class)).count();
+          // Check cardsInPlay so this doesn't get automatically triggered on enter.
+          return cardsInHandCount == 0 && cardsInPlayCount != 0;
+        });
   }
 
   @Override

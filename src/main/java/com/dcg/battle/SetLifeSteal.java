@@ -11,7 +11,7 @@ public class SetLifeSteal extends UnitEffectBuilder {
 
   @Override
   protected void run(List<Integer> input) {
-    getTargetComponents(input).forEach(unit -> unit.lifeSteal = lifeSteal);
+    getUnits(input).forEach(unit -> unit.lifeSteal = lifeSteal);
   }
 
   @Override

@@ -11,7 +11,7 @@ public class SetFlying extends UnitEffectBuilder {
 
   @Override
   protected void run(List<Integer> input) {
-    getTargetComponents(input).forEach(unit -> unit.flying = flying);
+    getUnits(input).forEach(unit -> unit.flying = flying);
   }
 
   @Override
