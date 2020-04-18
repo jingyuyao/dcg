@@ -1,4 +1,4 @@
-package com.dcg.effect;
+package com.dcg.condition;
 
 import com.artemis.ComponentMapper;
 import com.dcg.game.CoreSystem;

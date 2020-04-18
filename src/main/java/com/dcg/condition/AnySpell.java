@@ -1,4 +1,4 @@
-package com.dcg.effect;
+package com.dcg.condition;
 
 import com.artemis.Aspect;
 import com.dcg.card.Spell;

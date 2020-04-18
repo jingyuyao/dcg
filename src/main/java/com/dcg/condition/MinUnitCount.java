@@ -1,4 +1,4 @@
-package com.dcg.effect;
+package com.dcg.condition;
 
 import com.dcg.game.CoreSystem;
 import java.util.function.BooleanSupplier;
