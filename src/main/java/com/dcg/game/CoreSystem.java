@@ -6,6 +6,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.systems.IteratingSystem;
 import com.artemis.utils.IntBag;
+import com.dcg.battle.Unit;
 import com.dcg.player.Player;
 import com.dcg.player.Turn;
 import java.util.stream.IntStream;
@@ -31,6 +32,16 @@ public class CoreSystem extends IteratingSystem {
 
   public IntStream getCurrentPlayerEntity() {
     return getStream(Aspect.all(Player.class, Turn.class));
+  }
+
+  public IntStream getAttackingEntities() {
+    return getCurrentPlayerEntity()
+        .flatMap(playerEntity -> getNotDescendants(playerEntity, Aspect.all(Unit.class)));
+  }
+
+  public IntStream getDefendingEntities() {
+    return getCurrentPlayerEntity()
+        .flatMap(playerEntity -> getDescendants(playerEntity, Aspect.all(Unit.class)));
   }
 
   /** Filters the aspect for entities owned by the owner. */
