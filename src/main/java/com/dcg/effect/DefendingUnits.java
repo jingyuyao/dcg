@@ -6,7 +6,7 @@ import com.dcg.game.CoreSystem;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CurrentPlayerUnits implements TargetSource {
+public class DefendingUnits implements TargetSource {
   protected CoreSystem coreSystem;
 
   @Override

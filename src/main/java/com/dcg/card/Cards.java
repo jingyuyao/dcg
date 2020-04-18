@@ -10,7 +10,8 @@ import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
 import com.dcg.command.CommandBuilder;
 import com.dcg.effect.AnySpell;
-import com.dcg.effect.CurrentPlayerUnits;
+import com.dcg.effect.AttackingUnits;
+import com.dcg.effect.DefendingUnits;
 import com.dcg.effect.Inputs;
 import com.dcg.effect.MinAnyUnitStrength;
 import com.dcg.effect.MinPower;
@@ -93,8 +94,14 @@ public class Cards {
               .addOnEnterEffects(new AdjustPower(2))
               .addOnConditionEffects(
                   new AdjustStrength(2)
-                      .setTargetSource(new CurrentPlayerUnits())
-                      .addCondition(new MinPower(1))),
+                      .setTargetSource(new DefendingUnits())
+                      .addCondition(new MinPower(7))),
+          new CreateCard("Splimespitter Slug", 5)
+              .addOnEnterEffects(
+                  new CreateUnit("Splimespitter Slug", 3)
+                      .addOnEnterEffects(
+                          new AdjustPower(1),
+                          new AdjustStrength(1).setTargetSource(new AttackingUnits()))),
           new CreateCard("Oni Ronin", 1)
               .addOnEnterEffects(
                   new CreateUnit("Oni Ronin", 1)
