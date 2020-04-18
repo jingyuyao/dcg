@@ -14,6 +14,6 @@ public abstract class DebugEntityCommand extends AbstractCommandBuilder {
 
   private void printAction(int actionEntity) {
     Action action = mAction.get(actionEntity);
-    System.out.printf("    - %d %s\n", actionEntity, action.command);
+    System.out.printf("    -- %d %s\n", actionEntity, action.command);
   }
 }

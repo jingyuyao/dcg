@@ -16,10 +16,12 @@ public class PrintPlayers extends DebugEntityCommand {
   }
 
   private void printPlayer(int playerEntity) {
-    System.out.printf("    *%d %s\n", playerEntity, mPlayer.get(playerEntity));
+    System.out.printf("    *%d %s", playerEntity, mPlayer.get(playerEntity));
     if (mTurn.has(playerEntity)) {
-      System.out.printf("      %s\n", mTurn.get(playerEntity));
+      System.out.printf(" %s\n", mTurn.get(playerEntity));
       printActions(playerEntity);
+    } else {
+      System.out.println();
     }
   }
 }
