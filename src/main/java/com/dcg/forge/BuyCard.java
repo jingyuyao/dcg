@@ -41,7 +41,7 @@ public class BuyCard extends AbstractCommandBuilder {;
               commandChain.addEnd(
                   new AdjustPower(-mCard.get(sourceEntity).cost).build(world, sourceEntity),
                   new MoveLocation(Deck.class).build(world, sourceEntity),
-                  new DrawFromForge().build(world, -1));
+                  new RefillForgeRow().build(world, -1));
             });
   }
 }
