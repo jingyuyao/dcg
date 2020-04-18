@@ -58,7 +58,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean canRun() {
-      return isInputValid() && isWorldValid();
+      return isWorldValid() && isInputValid();
     }
 
     @Override
