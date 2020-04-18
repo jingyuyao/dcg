@@ -7,6 +7,7 @@ import com.dcg.battle.CreateUnit;
 import com.dcg.battle.DestroyUnit;
 import com.dcg.battle.PerformBattle;
 import com.dcg.battle.SetBerserk;
+import com.dcg.battle.SetEndurance;
 import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
 import com.dcg.card.CreateCard;
@@ -79,7 +80,9 @@ public class CreatePlayer extends CreateEntity {
         new CreateCard("Storm Lynx", 0)
             .addOnEnterEffects(
                 new CreateUnit("Storm Lynx", 1)
-                    .addOnConditionEffects(new AdjustStrength(2).addCondition(new AnySpell()))),
+                    .addOnConditionEffects(
+                        new AdjustStrength(2).addCondition(new AnySpell()),
+                        new SetEndurance(true).addCondition(new AnySpell()))),
         new CreateCard("Oni Ronin", 1)
             .addOnEnterEffects(
                 new CreateUnit("Oni Ronin", 1), new AdjustStrength(1), new AdjustStrength(1)),

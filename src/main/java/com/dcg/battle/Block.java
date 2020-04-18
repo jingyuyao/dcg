@@ -47,8 +47,10 @@ public class Block extends AbstractCommandBuilder {;
   @Override
   protected void run(List<Integer> input) {
     int attackingEntity = input.get(0);
-    commandChain.addEnd(
-        new DestroyUnit().build(world, attackingEntity),
-        new DestroyUnit().build(world, sourceEntity));
+    commandChain.addEnd(new DestroyUnit().build(world, attackingEntity));
+    Unit blockingUnit = mUnit.get(sourceEntity);
+    if (!blockingUnit.endurance) {
+      commandChain.addEnd(new DestroyUnit().build(world, sourceEntity));
+    }
   }
 }

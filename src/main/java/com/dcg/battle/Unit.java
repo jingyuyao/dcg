@@ -14,6 +14,7 @@ public class Unit extends Component {
   public boolean flying = false;
   public boolean lifeSteal = false;
   public boolean berserk = false;
+  public boolean endurance = false;
 
   @Override
   public String toString() {
@@ -26,13 +27,16 @@ public class Unit extends Component {
       builder.append("def:").append(defense).append(" ");
     }
     if (flying) {
-      builder.append("fly").append(" ");
+      builder.append("flying").append(" ");
     }
     if (lifeSteal) {
       builder.append("lifeSteal").append(" ");
     }
     if (berserk) {
       builder.append("berserk").append(" ");
+    }
+    if (endurance) {
+      builder.append("endurance").append(" ");
     }
     return builder.toString();
   }
