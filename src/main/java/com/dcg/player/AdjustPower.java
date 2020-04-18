@@ -2,7 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.dcg.effect.AbstractEffectBuilder;
-import com.dcg.effect.SourceEntityRoot;
+import com.dcg.targetsource.SourceEntityRoot;
 import java.util.List;
 
 public class AdjustPower extends AbstractEffectBuilder<Turn> {

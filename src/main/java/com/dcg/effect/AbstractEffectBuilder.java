@@ -3,6 +3,8 @@ package com.dcg.effect;
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
+import com.dcg.targetsource.SourceEntity;
+import com.dcg.targetsource.TargetSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
