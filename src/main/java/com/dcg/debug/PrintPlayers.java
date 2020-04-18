@@ -6,7 +6,7 @@ import com.dcg.command.Target;
 import com.dcg.player.Player;
 import com.dcg.player.Turn;
 
-public class PrintPlayers extends DebugEntityCommand {;
+public class PrintPlayers extends DebugEntityCommand {
   protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Turn> mTurn;
 

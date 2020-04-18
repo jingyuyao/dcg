@@ -5,7 +5,7 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Target;
 import com.dcg.targetsource.SourceEntityAndInputs;
 
-public class Block extends AbstractCommandBuilder {;
+public class Block extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   public Block() {

@@ -7,7 +7,7 @@ import com.dcg.location.Deck;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
 
-public class ReshuffleDiscardPile extends PlayerEffect {;
+public class ReshuffleDiscardPile extends PlayerEffect {
   @Override
   protected void run(Target target) {
     target.get().stream()

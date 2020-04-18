@@ -86,6 +86,9 @@ public class Cards {
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> FORGE_CARDS =
       Arrays.asList(
+          new CreateCard("Hipshot", 3)
+              .addTag(Spell.class)
+              .addOnEnterEffects(new AdjustPower(1), new AdjustHp(-3).setTargetSource(new Inputs())),
           new CreateCard("Stone shaker", 4)
               .addOnEnterEffects(
                   new CreateUnit("Stoneshaker", 1)
@@ -130,8 +133,7 @@ public class Cards {
           new CreateCard("Lightning Storm", 2)
               .addTag(Spell.class)
               .addOnEnterEffects(
-                  new CreateAction(
-                      new DeleteCard().addTargetConditions(new PlayAreaOrDiscardPile())),
+                  new DeleteCard().addTargetConditions(new PlayAreaOrDiscardPile()),
                   new CreateAction(new DestroyUnit().setTargetSource(new AttackingMaxStrength(2)))),
           new CreateCard("Bolster", 3)
               .addTag(Spell.class)
@@ -146,7 +148,7 @@ public class Cards {
           new CreateCard("Impending Doom", 4)
               .addOnEnterEffects(
                   new CreateUnit("Impending Doom", 5)
-                      .addOnEnterEffects(new SetFlying(true), new AdjustHp(-11))),
+                      .addOnEnterEffects(new SetFlying(true), new AdjustHp(-1))),
           new CreateCard("Ridgeline Watcher", 4)
               .addOnEnterEffects(
                   new CreateUnit("Ridgeline Watcher", 3)

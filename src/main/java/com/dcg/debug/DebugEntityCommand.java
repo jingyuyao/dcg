@@ -5,7 +5,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.action.Action;
 import com.dcg.command.AbstractCommandBuilder;
 
-public abstract class DebugEntityCommand extends AbstractCommandBuilder {;
+public abstract class DebugEntityCommand extends AbstractCommandBuilder {
   protected ComponentMapper<Action> mAction;
 
   protected void printActions(int ownerEntity) {

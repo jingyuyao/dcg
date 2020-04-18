@@ -7,7 +7,7 @@ import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
 
-public class DiscardPlayArea extends PlayerEffect {;
+public class DiscardPlayArea extends PlayerEffect {
   @Override
   protected void run(Target target) {
     int playerEntity = target.get().get(0);

@@ -6,7 +6,7 @@ import com.dcg.card.Card;
 import com.dcg.command.Target;
 import com.dcg.location.PlayArea;
 
-public class PrintPlayArea extends DebugEntityCommand {;
+public class PrintPlayArea extends DebugEntityCommand {
   protected ComponentMapper<Card> mCard;
 
   @Override

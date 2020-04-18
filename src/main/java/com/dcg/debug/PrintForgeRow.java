@@ -6,7 +6,7 @@ import com.dcg.card.Card;
 import com.dcg.command.Target;
 import com.dcg.location.ForgeRow;
 
-public class PrintForgeRow extends DebugEntityCommand {;
+public class PrintForgeRow extends DebugEntityCommand {
   protected ComponentMapper<Card> mCard;
 
   @Override

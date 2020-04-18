@@ -6,7 +6,7 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Target;
 import com.dcg.player.AdjustHp;
 
-public class PerformBattle extends AbstractCommandBuilder {;
+public class PerformBattle extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   @Override

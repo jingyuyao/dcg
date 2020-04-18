@@ -6,7 +6,7 @@ import com.dcg.command.Command;
 import com.dcg.command.Target;
 import com.dcg.targetsource.Inputs;
 
-public class ExecuteAction extends AbstractCommandBuilder {;
+public class ExecuteAction extends AbstractCommandBuilder {
   protected ComponentMapper<Action> mAction;
 
   public ExecuteAction() {

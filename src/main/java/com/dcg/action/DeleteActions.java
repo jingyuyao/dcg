@@ -4,7 +4,7 @@ import com.artemis.Aspect;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Target;
 
-public class DeleteActions extends AbstractCommandBuilder {;
+public class DeleteActions extends AbstractCommandBuilder {
   @Override
   protected void run(Target target) {
     target.get().stream()

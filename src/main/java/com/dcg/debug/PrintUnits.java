@@ -5,7 +5,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
 import com.dcg.command.Target;
 
-public class PrintUnits extends DebugEntityCommand {;
+public class PrintUnits extends DebugEntityCommand {
   protected ComponentMapper<Unit> mUnit;
 
   @Override
