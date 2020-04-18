@@ -15,6 +15,7 @@ import com.dcg.condition.AnySpell;
 import com.dcg.condition.MinAnyUnitStrength;
 import com.dcg.condition.MinPower;
 import com.dcg.condition.MinUnitCount;
+import com.dcg.condition.PlayAreaOrDiscardPile;
 import com.dcg.player.AdjustHp;
 import com.dcg.player.AdjustPower;
 import com.dcg.player.DrawCards;
@@ -23,7 +24,6 @@ import com.dcg.targetsource.AttackingUnits;
 import com.dcg.targetsource.DefendingMaxStrength;
 import com.dcg.targetsource.DefendingUnits;
 import com.dcg.targetsource.Inputs;
-import com.dcg.targetsource.PlayAreaOrDiscardPile;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -110,7 +110,8 @@ public class Cards {
               .addOnEnterEffects(
                   new CreateUnit("Mystic Ascendant", 4)
                       .addOnEnterEffects(new DrawCards(1))
-                      .addOnConditionEffects(new AdjustStrength(2).addWorldConditions(new MinPower(7)))),
+                      .addOnConditionEffects(
+                          new AdjustStrength(2).addWorldConditions(new MinPower(7)))),
           new CreateCard("Levitate", 2)
               .addTags(Collections.singletonList(Spell.class))
               .addOnEnterEffects(
@@ -124,7 +125,8 @@ public class Cards {
           new CreateCard("Lightning Storm", 2)
               .addTags(Collections.singletonList(Spell.class))
               .addOnEnterEffects(
-                  new DeleteCard().setTargetSource(new PlayAreaOrDiscardPile()),
+                  new CreateAction(
+                      new DeleteCard().addTargetConditions(new PlayAreaOrDiscardPile())),
                   new CreateAction(new DestroyUnit().setTargetSource(new AttackingMaxStrength(2)))),
           new CreateCard("Bolster", 3)
               .addTags(Collections.singletonList(Spell.class))
@@ -145,7 +147,8 @@ public class Cards {
                   new CreateUnit("Ridgeline Watcher", 3)
                       .addOnEnterEffects(
                           new AdjustDefense(2),
-                          new DeleteCard().setTargetSource(new PlayAreaOrDiscardPile()))),
+                          new CreateAction(
+                              new DeleteCard().addTargetConditions(new PlayAreaOrDiscardPile())))),
           new CreateCard("Pokpok, Rockpacker", 3)
               .addOnEnterEffects(
                   new CreateUnit("Pokpok, Rockpacker", 1)
