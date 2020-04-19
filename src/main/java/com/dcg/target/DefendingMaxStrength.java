@@ -17,11 +17,11 @@ public class DefendingMaxStrength implements TargetFunction {
   }
 
   @Override
-  public Target apply(Integer sourceEntity, Input input) {
+  public Target apply(Integer originEntity, Input input) {
     return new Target() {
       @Override
       public int getOrigin() {
-        return sourceEntity;
+        return originEntity;
       }
 
       @Override

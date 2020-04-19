@@ -7,11 +7,11 @@ import java.util.List;
 // TODO: rename this or Input
 public class Inputs implements TargetFunction {
   @Override
-  public Target apply(Integer sourceEntity, Input input) {
+  public Target apply(Integer originEntity, Input input) {
     return new Target() {
       @Override
       public int getOrigin() {
-        return sourceEntity;
+        return originEntity;
       }
 
       @Override

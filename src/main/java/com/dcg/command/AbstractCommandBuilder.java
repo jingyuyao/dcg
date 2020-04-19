@@ -5,7 +5,7 @@ import com.artemis.annotations.Wire;
 import com.dcg.condition.TargetCondition;
 import com.dcg.condition.WorldCondition;
 import com.dcg.game.CoreSystem;
-import com.dcg.target.SourceEntity;
+import com.dcg.target.OriginEntity;
 import com.dcg.target.Target;
 import com.dcg.target.TargetFunction;
 import java.util.ArrayList;
@@ -24,15 +24,15 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   private final List<WorldCondition> worldConditions = new ArrayList<>();
   private final List<TargetCondition> targetConditions = new ArrayList<>();
   private boolean injected = false;
-  private TargetFunction targetFunction = new SourceEntity();
+  private TargetFunction targetFunction = new OriginEntity();
 
   @Override
-  public Command build(World world, int fromEntity) {
+  public Command build(World world, int originEntity) {
     if (!injected) {
       world.inject(this);
       injected = true;
     }
-    return this.new CommandImpl(fromEntity);
+    return this.new CommandImpl(originEntity);
   }
 
   public AbstractCommandBuilder addWorldConditions(WorldCondition... worldConditions) {
@@ -58,11 +58,11 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   }
 
   private class CommandImpl implements Command {
-    private final int fromEntity;
+    private final int originEntity;
     private Input input = OptionalInt::empty;
 
-    private CommandImpl(int fromEntity) {
-      this.fromEntity = fromEntity;
+    private CommandImpl(int originEntity) {
+      this.originEntity = originEntity;
     }
 
     @Override
@@ -106,7 +106,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     private Target getMemorizedTarget(Input input) {
       world.inject(targetFunction);
-      return targetFunction.apply(fromEntity, input);
+      return targetFunction.apply(originEntity, input);
     }
 
     @Override

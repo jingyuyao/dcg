@@ -9,11 +9,11 @@ public class AttackingUnits implements TargetFunction {
   protected CoreSystem coreSystem;
 
   @Override
-  public Target apply(Integer sourceEntity, Input input) {
+  public Target apply(Integer originEntity, Input input) {
     return new Target() {
       @Override
       public int getOrigin() {
-        return sourceEntity;
+        return originEntity;
       }
 
       @Override

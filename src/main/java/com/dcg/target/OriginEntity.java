@@ -4,18 +4,18 @@ import com.dcg.command.Input;
 import java.util.Collections;
 import java.util.List;
 
-public class SourceEntity implements TargetFunction {
+public class OriginEntity implements TargetFunction {
   @Override
-  public Target apply(Integer sourceEntity, Input input) {
+  public Target apply(Integer originEntity, Input input) {
     return new Target() {
       @Override
       public int getOrigin() {
-        return sourceEntity;
+        return originEntity;
       }
 
       @Override
       public List<Integer> getTargets() {
-        return Collections.singletonList(sourceEntity);
+        return Collections.singletonList(originEntity);
       }
     };
   }
