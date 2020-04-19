@@ -19,7 +19,6 @@ public class PrintPlayers extends DebugEntityCommand {
     System.out.printf("    *%d %s %s", playerEntity, name(playerEntity), mPlayer.get(playerEntity));
     if (mTurn.has(playerEntity)) {
       System.out.printf(" %s\n", mTurn.get(playerEntity));
-      printActions(playerEntity);
     } else {
       System.out.println();
     }
