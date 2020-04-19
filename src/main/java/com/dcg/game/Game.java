@@ -15,7 +15,6 @@ import com.dcg.forge.InitializeForge;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.PlayHandSystem;
 import java.util.List;
-import java.util.OptionalInt;
 import java.util.Random;
 
 public class Game {
@@ -42,12 +41,10 @@ public class Game {
   }
 
   public void handleInput(List<Integer> input) {
-    if (input.size() == 1) {
-      process(new ExecuteAction(input.get(0), OptionalInt::empty));
-    } else if (input.size() == 2) {
-      process(new ExecuteAction(input.get(0), () -> OptionalInt.of(input.get(1))));
+    if (input.isEmpty()) {
+      System.out.println("Require 1 or more inputs");
     } else {
-      System.out.println("Require 1 or 2 entities as inputs");
+      process(new ExecuteAction(input.get(0), input.subList(1, input.size())));
     }
   }
 

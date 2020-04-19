@@ -3,18 +3,18 @@ package com.dcg.action;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
-import com.dcg.command.Input;
 import com.dcg.target.Inputs;
 import com.dcg.target.Target;
+import java.util.List;
 
 public class ExecuteAction extends AbstractCommandBuilder {
   private final int actionEntity;
-  private final Input input;
+  private final List<Integer> inputs;
   protected ComponentMapper<Action> mAction;
 
-  public ExecuteAction(int actionEntity, Input input) {
+  public ExecuteAction(int actionEntity, List<Integer> inputs) {
     this.actionEntity = actionEntity;
-    this.input = input;
+    this.inputs = inputs;
     setTargetFunction(new Inputs());
     addWorldConditions(
         coreSystem -> {
@@ -26,8 +26,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
         },
         coreSystem -> {
           try {
-            return !input.get().isPresent()
-                || world.getEntityManager().isActive(input.get().getAsInt());
+            return inputs.stream().allMatch(entity -> world.getEntityManager().isActive(entity));
           } catch (IndexOutOfBoundsException e) {
             return false;
           }
@@ -36,7 +35,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
         target -> {
           Action action = mAction.get(actionEntity);
           Command command = action.command;
-          command.setInput(input);
+          command.setInputs(inputs);
           return command.canRun();
         });
   }
@@ -45,7 +44,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
   protected void run(Target target) {
     Action action = mAction.get(actionEntity);
     Command command = action.command;
-    command.setInput(input);
+    command.setInputs(inputs);
     commandChain.addEnd(command);
     world.delete(actionEntity);
   }

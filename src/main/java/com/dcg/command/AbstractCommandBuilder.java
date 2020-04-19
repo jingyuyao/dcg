@@ -11,7 +11,6 @@ import com.dcg.target.TargetFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.OptionalInt;
 
 /**
  * Base class for {@link CommandBuilder}. Guarantees the generated {@link Command} instance is
@@ -59,21 +58,21 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
   private class CommandImpl implements Command {
     private final int originEntity;
-    private Input input = OptionalInt::empty;
+    private List<Integer> inputs = Collections.emptyList();
 
     private CommandImpl(int originEntity) {
       this.originEntity = originEntity;
     }
 
     @Override
-    public Command setInput(Input input) {
-      this.input = input;
+    public Command setInputs(List<Integer> inputs) {
+      this.inputs = inputs;
       return this;
     }
 
     @Override
     public void run() {
-      AbstractCommandBuilder.this.run(getMemorizedTarget(input));
+      AbstractCommandBuilder.this.run(getMemorizedTarget(inputs));
     }
 
     @Override
@@ -83,7 +82,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean isInputValid() {
-      Target target = getMemorizedTarget(input);
+      Target target = getMemorizedTarget(inputs);
       for (TargetCondition condition : targetConditions) {
         world.inject(condition);
         if (!condition.test(target)) {
@@ -104,15 +103,15 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       return true;
     }
 
-    private Target getMemorizedTarget(Input input) {
+    private Target getMemorizedTarget(List<Integer> inputs) {
       world.inject(targetFunction);
-      return targetFunction.apply(originEntity, input);
+      return targetFunction.apply(originEntity, inputs);
     }
 
     @Override
     public String toString() {
       StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
-      Target target = getMemorizedTarget(input);
+      Target target = getMemorizedTarget(inputs);
       builder.append(" ").append(coreSystem.toName(target.getOrigin()));
       List<Integer> to = target.getTargets();
       if (!to.isEmpty() && (to.size() > 1 || to.get(0) != target.getOrigin())) {
