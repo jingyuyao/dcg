@@ -44,6 +44,11 @@ public class Cards {
               .addOnConditionEffects(
                   new AdjustStrength(2).addWorldConditions(new MinAnyDefendingStrength(4)))
               .build(),
+          unit("Storm Lynx", 0, 1)
+              .addOnConditionEffects(
+                  new AdjustStrength(2).addWorldConditions(new AnySpell()),
+                  new SetEndurance(true).addWorldConditions(new AnySpell()))
+              .build(),
           unit("Grenadin Drone", 0, 2).addOnEnterEffects(new CreateUnit("Grenadin", 1)).build(),
           new CreateCard("Diplomacy", 0).addOnEnterEffects(new AdjustPower(1)),
           new CreateCard("Secret Pages", 0).addOnEnterEffects(new AdjustPower(2)));
@@ -53,11 +58,6 @@ public class Cards {
       Arrays.asList(
           unit("Fearless Nomad", 0, 2).addOnEnterEffects(new SetBerserk(true)).build(),
           unit("Stonepowder Alchemist", 0, 2).addOnEnterEffects(new SetLifeSteal(true)).build(),
-          unit("Storm Lynx", 0, 1)
-              .addOnConditionEffects(
-                  new AdjustStrength(2).addWorldConditions(new AnySpell()),
-                  new SetEndurance(true).addWorldConditions(new AnySpell()))
-              .build(),
           unit("Xenan Cupbearer", 0, 1)
               .addOnEnterEffects(new AdjustDefense(1), new AdjustHp(1))
               .build(),

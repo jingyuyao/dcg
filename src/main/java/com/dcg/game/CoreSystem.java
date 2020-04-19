@@ -76,18 +76,8 @@ public class CoreSystem extends BaseSystem {
    * match the filter.
    */
   public IntStream getDescendants(int ownerEntity, Aspect.Builder aspectBuilder) {
-    // TODO: this can be optimized by only getting all the owned entities once then walking up its
-    // parent link.
-    IntStream.Builder streamBuilder = IntStream.builder();
-    getDescendantsImpl(ownerEntity, aspectBuilder, streamBuilder);
-    return streamBuilder.build();
-  }
-
-  private void getDescendantsImpl(
-      int ownerEntity, Aspect.Builder aspectBuilder, IntStream.Builder accumulator) {
-    getChildren(ownerEntity, aspectBuilder).forEach(accumulator::add);
-    getChildren(ownerEntity, Aspect.all())
-        .forEach(ownedEntity -> getDescendantsImpl(ownedEntity, aspectBuilder, accumulator));
+    return getStream(aspectBuilder.one(Owned.class))
+        .filter(entity -> isOwnedBy(ownerEntity, entity));
   }
 
   /** Get all entities not owned by the owner matching the aspect. */
@@ -103,6 +93,11 @@ public class CoreSystem extends BaseSystem {
   /** Returns the root owner of the entity or itself if it does not have an owner. */
   public int getRoot(int entity) {
     return mOwned.has(entity) ? getRoot(mOwned.get(entity).owner) : entity;
+  }
+
+  public boolean isOwnedBy(int ownerEntity, int entity) {
+    int parent = getParent(entity);
+    return parent == ownerEntity || (mOwned.has(parent) && isOwnedBy(ownerEntity, parent));
   }
 
   public static Collector<Integer, IntBag, IntBag> toIntBag() {
