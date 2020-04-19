@@ -8,7 +8,7 @@ import com.dcg.command.Command;
  * entities like player, card or unit. Actions can be queried and executed by a player.
  */
 public class Action extends Component {
-  public Command command;
+  public transient Command command;
 
   @Override
   public String toString() {

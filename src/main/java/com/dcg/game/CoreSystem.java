@@ -2,21 +2,20 @@ package com.dcg.game;
 
 import com.artemis.Aspect;
 import com.artemis.AspectSubscriptionManager;
+import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
-import com.artemis.annotations.All;
-import com.artemis.systems.IteratingSystem;
 import com.artemis.utils.IntBag;
 import com.dcg.battle.Unit;
 import com.dcg.player.Player;
 import com.dcg.player.Turn;
+import java.util.stream.Collector;
 import java.util.stream.IntStream;
 
 /**
  * Manages auto deletion of owned entities when their parent is deleted. Provides methods to query
  * entities as streams.
  */
-@All(Owned.class)
-public class CoreSystem extends IteratingSystem {
+public class CoreSystem extends BaseSystem {
   private static final Named DEFAULT_NAMED = new Named();
   protected AspectSubscriptionManager manager;
   protected ComponentMapper<Named> mNamed;
@@ -77,6 +76,8 @@ public class CoreSystem extends IteratingSystem {
    * match the filter.
    */
   public IntStream getDescendants(int ownerEntity, Aspect.Builder aspectBuilder) {
+    // TODO: this can be optimized by only getting all the owned entities once then walking up its
+    // parent link.
     IntStream.Builder streamBuilder = IntStream.builder();
     getDescendantsImpl(ownerEntity, aspectBuilder, streamBuilder);
     return streamBuilder.build();
@@ -104,11 +105,21 @@ public class CoreSystem extends IteratingSystem {
     return mOwned.has(entity) ? getRoot(mOwned.get(entity).owner) : entity;
   }
 
-  @Override
-  protected void process(int ownedEntity) {
-    if (mOwned.get(ownedEntity).owner == -1) {
-      System.out.printf("    *%d auto deleted\n", ownedEntity);
-      world.delete(ownedEntity);
-    }
+  public static Collector<Integer, IntBag, IntBag> toIntBag() {
+    return Collector.of(
+        IntBag::new,
+        IntBag::add,
+        (bag1, bag2) -> {
+          if (bag1.size() > bag2.size()) {
+            bag1.addAll(bag2);
+            return bag1;
+          } else {
+            bag2.addAll(bag1);
+            return bag2;
+          }
+        });
   }
+
+  @Override
+  protected void processSystem() {}
 }

@@ -15,6 +15,7 @@ import com.dcg.location.PlayArea;
 import com.dcg.player.Turn;
 import java.util.List;
 
+// TODO: Unit effect should be tied to the attacking phase.
 /**
  * System to trigger effects. Effects are only triggered when entities enter and leave certain
  * activation tags such as Turn, PlayArea or they are just plainly created.

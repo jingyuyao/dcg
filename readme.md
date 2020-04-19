@@ -18,3 +18,15 @@
 - Has optional owner entity and input
 - Invoked through a queue
 - Don't use injected fields for toString()
+
+# Serialization
+### Auto references, tl;dr don't use @EntityId
+@EntityId beats out transient. Any referenced entities will be
+automatically picked up by the serializer. So if we serialize child then all of its parents will be
+included in the output as well. We don't really need to use it since the only thing that need
+to be cleaned up is actions and that's already done by the DeleteAction effect attached to
+every created entity when they leave their play area.
+
+### Components without data or component whose data didn't change
+These components are not stores as a part of the "components" object. They will only be listed in
+"archetypes".
