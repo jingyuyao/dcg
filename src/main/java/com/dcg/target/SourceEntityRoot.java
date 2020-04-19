@@ -1,7 +1,6 @@
-package com.dcg.source;
+package com.dcg.target;
 
 import com.dcg.command.Input;
-import com.dcg.command.Target;
 import com.dcg.game.CoreSystem;
 import java.util.Collections;
 import java.util.List;
@@ -13,12 +12,12 @@ public class SourceEntityRoot implements TargetFunction {
   public Target apply(Integer sourceEntity, Input input) {
     return new Target() {
       @Override
-      public int getFrom() {
+      public int getOrigin() {
         return sourceEntity;
       }
 
       @Override
-      public List<Integer> getTo() {
+      public List<Integer> getTargets() {
         return Collections.singletonList(coreSystem.getRoot(sourceEntity));
       }
     };

@@ -1,7 +1,7 @@
 package com.dcg.player;
 
-import com.dcg.command.Target;
 import com.dcg.effect.EffectValueSupplier;
+import com.dcg.target.Target;
 
 public class AdjustHp extends PlayerEffect {
   public AdjustHp(int hp) {
@@ -14,7 +14,7 @@ public class AdjustHp extends PlayerEffect {
 
   @Override
   protected void run(Target target) {
-    for (int playerEntity : target.getTo()) {
+    for (int playerEntity : target.getTargets()) {
       Player player = mPlayer.get(playerEntity);
       player.hp += getEffectValue();
       if (player.hp <= 0) {

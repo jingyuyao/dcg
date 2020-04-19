@@ -2,7 +2,7 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.Target;
+import com.dcg.target.Target;
 import java.util.stream.Stream;
 
 /**
@@ -13,10 +13,10 @@ abstract class UnitEffectBuilder extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   UnitEffectBuilder() {
-    addTargetConditions(targets -> targets.getTo().stream().allMatch(mUnit::has));
+    addTargetConditions(targets -> targets.getTargets().stream().allMatch(mUnit::has));
   }
 
   protected Stream<Unit> getUnits(Target target) {
-    return target.getTo().stream().map(mUnit::get);
+    return target.getTargets().stream().map(mUnit::get);
   }
 }

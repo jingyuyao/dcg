@@ -1,7 +1,6 @@
-package com.dcg.source;
+package com.dcg.target;
 
 import com.dcg.command.Input;
-import com.dcg.command.Target;
 import java.util.function.BiFunction;
 
 /** A function to select the target of the command given originating source entity and input. */

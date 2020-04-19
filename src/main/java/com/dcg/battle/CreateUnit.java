@@ -1,8 +1,8 @@
 package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.Target;
 import com.dcg.game.CreateEntity;
+import com.dcg.target.Target;
 
 public class CreateUnit extends CreateEntity {
   public final int strength;

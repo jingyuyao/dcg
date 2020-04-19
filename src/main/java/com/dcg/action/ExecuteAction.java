@@ -4,8 +4,8 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
 import com.dcg.command.Input;
-import com.dcg.command.Target;
-import com.dcg.source.Inputs;
+import com.dcg.target.Inputs;
+import com.dcg.target.Target;
 
 public class ExecuteAction extends AbstractCommandBuilder {
   private final int actionEntity;

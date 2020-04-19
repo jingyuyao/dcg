@@ -6,8 +6,8 @@ import com.artemis.World;
 import com.dcg.action.DeleteActions;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
-import com.dcg.command.Target;
 import com.dcg.effect.Effect;
+import com.dcg.target.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -74,7 +74,7 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
   }
 
   protected OptionalInt getOwner(Target target) {
-    int owner = target.getFrom();
+    int owner = target.getOrigin();
     return owner == -1 ? OptionalInt.empty() : OptionalInt.of(owner);
   }
 

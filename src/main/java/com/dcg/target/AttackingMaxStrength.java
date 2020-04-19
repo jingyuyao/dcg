@@ -1,19 +1,18 @@
-package com.dcg.source;
+package com.dcg.target;
 
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
 import com.dcg.command.Input;
-import com.dcg.command.Target;
 import com.dcg.game.CoreSystem;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DefendingMaxStrength implements TargetFunction {
+public class AttackingMaxStrength implements TargetFunction {
   private final int strength;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Unit> mUnit;
 
-  public DefendingMaxStrength(int strength) {
+  public AttackingMaxStrength(int strength) {
     this.strength = strength;
   }
 
@@ -21,14 +20,14 @@ public class DefendingMaxStrength implements TargetFunction {
   public Target apply(Integer sourceEntity, Input input) {
     return new Target() {
       @Override
-      public int getFrom() {
+      public int getOrigin() {
         return sourceEntity;
       }
 
       @Override
-      public List<Integer> getTo() {
+      public List<Integer> getTargets() {
         return coreSystem
-            .getDefendingEntities()
+            .getAttackingEntities()
             .filter(unitEntity -> mUnit.get(unitEntity).strength <= strength)
             .boxed()
             .collect(Collectors.toList());

@@ -3,9 +3,9 @@ package com.dcg.game;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.Target;
 import com.dcg.player.Player;
 import com.dcg.player.Turn;
+import com.dcg.target.Target;
 
 public class InitTurn extends AbstractCommandBuilder {
   private final String playerName;

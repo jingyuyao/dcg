@@ -5,8 +5,8 @@ import com.artemis.annotations.Wire;
 import com.dcg.battle.PerformBattle;
 import com.dcg.card.Cards;
 import com.dcg.command.CommandBuilder;
-import com.dcg.command.Target;
 import com.dcg.game.CreateEntity;
+import com.dcg.target.Target;
 import java.util.Random;
 
 public class CreatePlayer extends CreateEntity {

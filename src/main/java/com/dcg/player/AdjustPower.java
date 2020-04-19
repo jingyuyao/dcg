@@ -2,7 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.Target;
+import com.dcg.target.Target;
 
 public class AdjustPower extends AbstractCommandBuilder {
   private final int power;

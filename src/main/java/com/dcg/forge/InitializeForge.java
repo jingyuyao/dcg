@@ -3,7 +3,7 @@ package com.dcg.forge;
 import com.dcg.card.Cards;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
-import com.dcg.command.Target;
+import com.dcg.target.Target;
 
 public class InitializeForge extends AbstractCommandBuilder {
   @Override

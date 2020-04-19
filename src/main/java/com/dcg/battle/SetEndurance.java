@@ -1,6 +1,6 @@
 package com.dcg.battle;
 
-import com.dcg.command.Target;
+import com.dcg.target.Target;
 
 public class SetEndurance extends UnitEffectBuilder {
   private final boolean endurance;

@@ -3,7 +3,7 @@ package com.dcg.location;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.Target;
+import com.dcg.target.Target;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,14 +15,14 @@ public class MoveLocation extends AbstractCommandBuilder {
 
   public MoveLocation(Class<? extends Location> location) {
     this.location = location;
-    addTargetConditions(target -> mCard.has(target.getFrom()));
+    addTargetConditions(target -> mCard.has(target.getOrigin()));
   }
 
   @Override
   protected void run(Target target) {
     for (Class<? extends Location> clazz : ALL) {
       ComponentMapper<? extends Location> mapper = world.getMapper(clazz);
-      mapper.set(target.getFrom(), location.equals(clazz));
+      mapper.set(target.getOrigin(), location.equals(clazz));
     }
   }
 

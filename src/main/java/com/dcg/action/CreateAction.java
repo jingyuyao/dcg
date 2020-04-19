@@ -2,8 +2,8 @@ package com.dcg.action;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBuilder;
-import com.dcg.command.Target;
 import com.dcg.game.CreateEntity;
+import com.dcg.target.Target;
 
 public class CreateAction extends CreateEntity {
   private final CommandBuilder builder;

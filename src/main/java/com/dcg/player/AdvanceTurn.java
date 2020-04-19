@@ -4,9 +4,9 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.Target;
 import com.dcg.location.Hand;
 import com.dcg.location.PlayArea;
+import com.dcg.target.Target;
 import java.util.List;
 import java.util.stream.Collectors;
 

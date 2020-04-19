@@ -1,6 +1,6 @@
 package com.dcg.condition;
 
-import com.dcg.command.Target;
+import com.dcg.target.Target;
 import java.util.function.Predicate;
 
 /** A predicate that tests a target. Instances will be injected. */

@@ -1,9 +1,9 @@
 package com.dcg.card;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.Target;
 import com.dcg.game.CreateEntity;
 import com.dcg.location.Deck;
+import com.dcg.target.Target;
 
 public class CreateCard extends CreateEntity {
   private final int cost;

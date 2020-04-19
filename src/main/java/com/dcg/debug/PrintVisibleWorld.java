@@ -9,9 +9,9 @@ import com.artemis.utils.IntBag;
 import com.dcg.action.Action;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.Target;
 import com.dcg.location.ForgeRow;
 import com.dcg.player.Player;
+import com.dcg.target.Target;
 import java.io.ByteArrayOutputStream;
 
 public class PrintVisibleWorld extends AbstractCommandBuilder {

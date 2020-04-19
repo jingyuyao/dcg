@@ -1,6 +1,6 @@
 package com.dcg.battle;
 
-import com.dcg.command.Target;
+import com.dcg.target.Target;
 
 public class AdjustStrength extends UnitEffectBuilder {
   private final int strength;
@@ -11,7 +11,7 @@ public class AdjustStrength extends UnitEffectBuilder {
 
   @Override
   protected void run(Target target) {
-    for (int targetEntity : target.getTo()) {
+    for (int targetEntity : target.getTargets()) {
       Unit unit = mUnit.get(targetEntity);
       unit.strength += strength;
       if (unit.strength <= 0) {

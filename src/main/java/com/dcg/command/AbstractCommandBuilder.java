@@ -5,8 +5,9 @@ import com.artemis.annotations.Wire;
 import com.dcg.condition.TargetCondition;
 import com.dcg.condition.WorldCondition;
 import com.dcg.game.CoreSystem;
-import com.dcg.source.SourceEntity;
-import com.dcg.source.TargetFunction;
+import com.dcg.target.SourceEntity;
+import com.dcg.target.Target;
+import com.dcg.target.TargetFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -112,9 +113,9 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     public String toString() {
       StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
       Target target = getMemorizedTarget(input);
-      builder.append(" ").append(coreSystem.toName(target.getFrom()));
-      List<Integer> to = target.getTo();
-      if (!to.isEmpty() && (to.size() > 1 || to.get(0) != target.getFrom())) {
+      builder.append(" ").append(coreSystem.toName(target.getOrigin()));
+      List<Integer> to = target.getTargets();
+      if (!to.isEmpty() && (to.size() > 1 || to.get(0) != target.getOrigin())) {
         builder.append(" ->");
         for (int entity : to) {
           builder.append(" ").append(coreSystem.toName(entity));

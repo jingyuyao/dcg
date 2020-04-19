@@ -3,11 +3,11 @@ package com.dcg.player;
 import com.artemis.Aspect;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
-import com.dcg.command.Target;
 import com.dcg.location.Deck;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.Hand;
 import com.dcg.location.MoveLocation;
+import com.dcg.target.Target;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ public class DrawCards extends PlayerEffect {
     this.numLeft = numLeft;
     addTargetConditions(
         target ->
-            target.getTo().stream()
+            target.getTargets().stream()
                 .allMatch(
                     playerEntity ->
                         getDeck(playerEntity).count() > 0
@@ -30,7 +30,7 @@ public class DrawCards extends PlayerEffect {
 
   @Override
   protected void run(Target target) {
-    for (int playerEntity : target.getTo()) {
+    for (int playerEntity : target.getTargets()) {
       List<Integer> deck = getDeck(playerEntity).boxed().collect(Collectors.toList());
 
       if (deck.size() > 0) {
