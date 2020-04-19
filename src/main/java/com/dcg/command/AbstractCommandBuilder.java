@@ -10,6 +10,7 @@ import com.dcg.source.SourceEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.OptionalInt;
 
 /**
  * Base class for {@link CommandBuilder}. Guarantees the generated {@link Command} instance is
@@ -63,7 +64,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   }
 
   private class CommandImpl implements Command {
-    private Input input = Collections::emptyList;
+    private Input input = OptionalInt::empty;
 
     @Override
     public Command setInput(Input input) {

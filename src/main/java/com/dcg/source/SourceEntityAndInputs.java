@@ -9,9 +9,9 @@ public class SourceEntityAndInputs implements CommandSource {
   @Override
   public Target apply(Integer sourceEntity, Input input) {
     return () -> {
-      List<Integer> result = new ArrayList<>(input.get().size() + 1);
+      List<Integer> result = new ArrayList<>(2);
       result.add(sourceEntity);
-      result.addAll(input.get());
+      input.get().ifPresent(result::add);
       return result;
     };
   }

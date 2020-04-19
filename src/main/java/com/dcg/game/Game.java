@@ -14,8 +14,8 @@ import com.dcg.effect.EffectSystem;
 import com.dcg.forge.InitializeForge;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.PlayHandSystem;
-import java.util.Collections;
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.Random;
 
 public class Game {
@@ -42,11 +42,13 @@ public class Game {
   }
 
   public void handleInput(List<Integer> input) {
-    if (input.size() == 0) {
-      System.out.println("No input");
-      return;
+    if (input.size() == 1) {
+      process(new ExecuteAction(input.get(0), OptionalInt::empty));
+    } else if (input.size() == 2) {
+      process(new ExecuteAction(input.get(0), () -> OptionalInt.of(input.get(1))));
+    } else {
+      System.out.println("Require 1 or 2 entities as inputs");
     }
-    process(new ExecuteAction(), input);
   }
 
   public boolean isOver() {
@@ -54,12 +56,8 @@ public class Game {
   }
 
   private void process(CommandBuilder commandBuilder) {
-    process(commandBuilder, Collections.emptyList());
-  }
-
-  private void process(CommandBuilder commandBuilder, List<Integer> input) {
     CommandChain commandChain = world.getRegistered(CommandChain.class);
-    commandChain.addEnd(commandBuilder.build(world, -1).setInput(() -> input));
+    commandChain.addEnd(commandBuilder.build(world, -1));
     world.process();
 
     commandChain.addEnd(new PrintVisibleWorld().build(world, -1));

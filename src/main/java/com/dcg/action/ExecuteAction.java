@@ -3,38 +3,47 @@ package com.dcg.action;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
+import com.dcg.command.Input;
 import com.dcg.command.Target;
-import com.dcg.source.Inputs;
 
 public class ExecuteAction extends AbstractCommandBuilder {
+  private final int actionEntity;
+  private final Input input;
   protected ComponentMapper<Action> mAction;
 
-  public ExecuteAction() {
-    setCommandSource(new Inputs());
-    addTargetConditions(
-        target -> {
+  public ExecuteAction(int actionEntity, Input input) {
+    this.actionEntity = actionEntity;
+    this.input = input;
+    addWorldConditions(
+        coreSystem -> {
           try {
-            return target.get().stream()
-                .allMatch(entity -> world.getEntityManager().isActive(entity));
+            return world.getEntityManager().isActive(actionEntity) && mAction.has(actionEntity);
           } catch (IndexOutOfBoundsException e) {
             return false;
           }
         },
-        target -> mAction.has(target.get().get(0)),
+        coreSystem -> {
+          try {
+            return !input.get().isPresent()
+                || world.getEntityManager().isActive(input.get().getAsInt());
+          } catch (IndexOutOfBoundsException e) {
+            return false;
+          }
+        });
+    addTargetConditions(
         target -> {
-          Action action = mAction.get(target.get().get(0));
+          Action action = mAction.get(actionEntity);
           Command command = action.command;
-          command.setInput(() -> target.get().subList(1, target.get().size()));
+          command.setInput(input);
           return command.canRun();
         });
   }
 
   @Override
   protected void run(Target target) {
-    int actionEntity = target.get().get(0);
     Action action = mAction.get(actionEntity);
     Command command = action.command;
-    command.setInput(() -> target.get().subList(1, target.get().size()));
+    command.setInput(input);
     commandChain.addEnd(command);
     world.delete(actionEntity);
   }
