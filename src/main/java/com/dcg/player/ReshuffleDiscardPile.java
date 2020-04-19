@@ -2,12 +2,13 @@ package com.dcg.player;
 
 import com.artemis.Aspect;
 import com.dcg.card.Card;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Target;
 import com.dcg.location.Deck;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
 
-public class ReshuffleDiscardPile extends PlayerEffect {
+public class ReshuffleDiscardPile extends AbstractCommandBuilder {
   @Override
   protected void run(Target target) {
     coreSystem

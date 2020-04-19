@@ -20,27 +20,30 @@ public class DrawCards extends PlayerEffect {
   public DrawCards(int numLeft) {
     this.numLeft = numLeft;
     addTargetConditions(
-        target -> {
-          int playerEntity = target.getFrom();
-          return getDeck(playerEntity).count() > 0 || getDiscardPile(playerEntity).count() > 0;
-        });
+        target ->
+            target.getTo().stream()
+                .allMatch(
+                    playerEntity ->
+                        getDeck(playerEntity).count() > 0
+                            || getDiscardPile(playerEntity).count() > 0));
   }
 
   @Override
   protected void run(Target target) {
-    int playerEntity = target.getFrom();
-    List<Integer> deck = getDeck(playerEntity).boxed().collect(Collectors.toList());
+    for (int playerEntity : target.getTo()) {
+      List<Integer> deck = getDeck(playerEntity).boxed().collect(Collectors.toList());
 
-    if (deck.size() > 0) {
-      int cardEntity = deck.get(random.nextInt(deck.size()));
-      commandChain.addEnd(new MoveLocation(Hand.class).build(world, cardEntity));
-      if (numLeft > 1) {
-        // NOTE: This must come after MoveLocation or else we may draw duplicate cards.
-        commandChain.addEnd(new DrawCards(numLeft - 1).build(world, playerEntity));
+      if (deck.size() > 0) {
+        int cardEntity = deck.get(random.nextInt(deck.size()));
+        commandChain.addEnd(new MoveLocation(Hand.class).build(world, cardEntity));
+        if (numLeft > 1) {
+          // NOTE: This must come after MoveLocation or else we may draw duplicate cards.
+          commandChain.addEnd(new DrawCards(numLeft - 1).build(world, playerEntity));
+        }
+      } else {
+        commandChain.addEnd(
+            new ReshuffleDiscardPile().build(world, playerEntity), build(world, playerEntity));
       }
-    } else {
-      commandChain.addEnd(
-          new ReshuffleDiscardPile().build(world, playerEntity), build(world, playerEntity));
     }
   }
 

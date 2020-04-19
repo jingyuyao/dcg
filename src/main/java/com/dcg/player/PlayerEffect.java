@@ -9,6 +9,8 @@ abstract class PlayerEffect extends AbstractEffectBuilder {
 
   PlayerEffect() {
     setTargetFunction(new SourceEntityRoot());
-    addTargetConditions(target -> target.getTo().stream().allMatch(mPlayer::has));
+    addTargetConditions(
+        target -> !target.getTo().isEmpty(),
+        target -> target.getTo().stream().allMatch(mPlayer::has));
   }
 }

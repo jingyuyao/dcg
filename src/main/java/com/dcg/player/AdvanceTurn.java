@@ -3,20 +3,21 @@ package com.dcg.player;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Target;
 import com.dcg.location.Hand;
 import com.dcg.location.PlayArea;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdvanceTurn extends PlayerEffect {
+public class AdvanceTurn extends AbstractCommandBuilder {
   protected ComponentMapper<Turn> mTurn;
 
   public AdvanceTurn() {
+    addWorldConditions(coreSystem -> coreSystem.getCurrentPlayerEntity().findFirst().isPresent());
     addTargetConditions(
-        target -> mTurn.has(target.getFrom()),
         target -> {
-          int playerEntity = target.getFrom();
+          int playerEntity = coreSystem.getCurrentPlayerEntity().findFirst().orElse(-1);
           long cardsInHandCount =
               coreSystem.getChildren(playerEntity, Aspect.all(Card.class, Hand.class)).count();
           long cardsInPlayCount =
@@ -28,7 +29,7 @@ public class AdvanceTurn extends PlayerEffect {
 
   @Override
   protected void run(Target target) {
-    int playerEntity = target.getFrom();
+    int playerEntity = coreSystem.getCurrentPlayerEntity().findFirst().orElse(-1);
     List<Integer> allPlayerEntities =
         coreSystem.getStream(Aspect.all(Player.class)).boxed().collect(Collectors.toList());
     int currentPlayerIndex = allPlayerEntities.indexOf(playerEntity);
