@@ -132,9 +132,9 @@ public class Cards {
                   new AdjustStrength(2)
                       .setCommandSource(new DefendingUnits())
                       .addWorldConditions(new MinPower(7))),
-          new CreateCard("Temple Scribe", 0)
+          new CreateCard("Temple Scribe", 1)
               .addOnEnterEffects(
-                  new CreateUnit("Storm Lynx", 1)
+                  new CreateUnit("Temple Scribe", 1)
                       .addOnEnterEffects(new AdjustPower(1))
                       .addOnConditionEffects(new DrawCards(1).addWorldConditions(new AnySpell()))),
           new CreateCard("Mystic Ascendant", 6)

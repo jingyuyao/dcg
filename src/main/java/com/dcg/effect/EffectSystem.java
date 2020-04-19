@@ -6,7 +6,7 @@ import com.artemis.annotations.One;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
 import com.dcg.action.CreateAction;
-import com.dcg.battle.Unit;
+import com.dcg.battle.Defending;
 import com.dcg.command.Command;
 import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
@@ -15,13 +15,12 @@ import com.dcg.location.PlayArea;
 import com.dcg.player.Turn;
 import java.util.List;
 
-// TODO: Unit effect should be tied to the attacking phase.
 /**
  * System to trigger effects. Effects are only triggered when entities enter and leave certain
  * activation tags such as Turn, PlayArea or they are just plainly created.
  */
 @All(Effect.class)
-@One({Turn.class, PlayArea.class, Unit.class})
+@One({Turn.class, PlayArea.class, Defending.class})
 public class EffectSystem extends IteratingSystem {
   @Wire protected CommandChain commandChain;
   protected CoreSystem coreSystem;

@@ -5,6 +5,8 @@ import com.artemis.AspectSubscriptionManager;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
+import com.dcg.battle.Attacking;
+import com.dcg.battle.Defending;
 import com.dcg.battle.Unit;
 import com.dcg.player.Player;
 import com.dcg.player.Turn;
@@ -45,13 +47,11 @@ public class CoreSystem extends BaseSystem {
   }
 
   public IntStream getAttackingEntities() {
-    return getCurrentPlayerEntity()
-        .flatMap(playerEntity -> getNotDescendants(playerEntity, Aspect.all(Unit.class)));
+    return getStream(Aspect.all(Unit.class, Attacking.class));
   }
 
   public IntStream getDefendingEntities() {
-    return getCurrentPlayerEntity()
-        .flatMap(playerEntity -> getDescendants(playerEntity, Aspect.all(Unit.class)));
+    return getStream(Aspect.all(Unit.class, Defending.class));
   }
 
   /** Filters the aspect for entities owned by the owner. */

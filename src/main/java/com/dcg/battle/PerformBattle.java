@@ -1,6 +1,5 @@
 package com.dcg.battle;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Target;
@@ -8,13 +7,16 @@ import com.dcg.player.AdjustHp;
 
 public class PerformBattle extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
+  protected ComponentMapper<Defending> mDefending;
+  protected ComponentMapper<Attacking> mAttacking;
 
   @Override
   protected void run(Target target) {
     int defendingPlayerEntity = target.get().get(0);
     coreSystem
-        .getNotDescendants(defendingPlayerEntity, Aspect.all(Unit.class))
+        .getAttackingEntities()
         .forEach(attackingUnitEntity -> attack(attackingUnitEntity, defendingPlayerEntity));
+    coreSystem.getDefendingEntities().forEach(this::becomeAttack);
   }
 
   private void attack(int attackingUnitEntity, int defendingPlayerEntity) {
@@ -25,5 +27,10 @@ public class PerformBattle extends AbstractCommandBuilder {
       commandChain.addEnd(new AdjustHp(damage).build(world, attackingUnitEntity));
     }
     commandChain.addEnd(new DestroyUnit().build(world, attackingUnitEntity));
+  }
+
+  private void becomeAttack(int defendingUnitEntity) {
+    mDefending.remove(defendingUnitEntity);
+    mAttacking.create(defendingUnitEntity);
   }
 }

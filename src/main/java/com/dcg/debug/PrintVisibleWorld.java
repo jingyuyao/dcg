@@ -33,7 +33,7 @@ public class PrintVisibleWorld extends AbstractCommandBuilder {
   }
 
   protected void printJson(String name, IntBag entities) {
-    System.out.printf("------- %s -------\n", name);
+    System.out.printf("------------------- %s -------------------\n", name);
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     serializationManager.save(outputStream, new SaveFileFormat(entities));
     System.out.println(outputStream.toString());

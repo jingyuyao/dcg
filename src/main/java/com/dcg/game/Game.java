@@ -35,11 +35,10 @@ public class Game {
   public Game() {
     serializationManager.setSerializer(new JsonArtemisSerializer(world).prettyPrint(true));
     process(new InitializeForge());
-    process(new CreatePlayer("Jingyu"));
-    process(new CreatePlayer("Bowen"));
     process(new CreatePlayer("Andrew"));
-    process(new CreatePlayer("Jonah"));
-    process(new InitTurn("Jingyu"));
+    process(new CreatePlayer("Bowen"));
+    process(new CreatePlayer("Jingyu"));
+    process(new InitTurn("Andrew"));
   }
 
   public void handleInput(List<Integer> input) {

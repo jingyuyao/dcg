@@ -7,6 +7,7 @@ import com.dcg.game.CreateEntity;
 public class CreateUnit extends CreateEntity {
   public final int strength;
   protected ComponentMapper<Unit> mUnit;
+  protected ComponentMapper<Defending> mDefending;
 
   public CreateUnit(String name, int strength) {
     super(name);
@@ -19,5 +20,6 @@ public class CreateUnit extends CreateEntity {
     int unitEntity = createEntity(target);
     Unit unit = mUnit.create(unitEntity);
     unit.strength = strength;
+    mDefending.create(unitEntity);
   }
 }
