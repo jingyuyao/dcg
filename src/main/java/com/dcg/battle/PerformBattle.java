@@ -12,7 +12,7 @@ public class PerformBattle extends AbstractCommandBuilder {
 
   @Override
   protected void run(Target target) {
-    int defendingPlayerEntity = target.get().get(0);
+    int defendingPlayerEntity = target.getFrom();
     coreSystem
         .getAttackingEntities()
         .forEach(attackingUnitEntity -> attack(attackingUnitEntity, defendingPlayerEntity));

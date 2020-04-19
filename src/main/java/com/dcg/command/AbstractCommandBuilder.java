@@ -5,8 +5,8 @@ import com.artemis.annotations.Wire;
 import com.dcg.condition.TargetCondition;
 import com.dcg.condition.WorldCondition;
 import com.dcg.game.CoreSystem;
-import com.dcg.source.CommandSource;
 import com.dcg.source.SourceEntity;
+import com.dcg.source.TargetFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,22 +23,15 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   private final List<WorldCondition> worldConditions = new ArrayList<>();
   private final List<TargetCondition> targetConditions = new ArrayList<>();
   private boolean injected = false;
-  // Child classes should only access the provided Target instance during conditions checks or run.
-  private int sourceEntity = -1;
-  private CommandSource commandSource = new SourceEntity();
-
-  public AbstractCommandBuilder() {
-    addTargetConditions(target -> target.get().size() > 0);
-  }
+  private TargetFunction targetFunction = new SourceEntity();
 
   @Override
-  public Command build(World world, int sourceEntity) {
+  public Command build(World world, int fromEntity) {
     if (!injected) {
       world.inject(this);
       injected = true;
     }
-    this.sourceEntity = sourceEntity;
-    return this.new CommandImpl();
+    return this.new CommandImpl(fromEntity);
   }
 
   public AbstractCommandBuilder addWorldConditions(WorldCondition... worldConditions) {
@@ -51,8 +44,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  public AbstractCommandBuilder setCommandSource(CommandSource commandSource) {
-    this.commandSource = commandSource;
+  public AbstractCommandBuilder setTargetFunction(TargetFunction targetFunction) {
+    this.targetFunction = targetFunction;
     return this;
   }
 
@@ -64,7 +57,12 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   }
 
   private class CommandImpl implements Command {
+    private final int fromEntity;
     private Input input = OptionalInt::empty;
+
+    private CommandImpl(int fromEntity) {
+      this.fromEntity = fromEntity;
+    }
 
     @Override
     public Command setInput(Input input) {
@@ -106,18 +104,21 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     private Target getMemorizedTarget(Input input) {
-      world.inject(commandSource);
-      List<Integer> result = commandSource.apply(sourceEntity, input).get();
-      // Cache result before passing to downstream so implementations don't have to cache
-      // themselves.
-      return () -> result;
+      world.inject(targetFunction);
+      return targetFunction.apply(fromEntity, input);
     }
 
     @Override
     public String toString() {
       StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
-      for (int target : getMemorizedTarget(input).get()) {
-        builder.append(" ").append(coreSystem.toName(target));
+      Target target = getMemorizedTarget(input);
+      builder.append(" ").append(coreSystem.toName(target.getFrom()));
+      List<Integer> to = target.getTo();
+      if (!to.isEmpty() && (to.size() > 1 || to.get(0) != target.getFrom())) {
+        builder.append(" ->");
+        for (int entity : to) {
+          builder.append(" ").append(coreSystem.toName(entity));
+        }
       }
       return builder.toString();
     }

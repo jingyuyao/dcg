@@ -13,10 +13,10 @@ abstract class UnitEffectBuilder extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   UnitEffectBuilder() {
-    addTargetConditions(targets -> targets.get().stream().allMatch(mUnit::has));
+    addTargetConditions(targets -> targets.getTo().stream().allMatch(mUnit::has));
   }
 
   protected Stream<Unit> getUnits(Target target) {
-    return target.get().stream().map(mUnit::get);
+    return target.getTo().stream().map(mUnit::get);
   }
 }

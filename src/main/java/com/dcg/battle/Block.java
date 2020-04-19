@@ -3,15 +3,15 @@ package com.dcg.battle;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Target;
-import com.dcg.source.SourceEntityAndInputs;
+import com.dcg.source.Inputs;
 
 public class Block extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   public Block() {
-    setCommandSource(new SourceEntityAndInputs());
+    setTargetFunction(new Inputs());
     addTargetConditions(
-        target -> target.get().size() == 2,
+        target -> target.getTo().size() == 1,
         target -> coreSystem.getDefendingEntities().anyMatch(e -> e == getDefendingEntity(target)),
         target -> coreSystem.getAttackingEntities().anyMatch(e -> e == getAttackingEntity(target)),
         target -> !mUnit.get(getAttackingEntity(target)).unblockable,
@@ -26,11 +26,11 @@ public class Block extends AbstractCommandBuilder {
   }
 
   private int getDefendingEntity(Target target) {
-    return target.get().get(0);
+    return target.getFrom();
   }
 
   private int getAttackingEntity(Target target) {
-    return target.get().get(1);
+    return target.getTo().get(0);
   }
 
   @Override

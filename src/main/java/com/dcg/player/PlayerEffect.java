@@ -8,7 +8,7 @@ abstract class PlayerEffect extends AbstractEffectBuilder {
   protected ComponentMapper<Player> mPlayer;
 
   PlayerEffect() {
-    setCommandSource(new SourceEntityRoot());
-    addTargetConditions(target -> target.get().stream().allMatch(mPlayer::has));
+    setTargetFunction(new SourceEntityRoot());
+    addTargetConditions(target -> target.getTo().stream().allMatch(mPlayer::has));
   }
 }

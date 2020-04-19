@@ -42,6 +42,7 @@ public class CoreSystem extends BaseSystem {
     return entity != -1 ? mNamed.getSafe(entity, DEFAULT_NAMED).name : "";
   }
 
+  // TODO: this should be OptionalInt
   public IntStream getCurrentPlayerEntity() {
     return getStream(Aspect.all(Player.class, Turn.class));
   }

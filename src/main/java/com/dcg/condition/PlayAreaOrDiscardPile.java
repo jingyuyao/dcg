@@ -19,6 +19,6 @@ public class PlayAreaOrDiscardPile implements TargetCondition {
             .getStream(Aspect.all(Card.class).one(PlayArea.class, DiscardPile.class))
             .boxed()
             .collect(Collectors.toList());
-    return playAreaOrDiscardPile.containsAll(target.get());
+    return playAreaOrDiscardPile.containsAll(target.getTo());
   }
 }

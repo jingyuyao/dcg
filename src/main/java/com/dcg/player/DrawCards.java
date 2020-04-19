@@ -21,14 +21,14 @@ public class DrawCards extends PlayerEffect {
     this.numLeft = numLeft;
     addTargetConditions(
         target -> {
-          int playerEntity = target.get().get(0);
+          int playerEntity = target.getFrom();
           return getDeck(playerEntity).count() > 0 || getDiscardPile(playerEntity).count() > 0;
         });
   }
 
   @Override
   protected void run(Target target) {
-    int playerEntity = target.get().get(0);
+    int playerEntity = target.getFrom();
     List<Integer> deck = getDeck(playerEntity).boxed().collect(Collectors.toList());
 
     if (deck.size() > 0) {

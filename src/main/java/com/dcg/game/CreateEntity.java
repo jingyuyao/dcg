@@ -74,7 +74,7 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
   }
 
   protected OptionalInt getOwner(Target target) {
-    int owner = target.get().get(0);
+    int owner = target.getFrom();
     return owner == -1 ? OptionalInt.empty() : OptionalInt.of(owner);
   }
 

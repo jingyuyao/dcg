@@ -14,9 +14,9 @@ public class AdvanceTurn extends PlayerEffect {
 
   public AdvanceTurn() {
     addTargetConditions(
-        target -> target.get().stream().allMatch(mTurn::has),
+        target -> mTurn.has(target.getFrom()),
         target -> {
-          int playerEntity = target.get().get(0);
+          int playerEntity = target.getFrom();
           long cardsInHandCount =
               coreSystem.getChildren(playerEntity, Aspect.all(Card.class, Hand.class)).count();
           long cardsInPlayCount =
@@ -28,7 +28,7 @@ public class AdvanceTurn extends PlayerEffect {
 
   @Override
   protected void run(Target target) {
-    int playerEntity = target.get().get(0);
+    int playerEntity = target.getFrom();
     List<Integer> allPlayerEntities =
         coreSystem.getStream(Aspect.all(Player.class)).boxed().collect(Collectors.toList());
     int currentPlayerIndex = allPlayerEntities.indexOf(playerEntity);

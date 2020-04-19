@@ -20,12 +20,12 @@ public class BuyCard extends AbstractCommandBuilder {
         coreSystem ->
             coreSystem.getCurrentPlayerEntity().mapToObj(mTurn::get).findFirst().isPresent());
     addTargetConditions(
-        target -> target.get().stream().allMatch(mCard::has),
+        target -> mCard.has(target.getFrom()),
         target ->
             coreSystem
                 .getCurrentPlayerEntity()
                 .mapToObj(mTurn::get)
-                .allMatch(turn -> turn.powerPool >= mCard.get(target.get().get(0)).cost));
+                .allMatch(turn -> turn.powerPool >= mCard.get(target.getFrom()).cost));
   }
 
   @Override
@@ -34,7 +34,7 @@ public class BuyCard extends AbstractCommandBuilder {
         .getCurrentPlayerEntity()
         .forEach(
             playerEntity -> {
-              int cardEntity = target.get().get(0);
+              int cardEntity = target.getFrom();
               mOwned.create(cardEntity).owner = playerEntity;
               commandChain.addEnd(
                   new AdjustPower(-mCard.get(cardEntity).cost).build(world, cardEntity),

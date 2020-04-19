@@ -20,7 +20,7 @@ public class MinDefendingUnitStrength implements TargetCondition {
   public boolean test(Target target) {
     return coreSystem
         .getDefendingEntities()
-        .filter(unitEntity -> !onlySelf || unitEntity == target.get().get(0))
+        .filter(unitEntity -> !onlySelf || unitEntity == target.getFrom())
         .mapToObj(mUnit::get)
         .anyMatch(unit -> unit.strength >= strength);
   }

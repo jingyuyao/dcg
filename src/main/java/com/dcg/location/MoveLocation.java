@@ -15,24 +15,19 @@ public class MoveLocation extends AbstractCommandBuilder {
 
   public MoveLocation(Class<? extends Location> location) {
     this.location = location;
-    addTargetConditions(target -> target.get().stream().allMatch(mCard::has));
+    addTargetConditions(target -> mCard.has(target.getFrom()));
   }
 
   @Override
   protected void run(Target target) {
-    target
-        .get()
-        .forEach(
-            cardEntity -> {
-              for (Class<? extends Location> clazz : ALL) {
-                ComponentMapper<? extends Location> mapper = world.getMapper(clazz);
-                mapper.set(cardEntity, location.equals(clazz));
-              }
-            });
+    for (Class<? extends Location> clazz : ALL) {
+      ComponentMapper<? extends Location> mapper = world.getMapper(clazz);
+      mapper.set(target.getFrom(), location.equals(clazz));
+    }
   }
 
   @Override
   public String toString() {
-    return String.format("%s to %s ", super.toString(), location.getSimpleName());
+    return String.format("%s to %s", super.toString(), location.getSimpleName());
   }
 }

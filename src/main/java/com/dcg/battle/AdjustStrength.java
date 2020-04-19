@@ -11,16 +11,13 @@ public class AdjustStrength extends UnitEffectBuilder {
 
   @Override
   protected void run(Target target) {
-    target
-        .get()
-        .forEach(
-            targetEntity -> {
-              Unit unit = mUnit.get(targetEntity);
-              unit.strength += strength;
-              if (unit.strength <= 0) {
-                commandChain.addEnd(new DestroyUnit().build(world, targetEntity));
-              }
-            });
+    for (int targetEntity : target.getTo()) {
+      Unit unit = mUnit.get(targetEntity);
+      unit.strength += strength;
+      if (unit.strength <= 0) {
+        commandChain.addEnd(new DestroyUnit().build(world, targetEntity));
+      }
+    }
   }
 
   @Override

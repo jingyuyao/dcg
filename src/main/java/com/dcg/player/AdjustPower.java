@@ -9,12 +9,12 @@ public class AdjustPower extends PlayerEffect {
 
   public AdjustPower(int power) {
     this.power = power;
-    addTargetConditions(target -> target.get().stream().allMatch(mTurn::has));
+    addTargetConditions(target -> mTurn.has(target.getFrom()));
   }
 
   @Override
   protected void run(Target target) {
-    target.get().stream().map(mTurn::get).forEach(turn -> turn.powerPool += power);
+    mTurn.get(target.getFrom()).powerPool += power;
   }
 
   @Override

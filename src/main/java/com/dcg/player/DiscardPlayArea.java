@@ -10,7 +10,7 @@ import com.dcg.location.PlayArea;
 public class DiscardPlayArea extends PlayerEffect {
   @Override
   protected void run(Target target) {
-    int playerEntity = target.get().get(0);
+    int playerEntity = target.getFrom();
     coreSystem
         .getChildren(playerEntity, Aspect.all(Card.class, PlayArea.class))
         .forEach(

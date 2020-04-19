@@ -9,12 +9,12 @@ public class DeleteCard extends AbstractCommandBuilder {
   protected ComponentMapper<Card> mCard;
 
   public DeleteCard() {
-    setCommandSource(new Inputs());
-    addTargetConditions(target -> target.get().stream().allMatch(mCard::has));
+    setTargetFunction(new Inputs());
+    addTargetConditions(target -> target.getTo().stream().allMatch(mCard::has));
   }
 
   @Override
   protected void run(Target target) {
-    target.get().forEach(world::delete);
+    target.getTo().forEach(world::delete);
   }
 }

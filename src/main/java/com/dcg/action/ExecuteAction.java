@@ -5,6 +5,7 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
 import com.dcg.command.Input;
 import com.dcg.command.Target;
+import com.dcg.source.Inputs;
 
 public class ExecuteAction extends AbstractCommandBuilder {
   private final int actionEntity;
@@ -14,6 +15,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
   public ExecuteAction(int actionEntity, Input input) {
     this.actionEntity = actionEntity;
     this.input = input;
+    setTargetFunction(new Inputs());
     addWorldConditions(
         coreSystem -> {
           try {
