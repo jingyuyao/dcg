@@ -12,5 +12,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: net.onedaybeard.artemis:artemis-odb:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: net.onedaybeard.artemis:artemis-odb-serializer-json:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: net.onedaybeard.artemis:artemis-odb-serializer:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: com.esotericsoftware:jsonbeans:0.7" level="project" />
   </component>
 </module>
