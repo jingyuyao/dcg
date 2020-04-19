@@ -49,4 +49,9 @@ public class ExecuteAction extends AbstractCommandBuilder {
     commandChain.addEnd(command);
     world.delete(actionEntity);
   }
+
+  @Override
+  public String toString() {
+    return String.format("%s %s", super.toString(), coreSystem.toName(actionEntity));
+  }
 }
