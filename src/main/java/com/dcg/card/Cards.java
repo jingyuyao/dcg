@@ -47,38 +47,20 @@ public class Cards {
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> BASIC_UNITS =
       Arrays.asList(
-          new CreateCard("Awakened Student", 0)
-              .addOnEnterEffects(
-                  new CreateUnit("Awakened Student", 2)
-                      .addOnConditionEffects(
-                          new AdjustStrength(2)
-                              .addTargetConditions(new MinDefendingUnitStrength(4, false)))),
-          new CreateCard("Eager Owlet", 0)
-              .addOnEnterEffects(
-                  new CreateUnit("Eager Owlet", 2).addOnEnterEffects(new SetFlying(true))),
-          new CreateCard("Fearless Nomad", 0)
-              .addOnEnterEffects(
-                  new CreateUnit("Fearless Nomad", 2).addOnEnterEffects(new SetBerserk(true))),
-          new CreateCard("Stonepowder Alchemist", 0)
-              .addOnEnterEffects(
-                  new CreateUnit("Stonepowder Alchemist", 2)
-                      .addOnEnterEffects(new SetLifeSteal(true))),
-          new CreateCard("Storm Lynx", 0)
-              .addOnEnterEffects(
-                  new CreateUnit("Storm Lynx", 1)
-                      .addOnConditionEffects(
-                          new AdjustStrength(2).addWorldConditions(new AnySpell()),
-                          new SetEndurance(true).addWorldConditions(new AnySpell()))),
-          new CreateCard("Xenan Cupbearer", 0)
-              .addOnEnterEffects(
-                  new CreateUnit("Xenan Cupbearer", 1)
-                      .addOnEnterEffects(new AdjustDefense(1), new AdjustHp(1))),
-          new CreateCard("Grenadin Drone", 0)
-              .addOnEnterEffects(
-                  new CreateUnit("Grenadin Drone", 2), new CreateUnit("Grenadin", 1)),
-          new CreateCard("Withering Witch", 0)
-              .addOnEnterEffects(
-                  new CreateUnit("Withering Witch", 2).addOnEnterEffects(new AdjustDefense(3))));
+          unit("Awakened Student", 0, 2)
+              .addOnConditionEffects(
+                  new AdjustStrength(2)
+                      .addTargetConditions(new MinDefendingUnitStrength(4, false))),
+          unit("Eager Owlet", 0, 2).addOnEnterEffects(new SetFlying(true)),
+          unit("Fearless Nomad", 0, 2).addOnEnterEffects(new SetBerserk(true)),
+          unit("Stonepowder Alchemist", 0, 2).addOnEnterEffects(new SetLifeSteal(true)),
+          unit("Storm Lynx", 0, 1)
+              .addOnConditionEffects(
+                  new AdjustStrength(2).addWorldConditions(new AnySpell()),
+                  new SetEndurance(true).addWorldConditions(new AnySpell())),
+          unit("Xenan Cupbearer", 0, 1).addOnEnterEffects(new AdjustDefense(1), new AdjustHp(1)),
+          unit("Grenadin Drone", 0, 2).addOnEnterEffects(new CreateUnit("Grenadin", 1)),
+          unit("Withering Witch", 0, 2).addOnEnterEffects(new AdjustDefense(3)));
 
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> FORGE_CARDS =
@@ -100,108 +82,69 @@ public class Cards {
                   voidBind().addWorldConditions(new AnyDefendingUnit(unit -> unit.flying))),
           unit("Throne Warden", 4, 2)
               .addOnEnterEffects(new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
-          new CreateCard("Yeti Windflyer", 0)
-              .addOnEnterEffects(
-                  new CreateUnit("Yeti Windflyer", 1)
-                      .addOnEnterEffects(new SetFlying(true))
-                      .addOnConditionEffects(
-                          new AdjustHp(-2)
-                              .setCommandSource(new Inputs())
-                              .addWorldConditions(new MinUnitCount(1)))),
-          new CreateCard("Hipshot", 3)
-              .addTag(Spell.class)
+          unit("Yeti Windflyer", 0, 1)
+              .addOnEnterEffects(new SetFlying(true))
+              .addOnConditionEffects(
+                  new AdjustHp(-2)
+                      .setCommandSource(new Inputs())
+                      .addWorldConditions(new MinUnitCount(1))),
+          spell("Hipshot", 3)
               .addOnEnterEffects(
                   new AdjustPower(1), new AdjustHp(-3).setCommandSource(new Inputs())),
-          new CreateCard("Stone shaker", 4)
-              .addOnEnterEffects(
-                  new CreateUnit("Stoneshaker", 1)
-                      .addOnEnterEffects(new AdjustPower(2), new SetBerserk(true))
-                      .addOnConditionEffects(
-                          new AdjustStrength(2).addWorldConditions(new MinPower(7)))),
-          new CreateCard("Deathstrike", 3)
-              .addTag(Spell.class)
+          unit("Stone shaker", 4, 1)
+              .addOnEnterEffects(new AdjustPower(2), new SetBerserk(true))
+              .addOnConditionEffects(new AdjustStrength(2).addWorldConditions(new MinPower(7))),
+          spell("Deathstrike", 3)
               .addOnEnterEffects(
                   new AdjustPower(1), new DestroyUnit().setCommandSource(new Inputs())),
-          new CreateCard("Wisdom of the Elders", 5)
-              .addTag(Spell.class)
-              .addOnEnterEffects(new DrawCards(2)),
-          new CreateCard("Pack Hunt", 4)
-              .addTag(Spell.class)
+          spell("Wisdom of the Elders", 5).addOnEnterEffects(new DrawCards(2)),
+          spell("Pack Hunt", 4)
               .addOnEnterEffects(new AdjustPower(2))
               .addOnConditionEffects(
                   new AdjustStrength(2)
                       .setCommandSource(new DefendingUnits())
                       .addWorldConditions(new MinPower(7))),
-          new CreateCard("Temple Scribe", 1)
-              .addOnEnterEffects(
-                  new CreateUnit("Temple Scribe", 1)
-                      .addOnEnterEffects(new AdjustPower(1))
-                      .addOnConditionEffects(new DrawCards(1).addWorldConditions(new AnySpell()))),
-          new CreateCard("Mystic Ascendant", 6)
-              .addOnEnterEffects(
-                  new CreateUnit("Mystic Ascendant", 4)
-                      .addOnEnterEffects(new DrawCards(1))
-                      .addOnConditionEffects(
-                          new AdjustStrength(2).addWorldConditions(new MinPower(7)))),
-          new CreateCard("Levitate", 2)
-              .addTag(Spell.class)
+          unit("Temple Scribe", 1, 1)
+              .addOnEnterEffects(new AdjustPower(1))
+              .addOnConditionEffects(new DrawCards(1).addWorldConditions(new AnySpell())),
+          unit("Mystic Ascendant", 6, 4)
+              .addOnEnterEffects(new DrawCards(1))
+              .addOnConditionEffects(new AdjustStrength(2).addWorldConditions(new MinPower(7))),
+          spell("Levitate", 2)
               .addOnEnterEffects(
                   new AdjustPower(2), new SetFlying(true).setCommandSource(new Inputs())),
-          new CreateCard("Arcane Defense", 3)
-              .addTag(Spell.class)
+          spell("Arcane Defense", 3)
               .addOnEnterEffects(
                   new DrawCards(1),
                   new AdjustStrength(-1).setCommandSource(new Inputs()),
                   new AdjustStrength(-1).setCommandSource(new Inputs())),
-          new CreateCard("Lightning Storm", 2)
-              .addTag(Spell.class)
+          spell("Lightning Storm", 2)
               .addOnEnterEffects(
                   voidBind(),
                   new CreateAction(
                       new DestroyUnit().setCommandSource(new AttackingMaxStrength(2)))),
-          new CreateCard("Bolster", 3)
-              .addTag(Spell.class)
+          spell("Bolster", 3)
               .addOnEnterEffects(
                   new AdjustPower(2), new AdjustDefense(3).setCommandSource(new Inputs())),
-          new CreateCard("Splimespitter Slug", 5)
+          unit("Splimespitter Slug", 5, 3)
               .addOnEnterEffects(
-                  new CreateUnit("Splimespitter Slug", 3)
-                      .addOnEnterEffects(
-                          new AdjustPower(1),
-                          new AdjustStrength(1).setCommandSource(new AttackingUnits()))),
-          new CreateCard("Impending Doom", 4)
+                  new AdjustPower(1), new AdjustStrength(1).setCommandSource(new AttackingUnits())),
+          unit("Impending Doom", 4, 5).addOnEnterEffects(new SetFlying(true), new AdjustHp(-1)),
+          unit("Ridgeline Watcher", 4, 3).addOnEnterEffects(new AdjustDefense(2), voidBind()),
+          unit("Pokpok, Rockpacker", 3, 1)
+              .addOnEnterEffects(new DrawCards(1), new AdjustHp(-1).setCommandSource(new Inputs())),
+          unit("Snowrager", 2, 1)
+              .addOnEnterEffects(new SetBerserk(true))
+              .addOnConditionEffects(new AdjustStrength(1).addWorldConditions(new MinUnitCount(3))),
+          unit("Cabal Spymaster", 3, 1)
               .addOnEnterEffects(
-                  new CreateUnit("Impending Doom", 5)
-                      .addOnEnterEffects(new SetFlying(true), new AdjustHp(-1))),
-          new CreateCard("Ridgeline Watcher", 4)
+                  new SetUnblockable(true),
+                  new CreateAction(
+                      new SetUnblockable(true).setCommandSource(new DefendingMaxStrength(3)))),
+          unit("Oni Ronin", 1, 1)
               .addOnEnterEffects(
-                  new CreateUnit("Ridgeline Watcher", 3)
-                      .addOnEnterEffects(new AdjustDefense(2), voidBind())),
-          new CreateCard("Pokpok, Rockpacker", 3)
-              .addOnEnterEffects(
-                  new CreateUnit("Pokpok, Rockpacker", 1)
-                      .addOnEnterEffects(
-                          new DrawCards(1), new AdjustHp(-1).setCommandSource(new Inputs()))),
-          new CreateCard("Snowrager", 2)
-              .addOnEnterEffects(
-                  new CreateUnit("Snowrager", 1)
-                      .addOnEnterEffects(new SetBerserk(true))
-                      .addOnConditionEffects(
-                          new AdjustStrength(1).addWorldConditions(new MinUnitCount(3)))),
-          new CreateCard("Cabal Spymaster", 3)
-              .addOnEnterEffects(
-                  new CreateUnit("Cabal Spymaster", 1)
-                      .addOnEnterEffects(
-                          new SetUnblockable(true),
-                          new CreateAction(
-                              new SetUnblockable(true)
-                                  .setCommandSource(new DefendingMaxStrength(3))))),
-          new CreateCard("Oni Ronin", 1)
-              .addOnEnterEffects(
-                  new CreateUnit("Oni Ronin", 1)
-                      .addOnEnterEffects(
-                          new AdjustStrength(1).setCommandSource(new Inputs()),
-                          new AdjustStrength(1).setCommandSource(new Inputs()))));
+                  new AdjustStrength(1).setCommandSource(new Inputs()),
+                  new AdjustStrength(1).setCommandSource(new Inputs())));
 
   public static CreateEntity spell(String name, int cost) {
     return new CreateCard(name, cost).addTag(Spell.class);
