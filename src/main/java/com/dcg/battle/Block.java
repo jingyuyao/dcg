@@ -18,9 +18,11 @@ public class Block extends AbstractCommandBuilder {
         target ->
             !mUnit.get(getAttackingEntity(target)).flying
                 || mUnit.get(getDefendingEntity(target)).flying,
-        target ->
-            mUnit.get(getDefendingEntity(target)).strength
-                >= mUnit.get(getAttackingEntity(target)).strength);
+        target -> {
+          Unit defendingUnit = mUnit.get(getDefendingEntity(target));
+          return defendingUnit.strength + defendingUnit.defense
+              >= mUnit.get(getAttackingEntity(target)).strength;
+        });
   }
 
   private int getDefendingEntity(Target target) {

@@ -47,14 +47,6 @@ public class Cards {
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> BASIC_UNITS =
       Arrays.asList(
-          new CreateCard("Yeti Windflyer", 0)
-              .addOnEnterEffects(
-                  new CreateUnit("Yeti Windflyer", 1)
-                      .addOnEnterEffects(new SetFlying(true))
-                      .addOnConditionEffects(
-                          new AdjustHp(-2)
-                              .setCommandSource(new Inputs())
-                              .addWorldConditions(new MinUnitCount(1)))),
           new CreateCard("Awakened Student", 0)
               .addOnEnterEffects(
                   new CreateUnit("Awakened Student", 2)
@@ -91,6 +83,9 @@ public class Cards {
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> FORGE_CARDS =
       Arrays.asList(
+          unit("Jotun", 4, 4).addOnEnterEffects(new SetFlying(true).setCommandSource(new Inputs())),
+          unit("Amethyst Acolyte", 3, 2)
+              .addOnEnterEffects(new AdjustStrength(-2).setCommandSource(new Inputs())),
           unit("Brightmace Paladin", 2, 3)
               .addOnEnterEffects(
                   new SetEndurance(true),
@@ -105,6 +100,14 @@ public class Cards {
                   voidBind().addWorldConditions(new AnyDefendingUnit(unit -> unit.flying))),
           unit("Throne Warden", 4, 2)
               .addOnEnterEffects(new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
+          new CreateCard("Yeti Windflyer", 0)
+              .addOnEnterEffects(
+                  new CreateUnit("Yeti Windflyer", 1)
+                      .addOnEnterEffects(new SetFlying(true))
+                      .addOnConditionEffects(
+                          new AdjustHp(-2)
+                              .setCommandSource(new Inputs())
+                              .addWorldConditions(new MinUnitCount(1)))),
           new CreateCard("Hipshot", 3)
               .addTag(Spell.class)
               .addOnEnterEffects(

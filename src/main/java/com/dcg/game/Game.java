@@ -39,10 +39,11 @@ public class Game {
 
   public Game() {
     process(new InitializeForge());
-    process(new CreatePlayer("Edelgard"));
-    process(new CreatePlayer("Dimitri"));
-    process(new CreatePlayer("Claude"));
-    process(new InitTurn("Edelgard"));
+    process(new CreatePlayer("Jingyu"));
+    process(new CreatePlayer("Bowen"));
+    process(new CreatePlayer("Andrew"));
+    process(new CreatePlayer("Jonah"));
+    process(new InitTurn("Jingyu"));
   }
 
   public void handleInput(List<Integer> input) {

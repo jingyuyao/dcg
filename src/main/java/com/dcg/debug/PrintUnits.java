@@ -26,10 +26,10 @@ public class PrintUnits extends DebugEntityCommand {
   }
 
   private void printUnit(int unitEntity, boolean withActions) {
+    System.out.printf("    *%d %s %s\n", unitEntity, name(unitEntity), mUnit.get(unitEntity));
     if (withActions) {
+      printEffects(unitEntity);
       printActions(unitEntity);
-    } else {
-      System.out.printf("    *%d %s %s\n", unitEntity, name(unitEntity), mUnit.get(unitEntity));
     }
   }
 }
