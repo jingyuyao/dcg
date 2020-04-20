@@ -28,7 +28,7 @@ public class GameServer extends WebSocketServer {
 
   @Override
   public void onMessage(WebSocket conn, String message) {
-    System.out.println("New message: " + message);
+    System.out.print("New message: " + message);
 
     List<String> tokens = Arrays.asList(message.replace("\n", "").split(" "));
     if (tokens.isEmpty()) {
@@ -53,8 +53,11 @@ public class GameServer extends WebSocketServer {
           System.out.println("execute requires arguments");
         }
         break;
-      case "query":
-        // TODO: broadcast something
+      case "visible":
+        broadcast(game.getVisibleWorldJson());
+        break;
+      case "world":
+        broadcast(game.getWorldJson());
         break;
       default:
         System.out.println("Unknown " + message);
