@@ -18,9 +18,9 @@ import java.util.stream.IntStream;
  * entities as streams.
  */
 public class CoreSystem extends BaseSystem {
-  private static final Named DEFAULT_NAMED = new Named();
+  private static final Common DEFAULT_COMMON = new Common();
   protected AspectSubscriptionManager manager;
-  protected ComponentMapper<Named> mNamed;
+  protected ComponentMapper<Common> mNamed;
   protected ComponentMapper<Owned> mOwned;
 
   /** Get all entities matching the aspect as a stream. */
@@ -34,12 +34,12 @@ public class CoreSystem extends BaseSystem {
   }
 
   public IntStream findByName(String name, Aspect.Builder aspectBuilder) {
-    return getStream(aspectBuilder.all(Named.class))
+    return getStream(aspectBuilder.all(Common.class))
         .filter(entity -> name.equalsIgnoreCase(mNamed.get(entity).name));
   }
 
   public String toName(int entity) {
-    return entity != -1 ? mNamed.getSafe(entity, DEFAULT_NAMED).name : "";
+    return entity != -1 ? mNamed.getSafe(entity, DEFAULT_COMMON).name : "";
   }
 
   public IntStream getCurrentPlayerEntity() {

@@ -25,7 +25,7 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
   private final List<CommandBuilder> onLeaveEffects = new ArrayList<>();
   private final List<CommandBuilder> onConditionEffects = new ArrayList<>();
   protected World world;
-  protected ComponentMapper<Named> mNamed;
+  protected ComponentMapper<Common> mNamed;
   protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<Effect> mEffect;
 
