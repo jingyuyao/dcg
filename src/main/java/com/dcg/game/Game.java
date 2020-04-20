@@ -49,7 +49,7 @@ public class Game {
     process(new InitTurn("Andrew"));
   }
 
-  public void handleInput(List<Integer> input) {
+  public void execute(List<Integer> input) {
     if (input.isEmpty()) {
       System.out.println("Require 1 or more inputs");
     } else {
@@ -57,11 +57,23 @@ public class Game {
     }
   }
 
+  public String getEntities(List<Integer> input) {
+    try {
+      if (input.stream().allMatch(entity -> world.getEntityManager().isActive(entity))) {
+        IntBag bag = new IntBag();
+        for (int entity : input) {
+          bag.add(entity);
+        }
+        return toJson(bag);
+      }
+    } catch (IndexOutOfBoundsException ignored) {
+    }
+    return "{\"error\":\"Invalid entity\"}";
+  }
+
   public String getWorldJson() {
     IntBag entities = world.getAspectSubscriptionManager().get(Aspect.all()).getEntities();
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    serializationManager.save(outputStream, new SaveFileFormat(entities));
-    return outputStream.toString();
+    return toJson(entities);
   }
 
   public String getVisibleWorldJson() {
@@ -70,10 +82,7 @@ public class Game {
     Stream<Integer> rest =
         coreSystem.getStream(Aspect.one(Player.class, Unit.class, Action.class)).boxed();
     IntBag entities = Stream.concat(forgeRow, rest).collect(CoreSystem.toIntBag());
-
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    serializationManager.save(outputStream, new SaveFileFormat(entities));
-    return outputStream.toString();
+    return toJson(entities);
   }
 
   public boolean isOver() {
@@ -84,5 +93,11 @@ public class Game {
     CommandChain commandChain = world.getRegistered(CommandChain.class);
     commandChain.addEnd(commandBuilder.build(world, -1));
     world.process();
+  }
+
+  private String toJson(IntBag entities) {
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    serializationManager.save(outputStream, new SaveFileFormat(entities));
+    return outputStream.toString();
   }
 }

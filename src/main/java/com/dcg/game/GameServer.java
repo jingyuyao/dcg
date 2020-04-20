@@ -41,7 +41,7 @@ public class GameServer extends WebSocketServer {
           List<String> rawArguments = tokens.subList(1, tokens.size());
           Optional<List<Integer>> arguments = parse(rawArguments);
           if (arguments.isPresent()) {
-            game.handleInput(arguments.get());
+            game.execute(arguments.get());
             if (game.isOver()) {
               System.out.println("GG");
               game = new Game();
@@ -53,10 +53,19 @@ public class GameServer extends WebSocketServer {
           System.out.println("execute requires arguments");
         }
         break;
+      case "query":
+        List<String> rawArguments = tokens.subList(1, tokens.size());
+        Optional<List<Integer>> arguments = parse(rawArguments);
+        if (arguments.isPresent()) {
+          broadcast(game.getEntities(arguments.get()));
+        } else {
+          System.out.println("Unable to parse arguments: " + rawArguments);
+        }
+        break;
       case "visible":
         broadcast(game.getVisibleWorldJson());
         break;
-      case "world":
+      case "debug":
         broadcast(game.getWorldJson());
         break;
       default:
