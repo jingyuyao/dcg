@@ -71,12 +71,12 @@ public class Game {
     return "{\"error\":\"Invalid entity\"}";
   }
 
-  public String getWorldJson() {
+  public String getDebugJson() {
     IntBag entities = world.getAspectSubscriptionManager().get(Aspect.all()).getEntities();
     return toJson(entities);
   }
 
-  public String getVisibleWorldJson() {
+  public String getWorldJson() {
     CoreSystem coreSystem = world.getSystem(CoreSystem.class);
     Stream<Integer> forgeRow = coreSystem.getStream(Aspect.all(Card.class, ForgeRow.class)).boxed();
     Stream<Integer> rest =
