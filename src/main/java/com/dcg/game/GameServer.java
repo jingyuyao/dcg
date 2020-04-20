@@ -1,15 +1,14 @@
 package com.dcg.game;
 
+import com.esotericsoftware.jsonbeans.Json;
+import com.esotericsoftware.jsonbeans.JsonException;
 import java.net.InetSocketAddress;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 public class GameServer extends WebSocketServer {
+  private final Json json = new Json();
   private Game game = new Game();
 
   public GameServer(InetSocketAddress address) {
@@ -28,40 +27,35 @@ public class GameServer extends WebSocketServer {
 
   @Override
   public void onMessage(WebSocket conn, String message) {
-    System.out.print("New message: " + message);
+    System.out.println("New message: " + message);
 
-    List<String> tokens = Arrays.asList(message.replace("\n", "").split(" "));
-    if (tokens.isEmpty()) {
-      System.out.println("No tokens");
+    ClientMessage clientMessage;
+    try {
+      clientMessage = json.fromJson(ClientMessage.class, message);
+    } catch (JsonException e) {
+      System.err.println("Unable to parse message: " + e);
       return;
     }
-    switch (tokens.get(0)) {
+
+    switch (clientMessage.command) {
       case "execute":
-        if (tokens.size() > 1) {
-          List<String> rawArguments = tokens.subList(1, tokens.size());
-          Optional<List<Integer>> arguments = parse(rawArguments);
-          if (arguments.isPresent()) {
-            game.execute(arguments.get());
-            broadcast(game.getWorldJson());
-            if (game.isOver()) {
-              System.out.println("GG");
-              game = new Game();
-            }
-          } else {
-            System.out.println("Unable to parse arguments: " + rawArguments);
-          }
-        } else {
+        if (clientMessage.arguments.isEmpty()) {
           System.out.println("execute requires arguments");
+          return;
+        }
+        game.execute(clientMessage.arguments);
+        broadcast(game.getWorldJson());
+        if (game.isOver()) {
+          System.out.println("GG");
+          game = new Game();
         }
         break;
       case "query":
-        List<String> rawArguments = tokens.subList(1, tokens.size());
-        Optional<List<Integer>> arguments = parse(rawArguments);
-        if (arguments.isPresent()) {
-          broadcast(game.getEntities(arguments.get()));
-        } else {
-          System.out.println("Unable to parse arguments: " + rawArguments);
+        if (clientMessage.arguments.isEmpty()) {
+          System.out.println("query requires arguments");
+          return;
         }
+        broadcast(game.getEntities(clientMessage.arguments));
         break;
       case "world":
         broadcast(game.getWorldJson());
@@ -70,7 +64,7 @@ public class GameServer extends WebSocketServer {
         broadcast(game.getDebugJson());
         break;
       default:
-        System.out.println("Unknown " + message);
+        System.out.println("Unknown " + clientMessage.command);
         break;
     }
   }
@@ -83,13 +77,5 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onStart() {
     System.err.println("Server started");
-  }
-
-  private static Optional<List<Integer>> parse(List<String> arguments) {
-    try {
-      return Optional.of(arguments.stream().map(Integer::parseInt).collect(Collectors.toList()));
-    } catch (RuntimeException e) {
-      return Optional.empty();
-    }
   }
 }
