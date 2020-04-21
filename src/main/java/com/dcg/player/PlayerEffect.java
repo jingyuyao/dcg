@@ -9,7 +9,7 @@ abstract class PlayerEffect extends AbstractEffectBuilder {
   protected ComponentMapper<Player> mPlayer;
 
   PlayerEffect() {
-    setTargetFunction(new OriginEntityRoot());
+    setTargetSource(new OriginEntityRoot());
     addTargetConditions(
         target ->
             Preconditions.checkArgument(

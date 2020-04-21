@@ -3,19 +3,9 @@ package com.dcg.target;
 import java.util.Collections;
 import java.util.List;
 
-public class OriginEntity implements TargetFunction {
+public class OriginEntity extends TargetSource {
   @Override
-  public Target apply(Integer originEntity, List<Integer> inputs) {
-    return new Target() {
-      @Override
-      public int getOrigin() {
-        return originEntity;
-      }
-
-      @Override
-      public List<Integer> getTargets() {
-        return Collections.singletonList(originEntity);
-      }
-    };
+  protected List<Integer> transform(int originEntity, List<Integer> input) {
+    return Collections.singletonList(originEntity);
   }
 }

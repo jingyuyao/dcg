@@ -10,7 +10,7 @@ public class Block extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   public Block() {
-    setTargetFunction(new Inputs());
+    setTargetSource(new Inputs());
     addTargetConditions(
         target ->
             Preconditions.checkArgument(

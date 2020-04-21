@@ -2,19 +2,10 @@ package com.dcg.target;
 
 import java.util.List;
 
-public class Inputs implements TargetFunction {
+public class Inputs extends TargetSource {
+  // TODO: bug, need to restrict the number of inputs
   @Override
-  public Target apply(Integer originEntity, List<Integer> inputs) {
-    return new Target() {
-      @Override
-      public int getOrigin() {
-        return originEntity;
-      }
-
-      @Override
-      public List<Integer> getTargets() {
-        return inputs;
-      }
-    };
+  protected List<Integer> transform(int originEntity, List<Integer> input) {
+    return input;
   }
 }

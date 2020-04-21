@@ -7,7 +7,7 @@ import com.dcg.condition.TriggerCondition;
 import com.dcg.game.CoreSystem;
 import com.dcg.target.OriginEntity;
 import com.dcg.target.Target;
-import com.dcg.target.TargetFunction;
+import com.dcg.target.TargetSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +24,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   private final List<TriggerCondition> triggerConditions = new ArrayList<>();
   private final List<TargetCondition> targetConditions = new ArrayList<>();
   private boolean injected = false;
-  private TargetFunction targetFunction = new OriginEntity();
+  private TargetSource targetSource = new OriginEntity();
 
   public AbstractCommandBuilder() {
     // Every command always require at least one target, even if that target is the origin entity.
@@ -53,8 +53,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  public AbstractCommandBuilder setTargetFunction(TargetFunction targetFunction) {
-    this.targetFunction = targetFunction;
+  public AbstractCommandBuilder setTargetSource(TargetSource targetSource) {
+    this.targetSource = targetSource;
     return this;
   }
 
@@ -81,7 +81,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public void run() {
-      AbstractCommandBuilder.this.run(getMemorizedTarget(inputs));
+      AbstractCommandBuilder.this.run(getTarget(inputs));
     }
 
     @Override
@@ -91,7 +91,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean isInputValid() {
-      Target target = getMemorizedTarget(inputs);
+      Target target = getTarget(inputs);
       for (TargetCondition condition : targetConditions) {
         world.inject(condition);
         try {
@@ -115,15 +115,15 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       return true;
     }
 
-    private Target getMemorizedTarget(List<Integer> inputs) {
-      world.inject(targetFunction);
-      return targetFunction.apply(originEntity, inputs);
+    private Target getTarget(List<Integer> inputs) {
+      world.inject(targetSource);
+      return targetSource.get(originEntity, inputs);
     }
 
     @Override
     public String toString() {
       StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
-      Target target = getMemorizedTarget(inputs);
+      Target target = getTarget(inputs);
       builder
           .append(" ")
           .append(coreSystem.toName(target.getOrigin()))

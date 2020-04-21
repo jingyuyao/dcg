@@ -6,7 +6,7 @@ import com.dcg.game.CoreSystem;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AttackingMaxStrength implements TargetFunction {
+public class AttackingMaxStrength extends TargetSource {
   private final int strength;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Unit> mUnit;
@@ -16,21 +16,11 @@ public class AttackingMaxStrength implements TargetFunction {
   }
 
   @Override
-  public Target apply(Integer originEntity, List<Integer> inputs) {
-    return new Target() {
-      @Override
-      public int getOrigin() {
-        return originEntity;
-      }
-
-      @Override
-      public List<Integer> getTargets() {
-        return coreSystem
-            .getAttackingEntities()
-            .filter(unitEntity -> mUnit.get(unitEntity).strength <= strength)
-            .boxed()
-            .collect(Collectors.toList());
-      }
-    };
+  protected List<Integer> transform(int originEntity, List<Integer> input) {
+    return coreSystem
+        .getAttackingEntities()
+        .filter(unitEntity -> mUnit.get(unitEntity).strength <= strength)
+        .boxed()
+        .collect(Collectors.toList());
   }
 }

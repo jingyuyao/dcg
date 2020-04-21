@@ -80,14 +80,14 @@ public class Cards {
       Stream.of(
               unit("Jotun Punter", 4, 4)
                   .desc("Give a unit flying")
-                  .addOnEnterEffects(new SetFlying(true).setTargetFunction(new Inputs())),
+                  .addOnEnterEffects(new SetFlying(true).setTargetSource(new Inputs())),
               unit("Amethyst Acolyte", 3, 2)
                   .desc("Give a unit -2 atk")
-                  .addOnEnterEffects(new AdjustStrength(-2).setTargetFunction(new Inputs())),
+                  .addOnEnterEffects(new AdjustStrength(-2).setTargetSource(new Inputs())),
               unit("Tinker Apprentice", 1, 1)
                   .desc("Add 1 power, give a unit +1 atk")
                   .addOnEnterEffects(
-                      new AdjustPower(1), new AdjustStrength(1).setTargetFunction(new Inputs())),
+                      new AdjustPower(1), new AdjustStrength(1).setTargetSource(new Inputs())),
               unit("Throne Warden", 4, 2)
                   .desc("Endurance, gain HP equal to # of attacking units")
                   .addOnEnterEffects(
@@ -97,7 +97,7 @@ public class Cards {
                   .addOnEnterEffects(new SetFlying(true))
                   .addOnConditionEffects(
                       new AdjustHp(-2)
-                          .setTargetFunction(new Inputs())
+                          .setTargetSource(new Inputs())
                           .addTriggerConditions(new MinUnitCount(3))),
               unit("Stone shaker", 4, 1)
                   .desc("Add 2 power, Berserk, add 2 atk to generated 7 or more power")
@@ -115,7 +115,7 @@ public class Cards {
                   .desc("Add 1 power, give all attacking units -1 atk")
                   .addOnEnterEffects(
                       new AdjustPower(1),
-                      new AdjustStrength(-1).setTargetFunction(new AttackingUnits())),
+                      new AdjustStrength(-1).setTargetSource(new AttackingUnits())),
               unit("Impending Doom", 4, 5)
                   .desc("Flying, minus 1 hp")
                   .addOnEnterEffects(new SetFlying(true), new AdjustHp(-1)),
@@ -125,7 +125,7 @@ public class Cards {
               unit("Pokpok, Rockpacker", 3, 1)
                   .desc("Draw 1 card, give a unit -1 atk")
                   .addOnEnterEffects(
-                      new DrawCards(1), new AdjustHp(-1).setTargetFunction(new Inputs())),
+                      new DrawCards(1), new AdjustHp(-1).setTargetSource(new Inputs())),
               unit("Snowrager", 2, 1)
                   .desc("Berserk, add 1 atk to this if you have 3 or more units")
                   .addOnEnterEffects(new SetBerserk(true))
@@ -136,12 +136,12 @@ public class Cards {
                   .addOnEnterEffects(
                       new SetUnblockable(true),
                       new CreateAction(
-                          new SetUnblockable(true).setTargetFunction(new DefendingMaxStrength(3)))),
+                          new SetUnblockable(true).setTargetSource(new DefendingMaxStrength(3)))),
               unit("Oni Ronin", 1, 1)
                   .desc("Add 1 atk to two units")
                   .addOnEnterEffects(
-                      new AdjustStrength(1).setTargetFunction(new Inputs()),
-                      new AdjustStrength(1).setTargetFunction(new Inputs())))
+                      new AdjustStrength(1).setTargetSource(new Inputs()),
+                      new AdjustStrength(1).setTargetSource(new Inputs())))
           .map(UnitBuilder::build)
           .collect(Collectors.toList());
 
@@ -156,27 +156,27 @@ public class Cards {
           spell("Levitate", 2)
               .desc("Add 2 power, give a unit Flying")
               .addOnEnterEffects(
-                  new AdjustPower(2), new SetFlying(true).setTargetFunction(new Inputs())),
+                  new AdjustPower(2), new SetFlying(true).setTargetSource(new Inputs())),
           spell("Arcane Defense", 3)
               .desc("Draw 1 card, give two units -1 atk")
               .addOnEnterEffects(
                   new DrawCards(1),
-                  new AdjustStrength(-1).setTargetFunction(new Inputs()),
-                  new AdjustStrength(-1).setTargetFunction(new Inputs())),
+                  new AdjustStrength(-1).setTargetSource(new Inputs()),
+                  new AdjustStrength(-1).setTargetSource(new Inputs())),
           spell("Lightning Storm", 2)
               .desc("Voidbind, destroy all attacking units with 2 or less atk")
               .addOnEnterEffects(
                   voidBind(),
                   new CreateAction(
-                      new DestroyUnit().setTargetFunction(new AttackingMaxStrength(2)))),
+                      new DestroyUnit().setTargetSource(new AttackingMaxStrength(2)))),
           spell("Bolster", 3)
               .desc("Add 2 power, give a unit +3 def")
               .addOnEnterEffects(
-                  new AdjustPower(2), new AdjustDefense(3).setTargetFunction(new Inputs())),
+                  new AdjustPower(2), new AdjustDefense(3).setTargetSource(new Inputs())),
           spell("Hipshot", 3)
               .desc("Add 1 power, deal 3 damage to a player")
               .addOnEnterEffects(
-                  new AdjustPower(1), new AdjustHp(-3).setTargetFunction(new Inputs())),
+                  new AdjustPower(1), new AdjustHp(-3).setTargetSource(new Inputs())),
           spell("Wisdom of the Elders", 5).desc("Draw 2 cards").addOnEnterEffects(new DrawCards(2)),
           spell("Pack Hunt", 4)
               .desc(
@@ -184,12 +184,12 @@ public class Cards {
               .addOnEnterEffects(new AdjustPower(2))
               .addOnConditionEffects(
                   new AdjustStrength(2)
-                      .setTargetFunction(new DefendingUnits())
+                      .setTargetSource(new DefendingUnits())
                       .addTriggerConditions(new MinPower(7))),
           spell("Deathstrike", 3)
               .desc("Add 1 power, destroy a unit")
               .addOnEnterEffects(
-                  new AdjustPower(1), new DestroyUnit().setTargetFunction(new Inputs())));
+                  new AdjustPower(1), new DestroyUnit().setTargetSource(new Inputs())));
 
   public static List<CommandBuilder> FORGE_CARDS =
       Stream.of(UNIT_CARDS, SPELL_CARDS).flatMap(Collection::stream).collect(Collectors.toList());

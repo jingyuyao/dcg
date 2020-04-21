@@ -10,7 +10,7 @@ public class DeleteCard extends AbstractCommandBuilder {
   protected ComponentMapper<Card> mCard;
 
   public DeleteCard() {
-    setTargetFunction(new Inputs());
+    setTargetSource(new Inputs());
     addTargetConditions(
         target ->
             Preconditions.checkArgument(
