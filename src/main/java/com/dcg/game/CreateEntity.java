@@ -20,18 +20,24 @@ import java.util.OptionalInt;
  */
 public abstract class CreateEntity extends AbstractCommandBuilder {
   private final String name;
+  private String description;
   private final List<Class<? extends Component>> tags = new ArrayList<>();
   private final List<CommandBuilder> onEnterEffects = new ArrayList<>();
   private final List<CommandBuilder> onLeaveEffects = new ArrayList<>();
   private final List<CommandBuilder> onConditionEffects = new ArrayList<>();
   protected World world;
-  protected ComponentMapper<Common> mNamed;
+  protected ComponentMapper<Common> mCommon;
   protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<Effect> mEffect;
 
   public CreateEntity(String name) {
     this.name = name;
     addOnLeaveEffects(new DeleteActions());
+  }
+
+  public CreateEntity desc(String description) {
+    this.description = description;
+    return this;
   }
 
   public CreateEntity addTag(Class<? extends Component> tag) {
@@ -56,7 +62,11 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
 
   protected int createEntity(Target target) {
     int entity = world.create();
-    mNamed.create(entity).name = name;
+    Common common = mCommon.create(entity);
+    common.name = name;
+    if (description != null) {
+      common.description = description;
+    }
     getOwner(target)
         .ifPresent(
             ownerEntity -> {

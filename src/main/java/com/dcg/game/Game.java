@@ -18,6 +18,7 @@ import com.dcg.command.CommandInvocationStrategy;
 import com.dcg.effect.EffectSystem;
 import com.dcg.forge.InitializeForge;
 import com.dcg.location.ForgeRow;
+import com.dcg.location.PlayArea;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.PlayHandSystem;
 import com.dcg.player.Player;
@@ -78,10 +79,11 @@ public class Game {
 
   public String getWorldJson() {
     CoreSystem coreSystem = world.getSystem(CoreSystem.class);
-    Stream<Integer> forgeRow = coreSystem.getStream(Aspect.all(Card.class, ForgeRow.class)).boxed();
+    Stream<Integer> cards =
+        coreSystem.getStream(Aspect.all(Card.class).one(ForgeRow.class, PlayArea.class)).boxed();
     Stream<Integer> rest =
         coreSystem.getStream(Aspect.one(Player.class, Unit.class, Action.class)).boxed();
-    IntBag entities = Stream.concat(forgeRow, rest).collect(CoreSystem.toIntBag());
+    IntBag entities = Stream.concat(cards, rest).collect(CoreSystem.toIntBag());
     return toJson(entities);
   }
 
