@@ -56,13 +56,13 @@ public class Cards {
           unit("Awakened Student", 0, 2)
               .desc("If you have a unit with 4 atk or more, this gets +2 atk")
               .addOnConditionEffects(
-                  new AdjustStrength(2).addWorldConditions(new MinAnyDefendingStrength(4)))
+                  new AdjustStrength(2).addTriggerConditions(new MinAnyDefendingStrength(4)))
               .build(),
           unit("Storm Lynx", 0, 1)
               .desc("If you played a spell this turn, this gets +2 atk and Endurance")
               .addOnConditionEffects(
-                  new AdjustStrength(2).addWorldConditions(new AnySpell()),
-                  new SetEndurance(true).addWorldConditions(new AnySpell()))
+                  new AdjustStrength(2).addTriggerConditions(new AnySpell()),
+                  new SetEndurance(true).addTriggerConditions(new AnySpell()))
               .build(),
           unit("Grenadin Drone", 0, 2)
               .desc("Create a 1 atk Grenadin")
@@ -98,19 +98,19 @@ public class Cards {
                   .addOnConditionEffects(
                       new AdjustHp(-2)
                           .setTargetFunction(new Inputs())
-                          .addWorldConditions(new MinUnitCount(3))),
+                          .addTriggerConditions(new MinUnitCount(3))),
               unit("Stone shaker", 4, 1)
                   .desc("Add 2 power, Berserk, add 2 atk to generated 7 or more power")
                   .addOnEnterEffects(new AdjustPower(2), new SetBerserk(true))
-                  .addOnConditionEffects(new AdjustStrength(2).addWorldConditions(new MinPower(7))),
+                  .addOnConditionEffects(new AdjustStrength(2).addTriggerConditions(new MinPower(7))),
               unit("Temple Scribe", 1, 1)
                   .desc("Add 1 power, draw 1 card if you played any spell")
                   .addOnEnterEffects(new AdjustPower(1))
-                  .addOnConditionEffects(new DrawCards(1).addWorldConditions(new AnySpell())),
+                  .addOnConditionEffects(new DrawCards(1).addTriggerConditions(new AnySpell())),
               unit("Mystic Ascendant", 6, 4)
                   .desc("Draw 1 card, add 2 atk to this if you generated 7 or more power")
                   .addOnEnterEffects(new DrawCards(1))
-                  .addOnConditionEffects(new AdjustStrength(2).addWorldConditions(new MinPower(7))),
+                  .addOnConditionEffects(new AdjustStrength(2).addTriggerConditions(new MinPower(7))),
               unit("Splimespitter Slug", 5, 3)
                   .desc("Add 1 power, give all attacking units -1 atk")
                   .addOnEnterEffects(
@@ -130,7 +130,7 @@ public class Cards {
                   .desc("Berserk, add 1 atk to this if you have 3 or more units")
                   .addOnEnterEffects(new SetBerserk(true))
                   .addOnConditionEffects(
-                      new AdjustStrength(1).addWorldConditions(new MinUnitCount(3))),
+                      new AdjustStrength(1).addTriggerConditions(new MinUnitCount(3))),
               unit("Cabal Spymaster", 3, 1)
                   .desc("Unblockable, give all defending units with 3 or less atk Unblockable")
                   .addOnEnterEffects(
@@ -152,7 +152,7 @@ public class Cards {
               .desc("Draw 1 card, Voidbind if you have a Flying unit")
               .addOnEnterEffects(new DrawCards(1))
               .addOnConditionEffects(
-                  voidBind().addWorldConditions(new AnyDefendingUnit(unit -> unit.flying))),
+                  voidBind().addTriggerConditions(new AnyDefendingUnit(unit -> unit.flying))),
           spell("Levitate", 2)
               .desc("Add 2 power, give a unit Flying")
               .addOnEnterEffects(
@@ -185,7 +185,7 @@ public class Cards {
               .addOnConditionEffects(
                   new AdjustStrength(2)
                       .setTargetFunction(new DefendingUnits())
-                      .addWorldConditions(new MinPower(7))),
+                      .addTriggerConditions(new MinPower(7))),
           spell("Deathstrike", 3)
               .desc("Add 1 power, destroy a unit")
               .addOnEnterEffects(

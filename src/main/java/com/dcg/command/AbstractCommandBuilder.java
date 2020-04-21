@@ -3,7 +3,7 @@ package com.dcg.command;
 import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.condition.TargetCondition;
-import com.dcg.condition.WorldCondition;
+import com.dcg.condition.TriggerCondition;
 import com.dcg.game.CoreSystem;
 import com.dcg.target.OriginEntity;
 import com.dcg.target.Target;
@@ -21,7 +21,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   @Wire protected CommandChain commandChain;
   protected World world;
   protected CoreSystem coreSystem;
-  private final List<WorldCondition> worldConditions = new ArrayList<>();
+  private final List<TriggerCondition> triggerConditions = new ArrayList<>();
   private final List<TargetCondition> targetConditions = new ArrayList<>();
   private boolean injected = false;
   private TargetFunction targetFunction = new OriginEntity();
@@ -43,8 +43,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this.new CommandImpl(originEntity);
   }
 
-  public AbstractCommandBuilder addWorldConditions(WorldCondition... worldConditions) {
-    Collections.addAll(this.worldConditions, worldConditions);
+  public AbstractCommandBuilder addTriggerConditions(TriggerCondition... triggerConditions) {
+    Collections.addAll(this.triggerConditions, triggerConditions);
     return this;
   }
 
@@ -106,7 +106,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean isWorldValid() {
-      for (WorldCondition condition : worldConditions) {
+      for (TriggerCondition condition : triggerConditions) {
         world.inject(condition);
         if (!condition.test(coreSystem)) {
           return false;

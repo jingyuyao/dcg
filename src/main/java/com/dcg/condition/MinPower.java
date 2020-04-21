@@ -4,7 +4,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.game.CoreSystem;
 import com.dcg.player.Turn;
 
-public class MinPower implements WorldCondition {
+public class MinPower implements TriggerCondition {
   private final int power;
   protected ComponentMapper<Turn> mTurn;
 

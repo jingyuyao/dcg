@@ -2,7 +2,7 @@ package com.dcg.condition;
 
 import com.dcg.game.CoreSystem;
 
-public class MinUnitCount implements WorldCondition {
+public class MinUnitCount implements TriggerCondition {
   private final int count;
 
   public MinUnitCount(int count) {

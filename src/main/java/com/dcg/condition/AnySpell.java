@@ -4,7 +4,7 @@ import com.artemis.Aspect;
 import com.dcg.card.Spell;
 import com.dcg.game.CoreSystem;
 
-public class AnySpell implements WorldCondition {
+public class AnySpell implements TriggerCondition {
   @Override
   public boolean test(CoreSystem coreSystem) {
     return coreSystem

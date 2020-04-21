@@ -5,7 +5,7 @@ import com.dcg.battle.Unit;
 import com.dcg.game.CoreSystem;
 import java.util.function.Predicate;
 
-public class AnyDefendingUnit implements WorldCondition {
+public class AnyDefendingUnit implements TriggerCondition {
   private final Predicate<Unit> predicate;
   protected ComponentMapper<Unit> mUnit;
 

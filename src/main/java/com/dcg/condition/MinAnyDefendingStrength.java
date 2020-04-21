@@ -4,7 +4,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
 import com.dcg.game.CoreSystem;
 
-public class MinAnyDefendingStrength implements WorldCondition {
+public class MinAnyDefendingStrength implements TriggerCondition {
   private final int strength;
   protected ComponentMapper<Unit> mUnit;
 
