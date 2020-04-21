@@ -15,24 +15,15 @@ public class ExecuteAction extends AbstractCommandBuilder {
   public ExecuteAction(int actionEntity, List<Integer> inputs) {
     this.actionEntity = actionEntity;
     this.inputs = inputs;
-    addWorldConditions(
-        coreSystem -> {
-          try {
-            return world.getEntityManager().isActive(actionEntity) && mAction.has(actionEntity);
-          } catch (IndexOutOfBoundsException e) {
-            System.out.printf("Invalid entity: %s\n", e);
-            return false;
-          }
-        },
-        coreSystem -> {
-          try {
-            return inputs.stream().allMatch(entity -> world.getEntityManager().isActive(entity));
-          } catch (IndexOutOfBoundsException e) {
-            System.out.printf("Invalid entity: %s\n", e);
-            return false;
-          }
-        });
     addTargetConditions(
+        target ->
+            Preconditions.checkArgument(
+                world.getEntityManager().isActive(actionEntity) && mAction.has(actionEntity),
+                "Action entity not active"),
+        target ->
+            Preconditions.checkArgument(
+                inputs.stream().allMatch(entity -> world.getEntityManager().isActive(entity)),
+                "Input entity not active"),
         target -> {
           Action action = mAction.get(actionEntity);
           Command command = action.command;
