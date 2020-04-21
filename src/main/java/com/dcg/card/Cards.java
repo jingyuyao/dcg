@@ -92,7 +92,7 @@ public class Cards {
                   .desc("Endurance, gain HP equal to # of attacking units")
                   .addOnEnterEffects(
                       new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
-              unit("Yeti Windflyer", 0, 1)
+              unit("Yeti Windflyer", 4, 1)
                   .desc("Flying, deal 2 damage to a player if you are 3 or more units")
                   .addOnEnterEffects(new SetFlying(true))
                   .addOnConditionEffects(
