@@ -33,7 +33,7 @@ public class RefillForgeRow extends AbstractCommandBuilder {
             new CreateAction(new BuyCard()).build(world, cardEntity),
             build(world, -1));
       } else {
-        System.out.println("    No more forge cards");
+        System.out.println("No more forge cards");
       }
     }
   }

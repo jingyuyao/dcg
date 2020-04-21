@@ -9,10 +9,16 @@ import org.java_websocket.server.WebSocketServer;
 
 public class GameServer extends WebSocketServer {
   private final Json json = new Json();
-  private Game game = new Game();
+  private Game game;
 
   public GameServer(InetSocketAddress address) {
     super(address);
+  }
+
+  @Override
+  public void onStart() {
+    System.out.println("Server started");
+    game = new Game();
   }
 
   @Override
@@ -72,10 +78,5 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onError(WebSocket conn, Exception ex) {
     System.err.println("New connection: " + conn.getRemoteSocketAddress());
-  }
-
-  @Override
-  public void onStart() {
-    System.err.println("Server started");
   }
 }

@@ -25,6 +25,13 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   private boolean injected = false;
   private TargetFunction targetFunction = new OriginEntity();
 
+  public AbstractCommandBuilder() {
+    // Every command always require at least one target, even if that target is the origin entity.
+    // This will automatically prevent commands that requires input from running when its world
+    // condition is met.
+    addTargetConditions(target -> !target.getTargets().isEmpty());
+  }
+
   @Override
   public Command build(World world, int originEntity) {
     if (!injected) {
@@ -112,12 +119,22 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     public String toString() {
       StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
       Target target = getMemorizedTarget(inputs);
-      builder.append(" ").append(coreSystem.toName(target.getOrigin()));
+      builder
+          .append(" ")
+          .append(coreSystem.toName(target.getOrigin()))
+          .append("(")
+          .append(target.getOrigin())
+          .append(")");
       List<Integer> to = target.getTargets();
       if (!to.isEmpty() && (to.size() > 1 || to.get(0) != target.getOrigin())) {
         builder.append(" ->");
         for (int entity : to) {
-          builder.append(" ").append(coreSystem.toName(entity));
+          builder
+              .append(" ")
+              .append(coreSystem.toName(entity))
+              .append("(")
+              .append(entity)
+              .append(")");
         }
       }
       return builder.toString();

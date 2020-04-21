@@ -53,10 +53,12 @@ public class EffectSystem extends IteratingSystem {
                       builder -> {
                         Command command = builder.build(world, entityId);
                         if (command.isWorldValid()) {
-                          System.out.printf("  Triggered conditional %s\n", command);
-                          if (command.canRun()) {
+                          System.out.printf("World condition met for %s\n", command);
+                          if (command.isInputValid()) {
+                            System.out.printf("Input condition valid for %s\n", command);
                             commandChain.addEnd(command);
                           } else {
+                            System.out.printf("Creating action for %s\n", command);
                             commandChain.addEnd(new CreateAction(builder).build(world, entityId));
                           }
                           turn.triggeredConditionalEffects.add(builder);
