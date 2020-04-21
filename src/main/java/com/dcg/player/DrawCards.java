@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import net.mostlyoriginal.api.utils.Preconditions;
 
 public class DrawCards extends PlayerEffect {
   private final int numLeft;
@@ -21,11 +22,13 @@ public class DrawCards extends PlayerEffect {
     this.numLeft = numLeft;
     addTargetConditions(
         target ->
-            target.getTargets().stream()
-                .allMatch(
-                    playerEntity ->
-                        getDeck(playerEntity).count() > 0
-                            || getDiscardPile(playerEntity).count() > 0));
+            Preconditions.checkArgument(
+                target.getTargets().stream()
+                    .allMatch(
+                        playerEntity ->
+                            getDeck(playerEntity).count() > 0
+                                || getDiscardPile(playerEntity).count() > 0),
+                "Must have cards in deck or discard pile to draw"));
   }
 
   @Override

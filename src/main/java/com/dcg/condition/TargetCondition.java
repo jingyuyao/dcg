@@ -1,7 +1,10 @@
 package com.dcg.condition;
 
 import com.dcg.target.Target;
-import java.util.function.Predicate;
+import java.util.function.Consumer;
 
-/** A predicate that tests a target. Instances will be injected. */
-public interface TargetCondition extends Predicate<Target> {}
+/**
+ * Precondition for a target. Implementations should throw with a helpful error message if the
+ * condition fails. Instances will be injected.
+ */
+public interface TargetCondition extends Consumer<Target> {}

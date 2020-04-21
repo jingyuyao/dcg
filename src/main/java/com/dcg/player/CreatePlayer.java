@@ -2,6 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
+import com.dcg.action.CreateAction;
 import com.dcg.battle.PerformBattle;
 import com.dcg.card.Cards;
 import com.dcg.command.CommandBuilder;
@@ -15,7 +16,7 @@ public class CreatePlayer extends CreateEntity {
 
   public CreatePlayer(String name) {
     super(name);
-    addOnEnterEffects(new AdvanceTurn());
+    addOnEnterEffects(new CreateAction(new AdvanceTurn()));
     addOnLeaveEffects(new DiscardPlayArea(), new DrawCards(5), new PerformBattle());
   }
 

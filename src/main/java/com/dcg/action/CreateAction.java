@@ -4,6 +4,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
 import com.dcg.target.Target;
+import net.mostlyoriginal.api.utils.Preconditions;
 
 public class CreateAction extends CreateEntity {
   private final CommandBuilder builder;
@@ -12,7 +13,9 @@ public class CreateAction extends CreateEntity {
   public CreateAction(CommandBuilder builder) {
     super(builder.toString());
     this.builder = builder;
-    addTargetConditions(target -> getOwner(target).isPresent());
+    addTargetConditions(
+        target ->
+            Preconditions.checkArgument(getOwner(target).isPresent(), "Target must have owner"));
   }
 
   @Override

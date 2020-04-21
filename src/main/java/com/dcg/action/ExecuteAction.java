@@ -3,9 +3,9 @@ package com.dcg.action;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
-import com.dcg.target.Inputs;
 import com.dcg.target.Target;
 import java.util.List;
+import net.mostlyoriginal.api.utils.Preconditions;
 
 public class ExecuteAction extends AbstractCommandBuilder {
   private final int actionEntity;
@@ -15,12 +15,12 @@ public class ExecuteAction extends AbstractCommandBuilder {
   public ExecuteAction(int actionEntity, List<Integer> inputs) {
     this.actionEntity = actionEntity;
     this.inputs = inputs;
-    setTargetFunction(new Inputs());
     addWorldConditions(
         coreSystem -> {
           try {
             return world.getEntityManager().isActive(actionEntity) && mAction.has(actionEntity);
           } catch (IndexOutOfBoundsException e) {
+            System.out.printf("Invalid entity: %s\n", e);
             return false;
           }
         },
@@ -28,6 +28,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
           try {
             return inputs.stream().allMatch(entity -> world.getEntityManager().isActive(entity));
           } catch (IndexOutOfBoundsException e) {
+            System.out.printf("Invalid entity: %s\n", e);
             return false;
           }
         });
@@ -36,7 +37,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
           Action action = mAction.get(actionEntity);
           Command command = action.command;
           command.setInputs(inputs);
-          return command.canRun();
+          Preconditions.checkArgument(command.canRun(), "Command cannot run");
         });
   }
 

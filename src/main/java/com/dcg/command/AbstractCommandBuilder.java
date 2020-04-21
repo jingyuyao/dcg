@@ -11,6 +11,7 @@ import com.dcg.target.TargetFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import net.mostlyoriginal.api.utils.Preconditions;
 
 /**
  * Base class for {@link CommandBuilder}. Guarantees the generated {@link Command} instance is
@@ -29,7 +30,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     // Every command always require at least one target, even if that target is the origin entity.
     // This will automatically prevent commands that requires input from running when its world
     // condition is met.
-    addTargetConditions(target -> !target.getTargets().isEmpty());
+    addTargetConditions(
+        target -> Preconditions.checkArgument(!target.getTargets().isEmpty(), "Input required"));
   }
 
   @Override
@@ -92,7 +94,10 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       Target target = getMemorizedTarget(inputs);
       for (TargetCondition condition : targetConditions) {
         world.inject(condition);
-        if (!condition.test(target)) {
+        try {
+          condition.accept(target);
+        } catch (Exception e) {
+          System.out.printf("Precondition failed for %s: %s\n", this, e.getMessage());
           return false;
         }
       }

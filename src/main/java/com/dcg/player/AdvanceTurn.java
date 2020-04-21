@@ -9,12 +9,12 @@ import com.dcg.location.PlayArea;
 import com.dcg.target.Target;
 import java.util.List;
 import java.util.stream.Collectors;
+import net.mostlyoriginal.api.utils.Preconditions;
 
 public class AdvanceTurn extends AbstractCommandBuilder {
   protected ComponentMapper<Turn> mTurn;
 
   public AdvanceTurn() {
-    addWorldConditions(coreSystem -> coreSystem.getCurrentPlayerEntity().findFirst().isPresent());
     addTargetConditions(
         target -> {
           int playerEntity = coreSystem.getCurrentPlayerEntity().findFirst().orElse(-1);
@@ -23,7 +23,8 @@ public class AdvanceTurn extends AbstractCommandBuilder {
           long cardsInPlayCount =
               coreSystem.getChildren(playerEntity, Aspect.all(Card.class, PlayArea.class)).count();
           // Check cardsInPlay so this doesn't get automatically triggered on enter.
-          return cardsInHandCount == 0 && cardsInPlayCount != 0;
+          Preconditions.checkArgument(
+              cardsInHandCount == 0 && cardsInPlayCount != 0, "All cards must be played");
         });
   }
 

@@ -1,7 +1,6 @@
 package com.dcg.location;
 
 import com.artemis.ComponentMapper;
-import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.target.Target;
 import java.util.Arrays;
@@ -11,11 +10,9 @@ public class MoveLocation extends AbstractCommandBuilder {
   private static final List<Class<? extends Location>> ALL =
       Arrays.asList(Deck.class, ForgeRow.class, DiscardPile.class, Hand.class, PlayArea.class);
   private final Class<? extends Location> location;
-  protected ComponentMapper<Card> mCard;
 
   public MoveLocation(Class<? extends Location> location) {
     this.location = location;
-    addTargetConditions(target -> mCard.has(target.getOrigin()));
   }
 
   @Override
