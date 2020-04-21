@@ -39,11 +39,11 @@ public class GameServer extends WebSocketServer {
 
     switch (clientMessage.command) {
       case "execute":
-        if (clientMessage.arguments.isEmpty()) {
+        if (clientMessage.args.isEmpty()) {
           System.out.println("execute requires arguments");
           return;
         }
-        game.execute(clientMessage.arguments);
+        game.execute(clientMessage.args);
         broadcast(game.getWorldJson());
         if (game.isOver()) {
           System.out.println("GG");
@@ -51,11 +51,11 @@ public class GameServer extends WebSocketServer {
         }
         break;
       case "query":
-        if (clientMessage.arguments.isEmpty()) {
+        if (clientMessage.args.isEmpty()) {
           System.out.println("query requires arguments");
           return;
         }
-        broadcast(game.getEntities(clientMessage.arguments));
+        broadcast(game.getEntities(clientMessage.args));
         break;
       case "world":
         broadcast(game.getWorldJson());
