@@ -2,7 +2,7 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.target.Inputs;
+import com.dcg.target.AttackingUnitInputs;
 import com.dcg.target.Target;
 import net.mostlyoriginal.api.utils.Preconditions;
 
@@ -10,7 +10,7 @@ public class Block extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   public Block() {
-    setTargetSource(new Inputs());
+    setTargetSource(new AttackingUnitInputs());
     addTargetConditions(
         target ->
             Preconditions.checkArgument(

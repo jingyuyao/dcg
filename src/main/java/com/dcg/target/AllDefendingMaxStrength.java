@@ -6,19 +6,19 @@ import com.dcg.game.CoreSystem;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AttackingMaxStrength extends TargetSource {
+public class AllDefendingMaxStrength extends TargetSource {
   private final int strength;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Unit> mUnit;
 
-  public AttackingMaxStrength(int strength) {
+  public AllDefendingMaxStrength(int strength) {
     this.strength = strength;
   }
 
   @Override
   protected List<Integer> transform(int originEntity, List<Integer> input) {
     return coreSystem
-        .getAttackingEntities()
+        .getDefendingEntities()
         .filter(unitEntity -> mUnit.get(unitEntity).strength <= strength)
         .boxed()
         .collect(Collectors.toList());

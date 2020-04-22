@@ -6,6 +6,15 @@ public interface Command {
   /** Sets the optional user input for this command. */
   Command setInputs(List<Integer> inputs);
 
+  /** Returns the minimum number of inputs required. */
+  int getMinInputCount();
+
+  /** Returns the maximum number of inputs allowed. */
+  int getMaxInputCount();
+
+  /** Returns the list of allowed inputs. */
+  List<Integer> getAllowedInputs();
+
   /** Execute the logic for this command. This must be repeatedly callable. */
   void run();
 

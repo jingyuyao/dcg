@@ -4,7 +4,7 @@ import com.dcg.game.CoreSystem;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DefendingUnits extends TargetSource {
+public class AllDefendingUnits extends TargetSource {
   protected CoreSystem coreSystem;
 
   @Override

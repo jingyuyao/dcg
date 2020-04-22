@@ -9,6 +9,7 @@ import com.artemis.io.SaveFileFormat;
 import com.artemis.managers.WorldSerializationManager;
 import com.artemis.utils.IntBag;
 import com.dcg.action.Action;
+import com.dcg.action.ActionSystem;
 import com.dcg.action.ExecuteAction;
 import com.dcg.battle.Unit;
 import com.dcg.card.Card;
@@ -34,7 +35,12 @@ public class Game {
           // Uses the command pattern for execution
           .register(new CommandInvocationStrategy())
           // Order matters!
-          .with(new CoreSystem(), new PlayHandSystem(), new EffectSystem(), new GameOverSystem())
+          .with(
+              new CoreSystem(),
+              new PlayHandSystem(),
+              new EffectSystem(),
+              new ActionSystem(),
+              new GameOverSystem())
           .build()
           .setSystem(serializationManager)
           .register(new Random())
