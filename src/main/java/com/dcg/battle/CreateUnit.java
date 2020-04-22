@@ -1,6 +1,7 @@
 package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
+import com.dcg.action.CreateAction;
 import com.dcg.game.CreateEntity;
 import com.dcg.target.Target;
 
@@ -12,7 +13,7 @@ public class CreateUnit extends CreateEntity {
   public CreateUnit(String name, int strength) {
     super(name);
     this.strength = strength;
-    addOnEnterEffects(new Block());
+    addOnEnterEffects(new CreateAction(new Block()));
   }
 
   @Override
