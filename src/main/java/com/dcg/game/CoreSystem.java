@@ -8,10 +8,12 @@ import com.artemis.utils.IntBag;
 import com.dcg.battle.Attacking;
 import com.dcg.battle.Defending;
 import com.dcg.battle.Unit;
+import com.dcg.location.PlayArea;
 import com.dcg.player.Player;
 import com.dcg.player.Turn;
 import java.util.stream.Collector;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Manages auto deletion of owned entities when their parent is deleted. Provides methods to query
@@ -22,6 +24,8 @@ public class CoreSystem extends BaseSystem {
   protected AspectSubscriptionManager manager;
   protected ComponentMapper<Common> mNamed;
   protected ComponentMapper<Owned> mOwned;
+
+  // TODO: Don't use IntStream since we are operating on ids rather than true numerical values.
 
   /** Get all entities matching the aspect as a stream. */
   public IntStream getStream(Aspect.Builder aspectBuilder) {
@@ -52,6 +56,10 @@ public class CoreSystem extends BaseSystem {
 
   public IntStream getDefendingEntities() {
     return getStream(Aspect.all(Unit.class, Defending.class));
+  }
+
+  public Stream<Integer> getPlayArea() {
+    return getStream(Aspect.all(PlayArea.class)).boxed();
   }
 
   /** Filters the aspect for entities owned by the owner. */
