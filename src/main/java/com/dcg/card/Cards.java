@@ -40,11 +40,26 @@ import java.util.stream.Stream;
 public class Cards {
   public static List<CommandBuilder> BASIC_CARDS =
       Arrays.asList(
-          new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
-          new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
-          new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
-          new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
-          new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+          unit("Oni Ronin", 1, 1)
+              .desc("Add 1 atk to two units")
+              .addOnEnterEffects(new AdjustStrength(1).setTargetSource(new UnitInputs(2))).build(),
+          unit("Oni Ronin", 1, 1)
+              .desc("Add 1 atk to two units")
+              .addOnEnterEffects(new AdjustStrength(1).setTargetSource(new UnitInputs(2))).build(),
+          unit("Oni Ronin", 1, 1)
+              .desc("Add 1 atk to two units")
+              .addOnEnterEffects(new AdjustStrength(1).setTargetSource(new UnitInputs(2))).build(),
+          unit("Oni Ronin", 1, 1)
+              .desc("Add 1 atk to two units")
+              .addOnEnterEffects(new AdjustStrength(1).setTargetSource(new UnitInputs(2))).build(),
+          unit("Oni Ronin", 1, 1)
+              .desc("Add 1 atk to two units")
+              .addOnEnterEffects(new AdjustStrength(1).setTargetSource(new UnitInputs(2))).build(),
+//          new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+//          new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+//          new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+//          new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+//          new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
           new CreateCard("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
           new CreateCard("Secret Pages", 0)
               .desc("Add 2 power")
