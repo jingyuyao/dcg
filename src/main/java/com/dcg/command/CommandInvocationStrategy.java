@@ -24,7 +24,7 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
         System.out.printf("Exec: %s\n", command);
         command.run();
       } else {
-        System.out.printf("Pass:  %s\n", command);
+        System.out.printf("Pass: %s\n", command);
       }
       processSystems();
     }
