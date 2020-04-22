@@ -114,15 +114,15 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       int maxInput = targetSource.getMaxInputCount();
       List<Integer> allowedInputs = targetSource.getAllowedInputs();
       if (inputs.size() < minInput) {
-        System.out.printf("Minimum %d input required\n", minInput);
+        System.out.printf("Fail: Minimum %d input required\n", minInput);
         return false;
       }
       if (inputs.size() > maxInput) {
-        System.out.printf("Maximum %d input allowed\n", maxInput);
+        System.out.printf("Fail: Maximum %d input allowed\n", maxInput);
         return false;
       }
       if (!allowedInputs.containsAll(inputs)) {
-        System.out.println("Not all inputs are allowed");
+        System.out.println("Fail: Not all inputs are allowed");
         return false;
       }
 
@@ -132,7 +132,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
         try {
           condition.accept(target);
         } catch (Exception e) {
-          System.out.printf("Precondition failed for %s: %s\n", this, e.getMessage());
+          System.out.printf("Fail: %s\n", e.getMessage());
           return false;
         }
       }
