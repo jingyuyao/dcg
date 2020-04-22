@@ -10,8 +10,6 @@ public class CreateCard extends CreateEntity {
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Deck> mDeck;
 
-  // TODO: bring the unit vs spell creation logic in here, e.g. three param constructor and make
-  // the run method do the heavy lifting
   public CreateCard(String name, int cost) {
     super(name);
     this.cost = cost;
