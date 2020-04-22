@@ -1,7 +1,5 @@
 package com.dcg.card;
 
-import static com.dcg.card.Cards.UnitBuilder.unit;
-
 import com.dcg.action.CreateAction;
 import com.dcg.battle.AdjustDefense;
 import com.dcg.battle.AdjustStrength;
@@ -38,6 +36,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Cards {
+  // TODO: put these behind functions so they are injected with the correct world for new game
   public static List<CommandBuilder> BASIC_CARDS =
       Arrays.asList(
           basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
@@ -51,28 +50,23 @@ public class Cards {
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> BASIC_UNITS =
       Arrays.asList(
-          unit("Eager Owlet", 0, 2).desc("Flying").addOnEnterEffects(new SetFlying(true)).build(),
+          unit("Eager Owlet", 0, 2).desc("Flying").addOnEnterEffects(new SetFlying(true)),
           unit("Awakened Student", 0, 2)
               .desc("If you have a unit with 4 atk or more, this gets +2 atk")
               .addOnConditionEffects(
-                  new AdjustStrength(2).addTriggerConditions(new MinAnyDefendingStrength(4)))
-              .build(),
+                  new AdjustStrength(2).addTriggerConditions(new MinAnyDefendingStrength(4))),
           unit("Storm Lynx", 0, 1)
               .desc("If you played a spell this turn, this gets +2 atk and Endurance")
               .addOnConditionEffects(
                   new AdjustStrength(2).addTriggerConditions(new AnySpell()),
-                  new SetEndurance(true).addTriggerConditions(new AnySpell()))
-              .build(),
+                  new SetEndurance(true).addTriggerConditions(new AnySpell())),
           unit("Grenadin Drone", 0, 2)
               .desc("Create a 1 atk Grenadin")
-              .addOnEnterEffects(new CreateUnit("Grenadin", 1))
-              .build(),
-          unit("Fearless Nomad", 0, 2).addOnEnterEffects(new SetBerserk(true)).build(),
-          unit("Stonepowder Alchemist", 0, 2).addOnEnterEffects(new SetLifeSteal(true)).build(),
-          unit("Xenan Cupbearer", 0, 1)
-              .addOnEnterEffects(new AdjustDefense(1), new AdjustHp(1))
-              .build(),
-          unit("Withering Witch", 0, 2).addOnEnterEffects(new AdjustDefense(3)).build());
+              .addOnEnterEffects(new CreateUnit("Grenadin", 1)),
+          unit("Fearless Nomad", 0, 2).addOnEnterEffects(new SetBerserk(true)),
+          unit("Stonepowder Alchemist", 0, 2).addOnEnterEffects(new SetLifeSteal(true)),
+          unit("Xenan Cupbearer", 0, 1).addOnEnterEffects(new AdjustDefense(1), new AdjustHp(1)),
+          unit("Withering Witch", 0, 2).addOnEnterEffects(new AdjustDefense(3)));
 
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> UNIT_CARDS =
@@ -142,7 +136,6 @@ public class Cards {
               unit("Oni Ronin", 1, 1)
                   .desc("Add 1 atk to two units")
                   .addOnEnterEffects(new AdjustStrength(1).setTargetSource(new UnitInputs(2))))
-          .map(UnitBuilder::build)
           .collect(Collectors.toList());
 
   @SuppressWarnings("SpellCheckingInspection")
@@ -200,46 +193,11 @@ public class Cards {
     return new CreateCard(name, cost).addTag(Spell.class);
   }
 
-  public static AbstractCommandBuilder voidBind() {
-    return new DeleteCard().addTargetConditions(new PlayAreaOrDiscardPile());
+  public static CreateEntity unit(String name, int cost, int strength) {
+    return new CreateCard(name, cost).setUnit(strength);
   }
 
-  public static class UnitBuilder {
-    private final CreateUnit createUnit;
-    private final CreateEntity createCard;
-
-    private UnitBuilder(String name, int cost, int strength) {
-      this.createUnit = new CreateUnit(name, strength);
-      this.createCard = new CreateCard(name, cost).addOnEnterEffects(this.createUnit);
-    }
-
-    public static UnitBuilder unit(String name, int cost, int strength) {
-      return new UnitBuilder(name, cost, strength);
-    }
-
-    public UnitBuilder desc(String description) {
-      this.createCard.desc(description);
-      this.createUnit.desc(description);
-      return this;
-    }
-
-    public UnitBuilder addOnEnterEffects(CommandBuilder... builders) {
-      this.createUnit.addOnEnterEffects(builders);
-      return this;
-    }
-
-    public UnitBuilder addOnLeaveEffects(CommandBuilder... builders) {
-      this.createUnit.addOnLeaveEffects(builders);
-      return this;
-    }
-
-    public UnitBuilder addOnConditionEffects(CommandBuilder... builders) {
-      this.createUnit.addOnConditionEffects(builders);
-      return this;
-    }
-
-    public CreateEntity build() {
-      return this.createCard;
-    }
+  public static AbstractCommandBuilder voidBind() {
+    return new DeleteCard().addTargetConditions(new PlayAreaOrDiscardPile());
   }
 }
