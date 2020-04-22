@@ -10,6 +10,7 @@ public class Main {
 
   public static void main(String[] args) {
     WebSocketServer server = new GameServer(new InetSocketAddress(HOST, PORT));
+    server.setReuseAddr(true);
     server.run();
   }
 }
