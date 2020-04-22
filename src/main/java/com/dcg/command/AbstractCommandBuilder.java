@@ -111,7 +111,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     public boolean isInputValid() {
       world.inject(targetSource);
       int minInput = targetSource.getMinInputCount();
-      int maxInput = targetSource.getMinInputCount();
+      int maxInput = targetSource.getMaxInputCount();
       List<Integer> allowedInputs = targetSource.getAllowedInputs();
       if (inputs.size() < minInput) {
         System.out.printf("Minimum %d input required\n", minInput);
