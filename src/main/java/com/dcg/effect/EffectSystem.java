@@ -43,7 +43,7 @@ public class EffectSystem extends IteratingSystem {
   protected void process(int entityId) {
     coreSystem
         .getCurrentPlayerEntity()
-        .mapToObj(mTurn::get)
+        .map(mTurn::get)
         .forEach(
             turn -> {
               Effect effect = mEffect.get(entityId);

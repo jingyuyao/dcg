@@ -14,10 +14,7 @@ public class AdjustPower extends AbstractCommandBuilder {
 
   @Override
   protected void run(Target target) {
-    coreSystem
-        .getCurrentPlayerEntity()
-        .mapToObj(mTurn::get)
-        .forEach(turn -> turn.powerPool += power);
+    coreSystem.getCurrentPlayerEntity().map(mTurn::get).forEach(turn -> turn.powerPool += power);
   }
 
   @Override

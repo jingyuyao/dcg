@@ -12,7 +12,6 @@ import com.dcg.location.PlayArea;
 import com.dcg.player.Player;
 import com.dcg.player.Turn;
 import java.util.stream.Collector;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -25,11 +24,9 @@ public class CoreSystem extends BaseSystem {
   protected ComponentMapper<Common> mNamed;
   protected ComponentMapper<Owned> mOwned;
 
-  // TODO: Don't use IntStream since we are operating on ids rather than true numerical values.
-
   /** Get all entities matching the aspect as a stream. */
-  public IntStream getStream(Aspect.Builder aspectBuilder) {
-    IntStream.Builder streamBuilder = IntStream.builder();
+  public Stream<Integer> getStream(Aspect.Builder aspectBuilder) {
+    Stream.Builder<Integer> streamBuilder = Stream.builder();
     IntBag bag = manager.get(aspectBuilder).getEntities();
     for (int i = 0; i < bag.size(); i++) {
       streamBuilder.add(bag.get(i));
@@ -37,7 +34,7 @@ public class CoreSystem extends BaseSystem {
     return streamBuilder.build();
   }
 
-  public IntStream findByName(String name, Aspect.Builder aspectBuilder) {
+  public Stream<Integer> findByName(String name, Aspect.Builder aspectBuilder) {
     return getStream(aspectBuilder.all(Common.class))
         .filter(entity -> name.equalsIgnoreCase(mNamed.get(entity).name));
   }
@@ -46,36 +43,36 @@ public class CoreSystem extends BaseSystem {
     return entity != -1 ? mNamed.getSafe(entity, DEFAULT_COMMON).name : "";
   }
 
-  public IntStream getCurrentPlayerEntity() {
+  public Stream<Integer> getCurrentPlayerEntity() {
     return getStream(Aspect.all(Player.class, Turn.class));
   }
 
-  public IntStream getAttackingEntities() {
+  public Stream<Integer> getAttackingEntities() {
     return getStream(Aspect.all(Unit.class, Attacking.class));
   }
 
-  public IntStream getDefendingEntities() {
+  public Stream<Integer> getDefendingEntities() {
     return getStream(Aspect.all(Unit.class, Defending.class));
   }
 
   public Stream<Integer> getPlayArea() {
-    return getStream(Aspect.all(PlayArea.class)).boxed();
+    return getStream(Aspect.all(PlayArea.class));
   }
 
   /** Filters the aspect for entities owned by the owner. */
-  public IntStream getChildren(int ownerEntity, Aspect.Builder aspectBuilder) {
+  public Stream<Integer> getChildren(int ownerEntity, Aspect.Builder aspectBuilder) {
     return getStream(aspectBuilder.one(Owned.class))
         .filter(e -> ownerEntity == mOwned.get(e).owner);
   }
 
   /** Filters the aspect for entities not owned by the owner. */
-  public IntStream getNotChildren(int ownerEntity, Aspect.Builder aspectBuilder) {
+  public Stream<Integer> getNotChildren(int ownerEntity, Aspect.Builder aspectBuilder) {
     return getStream(aspectBuilder.one(Owned.class))
         .filter(e -> ownerEntity != mOwned.get(e).owner);
   }
 
   /** Filters the aspect for entities with the same owner as the owned entity. */
-  public IntStream getPeers(int ownedEntity, Aspect.Builder aspectBuilder) {
+  public Stream<Integer> getPeers(int ownedEntity, Aspect.Builder aspectBuilder) {
     return getChildren(getParent(ownedEntity), aspectBuilder);
   }
 
@@ -83,13 +80,13 @@ public class CoreSystem extends BaseSystem {
    * Get all descendants owned by the owner matching the aspect. Intermediate nodes does not need to
    * match the filter.
    */
-  public IntStream getDescendants(int ownerEntity, Aspect.Builder aspectBuilder) {
+  public Stream<Integer> getDescendants(int ownerEntity, Aspect.Builder aspectBuilder) {
     return getStream(aspectBuilder.one(Owned.class))
         .filter(entity -> isOwnedBy(ownerEntity, entity));
   }
 
   /** Get all entities not owned by the owner matching the aspect. */
-  public IntStream getNotDescendants(int ownerEntity, Aspect.Builder aspectBuilder) {
+  public Stream<Integer> getNotDescendants(int ownerEntity, Aspect.Builder aspectBuilder) {
     return getStream(aspectBuilder).filter(entity -> getRoot(entity) != ownerEntity);
   }
 

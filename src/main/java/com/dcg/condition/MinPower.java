@@ -16,7 +16,7 @@ public class MinPower implements TriggerCondition {
   public boolean test(CoreSystem coreSystem) {
     return coreSystem
         .getCurrentPlayerEntity()
-        .mapToObj(mTurn::get)
+        .map(mTurn::get)
         .anyMatch(turn -> turn.powerPool >= power);
   }
 }

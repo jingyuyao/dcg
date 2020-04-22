@@ -20,7 +20,7 @@ public class AllDefendingMaxStrength extends TargetSource {
     return coreSystem
         .getDefendingEntities()
         .filter(unitEntity -> mUnit.get(unitEntity).strength <= strength)
-        .boxed()
+
         .collect(Collectors.toList());
   }
 }

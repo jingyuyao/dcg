@@ -11,7 +11,7 @@ import com.dcg.target.Target;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import net.mostlyoriginal.api.utils.Preconditions;
 
 public class DrawCards extends PlayerEffect {
@@ -34,7 +34,7 @@ public class DrawCards extends PlayerEffect {
   @Override
   protected void run(Target target) {
     for (int playerEntity : target.getTargets()) {
-      List<Integer> deck = getDeck(playerEntity).boxed().collect(Collectors.toList());
+      List<Integer> deck = getDeck(playerEntity).collect(Collectors.toList());
 
       if (deck.size() > 0) {
         int cardEntity = deck.get(random.nextInt(deck.size()));
@@ -50,11 +50,11 @@ public class DrawCards extends PlayerEffect {
     }
   }
 
-  private IntStream getDeck(int playerEntity) {
+  private Stream<Integer> getDeck(int playerEntity) {
     return coreSystem.getChildren(playerEntity, Aspect.all(Card.class, Deck.class));
   }
 
-  private IntStream getDiscardPile(int playerEntity) {
+  private Stream<Integer> getDiscardPile(int playerEntity) {
     return coreSystem.getChildren(playerEntity, Aspect.all(Card.class, DiscardPile.class));
   }
 

@@ -22,7 +22,7 @@ public class PlayAreaOrDiscardPileInputs extends Inputs {
   public List<Integer> getAllowedInputs() {
     return coreSystem
         .getStream(Aspect.all(Card.class).one(PlayArea.class, DiscardPile.class))
-        .boxed()
+
         .collect(Collectors.toList());
   }
 }

@@ -18,6 +18,6 @@ public class PlayerInputs extends Inputs {
 
   @Override
   public List<Integer> getAllowedInputs() {
-    return coreSystem.getStream(Aspect.all(Player.class)).boxed().collect(Collectors.toList());
+    return coreSystem.getStream(Aspect.all(Player.class)).collect(Collectors.toList());
   }
 }

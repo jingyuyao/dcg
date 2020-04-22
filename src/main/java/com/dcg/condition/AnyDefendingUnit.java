@@ -19,6 +19,6 @@ public class AnyDefendingUnit implements TriggerCondition {
 
   @Override
   public boolean test(CoreSystem coreSystem) {
-    return coreSystem.getDefendingEntities().mapToObj(mUnit::get).anyMatch(predicate);
+    return coreSystem.getDefendingEntities().map(mUnit::get).anyMatch(predicate);
   }
 }

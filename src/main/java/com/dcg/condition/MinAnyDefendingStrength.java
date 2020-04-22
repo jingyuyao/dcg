@@ -16,7 +16,7 @@ public class MinAnyDefendingStrength implements TriggerCondition {
   public boolean test(CoreSystem coreSystem) {
     return coreSystem
         .getDefendingEntities()
-        .mapToObj(mUnit::get)
+        .map(mUnit::get)
         .anyMatch(unit -> unit.strength >= strength);
   }
 }

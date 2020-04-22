@@ -32,7 +32,7 @@ public class AdvanceTurn extends AbstractCommandBuilder {
   protected void run(Target target) {
     int playerEntity = coreSystem.getCurrentPlayerEntity().findFirst().orElse(-1);
     List<Integer> allPlayerEntities =
-        coreSystem.getStream(Aspect.all(Player.class)).boxed().collect(Collectors.toList());
+        coreSystem.getStream(Aspect.all(Player.class)).collect(Collectors.toList());
     int currentPlayerIndex = allPlayerEntities.indexOf(playerEntity);
     int nextPlayerIndex = (currentPlayerIndex + 1) % allPlayerEntities.size();
     int nextPlayer = allPlayerEntities.get(nextPlayerIndex);

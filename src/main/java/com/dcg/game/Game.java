@@ -86,9 +86,9 @@ public class Game {
   public String getWorldJson() {
     CoreSystem coreSystem = world.getSystem(CoreSystem.class);
     Stream<Integer> cards =
-        coreSystem.getStream(Aspect.all(Card.class).one(ForgeRow.class, PlayArea.class)).boxed();
+        coreSystem.getStream(Aspect.all(Card.class).one(ForgeRow.class, PlayArea.class));
     Stream<Integer> rest =
-        coreSystem.getStream(Aspect.one(Player.class, Unit.class, Action.class)).boxed();
+        coreSystem.getStream(Aspect.one(Player.class, Unit.class, Action.class));
     IntBag entities = Stream.concat(cards, rest).collect(CoreSystem.toIntBag());
     return toJson(entities);
   }

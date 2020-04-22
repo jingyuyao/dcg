@@ -24,7 +24,7 @@ public class RefillForgeRow extends AbstractCommandBuilder {
       List<Integer> forgeDeck =
           coreSystem
               .getStream(Aspect.all(Card.class, Deck.class).exclude(Owned.class))
-              .boxed()
+
               .collect(Collectors.toList());
       if (forgeDeck.size() > 0) {
         int cardEntity = forgeDeck.get(random.nextInt(forgeDeck.size()));

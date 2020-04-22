@@ -16,6 +16,6 @@ public class DefendingUnitInputs extends Inputs {
 
   @Override
   public List<Integer> getAllowedInputs() {
-    return coreSystem.getDefendingEntities().boxed().collect(Collectors.toList());
+    return coreSystem.getDefendingEntities().collect(Collectors.toList());
   }
 }

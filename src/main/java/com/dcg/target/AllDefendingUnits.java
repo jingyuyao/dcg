@@ -9,6 +9,6 @@ public class AllDefendingUnits extends TargetSource {
 
   @Override
   protected List<Integer> transform(int originEntity, List<Integer> input) {
-    return coreSystem.getDefendingEntities().boxed().collect(Collectors.toList());
+    return coreSystem.getDefendingEntities().collect(Collectors.toList());
   }
 }

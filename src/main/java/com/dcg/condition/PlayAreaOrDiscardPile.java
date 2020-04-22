@@ -18,7 +18,6 @@ public class PlayAreaOrDiscardPile implements TargetCondition {
     List<Integer> playAreaOrDiscardPile =
         coreSystem
             .getStream(Aspect.all(Card.class).one(PlayArea.class, DiscardPile.class))
-            .boxed()
             .collect(Collectors.toList());
     Preconditions.checkArgument(
         playAreaOrDiscardPile.containsAll(target.getTargets()),

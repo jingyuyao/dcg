@@ -22,7 +22,7 @@ public class BuyCard extends AbstractCommandBuilder {
             Preconditions.checkArgument(
                 coreSystem
                     .getCurrentPlayerEntity()
-                    .mapToObj(mTurn::get)
+                    .map(mTurn::get)
                     .allMatch(turn -> turn.powerPool >= mCard.get(target.getOrigin()).cost),
                 "Not enough power"));
   }
