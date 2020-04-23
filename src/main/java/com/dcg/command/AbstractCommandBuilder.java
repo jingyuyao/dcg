@@ -138,9 +138,10 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean canTrigger() {
+      List<Integer> allowedTargets = getAllowedTargets();
       for (TriggerCondition condition : triggerConditions) {
         world.inject(condition);
-        if (!condition.test(originEntity)) {
+        if (!condition.test(originEntity, allowedTargets)) {
           return false;
         }
       }

@@ -3,6 +3,7 @@ package com.dcg.triggercondition;
 import com.artemis.ComponentMapper;
 import com.dcg.game.CoreSystem;
 import com.dcg.player.Turn;
+import java.util.List;
 
 public class MinPower implements TriggerCondition {
   private final int power;
@@ -14,7 +15,7 @@ public class MinPower implements TriggerCondition {
   }
 
   @Override
-  public boolean test(Integer originEntity) {
+  public boolean test(int originEntity, List<Integer> allowedTargets) {
     return coreSystem
         .getCurrentPlayerEntity()
         .map(mTurn::get)

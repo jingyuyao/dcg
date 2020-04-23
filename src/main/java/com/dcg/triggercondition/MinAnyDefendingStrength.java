@@ -3,6 +3,7 @@ package com.dcg.triggercondition;
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
 import com.dcg.game.CoreSystem;
+import java.util.List;
 
 public class MinAnyDefendingStrength implements TriggerCondition {
   private final int strength;
@@ -14,7 +15,7 @@ public class MinAnyDefendingStrength implements TriggerCondition {
   }
 
   @Override
-  public boolean test(Integer originEntity) {
+  public boolean test(int originEntity, List<Integer> allowedTargets) {
     return coreSystem
         .getDefendingEntities()
         .map(mUnit::get)

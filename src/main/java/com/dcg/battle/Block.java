@@ -6,12 +6,14 @@ import com.dcg.command.CommandArgs;
 import com.dcg.game.CoreSystem;
 import com.dcg.targetfilter.TargetFilter;
 import com.dcg.targetsource.AttackingUnits;
+import com.dcg.triggercondition.HasAllowedTargets;
 import java.util.List;
 
 public class Block extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   public Block() {
+    addTriggerConditions(new HasAllowedTargets());
     setTargetSource(new AttackingUnits().addFilters(new BlockPredicate()));
     setInputCount(1);
   }

@@ -11,7 +11,7 @@ import java.util.List;
 public class AdvanceTurn extends AbstractCommandBuilder {
   public AdvanceTurn() {
     addTriggerConditions(
-        playerEntity -> {
+        (playerEntity, allowedTargets) -> {
           long cardsInHandCount =
               coreSystem.getChildren(playerEntity, Aspect.all(Card.class, Hand.class)).count();
           long cardsInPlayCount =

@@ -18,7 +18,7 @@ public class BuyCard extends AbstractCommandBuilder {
 
   public BuyCard() {
     addTriggerConditions(
-        cardEntity ->
+        (cardEntity, allowedTargets) ->
             coreSystem
                 .getCurrentPlayerEntity()
                 .map(mTurn::get)
