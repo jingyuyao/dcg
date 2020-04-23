@@ -129,8 +129,8 @@ public class Cards {
                 .desc("Draw 1 card, give a unit -1 strength")
                 .addOnEnterEffects(
                     new DrawCards(1),
-                    action(
-                        new AdjustStrength(-1).setInputCount(1).setTargetSource(new AllUnits()))),
+                    action(new AdjustStrength(-1).setInputCount(1).setTargetSource(new AllUnits()))
+                        .desc("Give a unit -1 strength")),
             unit("Snowrager", 2, 1)
                 .desc("Berserk, add 1 strength to this if you have 3 or more units")
                 .addOnEnterEffects(new SetBerserk(true))

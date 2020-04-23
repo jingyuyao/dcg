@@ -50,10 +50,10 @@ public class Game {
   public Game() {
     serializationManager.setSerializer(new JsonArtemisSerializer(world));
     process(new InitializeForge());
-    process(new CreatePlayer("Andrew"));
+    process(new CreatePlayer("Jonah"));
     process(new CreatePlayer("Bowen"));
     process(new CreatePlayer("Jingyu"));
-    process(new InitTurn("Andrew"));
+    process(new InitTurn("Jonah"));
   }
 
   public void execute(List<Integer> input) {
