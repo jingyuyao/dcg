@@ -18,16 +18,16 @@ import java.util.OptionalInt;
  * tied to the created entity.
  */
 public abstract class CreateEntity extends AbstractCommandBuilder {
-  private final String name;
-  private String description;
-  private final List<Class<? extends Component>> tags = new ArrayList<>();
-  private final List<CommandBuilder> onEnterEffects = new ArrayList<>();
-  private final List<CommandBuilder> onLeaveEffects = new ArrayList<>();
-  private final List<CommandBuilder> onConditionEffects = new ArrayList<>();
+  protected final String name;
+  protected String description;
   protected World world;
   protected ComponentMapper<Common> mCommon;
   protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<Effect> mEffect;
+  private final List<Class<? extends Component>> tags = new ArrayList<>();
+  private final List<CommandBuilder> onEnterEffects = new ArrayList<>();
+  private final List<CommandBuilder> onLeaveEffects = new ArrayList<>();
+  private final List<CommandBuilder> onConditionEffects = new ArrayList<>();
 
   public CreateEntity(String name) {
     this.name = name;

@@ -220,6 +220,6 @@ public class Cards {
   }
 
   public static CreateEntity unit(String name, int cost, int strength) {
-    return new CreateCard(name, cost).setUnit(strength);
+    return new CreateCard(name, cost).hasUnit(strength);
   }
 }
