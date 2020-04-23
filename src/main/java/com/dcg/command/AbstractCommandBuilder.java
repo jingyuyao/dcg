@@ -166,11 +166,11 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
           .append(coreSystem.toName(originEntity))
           .append("(")
           .append(originEntity)
-          .append(")")
-          .append(" int=")
+          .append(") [")
           .append(args.getInt())
-          .append(" bool=")
-          .append(args.getBool());
+          .append(",")
+          .append(args.getBool())
+          .append("]");
       List<Integer> targets = getTargets();
       if (!targets.isEmpty() && (targets.size() > 1 || targets.get(0) != originEntity)) {
         builder.append(" ->");
