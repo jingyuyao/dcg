@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import net.mostlyoriginal.api.utils.Preconditions;
 
 public class DrawCards extends PlayerEffect {
   private final int numLeft;
@@ -20,15 +19,6 @@ public class DrawCards extends PlayerEffect {
 
   public DrawCards(int numLeft) {
     this.numLeft = numLeft;
-    addTargetConditions(
-        target ->
-            Preconditions.checkArgument(
-                target.getTargets().stream()
-                    .allMatch(
-                        playerEntity ->
-                            getDeck(playerEntity).count() > 0
-                                || getDiscardPile(playerEntity).count() > 0),
-                "Must have cards in deck or discard pile to draw"));
   }
 
   @Override
@@ -43,9 +33,11 @@ public class DrawCards extends PlayerEffect {
           // NOTE: This must come after MoveLocation or else we may draw duplicate cards.
           commandChain.addEnd(new DrawCards(numLeft - 1).build(world, playerEntity));
         }
-      } else {
+      } else if (getDiscardPile(playerEntity).count() > 0) {
         commandChain.addEnd(
             new ReshuffleDiscardPile().build(world, playerEntity), build(world, playerEntity));
+      } else {
+        System.out.println("No cards in deck or discard pile, card not drawn.");
       }
     }
   }

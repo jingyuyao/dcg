@@ -5,10 +5,11 @@ import com.dcg.card.Spell;
 import com.dcg.game.CoreSystem;
 
 public class AnySpell implements TriggerCondition {
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Spell> mSpell;
 
   @Override
-  public boolean test(CoreSystem coreSystem) {
+  public boolean test(Integer originEntity) {
     return coreSystem.getPlayArea().anyMatch(mSpell::has);
   }
 }

@@ -6,6 +6,7 @@ import com.dcg.player.Turn;
 
 public class MinPower implements TriggerCondition {
   private final int power;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Turn> mTurn;
 
   public MinPower(int power) {
@@ -13,7 +14,7 @@ public class MinPower implements TriggerCondition {
   }
 
   @Override
-  public boolean test(CoreSystem coreSystem) {
+  public boolean test(Integer originEntity) {
     return coreSystem
         .getCurrentPlayerEntity()
         .map(mTurn::get)

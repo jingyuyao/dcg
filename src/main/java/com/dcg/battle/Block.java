@@ -2,38 +2,21 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.target.AttackingUnitInputs;
+import com.dcg.command.InputSelector;
+import com.dcg.game.CoreSystem;
+import com.dcg.target.AttackingUnits;
 import com.dcg.target.Target;
-import net.mostlyoriginal.api.utils.Preconditions;
+import com.dcg.target.TargetFilter;
+import java.util.stream.Stream;
 
 public class Block extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   public Block() {
-    setTargetSource(new AttackingUnitInputs());
-    addTargetConditions(
-        target ->
-            Preconditions.checkArgument(
-                target.getTargets().size() == 1, "Block requires one target"),
-        target ->
-            Preconditions.checkArgument(
-                coreSystem.getAttackingEntities().anyMatch(e -> e == getAttackingEntity(target)),
-                "Target is not attacking"),
-        target ->
-            Preconditions.checkArgument(
-                !mUnit.get(getAttackingEntity(target)).unblockable, "Target is unblockable"),
-        target ->
-            Preconditions.checkArgument(
-                !mUnit.get(getAttackingEntity(target)).flying
-                    || mUnit.get(getDefendingEntity(target)).flying,
-                "Target is flying but defender is not"),
-        target -> {
-          Unit defendingUnit = mUnit.get(getDefendingEntity(target));
-          Preconditions.checkArgument(
-              defendingUnit.strength + defendingUnit.defense
-                  >= mUnit.get(getAttackingEntity(target)).strength,
-              "Target strength is greater than defender");
-        });
+    setTargetSource(new AttackingUnits().addFilters(new BlockPredicate()));
+    // TODO: these are always set together so lets combine them
+    setTargetCount(1, 1);
+    setTargetSelector(new InputSelector());
   }
 
   private int getDefendingEntity(Target target) {
@@ -50,6 +33,23 @@ public class Block extends AbstractCommandBuilder {
     Unit blockingUnit = mUnit.get(getDefendingEntity(target));
     if (!blockingUnit.endurance) {
       commandChain.addEnd(new DestroyUnit().build(world, getDefendingEntity(target)));
+    }
+  }
+
+  private static class BlockPredicate implements TargetFilter {
+    protected CoreSystem coreSystem;
+    protected ComponentMapper<Unit> mUnit;
+
+    @Override
+    public Stream<Integer> apply(Integer originEntity, Stream<Integer> source) {
+      Unit defendingUnit = mUnit.get(originEntity);
+      return source.filter(
+          attackingEntity -> {
+            Unit attackingUnit = mUnit.get(attackingEntity);
+            return !attackingUnit.unblockable
+                && (!attackingUnit.flying || defendingUnit.flying)
+                && defendingUnit.strength + defendingUnit.defense >= attackingUnit.strength;
+          });
     }
   }
 }

@@ -6,6 +6,7 @@ import com.dcg.game.CoreSystem;
 
 public class MinAnyDefendingStrength implements TriggerCondition {
   private final int strength;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Unit> mUnit;
 
   public MinAnyDefendingStrength(int strength) {
@@ -13,7 +14,7 @@ public class MinAnyDefendingStrength implements TriggerCondition {
   }
 
   @Override
-  public boolean test(CoreSystem coreSystem) {
+  public boolean test(Integer originEntity) {
     return coreSystem
         .getDefendingEntities()
         .map(mUnit::get)

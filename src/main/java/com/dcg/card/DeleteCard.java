@@ -1,20 +1,15 @@
 package com.dcg.card;
 
-import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.target.PlayAreaOrDiscardPileInputs;
+import com.dcg.command.InputSelector;
 import com.dcg.target.Target;
-import net.mostlyoriginal.api.utils.Preconditions;
+import com.dcg.target.VoidbindableCards;
 
 public class DeleteCard extends AbstractCommandBuilder {
-  protected ComponentMapper<Card> mCard;
-
   public DeleteCard() {
-    setTargetSource(new PlayAreaOrDiscardPileInputs());
-    addTargetConditions(
-        target ->
-            Preconditions.checkArgument(
-                target.getTargets().stream().allMatch(mCard::has), "Target must be a card"));
+    setTargetSource(new VoidbindableCards());
+    setTargetCount(1, 1);
+    setTargetSelector(new InputSelector());
   }
 
   @Override

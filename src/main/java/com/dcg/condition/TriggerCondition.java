@@ -1,7 +1,6 @@
 package com.dcg.condition;
 
-import com.dcg.game.CoreSystem;
 import java.util.function.Predicate;
 
-/** A predicate that tests the world. Instances will be injected. */
-public interface TriggerCondition extends Predicate<CoreSystem> {}
+/** A predicate that tests the world for the given origin entity. Instances will be injected. */
+public interface TriggerCondition extends Predicate<Integer> {}

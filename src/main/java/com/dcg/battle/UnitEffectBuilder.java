@@ -1,23 +1,16 @@
 package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.AbstractCommandBuilder;
+import com.dcg.effect.AbstractEffectBuilder;
+import com.dcg.target.AllUnits;
 import com.dcg.target.Target;
 import java.util.stream.Stream;
-import net.mostlyoriginal.api.utils.Preconditions;
 
-/**
- * Base command to make changes to an unit. Auto executes if the source entity is a unit, otherwise
- * accepts a single input
- */
-abstract class UnitEffectBuilder extends AbstractCommandBuilder {
+abstract class UnitEffectBuilder extends AbstractEffectBuilder {
   protected ComponentMapper<Unit> mUnit;
 
   UnitEffectBuilder() {
-    addTargetConditions(
-        targets ->
-            Preconditions.checkArgument(
-                targets.getTargets().stream().allMatch(mUnit::has), "Target must be a unit"));
+    setTargetSource(new AllUnits());
   }
 
   protected Stream<Unit> getUnits(Target target) {

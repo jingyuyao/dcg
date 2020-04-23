@@ -8,7 +8,7 @@ import com.dcg.target.Target;
 public class InitializeForge extends AbstractCommandBuilder {
   @Override
   protected void run(Target target) {
-    for (CommandBuilder builder : Cards.FORGE_CARDS) {
+    for (CommandBuilder builder : Cards.createForge()) {
       commandChain.addEnd(builder.build(world, -1));
     }
     commandChain.addEnd(new RefillForgeRow().build(world, -1));

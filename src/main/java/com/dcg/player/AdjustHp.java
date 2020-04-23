@@ -1,9 +1,12 @@
 package com.dcg.player;
 
+import com.artemis.ComponentMapper;
 import com.dcg.effect.EffectValueSupplier;
 import com.dcg.target.Target;
 
 public class AdjustHp extends PlayerEffect {
+  protected ComponentMapper<Player> mPlayer;
+
   public AdjustHp(int hp) {
     setEffectValueSupplier(() -> hp);
   }
@@ -22,9 +25,5 @@ public class AdjustHp extends PlayerEffect {
       }
     }
   }
-
-  @Override
-  public String toString() {
-    return String.format("%s %s", super.toString(), getEffectValue());
-  }
+  // TODO: how to display hp in logs again? don't use tostring and use logger directly?
 }

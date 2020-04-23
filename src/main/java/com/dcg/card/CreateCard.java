@@ -27,6 +27,7 @@ public class CreateCard extends CreateEntity {
     return this;
   }
 
+  // TODO: this implementation is currently not repeatedly invokable since it modifies state.
   @Override
   protected void run(Target target) {
     int cardEntity = createEntity(target);

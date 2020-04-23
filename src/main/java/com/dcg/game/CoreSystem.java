@@ -102,7 +102,8 @@ public class CoreSystem extends BaseSystem {
 
   public boolean isOwnedBy(int ownerEntity, int entity) {
     int parent = getParent(entity);
-    return parent == ownerEntity || (mOwned.has(parent) && isOwnedBy(ownerEntity, parent));
+    return parent == ownerEntity
+        || (parent != -1 && mOwned.has(parent) && isOwnedBy(ownerEntity, parent));
   }
 
   public static Collector<Integer, IntBag, IntBag> toIntBag() {

@@ -9,7 +9,6 @@ import com.dcg.location.MoveLocation;
 import com.dcg.player.AdjustPower;
 import com.dcg.player.Turn;
 import com.dcg.target.Target;
-import net.mostlyoriginal.api.utils.Preconditions;
 
 public class BuyCard extends AbstractCommandBuilder {
   protected ComponentMapper<Turn> mTurn;
@@ -17,14 +16,12 @@ public class BuyCard extends AbstractCommandBuilder {
   protected ComponentMapper<Owned> mOwned;
 
   public BuyCard() {
-    addTargetConditions(
-        target ->
-            Preconditions.checkArgument(
-                coreSystem
-                    .getCurrentPlayerEntity()
-                    .map(mTurn::get)
-                    .allMatch(turn -> turn.powerPool >= mCard.get(target.getOrigin()).cost),
-                "Not enough power"));
+    addTriggerConditions(
+        cardEntity ->
+            coreSystem
+                .getCurrentPlayerEntity()
+                .map(mTurn::get)
+                .allMatch(turn -> turn.powerPool >= mCard.get(cardEntity).cost));
   }
 
   @Override

@@ -2,16 +2,14 @@ package com.dcg.command;
 
 import com.artemis.World;
 import com.artemis.annotations.Wire;
-import com.dcg.condition.TargetCondition;
 import com.dcg.condition.TriggerCondition;
 import com.dcg.game.CoreSystem;
-import com.dcg.target.OriginEntity;
+import com.dcg.target.NoTargets;
 import com.dcg.target.Target;
 import com.dcg.target.TargetSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import net.mostlyoriginal.api.utils.Preconditions;
 
 /**
  * Base class for {@link CommandBuilder}. Guarantees the generated {@link Command} instance is
@@ -22,17 +20,15 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   protected World world;
   protected CoreSystem coreSystem;
   private final List<TriggerCondition> triggerConditions = new ArrayList<>();
-  private final List<TargetCondition> targetConditions = new ArrayList<>();
+  // TODO: origin and origin root should be sources, we should only have two selectors, all allowed
+  // targets or input.
+  private TargetSource targetSource = new NoTargets();
+  private TargetSelector targetSelector = new OriginSelector();
+  // TODO: i think these should still be called input counts, since they don't restrict the use
+  // allowed sources case.
+  private int minTargetCount = 0;
+  private int maxTargetCount = 0;
   private boolean injected = false;
-  private TargetSource targetSource = new OriginEntity();
-
-  public AbstractCommandBuilder() {
-    // Every command always require at least one target, even if that target is the origin entity.
-    // This will automatically prevent commands that requires input from running when its world
-    // condition is met.
-    addTargetConditions(
-        target -> Preconditions.checkArgument(!target.getTargets().isEmpty(), "Input required"));
-  }
 
   @Override
   public Command build(World world, int originEntity) {
@@ -43,18 +39,24 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this.new CommandImpl(originEntity);
   }
 
-  public AbstractCommandBuilder addTriggerConditions(TriggerCondition... triggerConditions) {
-    Collections.addAll(this.triggerConditions, triggerConditions);
-    return this;
-  }
-
-  public AbstractCommandBuilder addTargetConditions(TargetCondition... targetConditions) {
-    Collections.addAll(this.targetConditions, targetConditions);
-    return this;
-  }
-
   public AbstractCommandBuilder setTargetSource(TargetSource targetSource) {
     this.targetSource = targetSource;
+    return this;
+  }
+
+  public AbstractCommandBuilder setTargetSelector(TargetSelector targetSelector) {
+    this.targetSelector = targetSelector;
+    return this;
+  }
+
+  public AbstractCommandBuilder setTargetCount(int minTargetCount, int maxTargetCount) {
+    this.minTargetCount = minTargetCount;
+    this.maxTargetCount = maxTargetCount;
+    return this;
+  }
+
+  public AbstractCommandBuilder addTriggerConditions(TriggerCondition... triggerConditions) {
+    Collections.addAll(this.triggerConditions, triggerConditions);
     return this;
   }
 
@@ -81,25 +83,37 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public int getMinTargetCount() {
-      world.inject(targetSource);
-      return targetSource.getMinTargetCount();
+      return minTargetCount;
     }
 
     @Override
     public int getMaxTargetCount() {
-      world.inject(targetSource);
-      return targetSource.getMaxTargetCount();
+      return maxTargetCount;
     }
 
     @Override
     public List<Integer> getAllowedTargets() {
       world.inject(targetSource);
-      return targetSource.getAllowedTargets();
+      return targetSource.getAllowedTargets(originEntity);
     }
 
     @Override
     public void run() {
-      AbstractCommandBuilder.this.run(getTarget(inputs));
+      world.inject(targetSelector);
+      List<Integer> targets = targetSelector.select(originEntity, getAllowedTargets(), inputs);
+      // TODO: just pass in these as normal arguments
+      AbstractCommandBuilder.this.run(
+          new Target() {
+            @Override
+            public int getOrigin() {
+              return originEntity;
+            }
+
+            @Override
+            public List<Integer> getTargets() {
+              return targets;
+            }
+          });
     }
 
     @Override
@@ -109,66 +123,45 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean isInputValid() {
-      world.inject(targetSource);
-      int minInput = targetSource.getMinTargetCount();
-      int maxInput = targetSource.getMaxTargetCount();
-      List<Integer> allowedInputs = targetSource.getAllowedTargets();
-      if (inputs.size() < minInput) {
-        System.out.printf("Fail: Minimum %d input required\n", minInput);
+      if (inputs.size() < minTargetCount) {
+        System.out.printf("Fail: Minimum %d input required\n", minTargetCount);
         return false;
       }
-      if (inputs.size() > maxInput) {
-        System.out.printf("Fail: Maximum %d input allowed\n", maxInput);
+      if (inputs.size() > maxTargetCount) {
+        System.out.printf("Fail: Maximum %d input allowed\n", maxTargetCount);
         return false;
       }
-      if (!allowedInputs.containsAll(inputs)) {
+      if (!getAllowedTargets().containsAll(inputs)) {
         System.out.println("Fail: Not all inputs are allowed");
         return false;
-      }
-
-      Target target = getTarget(inputs);
-      for (TargetCondition condition : targetConditions) {
-        world.inject(condition);
-        try {
-          condition.accept(target);
-        } catch (Exception e) {
-          System.out.printf("Fail: %s\n", e.getMessage());
-          return false;
-        }
       }
       return true;
     }
 
+    // TODO: rename to canTrigger
     @Override
     public boolean isWorldValid() {
       for (TriggerCondition condition : triggerConditions) {
         world.inject(condition);
-        if (!condition.test(coreSystem)) {
+        if (!condition.test(originEntity)) {
           return false;
         }
       }
       return true;
-    }
-
-    private Target getTarget(List<Integer> inputs) {
-      world.inject(targetSource);
-      return targetSource.get(originEntity, inputs);
     }
 
     @Override
     public String toString() {
       StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
-      Target target = getTarget(inputs);
       builder
           .append(" ")
-          .append(coreSystem.toName(target.getOrigin()))
+          .append(coreSystem.toName(originEntity))
           .append("(")
-          .append(target.getOrigin())
+          .append(originEntity)
           .append(")");
-      List<Integer> to = target.getTargets();
-      if (!to.isEmpty() && (to.size() > 1 || to.get(0) != target.getOrigin())) {
+      if (!inputs.isEmpty() && (inputs.size() > 1 || inputs.get(0) != originEntity)) {
         builder.append(" ->");
-        for (int entity : to) {
+        for (int entity : inputs) {
           builder
               .append(" ")
               .append(coreSystem.toName(entity))

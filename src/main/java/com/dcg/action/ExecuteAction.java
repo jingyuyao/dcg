@@ -5,7 +5,6 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
 import com.dcg.target.Target;
 import java.util.List;
-import net.mostlyoriginal.api.utils.Preconditions;
 
 public class ExecuteAction extends AbstractCommandBuilder {
   private final int actionEntity;
@@ -15,34 +14,32 @@ public class ExecuteAction extends AbstractCommandBuilder {
   public ExecuteAction(int actionEntity, List<Integer> inputs) {
     this.actionEntity = actionEntity;
     this.inputs = inputs;
-    addTargetConditions(
-        target ->
-            Preconditions.checkArgument(
-                world.getEntityManager().isActive(actionEntity) && mAction.has(actionEntity),
-                "Action entity not active"),
-        target ->
-            Preconditions.checkArgument(
-                inputs.stream().allMatch(entity -> world.getEntityManager().isActive(entity)),
-                "Input entity not active"),
-        target -> {
-          Action action = mAction.get(actionEntity);
-          Command command = action.command;
-          command.setInputs(inputs);
-          Preconditions.checkArgument(command.canRun(), "Command cannot run");
-        });
   }
 
   @Override
   protected void run(Target target) {
+    try {
+      if (!world.getEntityManager().isActive(actionEntity) && mAction.has(actionEntity)) {
+        System.out.printf("%d is not a valid action entity\n", actionEntity);
+        return;
+      }
+      if (!inputs.stream().allMatch(entity -> world.getEntityManager().isActive(entity))) {
+        System.out.println("Args contain an inactive entity");
+        return;
+      }
+    } catch (IndexOutOfBoundsException e) {
+      System.out.printf("Invalid entity ID: %s\n", e.getMessage());
+      return;
+    }
+
     Action action = mAction.get(actionEntity);
     Command command = action.command;
     command.setInputs(inputs);
-    commandChain.addEnd(command);
-    world.delete(actionEntity);
-  }
-
-  @Override
-  public String toString() {
-    return String.format("%s %s", super.toString(), coreSystem.toName(actionEntity));
+    if (command.canRun()) {
+      commandChain.addEnd(command);
+      world.delete(actionEntity);
+    } else {
+      System.out.printf("%s cannot run\n", command);
+    }
   }
 }

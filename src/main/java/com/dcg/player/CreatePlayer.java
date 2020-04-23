@@ -8,6 +8,7 @@ import com.dcg.card.Cards;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
 import com.dcg.target.Target;
+import java.util.List;
 import java.util.Random;
 
 public class CreatePlayer extends CreateEntity {
@@ -16,6 +17,8 @@ public class CreatePlayer extends CreateEntity {
 
   public CreatePlayer(String name) {
     super(name);
+    // TODO: we need to discard first before playing cards to avoid current cards counting previous
+    // cards for its effects, possibly moving on leave effects into advance turn?
     addOnEnterEffects(new CreateAction(new AdvanceTurn()));
     addOnLeaveEffects(new DiscardPlayArea(), new DrawCards(5), new PerformBattle());
   }
@@ -24,11 +27,12 @@ public class CreatePlayer extends CreateEntity {
   protected void run(Target target) {
     int playerEntity = createEntity(target);
     mPlayer.create(playerEntity);
-    for (CommandBuilder builder : Cards.BASIC_CARDS) {
+    for (CommandBuilder builder : Cards.createBasicCards()) {
       commandChain.addEnd(builder.build(world, playerEntity));
     }
+    List<CommandBuilder> basicUnits = Cards.createBasicUnits();
     commandChain.addEnd(
-        Cards.BASIC_UNITS.get(random.nextInt(Cards.BASIC_UNITS.size())).build(world, playerEntity));
+        basicUnits.get(random.nextInt(basicUnits.size())).build(world, playerEntity));
     commandChain.addEnd(new DrawCards(5).build(world, playerEntity));
   }
 }

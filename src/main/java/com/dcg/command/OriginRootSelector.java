@@ -1,14 +1,14 @@
-package com.dcg.target;
+package com.dcg.command;
 
 import com.dcg.game.CoreSystem;
 import java.util.Collections;
 import java.util.List;
 
-public class OriginEntityRoot extends TargetSource {
+public class OriginRootSelector implements TargetSelector {
   protected CoreSystem coreSystem;
 
   @Override
-  protected List<Integer> transform(int originEntity, List<Integer> input) {
+  public List<Integer> select(int originEntity, List<Integer> allowedTargets, List<Integer> input) {
     return Collections.singletonList(coreSystem.getRoot(originEntity));
   }
 }

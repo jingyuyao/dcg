@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 public class AnyDefendingUnit implements TriggerCondition {
   private final Predicate<Unit> predicate;
+  protected CoreSystem coreSystem;
   protected ComponentMapper<Unit> mUnit;
 
   public AnyDefendingUnit() {
@@ -18,7 +19,7 @@ public class AnyDefendingUnit implements TriggerCondition {
   }
 
   @Override
-  public boolean test(CoreSystem coreSystem) {
+  public boolean test(Integer originEntity) {
     return coreSystem.getDefendingEntities().map(mUnit::get).anyMatch(predicate);
   }
 }
