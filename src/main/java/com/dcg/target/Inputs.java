@@ -22,17 +22,17 @@ abstract class Inputs extends TargetSource {
   }
 
   @Override
-  public int getMinInputCount() {
+  public int getMinTargetCount() {
     return minInputs;
   }
 
   @Override
-  public int getMaxInputCount() {
+  public int getMaxTargetCount() {
     return maxInputs;
   }
 
   @Override
-  public abstract List<Integer> getAllowedInputs();
+  public abstract List<Integer> getAllowedTargets();
 
   @Override
   protected List<Integer> transform(int originEntity, List<Integer> input) {

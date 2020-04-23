@@ -10,17 +10,18 @@ public abstract class TargetSource {
   }
 
   /** Override to returns the minimum number of inputs required. */
-  public int getMinInputCount() {
+  public int getMinTargetCount() {
     return 0;
   }
 
   /** Override to returns the maximum number of inputs allowed. */
-  public int getMaxInputCount() {
+  public int getMaxTargetCount() {
     return 0;
   }
 
+  // TODO: move target condition logic into this so the client only highlights what's allowed.
   /** Override to returns the list of allowed inputs. */
-  public List<Integer> getAllowedInputs() {
+  public List<Integer> getAllowedTargets() {
     return Collections.emptyList();
   }
 

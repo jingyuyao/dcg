@@ -80,21 +80,21 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     @Override
-    public int getMinInputCount() {
+    public int getMinTargetCount() {
       world.inject(targetSource);
-      return targetSource.getMinInputCount();
+      return targetSource.getMinTargetCount();
     }
 
     @Override
-    public int getMaxInputCount() {
+    public int getMaxTargetCount() {
       world.inject(targetSource);
-      return targetSource.getMaxInputCount();
+      return targetSource.getMaxTargetCount();
     }
 
     @Override
-    public List<Integer> getAllowedInputs() {
+    public List<Integer> getAllowedTargets() {
       world.inject(targetSource);
-      return targetSource.getAllowedInputs();
+      return targetSource.getAllowedTargets();
     }
 
     @Override
@@ -110,9 +110,9 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     @Override
     public boolean isInputValid() {
       world.inject(targetSource);
-      int minInput = targetSource.getMinInputCount();
-      int maxInput = targetSource.getMaxInputCount();
-      List<Integer> allowedInputs = targetSource.getAllowedInputs();
+      int minInput = targetSource.getMinTargetCount();
+      int maxInput = targetSource.getMaxTargetCount();
+      List<Integer> allowedInputs = targetSource.getAllowedTargets();
       if (inputs.size() < minInput) {
         System.out.printf("Fail: Minimum %d input required\n", minInput);
         return false;

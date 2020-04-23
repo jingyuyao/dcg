@@ -19,7 +19,7 @@ public class PlayAreaOrDiscardPileInputs extends Inputs {
   }
 
   @Override
-  public List<Integer> getAllowedInputs() {
+  public List<Integer> getAllowedTargets() {
     return coreSystem
         .getStream(Aspect.all(Card.class).one(PlayArea.class, DiscardPile.class))
 

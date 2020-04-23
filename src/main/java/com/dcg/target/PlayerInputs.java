@@ -17,7 +17,7 @@ public class PlayerInputs extends Inputs {
   }
 
   @Override
-  public List<Integer> getAllowedInputs() {
+  public List<Integer> getAllowedTargets() {
     return coreSystem.getStream(Aspect.all(Player.class)).collect(Collectors.toList());
   }
 }

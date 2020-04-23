@@ -11,8 +11,8 @@ public class ActionSystem extends IteratingSystem {
   @Override
   protected void process(int actionEntity) {
     Action action = mAction.get(actionEntity);
-    action.minInputCount = action.command.getMinInputCount();
-    action.maxInputCount = action.command.getMaxInputCount();
-    action.allowedInputs = action.command.getAllowedInputs();
+    action.minTargetCount = action.command.getMinTargetCount();
+    action.maxTargetCount = action.command.getMaxTargetCount();
+    action.allowedTargets = action.command.getAllowedTargets();
   }
 }

@@ -7,13 +7,13 @@ public interface Command {
   Command setInputs(List<Integer> inputs);
 
   /** Returns the minimum number of inputs required. */
-  int getMinInputCount();
+  int getMinTargetCount();
 
   /** Returns the maximum number of inputs allowed. */
-  int getMaxInputCount();
+  int getMaxTargetCount();
 
   /** Returns the list of allowed inputs. */
-  List<Integer> getAllowedInputs();
+  List<Integer> getAllowedTargets();
 
   /** Execute the logic for this command. This must be repeatedly callable. */
   void run();

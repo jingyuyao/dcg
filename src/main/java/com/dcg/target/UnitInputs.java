@@ -17,7 +17,7 @@ public class UnitInputs extends Inputs {
   }
 
   @Override
-  public List<Integer> getAllowedInputs() {
+  public List<Integer> getAllowedTargets() {
     return coreSystem.getStream(Aspect.all(Unit.class)).collect(Collectors.toList());
   }
 }
