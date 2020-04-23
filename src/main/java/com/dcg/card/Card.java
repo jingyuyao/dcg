@@ -8,9 +8,4 @@ import com.artemis.Component;
  */
 public class Card extends Component {
   public int cost = 0;
-
-  @Override
-  public String toString() {
-    return String.format("cost=%d", cost);
-  }
 }

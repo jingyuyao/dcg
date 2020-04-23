@@ -6,9 +6,4 @@ import com.artemis.Component;
 public class Common extends Component {
   public String name = "No name";
   public String description = "";
-
-  @Override
-  public String toString() {
-    return name;
-  }
 }

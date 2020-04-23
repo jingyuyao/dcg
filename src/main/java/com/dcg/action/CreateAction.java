@@ -12,8 +12,11 @@ public class CreateAction extends CreateEntity {
   protected ComponentMapper<Action> mAction;
 
   public CreateAction(CommandBuilder builder) {
-    // TODO: don use toString()
-    super(builder.toString());
+    this(builder.toString(), builder);
+  }
+
+  public CreateAction(String name, CommandBuilder builder) {
+    super(name);
     this.builder = builder;
   }
 

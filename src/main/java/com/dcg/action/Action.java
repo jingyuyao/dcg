@@ -15,9 +15,4 @@ public class Action extends Component {
   public int minInputCount = 0;
   public int maxInputCount = 0;
   public List<Integer> allowedTargets = Collections.emptyList();
-
-  @Override
-  public String toString() {
-    return command.toString();
-  }
 }

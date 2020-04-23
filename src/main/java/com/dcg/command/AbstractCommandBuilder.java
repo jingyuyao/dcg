@@ -98,8 +98,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public void run() {
-      List<Integer> targets = minInputCount > 0 ? inputs : getAllowedTargets();
-      AbstractCommandBuilder.this.run(originEntity, targets);
+      AbstractCommandBuilder.this.run(originEntity, getTargets());
     }
 
     @Override
@@ -135,6 +134,10 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       return true;
     }
 
+    private List<Integer> getTargets() {
+      return minInputCount > 0 ? inputs : getAllowedTargets();
+    }
+
     @Override
     public String toString() {
       StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
@@ -144,9 +147,10 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
           .append("(")
           .append(originEntity)
           .append(")");
-      if (!inputs.isEmpty() && (inputs.size() > 1 || inputs.get(0) != originEntity)) {
+      List<Integer> targets = getTargets();
+      if (!targets.isEmpty() && (targets.size() > 1 || targets.get(0) != originEntity)) {
         builder.append(" ->");
-        for (int entity : inputs) {
+        for (int entity : targets) {
           builder
               .append(" ")
               .append(coreSystem.toName(entity))

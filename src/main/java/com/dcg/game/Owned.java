@@ -8,9 +8,4 @@ public class Owned extends Component {
   // For some reason the library authors decided @EntityId should trump `transient` keyword so we
   // can't even disable the auto reference feature without getting rid of @EntityId
   public int owner = -1;
-
-  @Override
-  public String toString() {
-    return "*" + owner;
-  }
 }
