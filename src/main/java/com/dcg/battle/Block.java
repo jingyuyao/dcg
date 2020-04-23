@@ -2,7 +2,6 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.InputSelector;
 import com.dcg.game.CoreSystem;
 import com.dcg.target.AttackingUnits;
 import com.dcg.target.Target;
@@ -14,9 +13,7 @@ public class Block extends AbstractCommandBuilder {
 
   public Block() {
     setTargetSource(new AttackingUnits().addFilters(new BlockPredicate()));
-    // TODO: these are always set together so lets combine them
-    setTargetCount(1, 1);
-    setTargetSelector(new InputSelector());
+    setTargetCount(1);
   }
 
   private int getDefendingEntity(Target target) {

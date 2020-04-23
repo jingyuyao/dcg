@@ -4,7 +4,7 @@ import com.artemis.World;
 import com.artemis.annotations.Wire;
 import com.dcg.condition.TriggerCondition;
 import com.dcg.game.CoreSystem;
-import com.dcg.target.NoTargets;
+import com.dcg.target.OriginEntity;
 import com.dcg.target.Target;
 import com.dcg.target.TargetSource;
 import java.util.ArrayList;
@@ -12,18 +12,17 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Base class for {@link CommandBuilder}. Guarantees the generated {@link Command} instance is
- * injected by a world.
+ * Base class for building a {@link Command}. Guarantees the generated {@link Command} instance is
+ * injected by a world. By default the target source is the entity the command is attached to.
+ * Commands will either target all entities specified by its {@link TargetSource} or all inputs if
+ * inputs are required.
  */
 public abstract class AbstractCommandBuilder implements CommandBuilder {
   @Wire protected CommandChain commandChain;
   protected World world;
   protected CoreSystem coreSystem;
   private final List<TriggerCondition> triggerConditions = new ArrayList<>();
-  // TODO: origin and origin root should be sources, we should only have two selectors, all allowed
-  // targets or input.
-  private TargetSource targetSource = new NoTargets();
-  private TargetSelector targetSelector = new OriginSelector();
+  private TargetSource targetSource = new OriginEntity();
   // TODO: i think these should still be called input counts, since they don't restrict the use
   // allowed sources case.
   private int minTargetCount = 0;
@@ -44,11 +43,14 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  public AbstractCommandBuilder setTargetSelector(TargetSelector targetSelector) {
-    this.targetSelector = targetSelector;
-    return this;
+  public AbstractCommandBuilder setTargetCount(int minMaxTargetCount) {
+    return setTargetCount(minMaxTargetCount, minMaxTargetCount);
   }
 
+  /**
+   * Sets the number of required inputs. Command will automatically use input rather than all
+   * allowed targets when this is set.
+   */
   public AbstractCommandBuilder setTargetCount(int minTargetCount, int maxTargetCount) {
     this.minTargetCount = minTargetCount;
     this.maxTargetCount = maxTargetCount;
@@ -99,8 +101,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public void run() {
-      world.inject(targetSelector);
-      List<Integer> targets = targetSelector.select(originEntity, getAllowedTargets(), inputs);
+      List<Integer> targets = minTargetCount > 0 ? inputs : getAllowedTargets();
       // TODO: just pass in these as normal arguments
       AbstractCommandBuilder.this.run(
           new Target() {

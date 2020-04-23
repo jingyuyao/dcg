@@ -1,12 +1,10 @@
 package com.dcg.player;
 
-import com.dcg.command.OriginRootSelector;
 import com.dcg.effect.AbstractEffectBuilder;
-import com.dcg.target.AllPlayers;
+import com.dcg.target.OriginEntityRoot;
 
 abstract class PlayerEffect extends AbstractEffectBuilder {
   PlayerEffect() {
-    setTargetSource(new AllPlayers());
-    setTargetSelector(new OriginRootSelector());
+    setTargetSource(new OriginEntityRoot());
   }
 }
