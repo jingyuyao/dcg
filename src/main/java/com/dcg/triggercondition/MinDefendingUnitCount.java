@@ -3,11 +3,11 @@ package com.dcg.triggercondition;
 import com.dcg.game.CoreSystem;
 import java.util.List;
 
-public class MinUnitCount implements TriggerCondition {
+public class MinDefendingUnitCount implements TriggerCondition {
   private final int count;
   protected CoreSystem coreSystem;
 
-  public MinUnitCount(int count) {
+  public MinDefendingUnitCount(int count) {
     this.count = count;
   }
 

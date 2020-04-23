@@ -25,8 +25,8 @@ import com.dcg.targetsource.VoidbindableCards;
 import com.dcg.triggercondition.AnyDefendingUnit;
 import com.dcg.triggercondition.AnySpell;
 import com.dcg.triggercondition.MinAnyDefendingStrength;
+import com.dcg.triggercondition.MinDefendingUnitCount;
 import com.dcg.triggercondition.MinPower;
-import com.dcg.triggercondition.MinUnitCount;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -83,8 +83,7 @@ public class Cards {
                 .desc("Add 1 power, give a unit +1 atk")
                 .addOnEnterEffects(
                     new AdjustPower(1),
-                    action(
-                        new AdjustStrength(1).setInputCount(1).setTargetSource(new AllUnits()))),
+                    action(new AdjustStrength(1).setInputCount(1).setTargetSource(new AllUnits()))),
             unit("Throne Warden", 4, 2)
                 .desc("Endurance, gain HP equal to # of attacking units")
                 .addOnEnterEffects(new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
@@ -93,7 +92,7 @@ public class Cards {
                 .addOnEnterEffects(new SetFlying(true))
                 .addOnConditionEffects(
                     action(new AdjustHp(-2).setInputCount(1).setTargetSource(new AllPlayers()))
-                        .addTriggerConditions(new MinUnitCount(3))),
+                        .addTriggerConditions(new MinDefendingUnitCount(3))),
             unit("Stone shaker", 4, 1)
                 .desc("Add 2 power, Berserk, add 2 atk to generated 7 or more power")
                 .addOnEnterEffects(new AdjustPower(2), new SetBerserk(true))
@@ -132,7 +131,7 @@ public class Cards {
                 .desc("Berserk, add 1 atk to this if you have 3 or more units")
                 .addOnEnterEffects(new SetBerserk(true))
                 .addOnConditionEffects(
-                    new AdjustStrength(1).addTriggerConditions(new MinUnitCount(3))),
+                    new AdjustStrength(1).addTriggerConditions(new MinDefendingUnitCount(3))),
             unit("Cabal Spymaster", 3, 1)
                 .desc("Unblockable, give all defending units with 3 or less atk Unblockable")
                 .addOnEnterEffects(
@@ -144,9 +143,7 @@ public class Cards {
                 .desc("Add 1 atk to two units")
                 .addOnEnterEffects(
                     action(
-                        new AdjustStrength(1)
-                            .setInputCount(1, 2)
-                            .setTargetSource(new AllUnits()))))
+                        new AdjustStrength(1).setInputCount(1, 2).setTargetSource(new AllUnits()))))
         .collect(Collectors.toList());
   }
 
@@ -168,8 +165,7 @@ public class Cards {
             .desc("Draw 1 card, give two units -1 atk")
             .addOnEnterEffects(
                 new DrawCards(1),
-                action(
-                    new AdjustStrength(-1).setInputCount(1, 2).setTargetSource(new AllUnits()))),
+                action(new AdjustStrength(-1).setInputCount(1, 2).setTargetSource(new AllUnits()))),
         spell("Lightning Storm", 2)
             .desc("Voidbind, destroy all attacking units with 2 or less atk")
             .addOnEnterEffects(
