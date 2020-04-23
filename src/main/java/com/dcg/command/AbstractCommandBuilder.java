@@ -22,10 +22,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   protected CoreSystem coreSystem;
   private final List<TriggerCondition> triggerConditions = new ArrayList<>();
   private TargetSource targetSource = new OriginEntity();
-  // TODO: i think these should still be called input counts, since they don't restrict the use
-  // allowed sources case.
-  private int minTargetCount = 0;
-  private int maxTargetCount = 0;
+  private int minInputCount = 0;
+  private int maxInputCount = 0;
   private boolean injected = false;
 
   @Override
@@ -42,17 +40,17 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  public AbstractCommandBuilder setTargetCount(int minMaxTargetCount) {
-    return setTargetCount(minMaxTargetCount, minMaxTargetCount);
+  public AbstractCommandBuilder setInputCount(int minMaxInputCount) {
+    return setInputCount(minMaxInputCount, minMaxInputCount);
   }
 
   /**
    * Sets the number of required inputs. Command will automatically use input rather than all
    * allowed targets when this is set.
    */
-  public AbstractCommandBuilder setTargetCount(int minTargetCount, int maxTargetCount) {
-    this.minTargetCount = minTargetCount;
-    this.maxTargetCount = maxTargetCount;
+  public AbstractCommandBuilder setInputCount(int minInputCount, int maxInputCount) {
+    this.minInputCount = minInputCount;
+    this.maxInputCount = maxInputCount;
     return this;
   }
 
@@ -83,13 +81,13 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     @Override
-    public int getMinTargetCount() {
-      return minTargetCount;
+    public int getMinInputCount() {
+      return minInputCount;
     }
 
     @Override
-    public int getMaxTargetCount() {
-      return maxTargetCount;
+    public int getMaxInputCount() {
+      return maxInputCount;
     }
 
     @Override
@@ -100,7 +98,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public void run() {
-      List<Integer> targets = minTargetCount > 0 ? inputs : getAllowedTargets();
+      List<Integer> targets = minInputCount > 0 ? inputs : getAllowedTargets();
       AbstractCommandBuilder.this.run(originEntity, targets);
     }
 
@@ -111,12 +109,12 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean isInputValid() {
-      if (inputs.size() < minTargetCount) {
-        System.out.printf("Fail: Minimum %d input required\n", minTargetCount);
+      if (inputs.size() < minInputCount) {
+        System.out.printf("Fail: Minimum %d input required\n", minInputCount);
         return false;
       }
-      if (inputs.size() > maxTargetCount) {
-        System.out.printf("Fail: Maximum %d input allowed\n", maxTargetCount);
+      if (inputs.size() > maxInputCount) {
+        System.out.printf("Fail: Maximum %d input allowed\n", maxInputCount);
         return false;
       }
       if (!getAllowedTargets().containsAll(inputs)) {

@@ -73,18 +73,18 @@ public class Cards {
             unit("Jotun Punter", 4, 4)
                 .desc("Give a unit flying")
                 .addOnEnterEffects(
-                    action(new SetFlying(true).setTargetCount(1).setTargetSource(new AllUnits()))),
+                    action(new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))),
             unit("Amethyst Acolyte", 3, 2)
                 .desc("Give a unit -2 atk")
                 .addOnEnterEffects(
                     action(
-                        new AdjustStrength(-2).setTargetCount(1).setTargetSource(new AllUnits()))),
+                        new AdjustStrength(-2).setInputCount(1).setTargetSource(new AllUnits()))),
             unit("Tinker Apprentice", 1, 1)
                 .desc("Add 1 power, give a unit +1 atk")
                 .addOnEnterEffects(
                     new AdjustPower(1),
                     action(
-                        new AdjustStrength(1).setTargetCount(1).setTargetSource(new AllUnits()))),
+                        new AdjustStrength(1).setInputCount(1).setTargetSource(new AllUnits()))),
             unit("Throne Warden", 4, 2)
                 .desc("Endurance, gain HP equal to # of attacking units")
                 .addOnEnterEffects(new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
@@ -92,7 +92,7 @@ public class Cards {
                 .desc("Flying, deal 2 damage to a player if you are 3 or more units")
                 .addOnEnterEffects(new SetFlying(true))
                 .addOnConditionEffects(
-                    action(new AdjustHp(-2).setTargetCount(1).setTargetSource(new AllPlayers()))
+                    action(new AdjustHp(-2).setInputCount(1).setTargetSource(new AllPlayers()))
                         .addTriggerConditions(new MinUnitCount(3))),
             unit("Stone shaker", 4, 1)
                 .desc("Add 2 power, Berserk, add 2 atk to generated 7 or more power")
@@ -120,14 +120,14 @@ public class Cards {
                     new AdjustDefense(2),
                     action(
                         new DeleteCard()
-                            .setTargetCount(1)
+                            .setInputCount(1)
                             .setTargetSource(new VoidbindableCards()))),
             unit("Pokpok, Rockpacker", 3, 1)
                 .desc("Draw 1 card, give a unit -1 atk")
                 .addOnEnterEffects(
                     new DrawCards(1),
                     action(
-                        new AdjustStrength(-1).setTargetCount(1).setTargetSource(new AllUnits()))),
+                        new AdjustStrength(-1).setInputCount(1).setTargetSource(new AllUnits()))),
             unit("Snowrager", 2, 1)
                 .desc("Berserk, add 1 atk to this if you have 3 or more units")
                 .addOnEnterEffects(new SetBerserk(true))
@@ -145,7 +145,7 @@ public class Cards {
                 .addOnEnterEffects(
                     action(
                         new AdjustStrength(1)
-                            .setTargetCount(1, 2)
+                            .setInputCount(1, 2)
                             .setTargetSource(new AllUnits()))))
         .collect(Collectors.toList());
   }
@@ -157,23 +157,23 @@ public class Cards {
             .desc("Draw 1 card, Voidbind if you have a Flying unit")
             .addOnEnterEffects(new DrawCards(1))
             .addOnConditionEffects(
-                action(new DeleteCard().setTargetCount(1).setTargetSource(new VoidbindableCards()))
+                action(new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
                     .addTriggerConditions(new AnyDefendingUnit(unit -> unit.flying))),
         spell("Levitate", 2)
             .desc("Add 2 power, give a unit Flying")
             .addOnEnterEffects(
                 new AdjustPower(2),
-                action(new SetFlying(true).setTargetCount(1).setTargetSource(new AllUnits()))),
+                action(new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))),
         spell("Arcane Defense", 3)
             .desc("Draw 1 card, give two units -1 atk")
             .addOnEnterEffects(
                 new DrawCards(1),
                 action(
-                    new AdjustStrength(-1).setTargetCount(1, 2).setTargetSource(new AllUnits()))),
+                    new AdjustStrength(-1).setInputCount(1, 2).setTargetSource(new AllUnits()))),
         spell("Lightning Storm", 2)
             .desc("Voidbind, destroy all attacking units with 2 or less atk")
             .addOnEnterEffects(
-                action(new DeleteCard().setTargetCount(1).setTargetSource(new VoidbindableCards())),
+                action(new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards())),
                 action(
                     new DestroyUnit()
                         .setTargetSource(new AttackingUnits().addFilters(new MaxStrength(2))))),
@@ -181,12 +181,12 @@ public class Cards {
             .desc("Add 2 power, give a unit +3 def")
             .addOnEnterEffects(
                 new AdjustPower(2),
-                action(new AdjustDefense(3).setTargetCount(1).setTargetSource(new AllUnits()))),
+                action(new AdjustDefense(3).setInputCount(1).setTargetSource(new AllUnits()))),
         spell("Hipshot", 3)
             .desc("Add 1 power, deal 3 damage to a player")
             .addOnEnterEffects(
                 new AdjustPower(1),
-                action(new AdjustHp(-3).setTargetCount(1).setTargetSource(new AllPlayers()))),
+                action(new AdjustHp(-3).setInputCount(1).setTargetSource(new AllPlayers()))),
         spell("Wisdom of the Elders", 5).desc("Draw 2 cards").addOnEnterEffects(new DrawCards(2)),
         spell("Pack Hunt", 4)
             .desc("Add 2 power, give all defending units +2 atk if you generated at least 7 power")
@@ -198,7 +198,7 @@ public class Cards {
             .desc("Add 1 power, destroy a unit")
             .addOnEnterEffects(
                 new AdjustPower(1),
-                action(new DestroyUnit().setTargetCount(1).setTargetSource(new AllUnits()))));
+                action(new DestroyUnit().setInputCount(1).setTargetSource(new AllUnits()))));
   }
 
   public static List<CommandBuilder> createForge() {

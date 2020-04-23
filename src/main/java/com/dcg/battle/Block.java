@@ -13,7 +13,7 @@ public class Block extends AbstractCommandBuilder {
 
   public Block() {
     setTargetSource(new AttackingUnits().addFilters(new BlockPredicate()));
-    setTargetCount(1);
+    setInputCount(1);
   }
 
   @Override
