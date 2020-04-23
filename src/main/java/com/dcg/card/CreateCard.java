@@ -26,10 +26,17 @@ public class CreateCard extends CreateEntity {
    */
   public CreateCard hasUnit(int strength) {
     createUnit = new CreateUnit(name, strength);
-    createUnit.desc(description);
     // NOTE: using super method here so the call won't be intercepted by our override.
     super.addOnEnterEffects(createUnit);
     return this;
+  }
+
+  @Override
+  public CreateEntity desc(String description) {
+    if (createUnit != null) {
+      createUnit.desc(description);
+    }
+    return super.desc(description);
   }
 
   @Override
