@@ -28,5 +28,5 @@ public interface Command {
   boolean isInputValid();
 
   /** Returns whether the command can be run in the current world state. No side effects allowed. */
-  boolean isWorldValid();
+  boolean canTrigger();
 }

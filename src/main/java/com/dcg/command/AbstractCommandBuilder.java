@@ -119,7 +119,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public boolean canRun() {
-      return isWorldValid() && isInputValid();
+      return canTrigger() && isInputValid();
     }
 
     @Override
@@ -139,9 +139,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       return true;
     }
 
-    // TODO: rename to canTrigger
     @Override
-    public boolean isWorldValid() {
+    public boolean canTrigger() {
       for (TriggerCondition condition : triggerConditions) {
         world.inject(condition);
         if (!condition.test(originEntity)) {

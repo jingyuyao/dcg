@@ -52,7 +52,7 @@ public class EffectSystem extends IteratingSystem {
                   .forEach(
                       builder -> {
                         Command command = builder.build(world, entityId);
-                        if (command.isWorldValid()) {
+                        if (command.canTrigger()) {
                           System.out.printf("World condition met for %s\n", command);
                           if (command.isInputValid()) {
                             System.out.printf("Input condition valid for %s\n", command);
