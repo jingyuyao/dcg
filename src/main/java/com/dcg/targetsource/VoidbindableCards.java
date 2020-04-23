@@ -1,4 +1,4 @@
-package com.dcg.target;
+package com.dcg.targetsource;
 
 import com.artemis.Aspect;
 import com.dcg.card.Card;

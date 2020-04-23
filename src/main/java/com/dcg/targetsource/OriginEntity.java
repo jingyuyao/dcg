@@ -1,4 +1,4 @@
-package com.dcg.target;
+package com.dcg.targetsource;
 
 import java.util.stream.Stream;
 

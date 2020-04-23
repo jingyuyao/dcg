@@ -1,13 +1,13 @@
-package com.dcg.target;
+package com.dcg.targetsource;
 
 import com.dcg.game.CoreSystem;
 import java.util.stream.Stream;
 
-public class AttackingUnits extends TargetSource {
+public class DefendingUnits extends TargetSource {
   protected CoreSystem coreSystem;
 
   @Override
   protected Stream<Integer> getSource(int originEntity) {
-    return coreSystem.getAttackingEntities();
+    return coreSystem.getDefendingEntities();
   }
 }

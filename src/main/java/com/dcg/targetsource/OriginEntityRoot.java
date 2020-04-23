@@ -1,4 +1,4 @@
-package com.dcg.target;
+package com.dcg.targetsource;
 
 import com.dcg.game.CoreSystem;
 import java.util.stream.Stream;

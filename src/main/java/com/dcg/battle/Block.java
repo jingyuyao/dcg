@@ -3,8 +3,8 @@ package com.dcg.battle;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.game.CoreSystem;
-import com.dcg.target.AttackingUnits;
-import com.dcg.target.TargetFilter;
+import com.dcg.targetsource.AttackingUnits;
+import com.dcg.targetsource.TargetFilter;
 import java.util.List;
 import java.util.stream.Stream;
 
