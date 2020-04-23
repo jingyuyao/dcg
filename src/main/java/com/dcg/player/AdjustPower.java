@@ -2,7 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.target.Target;
+import java.util.List;
 
 public class AdjustPower extends AbstractCommandBuilder {
   private final int power;
@@ -13,7 +13,7 @@ public class AdjustPower extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(Target target) {
+  protected void run(int originEntity, List<Integer> targets) {
     coreSystem.getCurrentPlayerEntity().map(mTurn::get).forEach(turn -> turn.powerPool += power);
   }
 

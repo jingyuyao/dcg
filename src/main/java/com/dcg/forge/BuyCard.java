@@ -8,7 +8,7 @@ import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
 import com.dcg.player.AdjustPower;
 import com.dcg.player.Turn;
-import com.dcg.target.Target;
+import java.util.List;
 
 public class BuyCard extends AbstractCommandBuilder {
   protected ComponentMapper<Turn> mTurn;
@@ -25,16 +25,15 @@ public class BuyCard extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(Target target) {
+  protected void run(int originEntity, List<Integer> targets) {
     coreSystem
         .getCurrentPlayerEntity()
         .forEach(
             playerEntity -> {
-              int cardEntity = target.getOrigin();
-              mOwned.create(cardEntity).owner = playerEntity;
+              mOwned.create(originEntity).owner = playerEntity;
               commandChain.addEnd(
-                  new AdjustPower(-mCard.get(cardEntity).cost).build(world, cardEntity),
-                  new MoveLocation(DiscardPile.class).build(world, cardEntity),
+                  new AdjustPower(-mCard.get(originEntity).cost).build(world, originEntity),
+                  new MoveLocation(DiscardPile.class).build(world, originEntity),
                   new RefillForgeRow().build(world, -1));
             });
   }

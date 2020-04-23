@@ -6,7 +6,6 @@ import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.location.Hand;
 import com.dcg.location.PlayArea;
-import com.dcg.target.Target;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,14 +25,13 @@ public class AdvanceTurn extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(Target target) {
-    int playerEntity = target.getOrigin();
+  protected void run(int originEntity, List<Integer> targets) {
     List<Integer> allPlayerEntities =
         coreSystem.getStream(Aspect.all(Player.class)).collect(Collectors.toList());
-    int currentPlayerIndex = allPlayerEntities.indexOf(playerEntity);
+    int currentPlayerIndex = allPlayerEntities.indexOf(originEntity);
     int nextPlayerIndex = (currentPlayerIndex + 1) % allPlayerEntities.size();
     int nextPlayer = allPlayerEntities.get(nextPlayerIndex);
-    mTurn.remove(playerEntity);
+    mTurn.remove(originEntity);
     mTurn.create(nextPlayer);
   }
 }

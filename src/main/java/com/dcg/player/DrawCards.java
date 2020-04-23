@@ -7,7 +7,6 @@ import com.dcg.location.Deck;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.Hand;
 import com.dcg.location.MoveLocation;
-import com.dcg.target.Target;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -22,8 +21,8 @@ public class DrawCards extends PlayerEffect {
   }
 
   @Override
-  protected void run(Target target) {
-    for (int playerEntity : target.getTargets()) {
+  protected void run(int originEntity, List<Integer> targets) {
+    for (int playerEntity : targets) {
       List<Integer> deck = getDeck(playerEntity).collect(Collectors.toList());
 
       if (deck.size() > 0) {

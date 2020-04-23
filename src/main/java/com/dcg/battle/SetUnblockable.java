@@ -1,6 +1,6 @@
 package com.dcg.battle;
 
-import com.dcg.target.Target;
+import java.util.List;
 
 public class SetUnblockable extends UnitEffectBuilder {
   private final boolean unblockable;
@@ -10,7 +10,7 @@ public class SetUnblockable extends UnitEffectBuilder {
   }
 
   @Override
-  protected void run(Target target) {
-    getUnits(target).forEach(unit -> unit.unblockable = unblockable);
+  protected void run(int originEntity, List<Integer> targets) {
+    getUnits(targets).forEach(unit -> unit.unblockable = unblockable);
   }
 }

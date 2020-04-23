@@ -3,7 +3,6 @@ package com.dcg.action;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
-import com.dcg.target.Target;
 import java.util.List;
 
 public class ExecuteAction extends AbstractCommandBuilder {
@@ -17,7 +16,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(Target target) {
+  protected void run(int originEntity, List<Integer> targets) {
     try {
       if (!world.getEntityManager().isActive(actionEntity) && mAction.has(actionEntity)) {
         System.out.printf("%d is not a valid action entity\n", actionEntity);

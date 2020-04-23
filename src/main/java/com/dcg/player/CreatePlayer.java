@@ -7,7 +7,6 @@ import com.dcg.battle.PerformBattle;
 import com.dcg.card.Cards;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
-import com.dcg.target.Target;
 import java.util.List;
 import java.util.Random;
 
@@ -24,8 +23,8 @@ public class CreatePlayer extends CreateEntity {
   }
 
   @Override
-  protected void run(Target target) {
-    int playerEntity = createEntity(target);
+  protected void run(int originEntity, List<Integer> targets) {
+    int playerEntity = createEntity(originEntity);
     mPlayer.create(playerEntity);
     for (CommandBuilder builder : Cards.createBasicCards()) {
       commandChain.addEnd(builder.build(world, playerEntity));

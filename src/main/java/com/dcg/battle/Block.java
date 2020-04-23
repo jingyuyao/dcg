@@ -4,8 +4,8 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.game.CoreSystem;
 import com.dcg.target.AttackingUnits;
-import com.dcg.target.Target;
 import com.dcg.target.TargetFilter;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class Block extends AbstractCommandBuilder {
@@ -16,20 +16,12 @@ public class Block extends AbstractCommandBuilder {
     setTargetCount(1);
   }
 
-  private int getDefendingEntity(Target target) {
-    return target.getOrigin();
-  }
-
-  private int getAttackingEntity(Target target) {
-    return target.getTargets().get(0);
-  }
-
   @Override
-  protected void run(Target target) {
-    commandChain.addEnd(new DestroyUnit().build(world, getAttackingEntity(target)));
-    Unit blockingUnit = mUnit.get(getDefendingEntity(target));
+  protected void run(int originEntity, List<Integer> targets) {
+    commandChain.addEnd(new DestroyUnit().build(world, targets.get(0)));
+    Unit blockingUnit = mUnit.get(originEntity);
     if (!blockingUnit.endurance) {
-      commandChain.addEnd(new DestroyUnit().build(world, getDefendingEntity(target)));
+      commandChain.addEnd(new DestroyUnit().build(world, originEntity));
     }
   }
 

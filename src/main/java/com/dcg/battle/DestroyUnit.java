@@ -1,10 +1,10 @@
 package com.dcg.battle;
 
-import com.dcg.target.Target;
+import java.util.List;
 
 public class DestroyUnit extends UnitEffectBuilder {
   @Override
-  protected void run(Target target) {
-    target.getTargets().forEach(world::delete);
+  protected void run(int originEntity, List<Integer> targets) {
+    targets.forEach(world::delete);
   }
 }

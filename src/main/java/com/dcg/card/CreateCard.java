@@ -6,7 +6,7 @@ import com.dcg.effect.Effect;
 import com.dcg.game.Common;
 import com.dcg.game.CreateEntity;
 import com.dcg.location.Deck;
-import com.dcg.target.Target;
+import java.util.List;
 
 public class CreateCard extends CreateEntity {
   private final int cost;
@@ -29,8 +29,8 @@ public class CreateCard extends CreateEntity {
 
   // TODO: this implementation is currently not repeatedly invokable since it modifies state.
   @Override
-  protected void run(Target target) {
-    int cardEntity = createEntity(target);
+  protected void run(int originEntity, List<Integer> targets) {
+    int cardEntity = createEntity(originEntity);
     Card card = mCard.create(cardEntity);
     card.cost = cost;
     mDeck.create(cardEntity);

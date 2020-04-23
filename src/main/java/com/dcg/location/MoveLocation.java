@@ -2,7 +2,6 @@ package com.dcg.location;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.target.Target;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,10 +15,10 @@ public class MoveLocation extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(Target target) {
+  protected void run(int originEntity, List<Integer> targets) {
     for (Class<? extends Location> clazz : ALL) {
       ComponentMapper<? extends Location> mapper = world.getMapper(clazz);
-      mapper.set(target.getOrigin(), location.equals(clazz));
+      mapper.set(originEntity, location.equals(clazz));
     }
   }
 

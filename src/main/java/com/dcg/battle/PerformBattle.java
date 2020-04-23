@@ -3,7 +3,7 @@ package com.dcg.battle;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.player.AdjustHp;
-import com.dcg.target.Target;
+import java.util.List;
 
 public class PerformBattle extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
@@ -11,11 +11,10 @@ public class PerformBattle extends AbstractCommandBuilder {
   protected ComponentMapper<Attacking> mAttacking;
 
   @Override
-  protected void run(Target target) {
-    int defendingPlayerEntity = target.getOrigin();
+  protected void run(int originEntity, List<Integer> targets) {
     coreSystem
         .getAttackingEntities()
-        .forEach(attackingUnitEntity -> attack(attackingUnitEntity, defendingPlayerEntity));
+        .forEach(attackingUnitEntity -> attack(attackingUnitEntity, originEntity));
     coreSystem.getDefendingEntities().forEach(this::becomeAttack);
   }
 

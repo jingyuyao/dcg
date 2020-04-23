@@ -2,11 +2,11 @@ package com.dcg.action;
 
 import com.artemis.Aspect;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.target.Target;
+import java.util.List;
 
 public class DeleteActions extends AbstractCommandBuilder {
   @Override
-  protected void run(Target target) {
-    coreSystem.getChildren(target.getOrigin(), Aspect.all(Action.class)).forEach(world::delete);
+  protected void run(int originEntity, List<Integer> targets) {
+    coreSystem.getChildren(originEntity, Aspect.all(Action.class)).forEach(world::delete);
   }
 }

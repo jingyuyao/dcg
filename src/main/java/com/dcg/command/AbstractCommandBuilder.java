@@ -5,7 +5,6 @@ import com.artemis.annotations.Wire;
 import com.dcg.condition.TriggerCondition;
 import com.dcg.game.CoreSystem;
 import com.dcg.target.OriginEntity;
-import com.dcg.target.Target;
 import com.dcg.target.TargetSource;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +61,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  protected abstract void run(Target target);
+  protected abstract void run(int originEntity, List<Integer> targets);
 
   @Override
   public String toString() {
@@ -102,19 +101,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     @Override
     public void run() {
       List<Integer> targets = minTargetCount > 0 ? inputs : getAllowedTargets();
-      // TODO: just pass in these as normal arguments
-      AbstractCommandBuilder.this.run(
-          new Target() {
-            @Override
-            public int getOrigin() {
-              return originEntity;
-            }
-
-            @Override
-            public List<Integer> getTargets() {
-              return targets;
-            }
-          });
+      AbstractCommandBuilder.this.run(originEntity, targets);
     }
 
     @Override

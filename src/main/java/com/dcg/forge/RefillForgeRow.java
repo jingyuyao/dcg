@@ -9,7 +9,6 @@ import com.dcg.game.Owned;
 import com.dcg.location.Deck;
 import com.dcg.location.ForgeRow;
 import com.dcg.location.MoveLocation;
-import com.dcg.target.Target;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -18,7 +17,7 @@ public class RefillForgeRow extends AbstractCommandBuilder {
   @Wire protected Random random;
 
   @Override
-  protected void run(Target target) {
+  protected void run(int originEntity, List<Integer> targets) {
     long forgeRowCount = coreSystem.getStream(Aspect.all(Card.class, ForgeRow.class)).count();
     if (forgeRowCount < 6) {
       List<Integer> forgeDeck =

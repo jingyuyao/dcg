@@ -3,7 +3,7 @@ package com.dcg.battle;
 import com.artemis.ComponentMapper;
 import com.dcg.action.CreateAction;
 import com.dcg.game.CreateEntity;
-import com.dcg.target.Target;
+import java.util.List;
 
 public class CreateUnit extends CreateEntity {
   public final int strength;
@@ -17,8 +17,8 @@ public class CreateUnit extends CreateEntity {
   }
 
   @Override
-  protected void run(Target target) {
-    int unitEntity = createEntity(target);
+  protected void run(int originEntity, List<Integer> targets) {
+    int unitEntity = createEntity(originEntity);
     Unit unit = mUnit.create(unitEntity);
     unit.strength = strength;
     mDefending.create(unitEntity);

@@ -7,7 +7,6 @@ import com.dcg.action.DeleteActions;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
 import com.dcg.effect.Effect;
-import com.dcg.target.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,14 +59,14 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     return this;
   }
 
-  protected int createEntity(Target target) {
+  protected int createEntity(int originEntity) {
     int entity = world.create();
     Common common = mCommon.create(entity);
     common.name = name;
     if (description != null) {
       common.description = description;
     }
-    getOwner(target)
+    getOwner(originEntity)
         .ifPresent(
             ownerEntity -> {
               Owned owned = mOwned.create(entity);
@@ -83,9 +82,8 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     return entity;
   }
 
-  protected OptionalInt getOwner(Target target) {
-    int owner = target.getOrigin();
-    return owner == -1 ? OptionalInt.empty() : OptionalInt.of(owner);
+  protected OptionalInt getOwner(int originEntity) {
+    return originEntity == -1 ? OptionalInt.empty() : OptionalInt.of(originEntity);
   }
 
   @Override

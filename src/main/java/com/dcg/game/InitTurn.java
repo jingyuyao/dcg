@@ -5,7 +5,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.player.Player;
 import com.dcg.player.Turn;
-import com.dcg.target.Target;
+import java.util.List;
 
 public class InitTurn extends AbstractCommandBuilder {
   private final String playerName;
@@ -16,7 +16,7 @@ public class InitTurn extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(Target target) {
+  protected void run(int originEntity, List<Integer> targets) {
     coreSystem
         .findByName(playerName, Aspect.all(Player.class))
         .findFirst()

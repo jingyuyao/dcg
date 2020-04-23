@@ -2,7 +2,7 @@ package com.dcg.player;
 
 import com.artemis.ComponentMapper;
 import com.dcg.effect.EffectValueSupplier;
-import com.dcg.target.Target;
+import java.util.List;
 
 public class AdjustHp extends PlayerEffect {
   protected ComponentMapper<Player> mPlayer;
@@ -16,8 +16,8 @@ public class AdjustHp extends PlayerEffect {
   }
 
   @Override
-  protected void run(Target target) {
-    for (int playerEntity : target.getTargets()) {
+  protected void run(int originEntity, List<Integer> targets) {
+    for (int playerEntity : targets) {
       Player player = mPlayer.get(playerEntity);
       player.hp += getEffectValue();
       if (player.hp <= 0) {
