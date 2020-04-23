@@ -2,7 +2,6 @@ package com.dcg.targetfilter;
 
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Unit;
-import java.util.stream.Stream;
 
 public class MinStrength implements TargetFilter {
   private final int strength;
@@ -13,7 +12,7 @@ public class MinStrength implements TargetFilter {
   }
 
   @Override
-  public Stream<Integer> apply(Integer originEntity, Stream<Integer> source) {
-    return source.filter(unitEntity -> mUnit.get(unitEntity).strength >= strength);
+  public boolean test(int originEntity, int target) {
+    return mUnit.get(target).strength >= strength;
   }
 }

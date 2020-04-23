@@ -6,7 +6,6 @@ import com.dcg.game.CoreSystem;
 import com.dcg.targetfilter.TargetFilter;
 import com.dcg.targetsource.AttackingUnits;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Block extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
@@ -30,15 +29,12 @@ public class Block extends AbstractCommandBuilder {
     protected ComponentMapper<Unit> mUnit;
 
     @Override
-    public Stream<Integer> apply(Integer originEntity, Stream<Integer> source) {
+    public boolean test(int originEntity, int target) {
       Unit defendingUnit = mUnit.get(originEntity);
-      return source.filter(
-          attackingEntity -> {
-            Unit attackingUnit = mUnit.get(attackingEntity);
-            return !attackingUnit.unblockable
-                && (!attackingUnit.flying || defendingUnit.flying)
-                && defendingUnit.strength + defendingUnit.defense >= attackingUnit.strength;
-          });
+      Unit attackingUnit = mUnit.get(target);
+      return !attackingUnit.unblockable
+          && (!attackingUnit.flying || defendingUnit.flying)
+          && defendingUnit.strength + defendingUnit.defense >= attackingUnit.strength;
     }
   }
 }

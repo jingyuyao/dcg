@@ -20,12 +20,13 @@ public abstract class TargetSource {
 
   /** Returns the list of allowed inputs. */
   public List<Integer> getAllowedTargets(int originEntity) {
-    Stream<Integer> source = getSource(originEntity);
-    for (TargetFilter filter : filters) {
-      world.inject(filter);
-      source = filter.apply(originEntity, source);
-    }
-    return source.collect(Collectors.toList());
+    return getSource(originEntity)
+        .filter(
+            entity ->
+                filters.stream()
+                    .peek(world::inject)
+                    .allMatch(filter -> filter.test(originEntity, entity)))
+        .collect(Collectors.toList());
   }
 
   /** Override to provide the source stream of unfiltered targets. */
