@@ -3,6 +3,7 @@ package com.dcg.player;
 import com.artemis.Aspect;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
+import com.dcg.command.CommandArgs;
 import com.dcg.location.Deck;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.Hand;
@@ -16,24 +17,25 @@ public class DrawCards extends PlayerEffect {
   @Wire protected Random random;
 
   public DrawCards(int num) {
-    setCommandValue(() -> num);
+    setIntArgSupplier(() -> num);
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, int value) {
+  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     for (int playerEntity : targets) {
       List<Integer> deck = getDeck(playerEntity).collect(Collectors.toList());
       List<Integer> discardPile = getDiscardPile(playerEntity).collect(Collectors.toList());
 
       boolean reshuffleDiscard = false;
-      for (int i = 0; i < value; i++) {
+      for (int i = 0; i < args.getInt(); i++) {
         if (!deck.isEmpty()) {
           drawFrom(deck);
         } else if (!discardPile.isEmpty()) {
           drawFrom(discardPile);
           reshuffleDiscard = true;
         } else {
-          System.out.printf("No cards in deck or discard pile, %d cards not drawn\n", value - i);
+          System.out.printf(
+              "No cards in deck or discard pile, %d cards not drawn\n", args.getInt() - i);
           break;
         }
       }

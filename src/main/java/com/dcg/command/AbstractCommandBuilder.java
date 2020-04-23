@@ -9,6 +9,7 @@ import com.dcg.targetsource.TargetSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * Base class for building a {@link Command}. Guarantees the generated {@link Command} instance is
@@ -21,7 +22,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   protected World world;
   protected CoreSystem coreSystem;
   private final List<TriggerCondition> triggerConditions = new ArrayList<>();
-  private CommandValue commandValue = () -> 0;
+  private Supplier<Integer> intArgSupplier = () -> 0;
+  private Supplier<Boolean> boolArgSupplier = () -> false;
   private TargetSource targetSource = new OriginEntity();
   private int minInputCount = 0;
   private int maxInputCount = 0;
@@ -36,8 +38,13 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this.new CommandImpl(originEntity);
   }
 
-  public AbstractCommandBuilder setCommandValue(CommandValue commandValue) {
-    this.commandValue = commandValue;
+  public AbstractCommandBuilder setIntArgSupplier(Supplier<Integer> intArgSupplier) {
+    this.intArgSupplier = intArgSupplier;
+    return this;
+  }
+
+  public AbstractCommandBuilder setBoolArgSupplier(Supplier<Boolean> boolArgSupplier) {
+    this.boolArgSupplier = boolArgSupplier;
     return this;
   }
 
@@ -65,7 +72,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  protected abstract void run(int originEntity, List<Integer> targets, int value);
+  protected abstract void run(int originEntity, List<Integer> targets, CommandArgs args);
 
   @Override
   public String toString() {
@@ -104,7 +111,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public void run() {
-      AbstractCommandBuilder.this.run(originEntity, getTargets(), getValue());
+      AbstractCommandBuilder.this.run(originEntity, getTargets(), getArgs());
     }
 
     @Override
@@ -140,9 +147,10 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       return true;
     }
 
-    private int getValue() {
-      world.inject(commandValue);
-      return commandValue.get();
+    private CommandArgs getArgs() {
+      world.inject(intArgSupplier);
+      world.inject(boolArgSupplier);
+      return new CommandArgs(intArgSupplier.get(), boolArgSupplier.get());
     }
 
     private List<Integer> getTargets() {
@@ -152,16 +160,17 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     @Override
     public String toString() {
       StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
+      CommandArgs args = getArgs();
       builder
           .append(" ")
           .append(coreSystem.toName(originEntity))
           .append("(")
           .append(originEntity)
-          .append(")");
-      int value = getValue();
-      if (value != 0) {
-        builder.append(" value=").append(value);
-      }
+          .append(")")
+          .append(" int=")
+          .append(args.getInt())
+          .append(" bool=")
+          .append(args.getBool());
       List<Integer> targets = getTargets();
       if (!targets.isEmpty() && (targets.size() > 1 || targets.get(0) != originEntity)) {
         builder.append(" ->");

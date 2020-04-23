@@ -1,9 +1,9 @@
 package com.dcg.effect;
 
-import com.dcg.command.CommandValue;
 import com.dcg.game.CoreSystem;
+import java.util.function.Supplier;
 
-public class TotalAttackingUnits implements CommandValue {
+public class TotalAttackingUnits implements Supplier<Integer> {
   protected CoreSystem coreSystem;
 
   @Override

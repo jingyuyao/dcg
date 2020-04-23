@@ -4,6 +4,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
 import com.dcg.card.Cards;
+import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
 import java.util.List;
@@ -19,7 +20,7 @@ public class CreatePlayer extends CreateEntity {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, int value) {
+  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     int playerEntity = createEntity(originEntity);
     mPlayer.create(playerEntity);
     for (CommandBuilder builder : Cards.createBasicCards()) {

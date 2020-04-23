@@ -2,6 +2,7 @@ package com.dcg.battle;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
+import com.dcg.command.CommandArgs;
 import com.dcg.game.CoreSystem;
 import com.dcg.targetfilter.TargetFilter;
 import com.dcg.targetsource.AttackingUnits;
@@ -16,7 +17,7 @@ public class Block extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, int value) {
+  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     commandChain.addEnd(new DestroyUnit().build(world, targets.get(0)));
     Unit blockingUnit = mUnit.get(originEntity);
     if (!blockingUnit.endurance) {

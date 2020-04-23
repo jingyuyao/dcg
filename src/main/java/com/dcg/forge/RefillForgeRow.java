@@ -5,6 +5,7 @@ import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
+import com.dcg.command.CommandArgs;
 import com.dcg.game.Owned;
 import com.dcg.location.Deck;
 import com.dcg.location.ForgeRow;
@@ -17,7 +18,7 @@ public class RefillForgeRow extends AbstractCommandBuilder {
   @Wire protected Random random;
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, int value) {
+  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     long forgeRowCount = coreSystem.getStream(Aspect.all(Card.class, ForgeRow.class)).count();
     if (forgeRowCount < 6) {
       List<Integer> forgeDeck =

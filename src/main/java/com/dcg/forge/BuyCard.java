@@ -3,6 +3,7 @@ package com.dcg.forge;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
+import com.dcg.command.CommandArgs;
 import com.dcg.game.Owned;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
@@ -25,7 +26,7 @@ public class BuyCard extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, int value) {
+  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     coreSystem
         .getCurrentPlayerEntity()
         .forEach(
