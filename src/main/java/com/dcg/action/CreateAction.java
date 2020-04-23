@@ -13,11 +13,7 @@ public class CreateAction extends CreateEntity {
   protected ComponentMapper<Action> mAction;
 
   public CreateAction(CommandBuilder builder) {
-    this(builder.toString(), builder);
-  }
-
-  public CreateAction(String name, CommandBuilder builder) {
-    super(name);
+    super(builder.toString());
     this.builder = builder;
   }
 
