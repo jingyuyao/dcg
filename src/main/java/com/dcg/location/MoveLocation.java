@@ -15,7 +15,7 @@ public class MoveLocation extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     for (Class<? extends Location> clazz : ALL) {
       ComponentMapper<? extends Location> mapper = world.getMapper(clazz);
       mapper.set(originEntity, location.equals(clazz));

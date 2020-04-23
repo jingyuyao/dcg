@@ -21,7 +21,7 @@ public class DrawCards extends PlayerEffect {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     for (int playerEntity : targets) {
       List<Integer> deck = getDeck(playerEntity).collect(Collectors.toList());
 

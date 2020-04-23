@@ -1,9 +1,9 @@
 package com.dcg.player;
 
-import com.dcg.effect.AbstractEffectBuilder;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.targetsource.OriginEntityRoot;
 
-abstract class PlayerEffect extends AbstractEffectBuilder {
+abstract class PlayerEffect extends AbstractCommandBuilder {
   PlayerEffect() {
     setTargetSource(new OriginEntityRoot());
   }

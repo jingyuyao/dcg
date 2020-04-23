@@ -11,7 +11,7 @@ public class PerformBattle extends AbstractCommandBuilder {
   protected ComponentMapper<Attacking> mAttacking;
 
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     coreSystem
         .getAttackingEntities()
         .forEach(attackingUnitEntity -> attack(attackingUnitEntity, originEntity));

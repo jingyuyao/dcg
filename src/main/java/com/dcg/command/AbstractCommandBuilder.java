@@ -21,6 +21,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   protected World world;
   protected CoreSystem coreSystem;
   private final List<TriggerCondition> triggerConditions = new ArrayList<>();
+  private CommandValue commandValue = () -> 0;
   private TargetSource targetSource = new OriginEntity();
   private int minInputCount = 0;
   private int maxInputCount = 0;
@@ -33,6 +34,11 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       injected = true;
     }
     return this.new CommandImpl(originEntity);
+  }
+
+  public AbstractCommandBuilder setCommandValue(CommandValue commandValue) {
+    this.commandValue = commandValue;
+    return this;
   }
 
   public AbstractCommandBuilder setTargetSource(TargetSource targetSource) {
@@ -59,7 +65,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  protected abstract void run(int originEntity, List<Integer> targets);
+  protected abstract void run(int originEntity, List<Integer> targets, int value);
 
   @Override
   public String toString() {
@@ -98,7 +104,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public void run() {
-      AbstractCommandBuilder.this.run(originEntity, getTargets());
+      AbstractCommandBuilder.this.run(originEntity, getTargets(), getValue());
     }
 
     @Override
@@ -134,6 +140,11 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       return true;
     }
 
+    private int getValue() {
+      world.inject(commandValue);
+      return commandValue.get();
+    }
+
     private List<Integer> getTargets() {
       return minInputCount > 0 ? inputs : getAllowedTargets();
     }
@@ -147,6 +158,10 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
           .append("(")
           .append(originEntity)
           .append(")");
+      int value = getValue();
+      if (value != 0) {
+        builder.append(" value=").append(value);
+      }
       List<Integer> targets = getTargets();
       if (!targets.isEmpty() && (targets.size() > 1 || targets.get(0) != originEntity)) {
         builder.append(" ->");

@@ -10,7 +10,7 @@ public class AdjustStrength extends UnitEffectBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     for (int targetEntity : targets) {
       Unit unit = mUnit.get(targetEntity);
       unit.strength += strength;

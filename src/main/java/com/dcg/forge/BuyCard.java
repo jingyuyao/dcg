@@ -25,7 +25,7 @@ public class BuyCard extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     coreSystem
         .getCurrentPlayerEntity()
         .forEach(

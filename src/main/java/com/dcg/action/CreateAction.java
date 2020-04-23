@@ -21,7 +21,7 @@ public class CreateAction extends CreateEntity {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     OptionalInt owner = getOwner(originEntity);
     // TODO: replace this with our own variant that emits GameStateException and catch it during
     // exec

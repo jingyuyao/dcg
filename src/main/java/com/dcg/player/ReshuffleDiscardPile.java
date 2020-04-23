@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ReshuffleDiscardPile extends AbstractCommandBuilder {
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     coreSystem
         .getChildren(originEntity, Aspect.all(Card.class, DiscardPile.class))
         .forEach(

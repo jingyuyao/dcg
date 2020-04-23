@@ -10,7 +10,7 @@ public class SetEndurance extends UnitEffectBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     getUnits(targets).forEach(unit -> unit.endurance = endurance);
   }
 }

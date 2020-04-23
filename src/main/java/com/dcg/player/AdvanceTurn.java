@@ -25,7 +25,7 @@ public class AdvanceTurn extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     List<Integer> allPlayerEntities =
         coreSystem.getStream(Aspect.all(Player.class)).collect(Collectors.toList());
     int currentPlayerIndex = allPlayerEntities.indexOf(originEntity);

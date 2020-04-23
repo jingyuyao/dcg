@@ -23,7 +23,7 @@ public class CreatePlayer extends CreateEntity {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     int playerEntity = createEntity(originEntity);
     mPlayer.create(playerEntity);
     for (CommandBuilder builder : Cards.createBasicCards()) {

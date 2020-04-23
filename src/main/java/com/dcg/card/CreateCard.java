@@ -29,7 +29,7 @@ public class CreateCard extends CreateEntity {
 
   // TODO: this implementation is currently not repeatedly invokable since it modifies state.
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     int cardEntity = createEntity(originEntity);
     Card card = mCard.create(cardEntity);
     card.cost = cost;

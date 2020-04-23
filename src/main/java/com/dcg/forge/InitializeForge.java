@@ -7,7 +7,7 @@ import java.util.List;
 
 public class InitializeForge extends AbstractCommandBuilder {
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     for (CommandBuilder builder : Cards.createForge()) {
       commandChain.addEnd(builder.build(world, -1));
     }

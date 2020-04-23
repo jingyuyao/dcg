@@ -17,7 +17,7 @@ public class RefillForgeRow extends AbstractCommandBuilder {
   @Wire protected Random random;
 
   @Override
-  protected void run(int originEntity, List<Integer> targets) {
+  protected void run(int originEntity, List<Integer> targets, int value) {
     long forgeRowCount = coreSystem.getStream(Aspect.all(Card.class, ForgeRow.class)).count();
     if (forgeRowCount < 6) {
       List<Integer> forgeDeck =
