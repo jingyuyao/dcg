@@ -1,6 +1,7 @@
 package com.dcg.targetsource;
 
 import com.artemis.World;
+import com.dcg.targetfilter.TargetFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

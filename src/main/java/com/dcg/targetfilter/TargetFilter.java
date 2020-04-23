@@ -1,4 +1,4 @@
-package com.dcg.targetsource;
+package com.dcg.targetfilter;
 
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
