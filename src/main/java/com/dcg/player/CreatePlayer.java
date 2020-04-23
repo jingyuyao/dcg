@@ -3,7 +3,6 @@ package com.dcg.player;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
-import com.dcg.battle.PerformBattle;
 import com.dcg.card.Cards;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
@@ -16,10 +15,7 @@ public class CreatePlayer extends CreateEntity {
 
   public CreatePlayer(String name) {
     super(name);
-    // TODO: we need to discard first before playing cards to avoid current cards counting previous
-    // cards for its effects, possibly moving on leave effects into advance turn?
     addOnEnterEffects(new CreateAction(new AdvanceTurn()));
-    addOnLeaveEffects(new DiscardPlayArea(), new DrawCards(5), new PerformBattle());
   }
 
   @Override

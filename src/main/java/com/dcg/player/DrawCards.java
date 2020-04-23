@@ -17,6 +17,7 @@ public class DrawCards extends PlayerEffect {
   @Wire protected Random random;
 
   public DrawCards(int numLeft) {
+    // TODO: move these single values to use CommandValue
     this.numLeft = numLeft;
   }
 
@@ -24,19 +25,23 @@ public class DrawCards extends PlayerEffect {
   protected void run(int originEntity, List<Integer> targets, int value) {
     for (int playerEntity : targets) {
       List<Integer> deck = getDeck(playerEntity).collect(Collectors.toList());
+      List<Integer> discardPile = getDiscardPile(playerEntity).collect(Collectors.toList());
 
-      if (deck.size() > 0) {
-        int cardEntity = deck.get(random.nextInt(deck.size()));
-        commandChain.addEnd(new MoveLocation(Hand.class).build(world, cardEntity));
-        if (numLeft > 1) {
-          // NOTE: This must come after MoveLocation or else we may draw duplicate cards.
-          commandChain.addEnd(new DrawCards(numLeft - 1).build(world, playerEntity));
+      boolean reshuffleDiscard = false;
+      for (int i = 0; i < numLeft; i++) {
+        if (!deck.isEmpty()) {
+          drawFrom(deck);
+        } else if (!discardPile.isEmpty()) {
+          drawFrom(discardPile);
+          reshuffleDiscard = true;
+        } else {
+          System.out.printf("No cards in deck or discard pile, %d cards not drawn\n", numLeft - i);
+          break;
         }
-      } else if (getDiscardPile(playerEntity).count() > 0) {
-        commandChain.addEnd(
-            new ReshuffleDiscardPile().build(world, playerEntity), build(world, playerEntity));
-      } else {
-        System.out.println("No cards in deck or discard pile, card not drawn.");
+      }
+
+      if (reshuffleDiscard) {
+        commandChain.addEnd(new ReshuffleDiscardPile().build(world, playerEntity));
       }
     }
   }
@@ -47,6 +52,13 @@ public class DrawCards extends PlayerEffect {
 
   private Stream<Integer> getDiscardPile(int playerEntity) {
     return coreSystem.getChildren(playerEntity, Aspect.all(Card.class, DiscardPile.class));
+  }
+
+  private void drawFrom(List<Integer> cards) {
+    int cardIndex = random.nextInt(cards.size());
+    int cardEntity = cards.get(cardIndex);
+    cards.remove(cardIndex);
+    commandChain.addEnd(new MoveLocation(Hand.class).build(world, cardEntity));
   }
 
   @Override

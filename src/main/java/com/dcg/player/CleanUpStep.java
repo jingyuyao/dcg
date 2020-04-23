@@ -8,7 +8,7 @@ import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
 import java.util.List;
 
-public class DiscardPlayArea extends AbstractCommandBuilder {
+public class CleanUpStep extends AbstractCommandBuilder {
   @Override
   protected void run(int originEntity, List<Integer> targets, int value) {
     coreSystem
@@ -16,5 +16,8 @@ public class DiscardPlayArea extends AbstractCommandBuilder {
         .forEach(
             cardEntity ->
                 commandChain.addEnd(new MoveLocation(DiscardPile.class).build(world, cardEntity)));
+    commandChain.addEnd(
+        new DrawCards(5).build(world, originEntity),
+        new AdvancePlayerStep().build(world, originEntity));
   }
 }

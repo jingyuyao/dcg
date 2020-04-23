@@ -1,11 +1,14 @@
-package com.dcg.battle;
+package com.dcg.player;
 
 import com.artemis.ComponentMapper;
+import com.dcg.battle.Attacking;
+import com.dcg.battle.Defending;
+import com.dcg.battle.DestroyUnit;
+import com.dcg.battle.Unit;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.player.AdjustHp;
 import java.util.List;
 
-public class PerformBattle extends AbstractCommandBuilder {
+public class BattleStep extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
   protected ComponentMapper<Defending> mDefending;
   protected ComponentMapper<Attacking> mAttacking;
@@ -16,6 +19,7 @@ public class PerformBattle extends AbstractCommandBuilder {
         .getAttackingEntities()
         .forEach(attackingUnitEntity -> attack(attackingUnitEntity, originEntity));
     coreSystem.getDefendingEntities().forEach(this::becomeAttack);
+    commandChain.addEnd(new CleanUpStep().build(world, originEntity));
   }
 
   private void attack(int attackingUnitEntity, int defendingPlayerEntity) {
