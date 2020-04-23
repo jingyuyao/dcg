@@ -13,12 +13,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DrawCards extends PlayerEffect {
-  private final int numLeft;
   @Wire protected Random random;
 
-  public DrawCards(int numLeft) {
-    // TODO: move these single values to use CommandValue
-    this.numLeft = numLeft;
+  public DrawCards(int num) {
+    setCommandValue(() -> num);
   }
 
   @Override
@@ -28,14 +26,14 @@ public class DrawCards extends PlayerEffect {
       List<Integer> discardPile = getDiscardPile(playerEntity).collect(Collectors.toList());
 
       boolean reshuffleDiscard = false;
-      for (int i = 0; i < numLeft; i++) {
+      for (int i = 0; i < value; i++) {
         if (!deck.isEmpty()) {
           drawFrom(deck);
         } else if (!discardPile.isEmpty()) {
           drawFrom(discardPile);
           reshuffleDiscard = true;
         } else {
-          System.out.printf("No cards in deck or discard pile, %d cards not drawn\n", numLeft - i);
+          System.out.printf("No cards in deck or discard pile, %d cards not drawn\n", value - i);
           break;
         }
       }
@@ -59,10 +57,5 @@ public class DrawCards extends PlayerEffect {
     int cardEntity = cards.get(cardIndex);
     cards.remove(cardIndex);
     commandChain.addEnd(new MoveLocation(Hand.class).build(world, cardEntity));
-  }
-
-  @Override
-  public String toString() {
-    return String.format("%s %d", super.toString(), numLeft);
   }
 }
