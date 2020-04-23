@@ -1,4 +1,4 @@
-package com.dcg.condition;
+package com.dcg.triggercondition;
 
 import com.dcg.game.CoreSystem;
 

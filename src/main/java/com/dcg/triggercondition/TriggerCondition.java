@@ -1,4 +1,4 @@
-package com.dcg.condition;
+package com.dcg.triggercondition;
 
 import java.util.function.Predicate;
 

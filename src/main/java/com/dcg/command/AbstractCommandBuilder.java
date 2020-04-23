@@ -2,10 +2,10 @@ package com.dcg.command;
 
 import com.artemis.World;
 import com.artemis.annotations.Wire;
-import com.dcg.condition.TriggerCondition;
 import com.dcg.game.CoreSystem;
 import com.dcg.targetsource.OriginEntity;
 import com.dcg.targetsource.TargetSource;
+import com.dcg.triggercondition.TriggerCondition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
