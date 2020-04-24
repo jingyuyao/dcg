@@ -9,6 +9,7 @@ import com.dcg.command.CommandBuilder;
 import com.dcg.effect.Effect;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.OptionalInt;
 
@@ -39,8 +40,9 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     return this;
   }
 
-  public CreateEntity addTag(Class<? extends Component> tag) {
-    this.tags.add(tag);
+  @SafeVarargs
+  public final CreateEntity tags(Class<? extends Component>... tags) {
+    Collections.addAll(this.tags, tags);
     return this;
   }
 

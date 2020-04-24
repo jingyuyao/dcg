@@ -27,6 +27,7 @@ import com.dcg.triggercondition.AnySpell;
 import com.dcg.triggercondition.MinAnyDefendingStrength;
 import com.dcg.triggercondition.MinDefendingUnitCount;
 import com.dcg.triggercondition.MinPower;
+import com.dcg.triggercondition.PlayedTag;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -48,28 +49,47 @@ public class Cards {
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> createBasicUnits() {
     return Arrays.asList(
-        unit("Eager Owlet", 0, 2).desc("Flying").addOnEnterEffects(new SetFlying(true)),
+        unit("Eager Owlet", 0, 2)
+            .tags(Green.class, Blue.class)
+            .desc("Flying")
+            .addOnEnterEffects(new SetFlying(true)),
         unit("Awakened Student", 0, 2)
+            .tags(Yellow.class, Green.class)
             .desc("If you have a unit with 4 strength or more, this gets +2 strength")
             .addOnConditionEffects(
                 new AdjustStrength(2).addTriggerConditions(new MinAnyDefendingStrength(4))),
         unit("Storm Lynx", 0, 1)
+            .tags(Yellow.class, Blue.class)
             .desc("If you played a spell this turn, this gets +2 strength and Endurance")
             .addOnConditionEffects(
                 new AdjustStrength(2).addTriggerConditions(new AnySpell()),
                 new SetEndurance(true).addTriggerConditions(new AnySpell())),
         unit("Grenadin Drone", 0, 2)
+            .tags(Red.class, Black.class)
             .desc("Create a 1 strength Grenadin")
             .addOnEnterEffects(new CreateUnit("Grenadin", 1)),
-        unit("Fearless Nomad", 0, 2).addOnEnterEffects(new SetBerserk(true)),
-        unit("Stonepowder Alchemist", 0, 2).addOnEnterEffects(new SetLifeSteal(true)),
-        unit("Xenan Cupbearer", 0, 1).addOnEnterEffects(new AdjustDefense(1), new AdjustHp(1)),
-        unit("Withering Witch", 0, 2).addOnEnterEffects(new AdjustDefense(3)));
+        unit("Fearless Nomad", 0, 2)
+            .tags(Red.class, Green.class)
+            .addOnEnterEffects(new SetBerserk(true)),
+        unit("Stonepowder Alchemist", 0, 2)
+            .tags(Green.class, Black.class)
+            .addOnEnterEffects(new SetLifeSteal(true)),
+        unit("Xenan Cupbearer", 0, 1)
+            .tags(Yellow.class, Black.class)
+            .addOnEnterEffects(new AdjustDefense(1), new AdjustHp(1)),
+        unit("Withering Witch", 0, 2)
+            .tags(Blue.class, Black.class)
+            .addOnEnterEffects(new AdjustDefense(3)));
   }
 
   @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> createUnits() {
     return Stream.of(
+            unit("Beckoning Lumen", 3, 3)
+                .desc("Add 1 power, Yellow: Gain 2 life")
+                .addOnEnterEffects(new AdjustPower(1))
+                .addOnConditionEffects(
+                    new AdjustHp(2).addTriggerConditions(new PlayedTag(Yellow.class))),
             unit("Jotun Punter", 4, 4)
                 .desc("Give a unit flying")
                 .addOnEnterEffects(
@@ -114,7 +134,7 @@ public class Cards {
                     new AdjustPower(1),
                     new AdjustStrength(-1).setTargetSource(new AttackingUnits())),
             unit("Impending Doom", 4, 5)
-                .desc("Flying, minus 1 hp")
+                .desc("Flying, minus 1 life")
                 .addOnEnterEffects(new SetFlying(true), new AdjustHp(-1)),
             unit("Ridgeline Watcher", 4, 3)
                 .desc("Add 2 defense, Voidbind")
@@ -227,11 +247,11 @@ public class Cards {
   }
 
   public static CreateEntity basic(String name, int cost) {
-    return new CreateCard(name, cost).addTag(Basic.class);
+    return new CreateCard(name, cost).tags(Basic.class);
   }
 
   public static CreateEntity spell(String name, int cost) {
-    return new CreateCard(name, cost).addTag(Spell.class);
+    return new CreateCard(name, cost).tags(Spell.class);
   }
 
   public static CreateEntity unit(String name, int cost, int strength) {
