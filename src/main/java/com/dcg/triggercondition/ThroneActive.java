@@ -1,8 +1,8 @@
 package com.dcg.triggercondition;
 
 import com.artemis.Aspect;
-import com.dcg.card.SeekPower;
 import com.dcg.game.CoreSystem;
+import com.dcg.location.ThroneDeck;
 import java.util.List;
 
 public class ThroneActive implements TriggerCondition {
@@ -10,6 +10,6 @@ public class ThroneActive implements TriggerCondition {
 
   @Override
   public boolean test(int originEntity, List<Integer> allowedTargets) {
-    return !coreSystem.getStream(Aspect.all(SeekPower.class)).findAny().isPresent();
+    return !coreSystem.getStream(Aspect.all(ThroneDeck.class)).findAny().isPresent();
   }
 }

@@ -5,14 +5,12 @@ import com.dcg.battle.CreateUnit;
 import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
-import com.dcg.location.Deck;
 import java.util.List;
 
 public class CreateCard extends CreateEntity {
   private final int cost;
   private CreateUnit createUnit;
   protected ComponentMapper<Card> mCard;
-  protected ComponentMapper<Deck> mDeck;
   protected ComponentMapper<HasUnit> mHasUnit;
 
   public CreateCard(String name, int cost) {
@@ -71,7 +69,6 @@ public class CreateCard extends CreateEntity {
     int cardEntity = createEntity(originEntity);
     Card card = mCard.create(cardEntity);
     card.cost = cost;
-    mDeck.create(cardEntity);
     if (createUnit != null) {
       HasUnit hasUnit = mHasUnit.create(cardEntity);
       hasUnit.strength = createUnit.strength;

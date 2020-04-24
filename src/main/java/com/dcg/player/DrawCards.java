@@ -4,10 +4,10 @@ import com.artemis.Aspect;
 import com.artemis.annotations.Wire;
 import com.dcg.card.Card;
 import com.dcg.command.CommandArgs;
-import com.dcg.location.Deck;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.Hand;
 import com.dcg.location.MoveLocation;
+import com.dcg.location.PlayerDeck;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -47,7 +47,7 @@ public class DrawCards extends PlayerEffect {
   }
 
   private Stream<Integer> getDeck(int playerEntity) {
-    return coreSystem.getChildren(playerEntity, Aspect.all(Card.class, Deck.class));
+    return coreSystem.getChildren(playerEntity, Aspect.all(Card.class, PlayerDeck.class));
   }
 
   private Stream<Integer> getDiscardPile(int playerEntity) {

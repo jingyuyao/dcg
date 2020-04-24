@@ -13,14 +13,15 @@ import com.dcg.action.ActionSystem;
 import com.dcg.action.ExecuteAction;
 import com.dcg.battle.Unit;
 import com.dcg.card.Card;
-import com.dcg.card.SeekPower;
 import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
 import com.dcg.effect.EffectSystem;
 import com.dcg.forge.InitializeForge;
+import com.dcg.location.ForgeDeck;
 import com.dcg.location.ForgeRow;
 import com.dcg.location.PlayArea;
+import com.dcg.location.ThroneDeck;
 import com.dcg.player.CreatePlayer;
 import com.dcg.player.PlayHandSystem;
 import com.dcg.player.Player;
@@ -87,11 +88,10 @@ public class Game {
 
   public String getWorldJson() {
     CoreSystem coreSystem = world.getSystem(CoreSystem.class);
-    Stream<Integer> world = coreSystem.getStream(Aspect.all(SeekPower.class).exclude(Owned.class));
-    world =
-        Stream.concat(
-            world,
-            coreSystem.getStream(Aspect.all(Card.class).one(ForgeRow.class, PlayArea.class)));
+    Stream<Integer> world =
+        coreSystem.getStream(
+            Aspect.all(Card.class)
+                .one(ForgeDeck.class, ForgeRow.class, ThroneDeck.class, PlayArea.class));
     world =
         Stream.concat(
             world, coreSystem.getStream(Aspect.one(Player.class, Unit.class, Action.class)));

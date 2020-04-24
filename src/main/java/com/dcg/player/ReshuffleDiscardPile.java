@@ -4,9 +4,9 @@ import com.artemis.Aspect;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
-import com.dcg.location.Deck;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
+import com.dcg.location.PlayerDeck;
 import java.util.List;
 
 public class ReshuffleDiscardPile extends AbstractCommandBuilder {
@@ -16,6 +16,6 @@ public class ReshuffleDiscardPile extends AbstractCommandBuilder {
         .getChildren(originEntity, Aspect.all(Card.class, DiscardPile.class))
         .forEach(
             cardEntity ->
-                commandChain.addEnd(new MoveLocation(Deck.class).build(world, cardEntity)));
+                commandChain.addEnd(new MoveLocation(PlayerDeck.class).build(world, cardEntity)));
   }
 }

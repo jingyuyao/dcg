@@ -8,7 +8,6 @@ import com.artemis.utils.IntBag;
 import com.dcg.battle.Attacking;
 import com.dcg.battle.Defending;
 import com.dcg.battle.Unit;
-import com.dcg.location.PlayArea;
 import com.dcg.player.Player;
 import com.dcg.turn.Turn;
 import java.util.stream.Collector;
@@ -43,6 +42,7 @@ public class CoreSystem extends BaseSystem {
     return entity != -1 ? mNamed.getSafe(entity, DEFAULT_COMMON).name : "";
   }
 
+  // TODO: make this return an int to make things simpler
   public Stream<Integer> getCurrentPlayerEntity() {
     return getStream(Aspect.all(Player.class, Turn.class));
   }
@@ -53,10 +53,6 @@ public class CoreSystem extends BaseSystem {
 
   public Stream<Integer> getDefendingEntities() {
     return getStream(Aspect.all(Unit.class, Defending.class));
-  }
-
-  public Stream<Integer> getPlayArea() {
-    return getStream(Aspect.all(PlayArea.class));
   }
 
   /** Filters the aspect for entities owned by the owner. */

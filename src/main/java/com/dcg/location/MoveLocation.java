@@ -8,7 +8,14 @@ import java.util.List;
 
 public class MoveLocation extends AbstractCommandBuilder {
   private static final List<Class<? extends Location>> ALL =
-      Arrays.asList(Deck.class, ForgeRow.class, DiscardPile.class, Hand.class, PlayArea.class);
+      Arrays.asList(
+          ForgeDeck.class,
+          ForgeRow.class,
+          ThroneDeck.class,
+          PlayerDeck.class,
+          DiscardPile.class,
+          Hand.class,
+          PlayArea.class);
   private final Class<? extends Location> location;
 
   public MoveLocation(Class<? extends Location> location) {

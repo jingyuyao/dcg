@@ -33,7 +33,7 @@ import java.util.List;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class Cards {
-  public static List<CommandBuilder> createBasicCards() {
+  public static List<CreateEntity> createBasicCards() {
     return Arrays.asList(
         basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
         basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
@@ -44,11 +44,11 @@ public class Cards {
         basic("Secret Pages", 0).desc("Add 2 power").addOnEnterEffects(new AdjustPower(2)));
   }
 
-  public static List<CommandBuilder> createBasicUnits() {
+  public static List<CreateEntity> createBasicUnits() {
     return Arrays.asList(
         unit("Noble Firemane", 0, 2)
             .tags(Red.class, Yellow.class)
-            .desc("+3 strength when Throne is active")
+            .desc("Throne: +3 strength")
             .addOnConditionEffects(new AdjustStrength(3).addTriggerConditions(new ThroneActive())),
         unit("Eager Owlet", 0, 2)
             .tags(Green.class, Blue.class)
@@ -84,14 +84,13 @@ public class Cards {
             .addOnEnterEffects(new AdjustDefense(3)));
   }
 
-  public static List<CommandBuilder> createSeekPowers() {
-    List<CommandBuilder> seekPowers = new ArrayList<>();
+  public static List<CreateEntity> createThroneDeck() {
+    List<CreateEntity> seekPowers = new ArrayList<>();
     // TODO: make the number a function of player
     for (int i = 0; i < 6; i++) {
       seekPowers.add(
           spell("Seek Power", 3)
-              .tags(SeekPower.class)
-              .desc("Add 2 power, may banish this to create a 2 strength Cavalry")
+              .desc("Add 2 power, Throne: may banish this to create a 2 strength Cavalry")
               .addOnEnterEffects(new AdjustPower(2))
               .addOnConditionEffects(
                   action(new DeleteCard().chain(new CreateUnit("Cavalry", 2)))
@@ -101,7 +100,7 @@ public class Cards {
     return seekPowers;
   }
 
-  public static List<CommandBuilder> createForgeDeck() {
+  public static List<CreateEntity> createForgeDeck() {
     return Arrays.asList(
         unit("Beckoning Lumen", 3, 3)
             .tags(Yellow.class)
