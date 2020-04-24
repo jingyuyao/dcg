@@ -18,6 +18,6 @@ public class InitializeForge extends AbstractCommandBuilder {
       commandChain.addEnd(createEntity.tags(ThroneDeck.class).build(world, -1));
     }
     commandChain.addEnd(new AddBuyCardToThroneDeck().build(world, -1));
-    commandChain.addEnd(new RefillForgeRow().build(world, -1));
+    commandChain.addEnd(new DrawForgeDeck(6).build(world, -1));
   }
 }

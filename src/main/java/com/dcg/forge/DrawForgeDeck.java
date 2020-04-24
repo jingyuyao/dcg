@@ -13,25 +13,29 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class RefillForgeRow extends AbstractCommandBuilder {
+public class DrawForgeDeck extends AbstractCommandBuilder {
+  private final int num;
   @Wire protected Random random;
+
+  public DrawForgeDeck(int num) {
+    this.num = num;
+  }
 
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
-    long forgeRowCount = coreSystem.getStream(Aspect.all(Card.class, ForgeRow.class)).count();
-    if (forgeRowCount < 6) {
-      List<Integer> forgeDeck =
-          coreSystem
-              .getStream(Aspect.all(Card.class, ForgeDeck.class))
-              .collect(Collectors.toList());
-      if (forgeDeck.size() > 0) {
-        int cardEntity = forgeDeck.get(random.nextInt(forgeDeck.size()));
+    List<Integer> forgeDeck =
+        coreSystem.getStream(Aspect.all(Card.class, ForgeDeck.class)).collect(Collectors.toList());
+    for (int i = 0; i < num; i++) {
+      if (!forgeDeck.isEmpty()) {
+        int cardIndex = random.nextInt(forgeDeck.size());
+        int cardEntity = forgeDeck.get(cardIndex);
+        forgeDeck.remove(cardIndex);
         commandChain.addEnd(
             new MoveLocation(ForgeRow.class).build(world, cardEntity),
-            new CreateAction(new BuyCard()).build(world, cardEntity),
-            build(world, -1));
+            new CreateAction(new BuyCard().chain(new DrawForgeDeck(1))).build(world, cardEntity));
       } else {
         System.out.println("No more forge cards");
+        break;
       }
     }
   }
