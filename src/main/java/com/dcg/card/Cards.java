@@ -81,6 +81,7 @@ public class Cards {
   public static List<CommandBuilder> createForge() {
     return Arrays.asList(
         unit("Beckoning Lumen", 3, 3)
+            .tags(Yellow.class)
             .desc("Add 1 power, Yellow: Gain 2 life")
             .addOnEnterEffects(new AdjustPower(1))
             .addOnConditionEffects(
@@ -102,6 +103,7 @@ public class Cards {
                 action(new AdjustStrength(1).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit +1 strength")),
         unit("Throne Warden", 4, 2)
+            .tags(Green.class)
             .desc("Endurance, gain HP equal to # of attacking units")
             .addOnEnterEffects(new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
         unit("Yeti Windflyer", 4, 1)
@@ -112,6 +114,7 @@ public class Cards {
                     .desc("Deal 2 damage to a player")
                     .addTriggerConditions(new MinDefendingUnitCount(3))),
         unit("Stone shaker", 4, 1)
+            .tags(Red.class)
             .desc("Add 2 power, Berserk, add 2 strength to generated 7 or more power")
             .addOnEnterEffects(new AdjustPower(2), new SetBerserk(true))
             .addOnConditionEffects(new AdjustStrength(2).addTriggerConditions(new MinPower(7))),
@@ -121,34 +124,41 @@ public class Cards {
             .addOnConditionEffects(
                 new DrawCards(1).addTriggerConditions(new PlayedTag(Spell.class))),
         unit("Mystic Ascendant", 6, 4)
+            .tags(Yellow.class)
             .desc("Draw 1 card, add 2 strength to this if you generated 7 or more power")
             .addOnEnterEffects(new DrawCards(1))
             .addOnConditionEffects(new AdjustStrength(2).addTriggerConditions(new MinPower(7))),
         unit("Splimespitter Slug", 5, 3)
+            .tags(Green.class, Black.class)
             .desc("Add 1 power, give all attacking units -1 strength")
             .addOnEnterEffects(
                 new AdjustPower(1), new AdjustStrength(-1).setTargetSource(new AttackingUnits())),
         unit("Impending Doom", 4, 5)
+            .tags(Black.class)
             .desc("Flying, minus 1 life")
             .addOnEnterEffects(new SetFlying(true), new AdjustHp(-1)),
         unit("Ridgeline Watcher", 4, 3)
+            .tags(Blue.class)
             .desc("Add 2 defense, Voidbind")
             .addOnEnterEffects(
                 new AdjustDefense(2),
                 action(new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
                     .desc("Voidbind")),
         unit("Pokpok, Rockpacker", 3, 1)
+            .tags(Red.class, Blue.class)
             .desc("Draw 1 card, give a unit -1 strength")
             .addOnEnterEffects(
                 new DrawCards(1),
                 action(new AdjustStrength(-1).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit -1 strength")),
         unit("Snowrager", 2, 1)
+            .tags(Blue.class)
             .desc("Berserk, add 1 strength to this if you have 3 or more units")
             .addOnEnterEffects(new SetBerserk(true))
             .addOnConditionEffects(
                 new AdjustStrength(1).addTriggerConditions(new MinDefendingUnitCount(3))),
         unit("Cabal Spymaster", 3, 1)
+            .tags(Black.class)
             .desc("Unblockable, give all defending units with 3 or less strength Unblockable")
             .addOnEnterEffects(
                 new SetUnblockable(true),
@@ -157,11 +167,13 @@ public class Cards {
                             .setTargetSource(new DefendingUnits().addFilters(new MaxStrength(3))))
                     .desc("Give all defending units with 3 or less strength Unblockable")),
         unit("Oni Ronin", 1, 1)
+            .tags(Red.class)
             .desc("Add 1 strength to two units")
             .addOnEnterEffects(
                 action(new AdjustStrength(1).setInputCount(1, 2).setTargetSource(new AllUnits()))
                     .desc("Add 1 strength to two units")),
         spell("Read the Stars", 2)
+            .tags(Green.class, Blue.class)
             .desc("Draw 1 card, Voidbind if you have a Flying unit")
             .addOnEnterEffects(new DrawCards(1))
             .addOnConditionEffects(
@@ -169,18 +181,21 @@ public class Cards {
                     .desc("Voidbind")
                     .addTriggerConditions(new AnyDefendingUnit(unit -> unit.flying))),
         spell("Levitate", 2)
+            .tags(Blue.class)
             .desc("Add 2 power, give a unit Flying")
             .addOnEnterEffects(
                 new AdjustPower(2),
                 action(new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit flying")),
         spell("Arcane Defense", 3)
+            .tags(Green.class)
             .desc("Draw 1 card, give two units -1 strength")
             .addOnEnterEffects(
                 new DrawCards(1),
                 action(new AdjustStrength(-1).setInputCount(1, 2).setTargetSource(new AllUnits()))
                     .desc("Give two units -1 strength")),
         spell("Lightning Storm", 2)
+            .tags(Blue.class)
             .desc("Voidbind, destroy all attacking units with 2 or less strength")
             .addOnEnterEffects(
                 action(new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
@@ -190,19 +205,25 @@ public class Cards {
                             .setTargetSource(new AttackingUnits().addFilters(new MaxStrength(2))))
                     .desc("Destroy all attacking units with 2 or less strength")),
         spell("Bolster", 3)
+            .tags(Yellow.class)
             .desc("Add 2 power, give a unit +3 defense")
             .addOnEnterEffects(
                 new AdjustPower(2),
                 action(new AdjustDefense(3).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit +3 defense")),
         spell("Hipshot", 3)
+            .tags(Red.class)
             .desc("Add 1 power, deal 3 damage to a player")
             .addOnEnterEffects(
                 new AdjustPower(1),
                 action(new AdjustHp(-3).setInputCount(1).setTargetSource(new AllPlayers()))
                     .desc("Deal 3 damage to a player")),
-        spell("Wisdom of the Elders", 5).desc("Draw 2 cards").addOnEnterEffects(new DrawCards(2)),
+        spell("Wisdom of the Elders", 5)
+            .tags(Blue.class)
+            .desc("Draw 2 cards")
+            .addOnEnterEffects(new DrawCards(2)),
         spell("Pack Hunt", 4)
+            .tags(Yellow.class)
             .desc(
                 "Add 2 power, give all defending units +2 strength if you generated at least 7 power")
             .addOnEnterEffects(new AdjustPower(2))
@@ -211,6 +232,7 @@ public class Cards {
                     .desc("Give all defending units +2 strength")
                     .addTriggerConditions(new MinPower(7))),
         spell("Deathstrike", 3)
+            .tags(Black.class)
             .desc("Add 1 power, destroy a unit")
             .addOnEnterEffects(
                 new AdjustPower(1),
