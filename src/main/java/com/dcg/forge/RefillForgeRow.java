@@ -4,6 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
 import com.dcg.card.Card;
+import com.dcg.card.SeekPower;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
 import com.dcg.game.Owned;
@@ -23,8 +24,7 @@ public class RefillForgeRow extends AbstractCommandBuilder {
     if (forgeRowCount < 6) {
       List<Integer> forgeDeck =
           coreSystem
-              .getStream(Aspect.all(Card.class, Deck.class).exclude(Owned.class))
-
+              .getStream(Aspect.all(Card.class, Deck.class).exclude(SeekPower.class, Owned.class))
               .collect(Collectors.toList());
       if (forgeDeck.size() > 0) {
         int cardEntity = forgeDeck.get(random.nextInt(forgeDeck.size()));

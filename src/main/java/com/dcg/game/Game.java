@@ -13,6 +13,7 @@ import com.dcg.action.ActionSystem;
 import com.dcg.action.ExecuteAction;
 import com.dcg.battle.Unit;
 import com.dcg.card.Card;
+import com.dcg.card.SeekPower;
 import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
@@ -86,12 +87,15 @@ public class Game {
 
   public String getWorldJson() {
     CoreSystem coreSystem = world.getSystem(CoreSystem.class);
-    Stream<Integer> cards =
-        coreSystem.getStream(Aspect.all(Card.class).one(ForgeRow.class, PlayArea.class));
-    Stream<Integer> rest =
-        coreSystem.getStream(Aspect.one(Player.class, Unit.class, Action.class));
-    IntBag entities = Stream.concat(cards, rest).collect(CoreSystem.toIntBag());
-    return toJson(entities);
+    Stream<Integer> world = coreSystem.getStream(Aspect.all(SeekPower.class));
+    world =
+        Stream.concat(
+            world,
+            coreSystem.getStream(Aspect.all(Card.class).one(ForgeRow.class, PlayArea.class)));
+    world =
+        Stream.concat(
+            world, coreSystem.getStream(Aspect.one(Player.class, Unit.class, Action.class)));
+    return toJson(world.collect(CoreSystem.toIntBag()));
   }
 
   public boolean isOver() {

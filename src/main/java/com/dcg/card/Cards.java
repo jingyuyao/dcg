@@ -26,6 +26,8 @@ import com.dcg.triggercondition.AnyDefendingUnit;
 import com.dcg.triggercondition.MinDefendingUnitCount;
 import com.dcg.triggercondition.MinPower;
 import com.dcg.triggercondition.PlayedTag;
+import com.dcg.triggercondition.ThroneActive;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,6 +46,10 @@ public class Cards {
 
   public static List<CommandBuilder> createBasicUnits() {
     return Arrays.asList(
+        unit("Noble Firemane", 0, 2)
+            .tags(Red.class, Yellow.class)
+            .desc("+3 strength when Throne is active")
+            .addOnConditionEffects(new AdjustStrength(3).addTriggerConditions(new ThroneActive())),
         unit("Eager Owlet", 0, 2)
             .tags(Green.class, Blue.class)
             .desc("Flying")
@@ -78,7 +84,24 @@ public class Cards {
             .addOnEnterEffects(new AdjustDefense(3)));
   }
 
-  public static List<CommandBuilder> createForge() {
+  public static List<CommandBuilder> createSeekPowers() {
+    List<CommandBuilder> seekPowers = new ArrayList<>();
+    // TODO: make the number a function of player
+    for (int i = 0; i < 6; i++) {
+      seekPowers.add(
+          spell("Seek Power", 3)
+              .tags(SeekPower.class)
+              .desc("Add 2 power, may banish this to create a 2 strength Cavalry")
+              .addOnEnterEffects(new AdjustPower(2))
+              .addOnConditionEffects(
+                  action(new DeleteCard().chain(new CreateUnit("Cavalry", 2)))
+                      .desc("Banish this to create a 2 strength Cavalry")
+                      .addTriggerConditions(new ThroneActive())));
+    }
+    return seekPowers;
+  }
+
+  public static List<CommandBuilder> createForgeDeck() {
     return Arrays.asList(
         unit("Beckoning Lumen", 3, 3)
             .tags(Yellow.class)

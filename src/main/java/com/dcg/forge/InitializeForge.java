@@ -9,9 +9,13 @@ import java.util.List;
 public class InitializeForge extends AbstractCommandBuilder {
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
-    for (CommandBuilder builder : Cards.createForge()) {
+    for (CommandBuilder builder : Cards.createForgeDeck()) {
       commandChain.addEnd(builder.build(world, -1));
     }
+    for (CommandBuilder builder : Cards.createSeekPowers()) {
+      commandChain.addEnd(builder.build(world, -1));
+    }
+    commandChain.addEnd(new AddBuyCardToSeekPowers().build(world, -1));
     commandChain.addEnd(new RefillForgeRow().build(world, -1));
   }
 }
