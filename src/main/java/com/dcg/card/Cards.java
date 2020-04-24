@@ -23,7 +23,6 @@ import com.dcg.targetsource.AttackingUnits;
 import com.dcg.targetsource.DefendingUnits;
 import com.dcg.targetsource.VoidbindableCards;
 import com.dcg.triggercondition.AnyDefendingUnit;
-import com.dcg.triggercondition.MinAnyDefendingStrength;
 import com.dcg.triggercondition.MinDefendingUnitCount;
 import com.dcg.triggercondition.MinPower;
 import com.dcg.triggercondition.PlayedTag;
@@ -56,7 +55,8 @@ public class Cards {
             .tags(Yellow.class, Green.class)
             .desc("If you have a unit with 4 strength or more, this gets +2 strength")
             .addOnConditionEffects(
-                new AdjustStrength(2).addTriggerConditions(new MinAnyDefendingStrength(4))),
+                new AdjustStrength(2)
+                    .addTriggerConditions(new AnyDefendingUnit(unit -> unit.strength >= 4))),
         unit("Storm Lynx", 0, 1)
             .tags(Yellow.class, Blue.class)
             .desc("If you played a spell this turn, this gets +2 strength and Endurance")
