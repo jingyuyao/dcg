@@ -88,8 +88,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     @Override
-    public Command setInputs(List<Integer> inputs) {
-      this.inputs = inputs;
+    public Command setInput(List<Integer> input) {
+      this.inputs = input;
       return this;
     }
 

@@ -34,7 +34,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
 
     Action action = mAction.get(actionEntity);
     Command command = action.command;
-    command.setInputs(inputs);
+    command.setInput(inputs);
     if (command.canRun()) {
       commandChain.addEnd(command);
       world.delete(actionEntity);

@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Command {
   /** Sets the optional user input for this command. */
-  Command setInputs(List<Integer> inputs);
+  Command setInput(List<Integer> input);
 
   /** Returns the minimum number of inputs required. */
   int getMinInputCount();
