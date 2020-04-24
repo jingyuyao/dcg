@@ -33,8 +33,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class Cards {
-  @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> createBasicCards() {
     return Arrays.asList(
         basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
@@ -46,7 +46,6 @@ public class Cards {
         basic("Secret Pages", 0).desc("Add 2 power").addOnEnterEffects(new AdjustPower(2)));
   }
 
-  @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> createBasicUnits() {
     return Arrays.asList(
         unit("Eager Owlet", 0, 2)
@@ -82,7 +81,6 @@ public class Cards {
             .addOnEnterEffects(new AdjustDefense(3)));
   }
 
-  @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> createUnits() {
     return Stream.of(
             unit("Beckoning Lumen", 3, 3)
@@ -177,7 +175,6 @@ public class Cards {
         .collect(Collectors.toList());
   }
 
-  @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> createSpells() {
     return Arrays.asList(
         spell("Read the Stars", 2)
