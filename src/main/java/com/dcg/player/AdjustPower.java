@@ -3,6 +3,7 @@ package com.dcg.player;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
+import com.dcg.turn.Turn;
 import java.util.List;
 
 public class AdjustPower extends AbstractCommandBuilder {

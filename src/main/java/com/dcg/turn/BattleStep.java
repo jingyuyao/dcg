@@ -1,4 +1,4 @@
-package com.dcg.player;
+package com.dcg.turn;
 
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Attacking;
@@ -7,6 +7,7 @@ import com.dcg.battle.DestroyUnit;
 import com.dcg.battle.Unit;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
+import com.dcg.player.AdjustHp;
 import java.util.List;
 
 public class BattleStep extends AbstractCommandBuilder {

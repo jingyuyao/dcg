@@ -2,7 +2,7 @@ package com.dcg.triggercondition;
 
 import com.artemis.ComponentMapper;
 import com.dcg.game.CoreSystem;
-import com.dcg.player.Turn;
+import com.dcg.turn.Turn;
 import java.util.List;
 
 public class MinPower implements TriggerCondition {

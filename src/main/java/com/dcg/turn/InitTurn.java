@@ -1,11 +1,10 @@
-package com.dcg.game;
+package com.dcg.turn;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
 import com.dcg.player.Player;
-import com.dcg.player.Turn;
 import java.util.List;
 
 public class InitTurn extends AbstractCommandBuilder {

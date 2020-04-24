@@ -1,4 +1,4 @@
-package com.dcg.player;
+package com.dcg.turn;
 
 import com.artemis.Component;
 import com.dcg.command.CommandBuilder;

@@ -8,7 +8,7 @@ import com.dcg.game.Owned;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
 import com.dcg.player.AdjustPower;
-import com.dcg.player.Turn;
+import com.dcg.turn.Turn;
 import java.util.List;
 
 public class BuyCard extends AbstractCommandBuilder {

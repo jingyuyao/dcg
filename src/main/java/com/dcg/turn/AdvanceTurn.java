@@ -1,4 +1,4 @@
-package com.dcg.player;
+package com.dcg.turn;
 
 import com.artemis.Aspect;
 import com.dcg.card.Card;

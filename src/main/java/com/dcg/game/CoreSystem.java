@@ -10,7 +10,7 @@ import com.dcg.battle.Defending;
 import com.dcg.battle.Unit;
 import com.dcg.location.PlayArea;
 import com.dcg.player.Player;
-import com.dcg.player.Turn;
+import com.dcg.turn.Turn;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 

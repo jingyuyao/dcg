@@ -13,6 +13,7 @@ import com.dcg.game.CoreSystem;
 import com.dcg.location.Hand;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
+import com.dcg.turn.Turn;
 
 @All({Player.class, Turn.class})
 public class PlayHandSystem extends BaseEntitySystem {

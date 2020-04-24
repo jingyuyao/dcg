@@ -12,7 +12,7 @@ import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.PlayArea;
-import com.dcg.player.Turn;
+import com.dcg.turn.Turn;
 import java.util.List;
 
 /**

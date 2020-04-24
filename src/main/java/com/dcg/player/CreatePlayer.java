@@ -7,6 +7,7 @@ import com.dcg.card.Cards;
 import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
+import com.dcg.turn.AdvanceTurn;
 import java.util.List;
 import java.util.Random;
 
