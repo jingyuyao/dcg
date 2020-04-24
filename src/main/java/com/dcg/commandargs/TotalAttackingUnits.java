@@ -1,4 +1,4 @@
-package com.dcg.effect;
+package com.dcg.commandargs;
 
 import com.dcg.game.CoreSystem;
 import java.util.function.Supplier;

@@ -11,7 +11,7 @@ import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
 import com.dcg.battle.SetUnblockable;
 import com.dcg.command.CommandBuilder;
-import com.dcg.effect.TotalAttackingUnits;
+import com.dcg.commandargs.TotalAttackingUnits;
 import com.dcg.game.CreateEntity;
 import com.dcg.player.AdjustHp;
 import com.dcg.player.AdjustPower;
