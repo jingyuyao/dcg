@@ -87,7 +87,7 @@ public class Game {
 
   public String getWorldJson() {
     CoreSystem coreSystem = world.getSystem(CoreSystem.class);
-    Stream<Integer> world = coreSystem.getStream(Aspect.all(SeekPower.class));
+    Stream<Integer> world = coreSystem.getStream(Aspect.all(SeekPower.class).exclude(Owned.class));
     world =
         Stream.concat(
             world,
