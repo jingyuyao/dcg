@@ -23,7 +23,6 @@ import com.dcg.targetsource.AttackingUnits;
 import com.dcg.targetsource.DefendingUnits;
 import com.dcg.targetsource.VoidbindableCards;
 import com.dcg.triggercondition.AnyDefendingUnit;
-import com.dcg.triggercondition.AnySpell;
 import com.dcg.triggercondition.MinAnyDefendingStrength;
 import com.dcg.triggercondition.MinDefendingUnitCount;
 import com.dcg.triggercondition.MinPower;
@@ -35,6 +34,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Cards {
+  @SuppressWarnings("SpellCheckingInspection")
   public static List<CommandBuilder> createBasicCards() {
     return Arrays.asList(
         basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
@@ -62,8 +62,8 @@ public class Cards {
             .tags(Yellow.class, Blue.class)
             .desc("If you played a spell this turn, this gets +2 strength and Endurance")
             .addOnConditionEffects(
-                new AdjustStrength(2).addTriggerConditions(new AnySpell()),
-                new SetEndurance(true).addTriggerConditions(new AnySpell())),
+                new AdjustStrength(2).addTriggerConditions(new PlayedTag(Spell.class)),
+                new SetEndurance(true).addTriggerConditions(new PlayedTag(Spell.class))),
         unit("Grenadin Drone", 0, 2)
             .tags(Red.class, Black.class)
             .desc("Create a 1 strength Grenadin")
@@ -123,7 +123,8 @@ public class Cards {
             unit("Temple Scribe", 1, 1)
                 .desc("Add 1 power, draw 1 card if you played any spell")
                 .addOnEnterEffects(new AdjustPower(1))
-                .addOnConditionEffects(new DrawCards(1).addTriggerConditions(new AnySpell())),
+                .addOnConditionEffects(
+                    new DrawCards(1).addTriggerConditions(new PlayedTag(Spell.class))),
             unit("Mystic Ascendant", 6, 4)
                 .desc("Draw 1 card, add 2 strength to this if you generated 7 or more power")
                 .addOnEnterEffects(new DrawCards(1))
