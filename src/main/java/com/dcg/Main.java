@@ -1,6 +1,6 @@
 package com.dcg;
 
-import com.dcg.game.GameServer;
+import com.dcg.server.GameServer;
 import java.net.InetSocketAddress;
 import org.java_websocket.server.WebSocketServer;
 

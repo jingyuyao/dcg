@@ -1,5 +1,6 @@
-package com.dcg.game;
+package com.dcg.server;
 
+import com.dcg.game.Game;
 import com.esotericsoftware.jsonbeans.Json;
 import com.esotericsoftware.jsonbeans.JsonException;
 import java.net.InetSocketAddress;

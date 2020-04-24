@@ -1,4 +1,4 @@
-package com.dcg.game;
+package com.dcg.server;
 
 import java.util.Collections;
 import java.util.List;
