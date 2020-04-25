@@ -46,6 +46,14 @@ public class Cards {
 
   public static List<CreateEntity> createBasicUnits() {
     return Arrays.asList(
+        unit("Yeti Windflyer", 4, 1)
+            .tags(Red.class, Blue.class)
+            .desc("Flying, deal 2 damage to a player if you are 3 or more units")
+            .addOnEnterEffects(new SetFlying(true))
+            .addOnConditionEffects(
+                action(new AdjustHp(-2).setInputCount(1).setTargetSource(new AllPlayers()))
+                    .desc("Deal 2 damage to a player")
+                    .addTriggerConditions(new MinDefendingUnitCount(3))),
         unit("Noble Firemane", 0, 2)
             .tags(Red.class, Yellow.class)
             .desc("Throne: +3 strength")
@@ -109,16 +117,19 @@ public class Cards {
             .addOnConditionEffects(
                 new AdjustHp(2).addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Jotun Punter", 4, 4)
+            .tags(Blue.class)
             .desc("Give a unit flying")
             .addOnEnterEffects(
                 action(new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit flying")),
         unit("Amethyst Acolyte", 3, 2)
+            .tags(Black.class)
             .desc("Give a unit -2 strength")
             .addOnEnterEffects(
                 action(new AdjustStrength(-2).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit -2 strength")),
         unit("Tinker Apprentice", 1, 1)
+            .tags(Green.class)
             .desc("Add 1 power, give a unit +1 strength")
             .addOnEnterEffects(
                 new AdjustPower(1),
@@ -128,19 +139,13 @@ public class Cards {
             .tags(Green.class)
             .desc("Endurance, gain HP equal to # of attacking units")
             .addOnEnterEffects(new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
-        unit("Yeti Windflyer", 4, 1)
-            .desc("Flying, deal 2 damage to a player if you are 3 or more units")
-            .addOnEnterEffects(new SetFlying(true))
-            .addOnConditionEffects(
-                action(new AdjustHp(-2).setInputCount(1).setTargetSource(new AllPlayers()))
-                    .desc("Deal 2 damage to a player")
-                    .addTriggerConditions(new MinDefendingUnitCount(3))),
         unit("Stone shaker", 4, 1)
             .tags(Red.class)
             .desc("Add 2 power, Berserk, add 2 strength to generated 7 or more power")
             .addOnEnterEffects(new AdjustPower(2), new SetBerserk(true))
             .addOnConditionEffects(new AdjustStrength(2).addTriggerConditions(new MinPower(7))),
         unit("Temple Scribe", 1, 1)
+            .tags(Yellow.class)
             .desc("Add 1 power, draw 1 card if you played any spell")
             .addOnEnterEffects(new AdjustPower(1))
             .addOnConditionEffects(
