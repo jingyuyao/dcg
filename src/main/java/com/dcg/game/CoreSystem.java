@@ -19,9 +19,11 @@ import java.util.stream.Stream;
  */
 public class CoreSystem extends BaseSystem {
   private static final Common DEFAULT_COMMON = new Common();
+  private static final Turn DEFAULT_TURN = new Turn();
   protected AspectSubscriptionManager manager;
   protected ComponentMapper<Common> mNamed;
   protected ComponentMapper<Owned> mOwned;
+  protected ComponentMapper<Turn> mTurn;
 
   /** Get all entities matching the aspect as a stream. */
   public Stream<Integer> getStream(Aspect.Builder aspectBuilder) {
@@ -42,9 +44,13 @@ public class CoreSystem extends BaseSystem {
     return entity != -1 ? mNamed.getSafe(entity, DEFAULT_COMMON).name : "";
   }
 
-  // TODO: make this return an int to make things simpler
-  public Stream<Integer> getCurrentPlayerEntity() {
-    return getStream(Aspect.all(Player.class, Turn.class));
+  public Integer getCurrentPlayerEntity() {
+    return getStream(Aspect.all(Player.class, Turn.class)).findAny().orElse(-1);
+  }
+
+  public Turn getTurn() {
+    int currentPlayerEntity = getCurrentPlayerEntity();
+    return currentPlayerEntity != -1 ? mTurn.get(currentPlayerEntity) : DEFAULT_TURN;
   }
 
   public Stream<Integer> getAttackingEntities() {

@@ -25,7 +25,6 @@ public class EffectSystem extends IteratingSystem {
   @Wire protected CommandChain commandChain;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Effect> mEffect;
-  protected ComponentMapper<Turn> mTurn;
 
   @Override
   protected void inserted(int entityId) {
@@ -41,28 +40,23 @@ public class EffectSystem extends IteratingSystem {
 
   @Override
   protected void process(int entityId) {
-    coreSystem
-        .getCurrentPlayerEntity()
-        .map(mTurn::get)
+    Turn turn = coreSystem.getTurn();
+    Effect effect = mEffect.get(entityId);
+    effect.onCondition.stream()
+        .filter(builder -> !turn.triggeredConditionalEffects.contains(builder))
         .forEach(
-            turn -> {
-              Effect effect = mEffect.get(entityId);
-              effect.onCondition.stream()
-                  .filter(builder -> !turn.triggeredConditionalEffects.contains(builder))
-                  .forEach(
-                      builder -> {
-                        Command command = builder.build(world, entityId);
-                        if (command.canTrigger()) {
-                          if (command.isInputValid()) {
-                            System.out.printf("Effect: all conditions valid for %s\n", command);
-                            commandChain.addEnd(command);
-                          } else {
-                            System.out.printf("Effect: trigger conditions valid for %s\n", command);
-                            commandChain.addEnd(new CreateAction(builder).build(world, entityId));
-                          }
-                          turn.triggeredConditionalEffects.add(builder);
-                        }
-                      });
+            builder -> {
+              Command command = builder.build(world, entityId);
+              if (command.canTrigger()) {
+                if (command.isInputValid()) {
+                  System.out.printf("Effect: all conditions valid for %s\n", command);
+                  commandChain.addEnd(command);
+                } else {
+                  System.out.printf("Effect: trigger conditions valid for %s\n", command);
+                  commandChain.addEnd(new CreateAction(builder).build(world, entityId));
+                }
+                turn.triggeredConditionalEffects.add(builder);
+              }
             });
   }
 

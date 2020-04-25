@@ -29,18 +29,13 @@ public class PlayHandSystem extends BaseEntitySystem {
             new SubscriptionListener() {
               @Override
               public void inserted(IntBag cardEntities) {
-                coreSystem
-                    .getCurrentPlayerEntity()
-                    .forEach(
-                        currentPlayerEntity -> {
-                          for (int i = 0; i < cardEntities.size(); i++) {
-                            int cardEntity = cardEntities.get(i);
-                            if (coreSystem.getParent(cardEntity) == currentPlayerEntity) {
-                              commandChain.addEnd(
-                                  new MoveLocation(PlayArea.class).build(world, cardEntity));
-                            }
-                          }
-                        });
+                int currentPlayerEntity = coreSystem.getCurrentPlayerEntity();
+                for (int i = 0; i < cardEntities.size(); i++) {
+                  int cardEntity = cardEntities.get(i);
+                  if (coreSystem.getParent(cardEntity) == currentPlayerEntity) {
+                    commandChain.addEnd(new MoveLocation(PlayArea.class).build(world, cardEntity));
+                  }
+                }
               }
 
               @Override
