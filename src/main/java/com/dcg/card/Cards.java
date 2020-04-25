@@ -80,15 +80,19 @@ public class Cards {
             .addOnEnterEffects(new CreateUnit("Grenadin", 1)),
         unit("Fearless Nomad", 0, 2)
             .tags(Red.class, Green.class)
+            .desc("Berserk")
             .addOnEnterEffects(new SetBerserk(true)),
         unit("Stonepowder Alchemist", 0, 2)
             .tags(Green.class, Black.class)
+            .desc("Lifesteal")
             .addOnEnterEffects(new SetLifeSteal(true)),
         unit("Xenan Cupbearer", 0, 1)
             .tags(Yellow.class, Black.class)
+            .desc("1 defense, heals 1 hp")
             .addOnEnterEffects(new AdjustDefense(1), new AdjustHp(1)),
         unit("Withering Witch", 0, 2)
             .tags(Blue.class, Black.class)
+            .desc("3 defense")
             .addOnEnterEffects(new AdjustDefense(3)));
   }
 

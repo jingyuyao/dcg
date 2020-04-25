@@ -30,14 +30,6 @@ public class CreateCard extends CreateEntity {
   }
 
   @Override
-  public CreateEntity desc(String description) {
-    if (createUnit != null) {
-      createUnit.desc(description);
-    }
-    return super.desc(description);
-  }
-
-  @Override
   public CreateEntity addOnEnterEffects(CommandBuilder... effects) {
     if (createUnit != null) {
       createUnit.addOnEnterEffects(effects);
