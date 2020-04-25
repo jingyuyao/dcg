@@ -5,7 +5,6 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
 import com.dcg.game.CreateEntity;
 import com.dcg.location.ForgeDeck;
-import com.dcg.location.ThroneDeck;
 import java.util.List;
 
 public class InitializeForge extends AbstractCommandBuilder {
@@ -14,10 +13,6 @@ public class InitializeForge extends AbstractCommandBuilder {
     for (CreateEntity createEntity : Cards.createForgeDeck()) {
       commandChain.addEnd(createEntity.tags(ForgeDeck.class).build(world, -1));
     }
-    for (CreateEntity createEntity : Cards.createThroneDeck()) {
-      commandChain.addEnd(createEntity.tags(ThroneDeck.class).build(world, -1));
-    }
-    commandChain.addEnd(new AddBuyCardToThroneDeck().build(world, -1));
     commandChain.addEnd(new DrawForgeDeck(6).build(world, -1));
   }
 }

@@ -96,10 +96,9 @@ public class Cards {
             .addOnEnterEffects(new AdjustDefense(3)));
   }
 
-  public static List<CreateEntity> createThroneDeck() {
+  public static List<CreateEntity> createThroneDeck(int numPlayers) {
     List<CreateEntity> seekPowers = new ArrayList<>();
-    // TODO: make the number a function of player
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < numPlayers * 2; i++) {
       seekPowers.add(
           spell("Seek Power", 3)
               .desc("Add 2 power, Throne: may banish this to create a 2 strength Cavalry")
