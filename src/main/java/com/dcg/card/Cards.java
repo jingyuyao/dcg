@@ -35,13 +35,19 @@ import java.util.List;
 public class Cards {
   public static List<CreateEntity> createBasicCards() {
     return Arrays.asList(
-        basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Diplomacy", 0).desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Secret Pages", 0).desc("Add 2 power").addOnEnterEffects(new AdjustPower(2)));
+        basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+        basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+        basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+        basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+        basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+        basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+        basic("Worn Shield")
+            .desc("Throne: give a unit +2 defense")
+            .addOnConditionEffects(
+                action(new AdjustDefense(2).setInputCount(1).setTargetSource(new AllUnits()))
+                    .desc("Give a unit +2 defense")
+                    .addTriggerConditions(new ThroneActive())),
+        basic("Secret Pages").desc("Add 2 power").addOnEnterEffects(new AdjustPower(2)));
   }
 
   public static List<CreateEntity> createBasicUnits() {
@@ -274,8 +280,8 @@ public class Cards {
     return new CreateAction(builder);
   }
 
-  public static CreateEntity basic(String name, int cost) {
-    return new CreateCard(name, cost).tags(Basic.class);
+  public static CreateEntity basic(String name) {
+    return new CreateCard(name, 0).tags(Basic.class);
   }
 
   public static CreateEntity spell(String name, int cost) {
