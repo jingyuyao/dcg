@@ -17,15 +17,12 @@ import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
 import com.dcg.effect.EffectSystem;
-import com.dcg.forge.InitializeForge;
 import com.dcg.location.ForgeDeck;
 import com.dcg.location.ForgeRow;
 import com.dcg.location.PlayArea;
 import com.dcg.location.ThroneDeck;
-import com.dcg.player.CreatePlayer;
 import com.dcg.player.PlayHandSystem;
 import com.dcg.player.Player;
-import com.dcg.turn.InitTurn;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Random;
@@ -50,13 +47,9 @@ public class Game {
           .register(new CommandChain());
   private final World world = new World(configuration);
 
-  public Game() {
+  public Game(List<String> players) {
     serializationManager.setSerializer(new JsonArtemisSerializer(world));
-    process(new InitializeForge());
-    process(new CreatePlayer("Jonah"));
-    process(new CreatePlayer("Bowen"));
-    process(new CreatePlayer("Jingyu"));
-    process(new InitTurn("Jonah"));
+    process(new SetupGame(players));
   }
 
   public void execute(List<Integer> input) {

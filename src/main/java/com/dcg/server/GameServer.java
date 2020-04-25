@@ -4,6 +4,7 @@ import com.dcg.game.Game;
 import com.esotericsoftware.jsonbeans.Json;
 import com.esotericsoftware.jsonbeans.JsonException;
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -19,7 +20,7 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onStart() {
     System.out.println("Server started");
-    game = new Game();
+    game = new Game(Arrays.asList("Andrew", "Bowen", "Jingyu"));
   }
 
   @Override
@@ -54,7 +55,7 @@ public class GameServer extends WebSocketServer {
         broadcast(game.getWorldJson());
         if (game.isOver()) {
           System.out.println("GG");
-          game = new Game();
+          game = new Game(Arrays.asList("Andrew", "Bowen", "Jingyu"));
         }
         break;
       case "query":
