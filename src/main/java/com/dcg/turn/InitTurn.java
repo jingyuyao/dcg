@@ -21,13 +21,10 @@ public class InitTurn extends AbstractCommandBuilder {
 
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
-    int playerEntity =
-        coreSystem
-            .findByName(playerName, Aspect.all(Player.class))
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("Cannot find: " + playerName));
-    Turn turn = mTurn.create(playerEntity);
-    turn.powerPool = 0;
+    coreSystem
+        .findByName(playerName, Aspect.all(Player.class))
+        .findFirst()
+        .ifPresent(playerEntity -> mTurn.create(playerEntity));
     int playerCount = (int) coreSystem.getStream(Aspect.all(Player.class)).count();
     for (CreateEntity createEntity : Cards.createThroneDeck(playerCount)) {
       commandChain.addEnd(createEntity.tags(ThroneDeck.class).build(world, -1));

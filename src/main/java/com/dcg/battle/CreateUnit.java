@@ -22,12 +22,6 @@ public class CreateUnit extends CreateEntity {
     int unitEntity = createEntity(originEntity);
     Unit unit = mUnit.create(unitEntity);
     unit.strength = strength;
-    unit.defense = 0;
-    unit.flying = false;
-    unit.lifeSteal = false;
-    unit.berserk = false;
-    unit.endurance = false;
-    unit.unblockable = false;
     mDefending.create(unitEntity);
   }
 }

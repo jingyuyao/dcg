@@ -7,5 +7,5 @@ import com.artemis.Component;
  * player.
  */
 public class Card extends Component {
-  public int cost;
+  public int cost = 0;
 }

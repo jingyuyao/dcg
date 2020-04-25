@@ -24,10 +24,6 @@ public class CreateAction extends CreateEntity {
     // exec
     Preconditions.checkArgument(owner.isPresent());
     int actionEntity = createEntity(originEntity);
-    Action action = mAction.create(actionEntity);
-    action.command = builder.build(world, owner.getAsInt());
-    action.canTrigger = false;
-    action.minInputCount = 0;
-    action.maxInputCount = 0;
+    mAction.create(actionEntity).command = builder.build(world, owner.getAsInt());
   }
 }
