@@ -8,4 +8,5 @@ import com.artemis.Component;
  */
 public class Card extends Component {
   public int cost = 0;
+  public boolean canFlash = false;
 }

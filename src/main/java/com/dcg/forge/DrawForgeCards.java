@@ -1,6 +1,7 @@
 package com.dcg.forge;
 
 import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.dcg.action.CreateAction;
 import com.dcg.card.Card;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 public class DrawForgeCards extends AbstractCommandBuilder {
   @Wire protected Random random;
+  protected ComponentMapper<Card> mCard;
 
   public DrawForgeCards(int num) {
     setIntArgSupplier(() -> num);
@@ -32,6 +34,11 @@ public class DrawForgeCards extends AbstractCommandBuilder {
         commandChain.addEnd(
             new MoveLocation(ForgeRow.class).build(world, cardEntity),
             new CreateAction(new BuyCard().chain(new DrawForgeCards(1))).build(world, cardEntity));
+        Card card = mCard.get(cardEntity);
+        if (card.canFlash) {
+          commandChain.addEnd(
+              new CreateAction(new Flash().chain(new DrawForgeCards(1))).build(world, cardEntity));
+        }
       } else {
         System.out.println("No more forge cards");
         break;

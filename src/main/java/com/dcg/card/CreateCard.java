@@ -9,6 +9,7 @@ import java.util.List;
 
 public class CreateCard extends CreateEntity {
   private final int cost;
+  private boolean canFlash = false;
   private CreateUnit createUnit;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<HasUnit> mHasUnit;
@@ -16,6 +17,11 @@ public class CreateCard extends CreateEntity {
   public CreateCard(String name, int cost) {
     super(name);
     this.cost = cost;
+  }
+
+  public CreateCard canFlash() {
+    this.canFlash = true;
+    return this;
   }
 
   /**
@@ -61,6 +67,7 @@ public class CreateCard extends CreateEntity {
     int cardEntity = createEntity(originEntity);
     Card card = mCard.create(cardEntity);
     card.cost = cost;
+    card.canFlash = canFlash;
     if (createUnit != null) {
       HasUnit hasUnit = mHasUnit.create(cardEntity);
       hasUnit.strength = createUnit.strength;

@@ -19,10 +19,12 @@ import java.util.stream.Stream;
  */
 public class CoreSystem extends BaseSystem {
   private static final Common DEFAULT_COMMON = new Common();
+  private static final Player DEFAULT_PLAYER = new Player();
   private static final Turn DEFAULT_TURN = new Turn();
   protected AspectSubscriptionManager manager;
   protected ComponentMapper<Common> mNamed;
   protected ComponentMapper<Owned> mOwned;
+  protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Turn> mTurn;
 
   /** Get all entities matching the aspect as a stream. */
@@ -46,6 +48,11 @@ public class CoreSystem extends BaseSystem {
 
   public Integer getCurrentPlayerEntity() {
     return getStream(Aspect.all(Player.class, Turn.class)).findAny().orElse(-1);
+  }
+
+  public Player getCurrentPlayer() {
+    int currentPlayerEntity = getCurrentPlayerEntity();
+    return currentPlayerEntity != -1 ? mPlayer.get(currentPlayerEntity) : DEFAULT_PLAYER;
   }
 
   public Turn getTurn() {

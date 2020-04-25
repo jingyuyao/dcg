@@ -16,6 +16,7 @@ import com.dcg.game.CreateEntity;
 import com.dcg.player.AdjustHp;
 import com.dcg.player.AdjustPower;
 import com.dcg.player.DrawCards;
+import com.dcg.player.RefreshFlashTokens;
 import com.dcg.targetfilter.MaxStrength;
 import com.dcg.targetsource.AllPlayers;
 import com.dcg.targetsource.AllUnits;
@@ -41,6 +42,10 @@ public class Cards {
         basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
         basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
         basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
+        basic("Refresh")
+            .desc("Throne: refresh your Flash tokens")
+            .addOnConditionEffects(
+                action(new RefreshFlashTokens()).addTriggerConditions(new ThroneActive())),
         basic("Worn Shield")
             .desc("Throne: give a unit +2 defense")
             .addOnConditionEffects(
@@ -126,12 +131,14 @@ public class Cards {
             .addOnConditionEffects(
                 new AdjustHp(2).addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Jotun Punter", 4, 4)
+            .canFlash()
             .tags(Blue.class)
             .desc("Give a unit flying")
             .addOnEnterEffects(
                 action(new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit flying")),
         unit("Amethyst Acolyte", 3, 2)
+            .canFlash()
             .tags(Black.class)
             .desc("Give a unit -2 strength")
             .addOnEnterEffects(
@@ -145,6 +152,7 @@ public class Cards {
                 action(new AdjustStrength(1).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit +1 strength")),
         unit("Throne Warden", 4, 2)
+            .canFlash()
             .tags(Green.class)
             .desc("Endurance, gain HP equal to # of attacking units")
             .addOnEnterEffects(new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
@@ -188,6 +196,7 @@ public class Cards {
                 action(new AdjustStrength(-1).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit -1 strength")),
         unit("Snowrager", 2, 1)
+            .canFlash()
             .tags(Blue.class)
             .desc("Berserk, add 1 strength to this if you have 3 or more units")
             .addOnEnterEffects(new SetBerserk(true))
@@ -203,6 +212,7 @@ public class Cards {
                             .setTargetSource(new DefendingUnits().addFilters(new MaxStrength(3))))
                     .desc("Give all defending units with 3 or less strength Unblockable")),
         unit("Oni Ronin", 1, 1)
+            .canFlash()
             .tags(Red.class)
             .desc("Add 1 strength to two units")
             .addOnEnterEffects(
@@ -276,19 +286,25 @@ public class Cards {
                     .desc("Destroy a unit")));
   }
 
-  public static CreateEntity action(CommandBuilder builder) {
+  public static CreateAction action(CommandBuilder builder) {
     return new CreateAction(builder);
   }
 
-  public static CreateEntity basic(String name) {
-    return new CreateCard(name, 0).tags(Basic.class);
+  public static CreateCard basic(String name) {
+    CreateCard createCard = new CreateCard(name, 0);
+    createCard.tags(Basic.class);
+    return createCard;
   }
 
-  public static CreateEntity spell(String name, int cost) {
-    return new CreateCard(name, cost).tags(Spell.class);
+  public static CreateCard spell(String name, int cost) {
+    CreateCard createCard = new CreateCard(name, cost);
+    createCard.tags(Spell.class);
+    return createCard;
   }
 
-  public static CreateEntity unit(String name, int cost, int strength) {
-    return new CreateCard(name, cost).hasUnit(strength);
+  public static CreateCard unit(String name, int cost, int strength) {
+    CreateCard createCard = new CreateCard(name, cost);
+    createCard.hasUnit(strength);
+    return createCard;
   }
 }
