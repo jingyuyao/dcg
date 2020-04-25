@@ -6,7 +6,6 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.Owned;
-import com.dcg.location.ForgeRow;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
 import com.dcg.player.AdjustPower;
@@ -16,11 +15,11 @@ public class Flash extends AbstractCommandBuilder {
   private CommandBuilder chained;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Owned> mOwned;
-  protected ComponentMapper<ForgeRow> mForgeRow;
+  protected ComponentMapper<PlayArea> mPlayArea;
 
   public Flash() {
     addTriggerConditions(
-        (originEntity, allowedTargets) -> mForgeRow.has(originEntity),
+        (originEntity, allowedTargets) -> !mPlayArea.has(originEntity),
         (cardEntity, allowedTargets) ->
             coreSystem.getTurn().powerPool >= mCard.get(cardEntity).cost,
         (originEntity, allowedTargets) -> coreSystem.getCurrentPlayer().flashTokens > 0);
