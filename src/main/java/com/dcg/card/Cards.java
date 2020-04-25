@@ -22,6 +22,7 @@ import com.dcg.targetsource.AllPlayers;
 import com.dcg.targetsource.AllUnits;
 import com.dcg.targetsource.AttackingUnits;
 import com.dcg.targetsource.DefendingUnits;
+import com.dcg.targetsource.ForgeRowCards;
 import com.dcg.targetsource.VoidbindableCards;
 import com.dcg.triggercondition.AnyDefendingUnit;
 import com.dcg.triggercondition.MinDefendingUnitCount;
@@ -230,6 +231,39 @@ public class Cards {
             .addOnEnterEffects(
                 action(new AdjustStrength(1).setInputCount(1, 2).setTargetSource(new AllUnits()))
                     .desc("Add 1 strength to two units")),
+        unit("Treasury Guard", 4, 2)
+            .tags(Green.class)
+            .desc("Add 2 power, Green: +1 Defense, Endurance")
+            .addOnEnterEffects(new AdjustPower(2))
+            .addOnConditionEffects(
+                new AdjustDefense(1).addTriggerConditions(new PlayedTag(Green.class)),
+                new SetEndurance(true).addTriggerConditions(new PlayedTag(Green.class))),
+        unit("Iceberg Warchief", 3, 3)
+            .tags(Red.class, Blue.class)
+            .desc("Red: create a 2 strength Yeti, Blue: create a 2 strength Yeti")
+            .addOnConditionEffects(
+                new CreateUnit("Yeti", 2).addTriggerConditions(new PlayedTag(Red.class)),
+                new CreateUnit("Yeti", 2).addTriggerConditions(new PlayedTag(Blue.class))),
+        unit("Lumbering Gruan", 3, 3)
+            .tags(Blue.class)
+            .desc("Berserk, Blue: Add 2 power")
+            .addOnEnterEffects(new SetBerserk(true))
+            .addOnConditionEffects(
+                new AdjustPower(2).addTriggerConditions(new PlayedTag(Blue.class))),
+        unit("Midnight Gale", 4, 3)
+            .tags(Blue.class, Black.class)
+            .desc("Add 1 power, Blue: Flying, Black: Lifesteal")
+            .addOnEnterEffects(new AdjustPower(1))
+            .addOnConditionEffects(
+                new SetFlying(true).addTriggerConditions(new PlayedTag(Blue.class)),
+                new SetLifeSteal(true).addTriggerConditions(new PlayedTag(Black.class))),
+        unit("Cabal Cutthroat", 4, 2)
+            .tags(Black.class)
+            .desc("Add 2 power, Lifesteal, Throne: Banish a card in the forge row")
+            .addOnEnterEffects(new AdjustPower(2), new SetLifeSteal(true))
+            .addOnConditionEffects(
+                action(new DeleteCard().setInputCount(1).setTargetSource(new ForgeRowCards()))
+                    .addTriggerConditions(new ThroneActive())),
         spell("Read the Stars", 2)
             .tags(Green.class, Blue.class)
             .desc("Draw 1 card, Voidbind if you have a Flying unit")

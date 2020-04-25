@@ -1,12 +1,16 @@
 package com.dcg.card;
 
+import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
+import com.dcg.forge.DrawForgeCards;
+import com.dcg.location.ForgeRow;
 import java.util.List;
 
 public class DeleteCard extends AbstractCommandBuilder {
   private CommandBuilder chained;
+  protected ComponentMapper<ForgeRow> mForgeRow;
 
   public DeleteCard chain(CommandBuilder builder) {
     this.chained = builder;
@@ -15,7 +19,12 @@ public class DeleteCard extends AbstractCommandBuilder {
 
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
-    targets.forEach(world::delete);
+    for (int cardEntity : targets) {
+      if (mForgeRow.has(cardEntity)) {
+        commandChain.addEnd(new DrawForgeCards(1).build(world, -1));
+      }
+      world.delete(cardEntity);
+    }
     if (chained != null) {
       commandChain.addEnd(chained.build(world, originEntity));
     }
