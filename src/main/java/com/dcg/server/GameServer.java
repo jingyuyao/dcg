@@ -20,7 +20,7 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onStart() {
     System.out.println("Server started");
-    game = new Game(Arrays.asList("Andrew", "Bowen", "Jingyu"));
+    game = new Game(Arrays.asList("Edelgard", "Dimitri", "Claude"));
   }
 
   @Override
@@ -55,7 +55,8 @@ public class GameServer extends WebSocketServer {
         broadcast(game.getWorldJson());
         if (game.isOver()) {
           System.out.println("GG");
-          game = new Game(Arrays.asList("Andrew", "Bowen", "Jingyu"));
+          game = new Game(Arrays.asList("Edelgard", "Dimitri", "Claude"));
+          broadcast(game.getWorldJson());
         }
         break;
       case "query":

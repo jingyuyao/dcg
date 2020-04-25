@@ -7,6 +7,7 @@ import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.Owned;
 import com.dcg.location.DiscardPile;
+import com.dcg.location.ForgeRow;
 import com.dcg.location.MoveLocation;
 import com.dcg.player.AdjustPower;
 import java.util.List;
@@ -15,9 +16,11 @@ public class BuyCard extends AbstractCommandBuilder {
   private CommandBuilder chained;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Owned> mOwned;
+  protected ComponentMapper<ForgeRow> mForgeRow;
 
   public BuyCard() {
     addTriggerConditions(
+        (originEntity, allowedTargets) -> mForgeRow.has(originEntity),
         (cardEntity, allowedTargets) ->
             coreSystem.getTurn().powerPool >= mCard.get(cardEntity).cost);
   }
