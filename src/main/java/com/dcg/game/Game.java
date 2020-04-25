@@ -19,6 +19,7 @@ import com.dcg.command.CommandInvocationStrategy;
 import com.dcg.effect.EffectSystem;
 import com.dcg.location.ForgeDeck;
 import com.dcg.location.ForgeRow;
+import com.dcg.location.MercenaryDeck;
 import com.dcg.location.PlayArea;
 import com.dcg.location.ThroneDeck;
 import com.dcg.player.PlayHandSystem;
@@ -84,7 +85,12 @@ public class Game {
     Stream<Integer> world =
         coreSystem.getStream(
             Aspect.all(Card.class)
-                .one(ForgeDeck.class, ForgeRow.class, ThroneDeck.class, PlayArea.class));
+                .one(
+                    ForgeDeck.class,
+                    ForgeRow.class,
+                    ThroneDeck.class,
+                    MercenaryDeck.class,
+                    PlayArea.class));
     world =
         Stream.concat(
             world, coreSystem.getStream(Aspect.one(Player.class, Unit.class, Action.class)));

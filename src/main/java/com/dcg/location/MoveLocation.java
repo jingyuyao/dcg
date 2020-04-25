@@ -12,6 +12,7 @@ public class MoveLocation extends AbstractCommandBuilder {
           ForgeDeck.class,
           ForgeRow.class,
           ThroneDeck.class,
+          MercenaryDeck.class,
           PlayerDeck.class,
           DiscardPile.class,
           Hand.class,

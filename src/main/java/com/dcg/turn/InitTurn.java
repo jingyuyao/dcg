@@ -5,7 +5,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.card.Cards;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
-import com.dcg.forge.AddBuyCardToThroneDeck;
+import com.dcg.forge.InitializeBuyCard;
 import com.dcg.game.CreateEntity;
 import com.dcg.location.ThroneDeck;
 import com.dcg.player.Player;
@@ -29,7 +29,7 @@ public class InitTurn extends AbstractCommandBuilder {
     for (CreateEntity createEntity : Cards.createThroneDeck(playerCount)) {
       commandChain.addEnd(createEntity.tags(ThroneDeck.class).build(world, -1));
     }
-    commandChain.addEnd(new AddBuyCardToThroneDeck().build(world, -1));
+    commandChain.addEnd(new InitializeBuyCard().build(world, -1));
   }
 
   @Override

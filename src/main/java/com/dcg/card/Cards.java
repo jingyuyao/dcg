@@ -122,6 +122,18 @@ public class Cards {
     return seekPowers;
   }
 
+  public static List<CreateEntity> createMercenaries() {
+    List<CreateEntity> mercenaries = new ArrayList<>();
+    for (int i = 0; i < 7; i++) {
+      mercenaries.add(
+          unit("Veteran Mercenary", 2, 2)
+              .desc("Add 1 power, can become any 1 color")
+              .addOnEnterEffects(new AdjustPower(1), new MercenaryEnter())
+              .addOnLeaveEffects(new MercenaryExit()));
+    }
+    return mercenaries;
+  }
+
   public static List<CreateEntity> createForgeDeck() {
     return Arrays.asList(
         unit("Beckoning Lumen", 3, 3)
