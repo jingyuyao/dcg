@@ -8,11 +8,11 @@ import com.artemis.Component;
  * easily cleaned up after each battle. Units are owned by a player.
  */
 public class Unit extends Component {
-  public int strength = 0;
-  public int defense = 0;
-  public boolean flying = false;
-  public boolean lifeSteal = false;
-  public boolean berserk = false;
-  public boolean endurance = false;
-  public boolean unblockable = false;
+  public int strength;
+  public int defense;
+  public boolean flying;
+  public boolean lifeSteal;
+  public boolean berserk;
+  public boolean endurance;
+  public boolean unblockable;
 }

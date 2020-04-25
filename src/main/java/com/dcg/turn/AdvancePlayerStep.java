@@ -19,6 +19,7 @@ public class AdvancePlayerStep extends AbstractCommandBuilder {
     int nextPlayerIndex = (currentPlayerIndex + 1) % allPlayerEntities.size();
     int nextPlayer = allPlayerEntities.get(nextPlayerIndex);
     mTurn.remove(originEntity);
-    mTurn.create(nextPlayer);
+    Turn turn = mTurn.create(nextPlayer);
+    turn.powerPool = 0;
   }
 }

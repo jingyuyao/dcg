@@ -22,7 +22,8 @@ public class CreatePlayer extends CreateEntity {
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     int playerEntity = createEntity(originEntity);
-    mPlayer.create(playerEntity);
+    Player player = mPlayer.create(playerEntity);
+    player.hp = 25;
     for (CreateEntity createEntity : Cards.createBasicCards()) {
       commandChain.addEnd(createEntity.tags(PlayerDeck.class).build(world, playerEntity));
     }

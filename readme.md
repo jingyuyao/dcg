@@ -13,6 +13,9 @@
   - Destroyed and cleaned up after damage phase
 - Action
   - Contains a command that can be auto executed or executed by a player
+ 
+# Components
+- Don't initialize fields in the class itself, this way the serializer always pick it up
 
 # Commands
 - Has optional owner entity and input

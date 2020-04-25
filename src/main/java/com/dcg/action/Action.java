@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class Action extends Component {
   public transient Command command;
-  public boolean canTrigger = false;
-  public int minInputCount = 0;
-  public int maxInputCount = 0;
+  public boolean canTrigger;
+  public int minInputCount;
+  public int maxInputCount;
   public List<Integer> allowedTargets = Collections.emptyList();
 }
