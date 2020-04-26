@@ -12,7 +12,7 @@ public class MercenaryEnter extends AbstractCommandBuilder {
     for (Class<? extends Component> color : Colors.ALL) {
       commandChain.addEnd(
           new CreateAction(new Mercenary(color))
-              .desc("Be " + color.getSimpleName())
+              .desc(color.getSimpleName())
               .build(world, originEntity));
     }
   }
