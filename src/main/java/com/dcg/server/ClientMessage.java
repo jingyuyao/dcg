@@ -4,6 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class ClientMessage {
-  public String command = "unknown";
+  public String kind = "";
   public List<Integer> args = Collections.emptyList();
 }

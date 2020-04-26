@@ -45,10 +45,7 @@ public class GameServer extends WebSocketServer {
       return;
     }
 
-    switch (clientMessage.command) {
-      case "world":
-        conn.send(getWorldViewJson());
-        break;
+    switch (clientMessage.kind) {
       case "execute":
         if (clientMessage.args.isEmpty()) {
           System.out.println("execute requires arguments");
@@ -62,8 +59,11 @@ public class GameServer extends WebSocketServer {
           broadcast(getWorldViewJson());
         }
         break;
+      case "get-world-view":
+        conn.send(getWorldViewJson());
+        break;
       default:
-        System.out.println("Unknown " + clientMessage.command);
+        System.out.println("Unknown " + clientMessage.kind);
         break;
     }
   }
