@@ -2,8 +2,9 @@ package com.dcg.game;
 
 import com.artemis.Aspect;
 import com.artemis.AspectSubscriptionManager;
-import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
+import com.artemis.annotations.All;
+import com.artemis.systems.IteratingSystem;
 import com.artemis.utils.IntBag;
 import com.dcg.battle.Attacking;
 import com.dcg.battle.Defending;
@@ -17,7 +18,8 @@ import java.util.stream.Stream;
  * Manages auto deletion of owned entities when their parent is deleted. Provides methods to query
  * entities as streams.
  */
-public class CoreSystem extends BaseSystem {
+@All(Owned.class)
+public class CoreSystem extends IteratingSystem {
   private static final Common DEFAULT_COMMON = new Common();
   private static final Player DEFAULT_PLAYER = new Player();
   private static final Turn DEFAULT_TURN = new Turn();
@@ -136,5 +138,10 @@ public class CoreSystem extends BaseSystem {
   }
 
   @Override
-  protected void processSystem() {}
+  protected void process(int entityId) {
+    if (mOwned.get(entityId).owner == -1) {
+      System.out.printf("Auto delete: (%d)\n", entityId);
+      world.delete(entityId);
+    }
+  }
 }

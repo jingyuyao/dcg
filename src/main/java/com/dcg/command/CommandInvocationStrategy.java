@@ -16,7 +16,6 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
 
   @Override
   protected void process() {
-    System.out.println("--- Processing ---");
     while (!commandChain.isEmpty()) {
       Command command = commandChain.pop();
       updateEntityStates();
