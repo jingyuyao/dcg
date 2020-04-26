@@ -4,8 +4,17 @@ import com.artemis.Aspect;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.dcg.action.Action;
+import com.dcg.card.Basic;
+import com.dcg.card.Card;
+import com.dcg.card.Colors;
+import com.dcg.card.HasUnit;
+import com.dcg.card.Spell;
 import com.dcg.game.Common;
 import com.dcg.game.CoreSystem;
+import com.dcg.location.ForgeRow;
+import com.dcg.location.MercenaryDeck;
+import com.dcg.location.PlayArea;
+import com.dcg.location.ThroneDeck;
 import com.dcg.player.Player;
 import com.dcg.turn.Turn;
 import java.util.List;
@@ -17,10 +26,15 @@ public class ViewSystem extends BaseSystem {
   protected ComponentMapper<Common> mCommon;
   protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Turn> mTurn;
+  protected ComponentMapper<Card> mCard;
+  protected ComponentMapper<HasUnit> mHasUnit;
+  protected ComponentMapper<Spell> mSpell;
+  protected ComponentMapper<Basic> mBasic;
   protected ComponentMapper<Action> mAction;
 
   public WorldView getWorldView() {
-    return new WorldView(getPlayers());
+    return new WorldView(
+        getPlayers(), getForgeRow(), getThroneDeck(), getMercenaryDeck(), getPlayArea());
   }
 
   private List<PlayerView> getPlayers() {
@@ -34,6 +48,63 @@ public class ViewSystem extends BaseSystem {
               List<ActionView> actions = getActions(playerEntity);
               return new PlayerView(playerEntity, common, player, turn, actions);
             })
+        .collect(Collectors.toList());
+  }
+
+  private List<CardView> getForgeRow() {
+    return coreSystem
+        .getStream(Aspect.all(Card.class, ForgeRow.class))
+        .map(this::toCardView)
+        .collect(Collectors.toList());
+  }
+
+  private List<CardView> getThroneDeck() {
+    return coreSystem
+        .getStream(Aspect.all(Card.class, ThroneDeck.class))
+        .map(this::toCardView)
+        .collect(Collectors.toList());
+  }
+
+  private List<CardView> getMercenaryDeck() {
+    return coreSystem
+        .getStream(Aspect.all(Card.class, MercenaryDeck.class))
+        .map(this::toCardView)
+        .collect(Collectors.toList());
+  }
+
+  private List<CardView> getPlayArea() {
+    return coreSystem
+        .getStream(Aspect.all(Card.class, PlayArea.class))
+        .map(this::toCardView)
+        .collect(Collectors.toList());
+  }
+
+  private CardView toCardView(int cardEntity) {
+    Common common = mCommon.get(cardEntity);
+    Card card = mCard.get(cardEntity);
+    String kind = getCardKind(cardEntity);
+    List<String> colors = getCardColors(cardEntity);
+    HasUnit hasUnit = mHasUnit.has(cardEntity) ? mHasUnit.get(cardEntity) : null;
+    List<ActionView> actions = getActions(cardEntity);
+    return new CardView(cardEntity, common, card, kind, colors, hasUnit, actions);
+  }
+
+  private String getCardKind(int cardEntity) {
+    if (mHasUnit.has(cardEntity)) {
+      return "Unit";
+    } else if (mSpell.has(cardEntity)) {
+      return "Spell";
+    } else if (mBasic.has(cardEntity)) {
+      return "Basic";
+    } else {
+      return "Unknown";
+    }
+  }
+
+  private List<String> getCardColors(int cardEntity) {
+    return Colors.ALL.stream()
+        .filter(clazz -> world.getMapper(clazz).has(cardEntity))
+        .map(Class::getSimpleName)
         .collect(Collectors.toList());
   }
 

@@ -6,5 +6,5 @@ import java.util.List;
 
 public class Colors {
   public static final List<Class<? extends Component>> ALL =
-      Arrays.asList(Red.class, Blue.class, Green.class, Yellow.class, Black.class);
+      Arrays.asList(Red.class, Green.class, Blue.class, Yellow.class, Black.class);
 }
