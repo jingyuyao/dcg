@@ -11,6 +11,8 @@ import com.artemis.utils.IntBag;
 import com.dcg.action.Action;
 import com.dcg.action.ActionSystem;
 import com.dcg.action.ExecuteAction;
+import com.dcg.api.ViewSystem;
+import com.dcg.api.WorldView;
 import com.dcg.battle.Unit;
 import com.dcg.card.Card;
 import com.dcg.command.CommandBuilder;
@@ -41,6 +43,7 @@ public class Game {
               new PlayHandSystem(),
               new EffectSystem(),
               new ActionSystem(),
+              new ViewSystem(),
               new GameOverSystem())
           .build()
           .setSystem(serializationManager)
@@ -61,25 +64,6 @@ public class Game {
     }
   }
 
-  public String getEntities(List<Integer> input) {
-    try {
-      if (input.stream().allMatch(entity -> world.getEntityManager().isActive(entity))) {
-        IntBag bag = new IntBag();
-        for (int entity : input) {
-          bag.add(entity);
-        }
-        return toJson(bag);
-      }
-    } catch (IndexOutOfBoundsException ignored) {
-    }
-    return "{\"error\":\"Invalid entity\"}";
-  }
-
-  public String getDebugJson() {
-    IntBag entities = world.getAspectSubscriptionManager().get(Aspect.all()).getEntities();
-    return toJson(entities);
-  }
-
   public String getWorldJson() {
     CoreSystem coreSystem = world.getSystem(CoreSystem.class);
     Stream<Integer> world =
@@ -95,6 +79,10 @@ public class Game {
         Stream.concat(
             world, coreSystem.getStream(Aspect.one(Player.class, Unit.class, Action.class)));
     return toJson(world.collect(CoreSystem.toIntBag()));
+  }
+
+  public WorldView getWorldView() {
+    return world.getSystem(ViewSystem.class).getWorldView();
   }
 
   public boolean isOver() {

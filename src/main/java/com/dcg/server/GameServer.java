@@ -3,6 +3,7 @@ package com.dcg.server;
 import com.dcg.game.Game;
 import com.esotericsoftware.jsonbeans.Json;
 import com.esotericsoftware.jsonbeans.JsonException;
+import com.google.gson.Gson;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 import org.java_websocket.WebSocket;
@@ -10,6 +11,7 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 public class GameServer extends WebSocketServer {
+  private final Gson gson = new Gson();
   private final Json json = new Json();
   private Game game;
 
@@ -46,6 +48,10 @@ public class GameServer extends WebSocketServer {
     }
 
     switch (clientMessage.command) {
+      case "world":
+        conn.send(game.getWorldJson());
+        conn.send(getWorldViewJson());
+        break;
       case "execute":
         if (clientMessage.args.isEmpty()) {
           System.out.println("execute requires arguments");
@@ -53,24 +59,13 @@ public class GameServer extends WebSocketServer {
         }
         game.execute(clientMessage.args);
         broadcast(game.getWorldJson());
+        broadcast(getWorldViewJson());
         if (game.isOver()) {
           System.out.println("GG");
           game = new Game(Arrays.asList("Edelgard", "Dimitri", "Claude"));
           broadcast(game.getWorldJson());
+          broadcast(getWorldViewJson());
         }
-        break;
-      case "query":
-        if (clientMessage.args.isEmpty()) {
-          System.out.println("query requires arguments");
-          return;
-        }
-        broadcast(game.getEntities(clientMessage.args));
-        break;
-      case "world":
-        broadcast(game.getWorldJson());
-        break;
-      case "debug":
-        broadcast(game.getDebugJson());
         break;
       default:
         System.out.println("Unknown " + clientMessage.command);
@@ -81,5 +76,13 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onError(WebSocket conn, Exception ex) {
     System.err.println("New connection: " + conn.getRemoteSocketAddress());
+  }
+
+  private String getWorldViewJson() {
+    return gson.toJson(getWorldViewMessage());
+  }
+
+  private ServerMessage getWorldViewMessage() {
+    return new ServerMessage("worldview", game.getWorldView());
   }
 }
