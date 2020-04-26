@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CardView extends EntityView {
   public final int cost;
-  public final boolean canFlash;
+  public final boolean canWrap;
   public final String kind;
   public final List<String> colors;
   public final int strength;
@@ -23,7 +23,7 @@ public class CardView extends EntityView {
       List<ActionView> actions) {
     super(id, common);
     this.cost = card.cost;
-    this.canFlash = card.canFlash;
+    this.canWrap = card.canWarp;
     this.kind = kind;
     this.colors = colors;
     this.strength = hasUnit != null ? hasUnit.strength : 0;

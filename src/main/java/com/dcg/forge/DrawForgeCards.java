@@ -35,9 +35,9 @@ public class DrawForgeCards extends AbstractCommandBuilder {
             new MoveLocation(ForgeRow.class).build(world, cardEntity),
             new CreateAction(new BuyCard().chain(new DrawForgeCards(1))).build(world, cardEntity));
         Card card = mCard.get(cardEntity);
-        if (card.canFlash) {
+        if (card.canWarp) {
           commandChain.addEnd(
-              new CreateAction(new Flash().chain(new DrawForgeCards(1))).build(world, cardEntity));
+              new CreateAction(new Wrap().chain(new DrawForgeCards(1))).build(world, cardEntity));
         }
       } else {
         System.out.println("No more forge cards");

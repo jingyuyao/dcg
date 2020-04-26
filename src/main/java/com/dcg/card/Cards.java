@@ -16,7 +16,7 @@ import com.dcg.game.CreateEntity;
 import com.dcg.player.AdjustHp;
 import com.dcg.player.AdjustPower;
 import com.dcg.player.DrawCards;
-import com.dcg.player.RefreshFlashTokens;
+import com.dcg.player.RefreshWrapTokens;
 import com.dcg.targetfilter.MaxStrength;
 import com.dcg.targetsource.ActivePlayers;
 import com.dcg.targetsource.AllUnits;
@@ -44,9 +44,9 @@ public class Cards {
         basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
         basic("Diplomacy").desc("Add 1 power").addOnEnterEffects(new AdjustPower(1)),
         basic("Refresh")
-            .desc("Throne: refresh your Flash tokens")
+            .desc("Throne: refresh your Wrap tokens")
             .addOnConditionEffects(
-                action(new RefreshFlashTokens()).addTriggerConditions(new ThroneActive())),
+                action(new RefreshWrapTokens()).addTriggerConditions(new ThroneActive())),
         basic("Worn Shield")
             .desc("Throne: give a unit +2 defense")
             .addOnConditionEffects(
@@ -144,14 +144,14 @@ public class Cards {
             .addOnConditionEffects(
                 new AdjustHp(2).addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Jotun Punter", 4, 4)
-            .canFlash()
+            .canWrap()
             .tags(Blue.class)
             .desc("Give a unit flying")
             .addOnEnterEffects(
                 action(new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit flying")),
         unit("Amethyst Acolyte", 3, 2)
-            .canFlash()
+            .canWrap()
             .tags(Black.class)
             .desc("Give a unit -2 strength")
             .addOnEnterEffects(
@@ -165,7 +165,7 @@ public class Cards {
                 action(new AdjustStrength(1).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit +1 strength")),
         unit("Throne Warden", 4, 2)
-            .canFlash()
+            .canWrap()
             .tags(Green.class)
             .desc("Endurance, gain HP equal to # of attacking units")
             .addOnEnterEffects(new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
@@ -209,7 +209,7 @@ public class Cards {
                 action(new AdjustStrength(-1).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit -1 strength")),
         unit("Snowrager", 2, 1)
-            .canFlash()
+            .canWrap()
             .tags(Blue.class)
             .desc("Berserk, add 1 strength to this if you have 3 or more units")
             .addOnEnterEffects(new SetBerserk(true))
@@ -225,7 +225,7 @@ public class Cards {
                             .setTargetSource(new DefendingUnits().addFilters(new MaxStrength(3))))
                     .desc("Give all defending units with 3 or less strength Unblockable")),
         unit("Oni Ronin", 1, 1)
-            .canFlash()
+            .canWrap()
             .tags(Red.class)
             .desc("Add 1 strength to two units")
             .addOnEnterEffects(

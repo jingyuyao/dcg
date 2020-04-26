@@ -11,28 +11,28 @@ import com.dcg.location.PlayArea;
 import com.dcg.player.AdjustPower;
 import java.util.List;
 
-public class Flash extends AbstractCommandBuilder {
+public class Wrap extends AbstractCommandBuilder {
   private CommandBuilder chained;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<PlayArea> mPlayArea;
 
-  public Flash() {
+  public Wrap() {
     addTriggerConditions(
         (originEntity, allowedTargets) -> !mPlayArea.has(originEntity),
         (cardEntity, allowedTargets) ->
             coreSystem.getTurn().powerPool >= mCard.get(cardEntity).cost,
-        (originEntity, allowedTargets) -> coreSystem.getCurrentPlayer().flashTokens > 0);
+        (originEntity, allowedTargets) -> coreSystem.getCurrentPlayer().wrapTokens > 0);
   }
 
-  public Flash chain(CommandBuilder chained) {
+  public Wrap chain(CommandBuilder chained) {
     this.chained = chained;
     return this;
   }
 
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
-    coreSystem.getCurrentPlayer().flashTokens -= 1;
+    coreSystem.getCurrentPlayer().wrapTokens -= 1;
     mOwned.create(originEntity).owner = coreSystem.getCurrentPlayerEntity();
     commandChain.addEnd(
         new AdjustPower(-mCard.get(originEntity).cost).build(world, originEntity),

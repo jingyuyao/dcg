@@ -8,5 +8,5 @@ import com.artemis.Component;
  */
 public class Player extends Component {
   public int hp = 25;
-  public int flashTokens = 2;
+  public int wrapTokens = 2;
 }
