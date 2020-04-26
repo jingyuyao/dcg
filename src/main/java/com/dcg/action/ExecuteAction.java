@@ -19,7 +19,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     try {
-      if (!world.getEntityManager().isActive(actionEntity) && mAction.has(actionEntity)) {
+      if (!world.getEntityManager().isActive(actionEntity) || !mAction.has(actionEntity)) {
         System.out.printf("%d is not a valid action entity\n", actionEntity);
         return;
       }
