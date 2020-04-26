@@ -4,6 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.dcg.action.Action;
+import com.dcg.battle.Unit;
 import com.dcg.card.Basic;
 import com.dcg.card.Card;
 import com.dcg.card.Colors;
@@ -30,11 +31,18 @@ public class ViewSystem extends BaseSystem {
   protected ComponentMapper<HasUnit> mHasUnit;
   protected ComponentMapper<Spell> mSpell;
   protected ComponentMapper<Basic> mBasic;
+  protected ComponentMapper<Unit> mUnit;
   protected ComponentMapper<Action> mAction;
 
   public WorldView getWorldView() {
     return new WorldView(
-        getPlayers(), getForgeRow(), getThroneDeck(), getMercenaryDeck(), getPlayArea());
+        getPlayers(),
+        getForgeRow(),
+        getThroneDeck(),
+        getMercenaryDeck(),
+        getPlayArea(),
+        getAttackingUnits(),
+        getDefendingUnits());
   }
 
   private List<PlayerView> getPlayers() {
@@ -79,6 +87,14 @@ public class ViewSystem extends BaseSystem {
         .collect(Collectors.toList());
   }
 
+  private List<UnitView> getAttackingUnits() {
+    return coreSystem.getAttackingEntities().map(this::toUnitView).collect(Collectors.toList());
+  }
+
+  private List<UnitView> getDefendingUnits() {
+    return coreSystem.getDefendingEntities().map(this::toUnitView).collect(Collectors.toList());
+  }
+
   private CardView toCardView(int cardEntity) {
     Common common = mCommon.get(cardEntity);
     Card card = mCard.get(cardEntity);
@@ -106,6 +122,13 @@ public class ViewSystem extends BaseSystem {
         .filter(clazz -> world.getMapper(clazz).has(cardEntity))
         .map(Class::getSimpleName)
         .collect(Collectors.toList());
+  }
+
+  private UnitView toUnitView(int unitEntity) {
+    Common common = mCommon.get(unitEntity);
+    Unit unit = mUnit.get(unitEntity);
+    List<ActionView> actions = getActions(unitEntity);
+    return new UnitView(unitEntity, common, unit, actions);
   }
 
   private List<ActionView> getActions(int ownerEntity) {
