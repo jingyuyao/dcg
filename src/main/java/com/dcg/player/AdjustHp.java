@@ -21,9 +21,6 @@ public class AdjustHp extends PlayerEffect {
     for (int playerEntity : targets) {
       Player player = mPlayer.get(playerEntity);
       player.hp += args.getInt();
-      if (player.hp <= 0) {
-        commandChain.addEnd(new DeletePlayer().build(world, playerEntity));
-      }
     }
   }
 }

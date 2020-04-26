@@ -18,7 +18,7 @@ import com.dcg.player.AdjustPower;
 import com.dcg.player.DrawCards;
 import com.dcg.player.RefreshFlashTokens;
 import com.dcg.targetfilter.MaxStrength;
-import com.dcg.targetsource.AllPlayers;
+import com.dcg.targetsource.ActivePlayers;
 import com.dcg.targetsource.AllUnits;
 import com.dcg.targetsource.AttackingUnits;
 import com.dcg.targetsource.DefendingUnits;
@@ -63,7 +63,7 @@ public class Cards {
             .desc("Flying, deal 2 damage to a player if you are 3 or more units")
             .addOnEnterEffects(new SetFlying(true))
             .addOnConditionEffects(
-                action(new AdjustHp(-2).setInputCount(1).setTargetSource(new AllPlayers()))
+                action(new AdjustHp(-2).setInputCount(1).setTargetSource(new ActivePlayers()))
                     .desc("Deal 2 damage to a player")
                     .addTriggerConditions(new MinDefendingUnitCount(3))),
         unit("Noble Firemane", 0, 2)
@@ -308,7 +308,7 @@ public class Cards {
             .desc("Add 1 power, deal 3 damage to a player")
             .addOnEnterEffects(
                 new AdjustPower(1),
-                action(new AdjustHp(-3).setInputCount(1).setTargetSource(new AllPlayers()))
+                action(new AdjustHp(-3).setInputCount(1).setTargetSource(new ActivePlayers()))
                     .desc("Deal 3 damage to a player")),
         spell("Wisdom of the Elders", 5)
             .tags(Blue.class)

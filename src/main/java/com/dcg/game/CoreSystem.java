@@ -60,6 +60,11 @@ public class CoreSystem extends BaseSystem {
     return currentPlayerEntity != -1 ? mTurn.get(currentPlayerEntity) : DEFAULT_TURN;
   }
 
+  public Stream<Integer> getActivePlayerEntities() {
+    return getStream(Aspect.all(Player.class))
+        .filter(playerEntity -> mPlayer.get(playerEntity).hp > 0);
+  }
+
   public Stream<Integer> getAttackingEntities() {
     return getStream(Aspect.all(Unit.class, Attacking.class));
   }

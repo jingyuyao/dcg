@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AdvancePlayerStep extends AbstractCommandBuilder {
+  protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Turn> mTurn;
 
   @Override
@@ -17,6 +18,10 @@ public class AdvancePlayerStep extends AbstractCommandBuilder {
         coreSystem.getStream(Aspect.all(Player.class)).collect(Collectors.toList());
     int currentPlayerIndex = allPlayerEntities.indexOf(originEntity);
     int nextPlayerIndex = (currentPlayerIndex + 1) % allPlayerEntities.size();
+    // Ignore players that are already dead.
+    while (mPlayer.get(nextPlayerIndex).hp <= 0) {
+      nextPlayerIndex = (nextPlayerIndex + 1) % allPlayerEntities.size();
+    }
     int nextPlayer = allPlayerEntities.get(nextPlayerIndex);
     mTurn.remove(originEntity);
     mTurn.create(nextPlayer);

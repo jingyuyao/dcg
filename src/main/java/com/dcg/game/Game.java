@@ -28,8 +28,7 @@ public class Game {
               new PlayHandSystem(),
               new EffectSystem(),
               new ActionSystem(),
-              new ViewSystem(),
-              new GameOverSystem())
+              new ViewSystem())
           .build()
           .register(new Random())
           .register(new CommandChain());
@@ -52,7 +51,7 @@ public class Game {
   }
 
   public boolean isOver() {
-    return world.getSystem(GameOverSystem.class).isOver();
+    return world.getSystem(CoreSystem.class).getActivePlayerEntities().count() == 1;
   }
 
   private void process(CommandBuilder commandBuilder) {
