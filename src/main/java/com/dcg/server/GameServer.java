@@ -1,9 +1,8 @@
 package com.dcg.server;
 
 import com.dcg.game.Game;
-import com.esotericsoftware.jsonbeans.Json;
-import com.esotericsoftware.jsonbeans.JsonException;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 import org.java_websocket.WebSocket;
@@ -12,7 +11,6 @@ import org.java_websocket.server.WebSocketServer;
 
 public class GameServer extends WebSocketServer {
   private final Gson gson = new Gson();
-  private final Json json = new Json();
   private Game game;
 
   public GameServer(InetSocketAddress address) {
@@ -41,15 +39,14 @@ public class GameServer extends WebSocketServer {
 
     ClientMessage clientMessage;
     try {
-      clientMessage = json.fromJson(ClientMessage.class, message);
-    } catch (JsonException e) {
+      clientMessage = gson.fromJson(message, ClientMessage.class);
+    } catch (JsonSyntaxException e) {
       System.err.println("Unable to parse message: " + e);
       return;
     }
 
     switch (clientMessage.command) {
       case "world":
-        conn.send(game.getWorldJson());
         conn.send(getWorldViewJson());
         break;
       case "execute":
@@ -58,12 +55,10 @@ public class GameServer extends WebSocketServer {
           return;
         }
         game.execute(clientMessage.args);
-        broadcast(game.getWorldJson());
         broadcast(getWorldViewJson());
         if (game.isOver()) {
           System.out.println("GG");
           game = new Game(Arrays.asList("Edelgard", "Dimitri", "Claude"));
-          broadcast(game.getWorldJson());
           broadcast(getWorldViewJson());
         }
         break;

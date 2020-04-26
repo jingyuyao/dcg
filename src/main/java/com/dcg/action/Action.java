@@ -10,7 +10,7 @@ import java.util.List;
  * entities like player, card or unit. Actions can be queried and executed by a player.
  */
 public class Action extends Component {
-  public transient Command command;
+  public Command command;
   public boolean canTrigger = false;
   public int minInputCount = 0;
   public int maxInputCount = 0;
