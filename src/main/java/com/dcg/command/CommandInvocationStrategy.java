@@ -3,6 +3,7 @@ package com.dcg.command;
 import com.artemis.BaseSystem;
 import com.artemis.SystemInvocationStrategy;
 import com.artemis.annotations.Wire;
+import com.dcg.game.Preconditions.GameStateException;
 
 /** Steps: 1. Execute a command 2. Update systems 3. Go to 1 if command chain is not empty */
 public class CommandInvocationStrategy extends SystemInvocationStrategy {
@@ -21,7 +22,11 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
       updateEntityStates();
       if (command.canRun()) {
         System.out.printf("Exec: %s\n", command);
-        command.run();
+        try {
+          command.run();
+        } catch (GameStateException e) {
+          System.out.printf("Exception: %s\n", e.getMessage());
+        }
       } else {
         System.out.printf("Pass: %s\n", command);
       }
