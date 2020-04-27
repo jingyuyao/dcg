@@ -5,12 +5,14 @@ import com.dcg.battle.CreateUnit;
 import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
+import com.dcg.game.Owned;
 import java.util.List;
 
 public class CreateCard extends CreateEntity {
   private final int cost;
   private boolean canWrap = false;
   private CreateUnit createUnit;
+  protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<HasUnit> mHasUnit;
 
@@ -64,7 +66,10 @@ public class CreateCard extends CreateEntity {
 
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
-    int cardEntity = createEntity(originEntity);
+    int cardEntity = createEntity();
+    if (originEntity != -1) {
+      mOwned.create(cardEntity).owner = originEntity;
+    }
     Card card = mCard.create(cardEntity);
     card.cost = cost;
     card.canWarp = canWrap;

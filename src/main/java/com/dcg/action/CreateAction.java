@@ -4,13 +4,14 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
 import com.dcg.game.CreateEntity;
+import com.dcg.game.Owned;
 import com.dcg.game.Preconditions;
 import java.util.List;
-import java.util.OptionalInt;
 
 public class CreateAction extends CreateEntity {
   private final CommandBuilder builder;
   protected ComponentMapper<Action> mAction;
+  protected ComponentMapper<Owned> mOwned;
 
   public CreateAction(CommandBuilder builder) {
     super(builder.toString());
@@ -19,9 +20,9 @@ public class CreateAction extends CreateEntity {
 
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
-    OptionalInt owner = getOwner(originEntity);
-    Preconditions.checkGameState(owner.isPresent(), "Must have owner for origin %d", originEntity);
-    int actionEntity = createEntity(originEntity);
-    mAction.create(actionEntity).command = builder.build(world, owner.getAsInt());
+    Preconditions.checkGameState(originEntity != -1, "Must have owner for origin %d", originEntity);
+    int actionEntity = createEntity();
+    mOwned.create(actionEntity).owner = originEntity;
+    mAction.create(actionEntity).command = builder.build(world, originEntity);
   }
 }

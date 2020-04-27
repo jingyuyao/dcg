@@ -5,14 +5,18 @@
 - Player
   - Persistent throughout the game
   - Turn component cycles through them
+  - Not owned by anybody
 - Card
   - Cycles through deck, hand, play area and discard pile
   - Perform effects when played
+  - Owned by a player
 - Unit
   - Lives the in the 'battle area'
   - Destroyed and cleaned up after damage phase
+  - Owned by a player
 - Action
   - Contains a command that can be auto executed or executed by a player
+  - Owned by a player, card or unit
 
 # Commands
 - Has optional owner entity and input

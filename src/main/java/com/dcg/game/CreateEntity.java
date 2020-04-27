@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.OptionalInt;
 
 /**
  * Base class for commands that create entities. Automatically propagates owner of the command to
@@ -23,7 +22,6 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
   protected String description;
   protected World world;
   protected ComponentMapper<Common> mCommon;
-  protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<Effect> mEffect;
   private final List<Class<? extends Component>> tags = new ArrayList<>();
   private final List<CommandBuilder> onEnterEffects = new ArrayList<>();
@@ -61,19 +59,13 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     return this;
   }
 
-  protected int createEntity(int originEntity) {
+  protected int createEntity() {
     int entity = world.create();
     Common common = mCommon.create(entity);
     common.name = name;
     if (description != null) {
       common.description = description;
     }
-    getOwner(originEntity)
-        .ifPresent(
-            ownerEntity -> {
-              Owned owned = mOwned.create(entity);
-              owned.owner = ownerEntity;
-            });
     for (Class<? extends Component> tag : tags) {
       world.getMapper(tag).create(entity);
     }
@@ -82,10 +74,6 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     effect.onLeave = onLeaveEffects;
     effect.onCondition = onConditionEffects;
     return entity;
-  }
-
-  protected OptionalInt getOwner(int originEntity) {
-    return originEntity == -1 ? OptionalInt.empty() : OptionalInt.of(originEntity);
   }
 
   @Override
