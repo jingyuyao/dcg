@@ -1,5 +1,6 @@
 package com.dcg.game;
 
+import com.artemis.Aspect;
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
@@ -13,7 +14,9 @@ import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
 import com.dcg.effect.EffectSystem;
 import com.dcg.player.PlayHandSystem;
+import com.dcg.player.Player;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class Game {
@@ -34,15 +37,22 @@ public class Game {
           .register(new CommandChain());
   private final World world = new World(configuration);
 
-  public Game(List<String> players) {
+  public void setUp(List<String> players) {
     process(new SetupGame(players));
   }
 
-  public void execute(List<Integer> input) {
+  public void execute(String playerName, List<Integer> input) {
     if (input.isEmpty()) {
       System.out.println("Require 1 or more inputs");
     } else {
-      process(new ExecuteAction(input.get(0), input.subList(1, input.size())));
+      CoreSystem coreSystem = world.getSystem(CoreSystem.class);
+      Optional<Integer> player =
+          coreSystem.findByName(playerName, Aspect.all(Player.class)).findAny();
+      if (player.isPresent()) {
+        process(new ExecuteAction(input.get(0), input.subList(1, input.size())), player.get());
+      } else {
+        System.out.printf("Player %s not found\n", playerName);
+      }
     }
   }
 
@@ -55,8 +65,12 @@ public class Game {
   }
 
   private void process(CommandBuilder commandBuilder) {
+    process(commandBuilder, -1);
+  }
+
+  private void process(CommandBuilder commandBuilder, int originEntity) {
     CommandChain commandChain = world.getRegistered(CommandChain.class);
-    commandChain.addEnd(commandBuilder.build(world, -1));
+    commandChain.addEnd(commandBuilder.build(world, originEntity));
     world.process();
   }
 }

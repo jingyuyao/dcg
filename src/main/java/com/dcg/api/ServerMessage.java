@@ -1,4 +1,4 @@
-package com.dcg.server;
+package com.dcg.api;
 
 public class ServerMessage {
   public final String kind;

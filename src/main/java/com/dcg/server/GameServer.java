@@ -1,17 +1,17 @@
 package com.dcg.server;
 
-import com.dcg.game.Game;
+import com.dcg.api.ClientMessage;
+import com.dcg.api.ServerMessage;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.net.InetSocketAddress;
-import java.util.Arrays;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 public class GameServer extends WebSocketServer {
   private final Gson gson = new Gson();
-  private Game game;
+  private GameRoom gameRoom = new GameRoom();
 
   public GameServer(InetSocketAddress address) {
     super(address);
@@ -20,7 +20,6 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onStart() {
     System.out.println("Server started");
-    game = new Game(Arrays.asList("Edelgard", "Dimitri", "Claude"));
   }
 
   @Override
@@ -47,21 +46,36 @@ public class GameServer extends WebSocketServer {
     }
 
     switch (clientMessage.kind) {
-      case "execute":
-        if (clientMessage.args.isEmpty()) {
-          System.out.println("execute requires arguments");
-          return;
-        }
-        game.execute(clientMessage.args);
-        broadcast(getWorldViewJson());
-        if (game.isOver()) {
-          System.out.println("GG");
-          game = new Game(Arrays.asList("Edelgard", "Dimitri", "Claude"));
-          broadcast(getWorldViewJson());
+      case "join":
+        if (clientMessage.name == null) {
+          System.out.println("Player name required");
+        } else {
+          gameRoom.join(conn, clientMessage.name);
+          if (gameRoom.isInitialized()) {
+            broadcast(toJson("world-view", gameRoom.getWorldView()));
+          } else {
+            broadcast(toJson("session-view", gameRoom.getRoomView()));
+          }
         }
         break;
+      case "execute":
+        if (clientMessage.name == null || clientMessage.args.isEmpty()) {
+          System.out.println("execute requires name and arguments");
+        } else {
+          gameRoom.execute(conn, clientMessage.args);
+          broadcast(toJson("world-view", gameRoom.getWorldView()));
+          if (gameRoom.isGameOver()) {
+            System.out.println("GG");
+            gameRoom = new GameRoom();
+            broadcast(toJson("world-view", gameRoom.getWorldView()));
+          }
+        }
+        break;
+      case "get-room-view":
+        conn.send(toJson("room-view", gameRoom.getRoomView()));
+        break;
       case "get-world-view":
-        conn.send(getWorldViewJson());
+        conn.send(toJson("world-view", gameRoom.getWorldView()));
         break;
       default:
         System.out.println("Unknown " + clientMessage.kind);
@@ -74,11 +88,7 @@ public class GameServer extends WebSocketServer {
     System.err.println("New connection: " + conn.getRemoteSocketAddress());
   }
 
-  private String getWorldViewJson() {
-    return gson.toJson(getWorldViewMessage());
-  }
-
-  private ServerMessage getWorldViewMessage() {
-    return new ServerMessage("worldview", game.getWorldView());
+  private String toJson(String kind, Object data) {
+    return gson.toJson(new ServerMessage(kind, data));
   }
 }
