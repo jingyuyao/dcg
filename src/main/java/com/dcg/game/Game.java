@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.Random;
 
 public class Game {
+  private final List<String> playerNames;
   private final WorldConfiguration configuration =
       new WorldConfigurationBuilder()
           // Uses the command pattern for execution
@@ -37,8 +38,9 @@ public class Game {
           .register(new CommandChain());
   private final World world = new World(configuration);
 
-  public void setUp(List<String> players) {
-    process(new SetupGame(players));
+  public Game(List<String> playerNames) {
+    this.playerNames = playerNames;
+    process(new SetupGame(playerNames));
   }
 
   public void execute(String playerName, List<Integer> input) {
@@ -54,6 +56,10 @@ public class Game {
         System.out.printf("Player %s not found\n", playerName);
       }
     }
+  }
+
+  public List<String> getPlayerNames() {
+    return playerNames;
   }
 
   public WorldView getWorldView() {

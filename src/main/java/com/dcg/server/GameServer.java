@@ -11,7 +11,7 @@ import org.java_websocket.server.WebSocketServer;
 
 public class GameServer extends WebSocketServer {
   private final Gson gson = new Gson();
-  private GameRoom gameRoom = new GameRoom();
+  private final GameRoom gameRoom = new GameRoom();
 
   public GameServer(InetSocketAddress address) {
     super(address);
@@ -30,6 +30,7 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onClose(WebSocket conn, int code, String reason, boolean remote) {
     System.out.println("Connection closed: " + conn.getRemoteSocketAddress());
+    gameRoom.disconnected(conn);
   }
 
   @Override
@@ -46,16 +47,14 @@ public class GameServer extends WebSocketServer {
     }
 
     switch (clientMessage.kind) {
+      case "get-room-view":
+        conn.send(gson.toJson(new ServerMessage("room-view", gameRoom.getRoomView())));
+        break;
       case "join":
         if (clientMessage.name == null) {
           System.out.println("Player name required");
         } else {
           gameRoom.join(conn, clientMessage.name);
-          if (gameRoom.isInitialized()) {
-            broadcast(toJson("world-view", gameRoom.getWorldView()));
-          } else {
-            broadcast(toJson("session-view", gameRoom.getRoomView()));
-          }
         }
         break;
       case "execute":
@@ -63,19 +62,7 @@ public class GameServer extends WebSocketServer {
           System.out.println("execute requires name and arguments");
         } else {
           gameRoom.execute(conn, clientMessage.args);
-          broadcast(toJson("world-view", gameRoom.getWorldView()));
-          if (gameRoom.isGameOver()) {
-            System.out.println("GG");
-            gameRoom = new GameRoom();
-            broadcast(toJson("world-view", gameRoom.getWorldView()));
-          }
         }
-        break;
-      case "get-room-view":
-        conn.send(toJson("room-view", gameRoom.getRoomView()));
-        break;
-      case "get-world-view":
-        conn.send(toJson("world-view", gameRoom.getWorldView()));
         break;
       default:
         System.out.println("Unknown " + clientMessage.kind);
@@ -86,9 +73,5 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onError(WebSocket conn, Exception ex) {
     System.err.println("New connection: " + conn.getRemoteSocketAddress());
-  }
-
-  private String toJson(String kind, Object data) {
-    return gson.toJson(new ServerMessage(kind, data));
   }
 }
