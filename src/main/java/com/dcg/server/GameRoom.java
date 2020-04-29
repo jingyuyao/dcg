@@ -16,7 +16,7 @@ import org.java_websocket.WebSocket;
 public class GameRoom {
   private static final int REQUIRED_PLAYER_COUNT = 2;
   private final Gson gson = new Gson();
-  private final List<WebSocket> connections = new ArrayList<>();
+  private final List<WebSocket> joined = new ArrayList<>();
   private Game game;
 
   public void join(WebSocket conn, String playerName) {
@@ -26,9 +26,9 @@ public class GameRoom {
       return;
     }
     conn.setAttachment(new Attachment(playerName));
-    connections.add(conn);
-    if (connections.size() == REQUIRED_PLAYER_COUNT) {
-      game = new Game(getConnectionNames());
+    joined.add(conn);
+    if (joined.size() == REQUIRED_PLAYER_COUNT) {
+      game = new Game(getJoinedNames());
       broadcastRoomView();
       broadcastWorldView();
     } else {
@@ -37,8 +37,8 @@ public class GameRoom {
   }
 
   public void disconnected(WebSocket conn) {
-    connections.remove(conn);
-    if (connections.isEmpty()) {
+    joined.remove(conn);
+    if (joined.isEmpty()) {
       game = null;
     } else {
       broadcastRoomView();
@@ -60,6 +60,7 @@ public class GameRoom {
 
     if (game.isOver()) {
       game = null;
+      joined.clear();
       broadcastRoomView();
     } else {
       broadcastWorldView();
@@ -67,23 +68,23 @@ public class GameRoom {
   }
 
   public RoomView getRoomView() {
-    return new RoomView(getConnectionNames(), isGameInProgress());
+    return new RoomView(getJoinedNames(), isGameInProgress());
   }
 
   private void broadcastRoomView() {
-    for (WebSocket conn : connections) {
+    for (WebSocket conn : joined) {
       conn.send(gson.toJson(new ServerMessage("room-view", getRoomView())));
     }
   }
 
   private void broadcastWorldView() {
-    for (WebSocket conn : connections) {
+    for (WebSocket conn : joined) {
       conn.send(gson.toJson(new ServerMessage("world-view", game.getWorldView())));
     }
   }
 
-  private List<String> getConnectionNames() {
-    return connections.stream()
+  private List<String> getJoinedNames() {
+    return joined.stream()
         .map(
             c -> {
               Attachment attachment = c.getAttachment();
