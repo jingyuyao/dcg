@@ -59,12 +59,9 @@ public class GameRoom {
     game.execute(attachment.name, args);
 
     if (game.isOver()) {
-      game = null;
-      joined.clear();
-      broadcastRoomView();
-    } else {
-      broadcastWorldView();
+      game = new Game(getJoinedNames());
     }
+    broadcastWorldView();
   }
 
   public RoomView getRoomView() {
