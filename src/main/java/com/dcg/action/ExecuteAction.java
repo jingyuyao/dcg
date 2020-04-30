@@ -18,6 +18,12 @@ public class ExecuteAction extends AbstractCommandBuilder {
 
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+    int currentPlayerEntity = coreSystem.getCurrentPlayerEntity();
+    if (originEntity != currentPlayerEntity) {
+      System.out.printf("%d is not the current player\n", originEntity);
+      return;
+    }
+
     try {
       if (!world.getEntityManager().isActive(actionEntity) || !mAction.has(actionEntity)) {
         System.out.printf("%d is not a valid action entity\n", actionEntity);
