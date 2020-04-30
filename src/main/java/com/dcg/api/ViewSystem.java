@@ -3,6 +3,7 @@ package com.dcg.api;
 import com.artemis.Aspect;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
+import com.artemis.annotations.Wire;
 import com.dcg.action.Action;
 import com.dcg.battle.Unit;
 import com.dcg.card.Basic;
@@ -10,6 +11,7 @@ import com.dcg.card.Card;
 import com.dcg.card.Colors;
 import com.dcg.card.HasUnit;
 import com.dcg.card.Spell;
+import com.dcg.command.CommandChain;
 import com.dcg.game.Common;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.ForgeRow;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 
 /** Provide views into the game world. */
 public class ViewSystem extends BaseSystem {
+  @Wire CommandChain commandChain;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Common> mCommon;
   protected ComponentMapper<Player> mPlayer;
@@ -44,7 +47,8 @@ public class ViewSystem extends BaseSystem {
         getPlayArea(),
         getHand(playerName),
         getAttackingUnits(),
-        getDefendingUnits());
+        getDefendingUnits(),
+        getCommandHistory());
   }
 
   private List<PlayerView> getPlayers() {
@@ -153,6 +157,10 @@ public class ViewSystem extends BaseSystem {
               return new ActionView(actionEntity, common, action);
             })
         .collect(Collectors.toList());
+  }
+
+  private List<CommandView> getCommandHistory() {
+    return commandChain.getHistory().stream().map(CommandView::new).collect(Collectors.toList());
   }
 
   @Override
