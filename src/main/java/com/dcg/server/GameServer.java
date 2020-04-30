@@ -1,16 +1,20 @@
 package com.dcg.server;
 
+import com.dcg.api.AttachmentView;
 import com.dcg.api.ClientMessage;
-import com.dcg.api.ServerMessage;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import com.dcg.api.RoomList;
+import com.dcg.api.RoomView;
+import com.dcg.api.ServerMessage.Kind;
+import com.dcg.api.Util;
 import java.net.InetSocketAddress;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 public class GameServer extends WebSocketServer {
-  private final Gson gson = new Gson();
   private final GameRoom gameRoom = new GameRoom();
 
   public GameServer(InetSocketAddress address) {
@@ -23,55 +27,94 @@ public class GameServer extends WebSocketServer {
   }
 
   @Override
-  public void onOpen(WebSocket conn, ClientHandshake handshake) {
-    System.out.println("New connection: " + conn.getRemoteSocketAddress());
+  public void onOpen(WebSocket socket, ClientHandshake handshake) {
+    System.out.println("Server: new connection " + socket.getRemoteSocketAddress());
+    socket.setAttachment(new Attachment());
+    sendAttachmentView(socket);
   }
 
   @Override
-  public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-    System.out.println("Connection closed: " + conn.getRemoteSocketAddress());
-    gameRoom.disconnected(conn);
+  public void onClose(WebSocket socket, int code, String reason, boolean remote) {
+    System.out.println("Server: connection closed " + socket.getRemoteSocketAddress());
+    Attachment.get(socket).getGameRoom().ifPresent(r -> r.leave(socket));
   }
 
   @Override
-  public void onMessage(WebSocket conn, String message) {
-    System.out.println("--- New Message ---");
-    System.out.println("ClientMessage: " + message);
+  public void onError(WebSocket socket, Exception ex) {
+    System.err.println("Server: connection error " + socket.getRemoteSocketAddress());
+  }
 
-    ClientMessage clientMessage;
-    try {
-      clientMessage = gson.fromJson(message, ClientMessage.class);
-    } catch (JsonSyntaxException e) {
-      System.err.println("Unable to parse message: " + e);
+  @Override
+  public void onMessage(WebSocket socket, String message) {
+    System.out.println("Server: --- New Message ---");
+    System.out.println("Server: ClientMessage " + message);
+
+    Optional<ClientMessage> clientMessage = Util.fromJson(message);
+    if (!clientMessage.isPresent()) {
+      System.out.println("Invalid message");
       return;
     }
 
-    switch (clientMessage.kind) {
-      case "get-room-view":
-        conn.send(gson.toJson(new ServerMessage("room-view", gameRoom.getRoomView())));
-        break;
-      case "join":
-        if (clientMessage.name == null) {
-          System.out.println("Player name required");
+    List<Integer> intArgs = clientMessage.get().getIntArgs();
+    List<String> strArgs = clientMessage.get().getStrArgs();
+    Attachment attachment = Attachment.get(socket);
+    Optional<GameRoom> attachmentGameRoom = attachment.getGameRoom();
+
+    switch (clientMessage.get().getKind()) {
+      case INIT_ATTACHMENT:
+        if (strArgs.size() == 1) {
+          attachment.setName(strArgs.get(0));
         } else {
-          gameRoom.join(conn, clientMessage.name);
+          System.out.println("Invalid number of arguments");
         }
         break;
-      case "execute":
-        if (clientMessage.name == null || clientMessage.args.isEmpty()) {
-          System.out.println("execute requires name and arguments");
+      case GET_ROOM_LIST:
+        Util.send(
+            socket,
+            Kind.ROOM_LIST,
+            new RoomList(Collections.singletonList(new RoomView(gameRoom))));
+        break;
+      case JOIN_ROOM:
+        if (!attachmentGameRoom.isPresent()) {
+          if (strArgs.size() == 1) {
+            if (strArgs.get(0).equals("default")) {
+              gameRoom.join(socket);
+            } else {
+              System.out.println("What room?");
+            }
+          } else {
+            System.out.println("Invalid number of arguments");
+          }
         } else {
-          gameRoom.execute(conn, clientMessage.args);
+          System.out.println("Already joined");
         }
         break;
-      default:
-        System.out.println("Unknown " + clientMessage.kind);
+      case LEAVE_ROOM:
+        if (attachmentGameRoom.isPresent()) {
+          attachmentGameRoom.get().leave(socket);
+        } else {
+          System.out.println("Not joined");
+        }
+        break;
+      case START_GAME:
+        if (attachmentGameRoom.isPresent()) {
+          attachmentGameRoom.get().start(socket);
+        } else {
+          System.out.println("Not joined");
+        }
+        break;
+      case EXECUTE_ACTION:
+        if (attachmentGameRoom.isPresent()) {
+          attachmentGameRoom.get().execute(socket, intArgs);
+        } else {
+          System.out.println("Not joined");
+        }
         break;
     }
+    sendAttachmentView(socket);
   }
 
-  @Override
-  public void onError(WebSocket conn, Exception ex) {
-    System.err.println("New connection: " + conn.getRemoteSocketAddress());
+  private void sendAttachmentView(WebSocket socket) {
+    Util.send(socket, Kind.ATTACHMENT_VIEW, new AttachmentView(socket.getAttachment()));
   }
 }

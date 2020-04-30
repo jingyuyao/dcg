@@ -1,104 +1,99 @@
 package com.dcg.server;
 
 import com.dcg.api.RoomView;
-import com.dcg.api.ServerMessage;
+import com.dcg.api.ServerMessage.Kind;
+import com.dcg.api.Util;
 import com.dcg.game.Game;
-import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.java_websocket.WebSocket;
 
+// TODO: rename this to simply Room
 /**
  * Contains an instance of {@link com.dcg.game.Game} and the {@link org.java_websocket.WebSocket}
  * connections to that game instance.
  */
 public class GameRoom {
-  private static final int REQUIRED_PLAYER_COUNT = 2;
-  private final Gson gson = new Gson();
   private final List<WebSocket> joined = new ArrayList<>();
   private Game game;
 
-  public void join(WebSocket conn, String playerName) {
+  public void join(WebSocket socket) {
     // TODO: allow reconnect if playerName match an existing player and they are disconnected
     if (isGameInProgress()) {
       System.out.println("Session: Game has already begun");
       return;
     }
-    conn.setAttachment(new Attachment(playerName));
-    joined.add(conn);
-    if (joined.size() == REQUIRED_PLAYER_COUNT) {
-      game = new Game(getJoinedNames());
-      broadcastRoomView();
-      broadcastWorldView();
-    } else {
-      broadcastRoomView();
+    Attachment attachment = Attachment.get(socket);
+    Optional<String> name = attachment.getName();
+    if (!name.isPresent()) {
+      System.out.println("Session: Need a name to join");
+      return;
     }
+
+    attachment.setGameRoom(this);
+    joined.add(socket);
+    broadcastRoomView();
   }
 
-  public void disconnected(WebSocket conn) {
-    joined.remove(conn);
+  public void leave(WebSocket socket) {
+    joined.remove(socket);
+    Attachment.get(socket).setGameRoom(null);
     if (joined.isEmpty()) {
       game = null;
-    } else {
-      broadcastRoomView();
     }
   }
 
-  public void execute(WebSocket conn, List<Integer> args) {
+  public void start(WebSocket socket) {
+    game = new Game(getPlayerNames());
+    broadcastRoomView();
+    broadcastWorldView();
+  }
+
+  public void execute(WebSocket socket, List<Integer> args) {
     if (game == null) {
       System.out.println("Session: Game is not started yet.");
       return;
     }
 
-    Attachment attachment = conn.getAttachment();
-    if (attachment == null) {
+    Optional<String> name = Attachment.get(socket).getName();
+    if (!name.isPresent()) {
+      System.out.println("Session: Player needs a name");
       return;
     }
 
-    game.execute(attachment.name, args);
+    game.execute(name.get(), args);
 
     if (game.isOver()) {
-      game = new Game(getJoinedNames());
+      game = new Game(getPlayerNames());
     }
     broadcastWorldView();
   }
 
-  public RoomView getRoomView() {
-    return new RoomView(getJoinedNames(), isGameInProgress());
+  public List<String> getPlayerNames() {
+    return joined.stream()
+        .map(c -> Attachment.get(c).getName().orElse(""))
+        .collect(Collectors.toList());
+  }
+
+  public boolean isGameInProgress() {
+    return game != null;
   }
 
   private void broadcastRoomView() {
-    for (WebSocket conn : joined) {
-      conn.send(gson.toJson(new ServerMessage("room-view", getRoomView())));
+    for (WebSocket socket : joined) {
+      Util.send(socket, Kind.ROOM_VIEW, new RoomView(this));
     }
   }
 
   private void broadcastWorldView() {
-    for (WebSocket conn : joined) {
-      conn.send(gson.toJson(new ServerMessage("world-view", game.getWorldView())));
+    for (WebSocket socket : joined) {
+      Util.send(socket, Kind.WORLD_VIEW, game.getWorldView());
     }
   }
 
-  private List<String> getJoinedNames() {
-    return joined.stream()
-        .map(
-            c -> {
-              Attachment attachment = c.getAttachment();
-              return attachment.name;
-            })
-        .collect(Collectors.toList());
-  }
-
-  private boolean isGameInProgress() {
-    return game != null;
-  }
-
-  private static class Attachment {
-    private final String name;
-
-    private Attachment(String name) {
-      this.name = name;
-    }
+  public String getRoomName() {
+    return "default";
   }
 }
