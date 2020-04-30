@@ -8,6 +8,7 @@ public class GameView {
   public final List<CardView> throneDeck;
   public final List<CardView> mercenaryDeck;
   public final List<CardView> playArea;
+  public final List<CardView> hand;
   public final List<UnitView> attackingUnits;
   public final List<UnitView> defendingUnits;
 
@@ -17,6 +18,7 @@ public class GameView {
       List<CardView> throneDeck,
       List<CardView> mercenaryDeck,
       List<CardView> playArea,
+      List<CardView> hand,
       List<UnitView> attackingUnits,
       List<UnitView> defendingUnits) {
     this.players = players;
@@ -24,6 +26,7 @@ public class GameView {
     this.throneDeck = throneDeck;
     this.mercenaryDeck = mercenaryDeck;
     this.playArea = playArea;
+    this.hand = hand;
     this.attackingUnits = attackingUnits;
     this.defendingUnits = defendingUnits;
   }

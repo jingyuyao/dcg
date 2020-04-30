@@ -88,7 +88,8 @@ public class GameRoom {
 
   private void broadcastGameView() {
     for (WebSocket socket : joined) {
-      Util.send(socket, Kind.GAME_VIEW, game.getGameView());
+      String playerName = Attachment.get(socket).getName().orElse("");
+      Util.send(socket, Kind.GAME_VIEW, game.getGameView(playerName));
     }
   }
 

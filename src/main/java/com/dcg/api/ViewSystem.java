@@ -13,6 +13,7 @@ import com.dcg.card.Spell;
 import com.dcg.game.Common;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.ForgeRow;
+import com.dcg.location.Hand;
 import com.dcg.location.MercenaryDeck;
 import com.dcg.location.PlayArea;
 import com.dcg.location.ThroneDeck;
@@ -34,13 +35,14 @@ public class ViewSystem extends BaseSystem {
   protected ComponentMapper<Unit> mUnit;
   protected ComponentMapper<Action> mAction;
 
-  public GameView getGameView() {
+  public GameView getGameView(String playerName) {
     return new GameView(
         getPlayers(),
         getForgeRow(),
         getThroneDeck(),
         getMercenaryDeck(),
         getPlayArea(),
+        getHand(playerName),
         getAttackingUnits(),
         getDefendingUnits());
   }
@@ -83,6 +85,16 @@ public class ViewSystem extends BaseSystem {
   private List<CardView> getPlayArea() {
     return coreSystem
         .getStream(Aspect.all(Card.class, PlayArea.class))
+        .map(this::toCardView)
+        .collect(Collectors.toList());
+  }
+
+  private List<CardView> getHand(String playerName) {
+    return coreSystem
+        .findByName(playerName, Aspect.all(Player.class))
+        .flatMap(
+            playerEntity ->
+                coreSystem.getChildren(playerEntity, Aspect.all(Card.class, Hand.class)))
         .map(this::toCardView)
         .collect(Collectors.toList());
   }

@@ -62,8 +62,8 @@ public class Game {
     return playerNames;
   }
 
-  public GameView getGameView() {
-    return world.getSystem(ViewSystem.class).getGameView();
+  public GameView getGameView(String playerName) {
+    return world.getSystem(ViewSystem.class).getGameView(playerName);
   }
 
   public boolean isOver() {
