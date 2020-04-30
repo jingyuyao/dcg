@@ -13,7 +13,6 @@ public class ServerMessage {
     ATTACHMENT_VIEW,
     ROOM_LIST,
     ROOM_VIEW,
-    // TODO: rename this to game view
-    WORLD_VIEW,
+    GAME_VIEW,
   }
 }

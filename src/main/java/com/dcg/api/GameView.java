@@ -2,7 +2,7 @@ package com.dcg.api;
 
 import java.util.List;
 
-public class WorldView {
+public class GameView {
   public final List<PlayerView> players;
   public final List<CardView> forgeRow;
   public final List<CardView> throneDeck;
@@ -11,7 +11,7 @@ public class WorldView {
   public final List<UnitView> attackingUnits;
   public final List<UnitView> defendingUnits;
 
-  public WorldView(
+  public GameView(
       List<PlayerView> players,
       List<CardView> forgeRow,
       List<CardView> throneDeck,

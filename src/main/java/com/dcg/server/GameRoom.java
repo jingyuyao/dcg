@@ -48,7 +48,7 @@ public class GameRoom {
   public void start(WebSocket socket) {
     game = new Game(getPlayerNames());
     broadcastRoomView();
-    broadcastWorldView();
+    broadcastGameView();
   }
 
   public void execute(WebSocket socket, List<Integer> args) {
@@ -68,7 +68,7 @@ public class GameRoom {
     if (game.isOver()) {
       game = new Game(getPlayerNames());
     }
-    broadcastWorldView();
+    broadcastGameView();
   }
 
   public List<String> getPlayerNames() {
@@ -87,9 +87,9 @@ public class GameRoom {
     }
   }
 
-  private void broadcastWorldView() {
+  private void broadcastGameView() {
     for (WebSocket socket : joined) {
-      Util.send(socket, Kind.WORLD_VIEW, game.getWorldView());
+      Util.send(socket, Kind.GAME_VIEW, game.getGameView());
     }
   }
 

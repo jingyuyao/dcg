@@ -34,8 +34,8 @@ public class ViewSystem extends BaseSystem {
   protected ComponentMapper<Unit> mUnit;
   protected ComponentMapper<Action> mAction;
 
-  public WorldView getWorldView() {
-    return new WorldView(
+  public GameView getGameView() {
+    return new GameView(
         getPlayers(),
         getForgeRow(),
         getThroneDeck(),
