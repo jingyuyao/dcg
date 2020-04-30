@@ -12,7 +12,7 @@ public class ServerMessage {
   public enum Kind {
     ATTACHMENT_VIEW,
     ROOM_LIST,
-    ROOM_VIEW,
+    GAME_ROOM_VIEW,
     GAME_VIEW,
   }
 }

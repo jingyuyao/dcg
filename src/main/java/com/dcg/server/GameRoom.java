@@ -1,6 +1,6 @@
 package com.dcg.server;
 
-import com.dcg.api.RoomView;
+import com.dcg.api.GameRoomView;
 import com.dcg.api.ServerMessage.Kind;
 import com.dcg.api.Util;
 import com.dcg.game.Game;
@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.java_websocket.WebSocket;
 
-// TODO: rename this to simply Room
 /**
  * Contains an instance of {@link com.dcg.game.Game} and the {@link org.java_websocket.WebSocket}
  * connections to that game instance.
@@ -83,7 +82,7 @@ public class GameRoom {
 
   private void broadcastRoomView() {
     for (WebSocket socket : joined) {
-      Util.send(socket, Kind.ROOM_VIEW, new RoomView(this));
+      Util.send(socket, Kind.GAME_ROOM_VIEW, new GameRoomView(this));
     }
   }
 

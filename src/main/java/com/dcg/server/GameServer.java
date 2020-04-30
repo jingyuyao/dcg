@@ -2,8 +2,8 @@ package com.dcg.server;
 
 import com.dcg.api.AttachmentView;
 import com.dcg.api.ClientMessage;
+import com.dcg.api.GameRoomView;
 import com.dcg.api.RoomList;
-import com.dcg.api.RoomView;
 import com.dcg.api.ServerMessage.Kind;
 import com.dcg.api.Util;
 import java.net.InetSocketAddress;
@@ -72,7 +72,7 @@ public class GameServer extends WebSocketServer {
         Util.send(
             socket,
             Kind.ROOM_LIST,
-            new RoomList(Collections.singletonList(new RoomView(gameRoom))));
+            new RoomList(Collections.singletonList(new GameRoomView(gameRoom))));
         break;
       case JOIN_ROOM:
         if (!attachmentGameRoom.isPresent()) {
