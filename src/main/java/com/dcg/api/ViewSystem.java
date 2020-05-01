@@ -48,6 +48,7 @@ public class ViewSystem extends BaseSystem {
         getHand(playerName),
         getAttackingUnits(),
         getDefendingUnits(),
+        // TODO: this is using a lot of bytes, split this out into incremental log version
         getCommandHistory());
   }
 
