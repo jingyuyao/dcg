@@ -5,12 +5,12 @@ import java.util.List;
 
 public class GameRoomView {
   public final String roomName;
-  public final List<String> playerNames;
+  public final List<String> joinPlayerNames;
   public final boolean isGameInProgress;
 
   public GameRoomView(GameRoom gameRoom) {
     this.roomName = gameRoom.getRoomName();
-    this.playerNames = gameRoom.getPlayerNames();
+    this.joinPlayerNames = gameRoom.getJoinedPlayerNames();
     this.isGameInProgress = gameRoom.isGameInProgress();
   }
 }

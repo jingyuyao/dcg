@@ -19,17 +19,25 @@ public class GameRoom {
   private Game game;
 
   public void join(WebSocket socket, String playerName) {
-    // TODO: allow reconnect if playerName match an existing player and they are disconnected
-    if (isGameInProgress()) {
-      System.out.println("Session: Game has already begun");
-      return;
-    }
-
-    if (getPlayerNames().contains(playerName)) {
+    if (getJoinedPlayerNames().contains(playerName)) {
       System.out.println("Session: Player with the given name already joined");
-      return;
+    } else {
+      if (isGameInProgress()) {
+        if (game.getPlayerNames().contains(playerName)) {
+          System.out.println("Session: Rejoining");
+          joinInternal(socket, playerName);
+          broadcastGameView();
+        } else {
+          System.out.println("Session: Game has already begun");
+        }
+      } else {
+        System.out.println("Session: Joining");
+        joinInternal(socket, playerName);
+      }
     }
+  }
 
+  private void joinInternal(WebSocket socket, String playerName) {
     Attachment attachment = Attachment.get(socket);
     attachment.setName(playerName);
     attachment.setGameRoom(this);
@@ -49,7 +57,7 @@ public class GameRoom {
   }
 
   public void start(WebSocket socket) {
-    game = new Game(getPlayerNames());
+    game = new Game(getJoinedPlayerNames());
     broadcastRoomView();
     broadcastGameView();
   }
@@ -69,12 +77,12 @@ public class GameRoom {
     game.execute(name.get(), args);
 
     if (game.isOver()) {
-      game = new Game(getPlayerNames());
+      game = new Game(getJoinedPlayerNames());
     }
     broadcastGameView();
   }
 
-  public List<String> getPlayerNames() {
+  public List<String> getJoinedPlayerNames() {
     return joined.stream()
         .map(c -> Attachment.get(c).getName().orElse(""))
         .collect(Collectors.toList());
