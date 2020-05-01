@@ -39,7 +39,7 @@ public class GameRoom {
 
   private void joinInternal(WebSocket socket, String playerName) {
     Attachment attachment = Attachment.get(socket);
-    attachment.setName(playerName);
+    attachment.setPlayerName(playerName);
     attachment.setGameRoom(this);
     joined.add(socket);
     broadcastRoomView();
@@ -48,7 +48,7 @@ public class GameRoom {
   public void leave(WebSocket socket) {
     joined.remove(socket);
     Attachment attachment = Attachment.get(socket);
-    attachment.setName(null);
+    attachment.setPlayerName(null);
     attachment.setGameRoom(null);
     if (joined.isEmpty()) {
       game = null;
@@ -70,7 +70,7 @@ public class GameRoom {
       return;
     }
 
-    Optional<String> name = Attachment.get(socket).getName();
+    Optional<String> name = Attachment.get(socket).getPlayerName();
     if (!name.isPresent()) {
       System.out.println("Session: Player needs a name");
       return;
@@ -86,7 +86,7 @@ public class GameRoom {
 
   public List<String> getJoinedPlayerNames() {
     return joined.stream()
-        .map(c -> Attachment.get(c).getName().orElse(""))
+        .map(c -> Attachment.get(c).getPlayerName().orElse(""))
         .collect(Collectors.toList());
   }
 
@@ -102,7 +102,7 @@ public class GameRoom {
 
   private void broadcastGameView() {
     for (WebSocket socket : joined) {
-      String playerName = Attachment.get(socket).getName().orElse("");
+      String playerName = Attachment.get(socket).getPlayerName().orElse("");
       Util.send(socket, Kind.GAME_VIEW, game.getGameView(playerName));
     }
   }

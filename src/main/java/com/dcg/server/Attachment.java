@@ -4,19 +4,20 @@ import java.util.Optional;
 import org.java_websocket.WebSocket;
 
 public class Attachment {
-  private String name;
+  private String playerName;
   private GameRoom gameRoom;
+  private int playerEntity = -1;
 
   public static Attachment get(WebSocket socket) {
     return socket.getAttachment();
   }
 
-  public Optional<String> getName() {
-    return Optional.ofNullable(name);
+  public Optional<String> getPlayerName() {
+    return Optional.ofNullable(playerName);
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setPlayerName(String playerName) {
+    this.playerName = playerName;
   }
 
   public Optional<GameRoom> getGameRoom() {
@@ -25,5 +26,13 @@ public class Attachment {
 
   public void setGameRoom(GameRoom gameRoom) {
     this.gameRoom = gameRoom;
+  }
+
+  public int getPlayerEntity() {
+    return playerEntity;
+  }
+
+  public void setPlayerEntity(int playerEntity) {
+    this.playerEntity = playerEntity;
   }
 }
