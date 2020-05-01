@@ -57,9 +57,11 @@ public class GameRoom {
   }
 
   public void start(WebSocket socket) {
-    game = new Game(getJoinedPlayerNames());
-    broadcastRoomView();
-    broadcastGameView();
+    if (joined.size() > 1) {
+      game = new Game(getJoinedPlayerNames());
+      broadcastRoomView();
+      broadcastGameView();
+    }
   }
 
   public void execute(WebSocket socket, List<Integer> args) {
