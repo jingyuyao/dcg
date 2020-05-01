@@ -39,13 +39,15 @@ public class ViewSystem extends BaseSystem {
   protected ComponentMapper<Action> mAction;
 
   public GameView getGameView(String playerName) {
+    int playerEntity =
+        coreSystem.findByName(playerName, Aspect.all(Player.class)).findFirst().orElse(-1);
     return new GameView(
         getPlayers(),
         getForgeRow(),
         getThroneDeck(),
         getMercenaryDeck(),
         getPlayArea(),
-        getHand(playerName),
+        getHand(playerEntity),
         getAttackingUnits(),
         getDefendingUnits(),
         // TODO: this is using a lot of bytes, split this out into incremental log version
@@ -94,12 +96,9 @@ public class ViewSystem extends BaseSystem {
         .collect(Collectors.toList());
   }
 
-  private List<CardView> getHand(String playerName) {
+  private List<CardView> getHand(int playerEntity) {
     return coreSystem
-        .findByName(playerName, Aspect.all(Player.class))
-        .flatMap(
-            playerEntity ->
-                coreSystem.getChildren(playerEntity, Aspect.all(Card.class, Hand.class)))
+        .getChildren(playerEntity, Aspect.all(Card.class, Hand.class))
         .map(this::toCardView)
         .collect(Collectors.toList());
   }
