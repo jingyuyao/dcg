@@ -42,6 +42,7 @@ public class GameRoom {
     if (joined.isEmpty()) {
       game = null;
     }
+    broadcastRoomView();
   }
 
   public void start(WebSocket socket) {
