@@ -21,7 +21,6 @@ public class ClientMessage {
   }
 
   public enum Kind {
-    INIT_ATTACHMENT,
     GET_ROOM_LIST,
     JOIN_ROOM,
     LEAVE_ROOM,

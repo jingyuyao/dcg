@@ -61,13 +61,6 @@ public class GameServer extends WebSocketServer {
     Optional<GameRoom> attachmentGameRoom = attachment.getGameRoom();
 
     switch (clientMessage.get().getKind()) {
-      case INIT_ATTACHMENT:
-        if (strArgs.size() == 1) {
-          attachment.setName(strArgs.get(0));
-        } else {
-          System.out.println("Invalid number of arguments");
-        }
-        break;
       case GET_ROOM_LIST:
         Util.send(
             socket,
@@ -76,9 +69,9 @@ public class GameServer extends WebSocketServer {
         break;
       case JOIN_ROOM:
         if (!attachmentGameRoom.isPresent()) {
-          if (strArgs.size() == 1) {
+          if (strArgs.size() == 2) {
             if (strArgs.get(0).equals("default")) {
-              gameRoom.join(socket);
+              gameRoom.join(socket, strArgs.get(1));
             } else {
               System.out.println("What room?");
             }

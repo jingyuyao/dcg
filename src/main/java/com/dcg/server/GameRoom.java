@@ -18,19 +18,20 @@ public class GameRoom {
   private final List<WebSocket> joined = new ArrayList<>();
   private Game game;
 
-  public void join(WebSocket socket) {
+  public void join(WebSocket socket, String playerName) {
     // TODO: allow reconnect if playerName match an existing player and they are disconnected
     if (isGameInProgress()) {
       System.out.println("Session: Game has already begun");
       return;
     }
-    Attachment attachment = Attachment.get(socket);
-    Optional<String> name = attachment.getName();
-    if (!name.isPresent()) {
-      System.out.println("Session: Need a name to join");
+
+    if (getPlayerNames().contains(playerName)) {
+      System.out.println("Session: Player with the given name already joined");
       return;
     }
 
+    Attachment attachment = Attachment.get(socket);
+    attachment.setName(playerName);
     attachment.setGameRoom(this);
     joined.add(socket);
     broadcastRoomView();
@@ -38,7 +39,9 @@ public class GameRoom {
 
   public void leave(WebSocket socket) {
     joined.remove(socket);
-    Attachment.get(socket).setGameRoom(null);
+    Attachment attachment = Attachment.get(socket);
+    attachment.setName(null);
+    attachment.setGameRoom(null);
     if (joined.isEmpty()) {
       game = null;
     }
