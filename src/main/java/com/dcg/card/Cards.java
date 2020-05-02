@@ -92,7 +92,7 @@ public class Cards {
         unit("Grenadin Drone", 0, 2)
             .tags(Red.class, Black.class)
             .desc("Create a 1 strength Grenadin")
-            .addOnEnterEffects(new CreateUnit("Grenadin", 1)),
+            .addOnEnterEffects(CreateUnit.unitToken("Grenadin", 1)),
         unit("Fearless Nomad", 0, 2)
             .tags(Red.class, Green.class)
             .desc("Berserk")
@@ -119,7 +119,7 @@ public class Cards {
               .desc("Add 2 power, Throne: may banish this to create a 2 strength Cavalry")
               .addOnEnterEffects(new AdjustPower(2))
               .addOnConditionEffects(
-                  action(new DeleteCard().chain(new CreateUnit("Cavalry", 2)))
+                  action(new DeleteCard().chain(CreateUnit.unitToken("Cavalry", 2)))
                       .desc("Banish this to create a 2 strength Cavalry")
                       .addTriggerConditions(new ThroneActive())));
     }
@@ -245,8 +245,8 @@ public class Cards {
             .tags(Red.class, Blue.class)
             .desc("Red: create a 2 strength Yeti, Blue: create a 2 strength Yeti")
             .addOnConditionEffects(
-                new CreateUnit("Yeti", 2).addTriggerConditions(new PlayedTag(Red.class)),
-                new CreateUnit("Yeti", 2).addTriggerConditions(new PlayedTag(Blue.class))),
+                CreateUnit.unitToken("Yeti", 2).addTriggerConditions(new PlayedTag(Red.class)),
+                CreateUnit.unitToken("Yeti", 2).addTriggerConditions(new PlayedTag(Blue.class))),
         unit("Lumbering Gruan", 3, 3)
             .tags(Blue.class)
             .desc("Berserk, Blue: Add 2 power")

@@ -16,7 +16,7 @@ public class CreateCard extends CreateEntity {
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<HasUnit> mHasUnit;
 
-  public CreateCard(String name, int cost) {
+  private CreateCard(String name, int cost) {
     super(name);
     this.cost = cost;
   }
@@ -49,7 +49,7 @@ public class CreateCard extends CreateEntity {
    * added to the unit instead.
    */
   public CreateCard hasUnit(int strength) {
-    createUnit = new CreateUnit(name, strength);
+    createUnit = CreateUnit.unitToken(name, strength);
     // NOTE: using super method here so the call won't be intercepted by our override.
     super.addOnEnterEffects(createUnit);
     return this;

@@ -15,10 +15,14 @@ public class CreateUnit extends CreateEntity {
   protected ComponentMapper<Unit> mUnit;
   protected ComponentMapper<Defending> mDefending;
 
-  public CreateUnit(String name, int strength) {
+  private CreateUnit(String name, int strength) {
     super(name);
     this.strength = strength;
     addOnEnterEffects(action(new Block()));
+  }
+
+  public static CreateUnit unitToken(String name, int strength) {
+    return new CreateUnit(name, strength);
   }
 
   @Override
