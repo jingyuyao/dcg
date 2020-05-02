@@ -5,7 +5,7 @@ import java.net.InetSocketAddress;
 import org.java_websocket.server.WebSocketServer;
 
 public class Main {
-  private static final String HOST = "localhost";
+  private static final String HOST = "0.0.0.0";
   private static final int PORT = 8888;
 
   public static void main(String[] args) {
