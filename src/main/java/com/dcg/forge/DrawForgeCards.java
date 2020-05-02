@@ -1,9 +1,10 @@
 package com.dcg.forge;
 
+import static com.dcg.action.CreateAction.action;
+
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
-import com.dcg.action.CreateAction;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
@@ -33,11 +34,11 @@ public class DrawForgeCards extends AbstractCommandBuilder {
         forgeDeck.remove(cardIndex);
         commandChain.addEnd(
             new MoveLocation(ForgeRow.class).build(world, cardEntity),
-            new CreateAction(new BuyCard().chain(new DrawForgeCards(1))).build(world, cardEntity));
+            action(new BuyCard().chain(new DrawForgeCards(1))).build(world, cardEntity));
         Card card = mCard.get(cardEntity);
         if (card.canWarp) {
           commandChain.addEnd(
-              new CreateAction(new Wrap().chain(new DrawForgeCards(1))).build(world, cardEntity));
+              action(new Wrap().chain(new DrawForgeCards(1))).build(world, cardEntity));
         }
       } else {
         System.out.println("No more forge cards");

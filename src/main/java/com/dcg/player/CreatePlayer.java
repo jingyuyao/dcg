@@ -1,7 +1,8 @@
 package com.dcg.player;
 
+import static com.dcg.action.CreateAction.action;
+
 import com.artemis.ComponentMapper;
-import com.dcg.action.CreateAction;
 import com.dcg.card.Cards;
 import com.dcg.command.CommandArgs;
 import com.dcg.game.CreateEntity;
@@ -16,7 +17,7 @@ public class CreatePlayer extends CreateEntity {
   public CreatePlayer(String name, CreateEntity basicUnit) {
     super(name);
     this.basicUnit = basicUnit;
-    addOnEnterEffects(new CreateAction(new AdvanceTurn()));
+    addOnEnterEffects(action(new AdvanceTurn()));
   }
 
   @Override

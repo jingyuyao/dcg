@@ -1,11 +1,12 @@
 package com.dcg.effect;
 
+import static com.dcg.action.CreateAction.action;
+
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.One;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
-import com.dcg.action.CreateAction;
 import com.dcg.battle.Defending;
 import com.dcg.command.Command;
 import com.dcg.command.CommandBuilder;
@@ -53,7 +54,7 @@ public class EffectSystem extends IteratingSystem {
                   commandChain.addEnd(command);
                 } else {
                   System.out.printf("Effect: trigger conditions valid for %s\n", command);
-                  commandChain.addEnd(new CreateAction(builder).build(world, entityId));
+                  commandChain.addEnd(action(builder).build(world, entityId));
                 }
                 turn.triggeredConditionalEffects.add(builder);
               }
@@ -66,7 +67,7 @@ public class EffectSystem extends IteratingSystem {
       if (command.canRun()) {
         commandChain.addEnd(command);
       } else {
-        commandChain.addEnd(new CreateAction(builder).build(world, entityId));
+        commandChain.addEnd(action(builder).build(world, entityId));
       }
     }
   }

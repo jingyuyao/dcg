@@ -15,6 +15,6 @@ public class InitializeBuyCard extends AbstractCommandBuilder {
         .getStream(Aspect.one(ThroneDeck.class, MercenaryDeck.class))
         .forEach(
             cardEntity ->
-                commandChain.addEnd(new CreateAction(new BuyCard()).build(world, cardEntity)));
+                commandChain.addEnd(CreateAction.action(new BuyCard()).build(world, cardEntity)));
   }
 }

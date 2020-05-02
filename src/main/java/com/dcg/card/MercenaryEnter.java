@@ -1,7 +1,8 @@
 package com.dcg.card;
 
+import static com.dcg.action.CreateAction.action;
+
 import com.artemis.Component;
-import com.dcg.action.CreateAction;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
 import java.util.List;
@@ -11,7 +12,7 @@ public class MercenaryEnter extends AbstractCommandBuilder {
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     for (Class<? extends Component> color : Colors.ALL) {
       commandChain.addEnd(
-          new CreateAction(new Mercenary(color))
+          action(new Mercenary(color))
               .desc("Merc: " + color.getSimpleName())
               .build(world, originEntity));
     }
