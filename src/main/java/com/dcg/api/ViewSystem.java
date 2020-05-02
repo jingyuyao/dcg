@@ -52,7 +52,7 @@ public class ViewSystem extends BaseSystem {
         getDiscardPile(playerEntity),
         getAttackingUnits(),
         getDefendingUnits(),
-        getRecentCommandHistory());
+        getRecentExecutions());
   }
 
   private List<PlayerView> getPlayers() {
@@ -167,11 +167,12 @@ public class ViewSystem extends BaseSystem {
         .collect(Collectors.toList());
   }
 
-  private List<CommandView> getRecentCommandHistory() {
+  private List<ExecutionView> getRecentExecutions() {
     return commandChain.getExecutionBuffer().stream()
         .map(
             execution ->
-                new CommandView(coreSystem.toName(execution.getExecutor()), execution.getCommand()))
+                new ExecutionView(
+                    coreSystem.toName(execution.getExecutor()), execution.getCommand()))
         .collect(Collectors.toList());
   }
 
