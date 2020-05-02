@@ -10,7 +10,6 @@ import com.dcg.battle.SetEndurance;
 import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
 import com.dcg.battle.SetUnblockable;
-import com.dcg.command.CommandBuilder;
 import com.dcg.commandargs.TotalAttackingUnits;
 import com.dcg.game.CreateEntity;
 import com.dcg.player.AdjustHp;
@@ -46,11 +45,11 @@ public class Cards {
         basic("Refresh")
             .desc("Throne: refresh your Wrap tokens")
             .addOnConditionEffects(
-                action(new RefreshWrapTokens()).addTriggerConditions(new ThroneActive())),
+                CreateAction.action(new RefreshWrapTokens()).addTriggerConditions(new ThroneActive())),
         basic("Worn Shield")
             .desc("Throne: give a unit +2 defense")
             .addOnConditionEffects(
-                action(new AdjustDefense(2).setInputCount(1).setTargetSource(new AllUnits()))
+                CreateAction.action(new AdjustDefense(2).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit +2 defense")
                     .addTriggerConditions(new ThroneActive())),
         basic("Secret Pages").desc("Add 2 power").addOnEnterEffects(new AdjustPower(2)));
@@ -63,7 +62,7 @@ public class Cards {
             .desc("Flying, deal 2 damage to a player if you are 3 or more units")
             .addOnEnterEffects(new SetFlying(true))
             .addOnConditionEffects(
-                action(new AdjustHp(-2).setInputCount(1).setTargetSource(new ActivePlayers()))
+                CreateAction.action(new AdjustHp(-2).setInputCount(1).setTargetSource(new ActivePlayers()))
                     .desc("Deal 2 damage to a player")
                     .addTriggerConditions(new MinDefendingUnitCount(3))),
         unit("Noble Firemane", 0, 2)
@@ -116,7 +115,7 @@ public class Cards {
               .desc("Add 2 power, Throne: may banish this to create a 2 strength Cavalry")
               .addOnEnterEffects(new AdjustPower(2))
               .addOnConditionEffects(
-                  action(new DeleteCard().chain(new CreateUnit("Cavalry", 2)))
+                  CreateAction.action(new DeleteCard().chain(new CreateUnit("Cavalry", 2)))
                       .desc("Banish this to create a 2 strength Cavalry")
                       .addTriggerConditions(new ThroneActive())));
     }
@@ -148,21 +147,21 @@ public class Cards {
             .tags(Blue.class)
             .desc("Give a unit flying")
             .addOnEnterEffects(
-                action(new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))
+                CreateAction.action(new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit flying")),
         unit("Amethyst Acolyte", 3, 2)
             .canWrap()
             .tags(Black.class)
             .desc("Give a unit -2 strength")
             .addOnEnterEffects(
-                action(new AdjustStrength(-2).setInputCount(1).setTargetSource(new AllUnits()))
+                CreateAction.action(new AdjustStrength(-2).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit -2 strength")),
         unit("Tinker Apprentice", 1, 1)
             .tags(Green.class)
             .desc("Add 1 power, give a unit +1 strength")
             .addOnEnterEffects(
                 new AdjustPower(1),
-                action(new AdjustStrength(1).setInputCount(1).setTargetSource(new AllUnits()))
+                CreateAction.action(new AdjustStrength(1).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit +1 strength")),
         unit("Throne Warden", 4, 2)
             .canWrap()
@@ -199,14 +198,14 @@ public class Cards {
             .desc("Add 2 defense, Voidbind")
             .addOnEnterEffects(
                 new AdjustDefense(2),
-                action(new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
+                CreateAction.action(new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
                     .desc("Voidbind")),
         unit("Pokpok, Rockpacker", 3, 1)
             .tags(Red.class, Blue.class)
             .desc("Draw 1 card, give a unit -1 strength")
             .addOnEnterEffects(
                 new DrawCards(1),
-                action(new AdjustStrength(-1).setInputCount(1).setTargetSource(new AllUnits()))
+                CreateAction.action(new AdjustStrength(-1).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit -1 strength")),
         unit("Snowrager", 2, 1)
             .canWrap()
@@ -220,7 +219,7 @@ public class Cards {
             .desc("Unblockable, give all defending units with 3 or less strength Unblockable")
             .addOnEnterEffects(
                 new SetUnblockable(true),
-                action(
+                CreateAction.action(
                         new SetUnblockable(true)
                             .setTargetSource(new DefendingUnits().addFilters(new MaxStrength(3))))
                     .desc("Give all defending units with 3 or less strength Unblockable")),
@@ -229,7 +228,7 @@ public class Cards {
             .tags(Red.class)
             .desc("Add 1 strength to two units")
             .addOnEnterEffects(
-                action(new AdjustStrength(1).setInputCount(1, 2).setTargetSource(new AllUnits()))
+                CreateAction.action(new AdjustStrength(1).setInputCount(1, 2).setTargetSource(new AllUnits()))
                     .desc("Add 1 strength to two units")),
         unit("Treasury Guard", 4, 2)
             .tags(Green.class)
@@ -262,14 +261,14 @@ public class Cards {
             .desc("Add 2 power, Lifesteal, Throne: Banish a card in the forge row")
             .addOnEnterEffects(new AdjustPower(2), new SetLifeSteal(true))
             .addOnConditionEffects(
-                action(new DeleteCard().setInputCount(1).setTargetSource(new ForgeRowCards()))
+                CreateAction.action(new DeleteCard().setInputCount(1).setTargetSource(new ForgeRowCards()))
                     .addTriggerConditions(new ThroneActive())),
         spell("Read the Stars", 2)
             .tags(Green.class, Blue.class)
             .desc("Draw 1 card, Voidbind if you have a Flying unit")
             .addOnEnterEffects(new DrawCards(1))
             .addOnConditionEffects(
-                action(new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
+                CreateAction.action(new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
                     .desc("Voidbind")
                     .addTriggerConditions(new AnyDefendingUnit(unit -> unit.flying))),
         spell("Levitate", 2)
@@ -277,22 +276,22 @@ public class Cards {
             .desc("Add 2 power, give a unit Flying")
             .addOnEnterEffects(
                 new AdjustPower(2),
-                action(new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))
+                CreateAction.action(new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit flying")),
         spell("Arcane Defense", 3)
             .tags(Green.class)
             .desc("Draw 1 card, give two units -1 strength")
             .addOnEnterEffects(
                 new DrawCards(1),
-                action(new AdjustStrength(-1).setInputCount(1, 2).setTargetSource(new AllUnits()))
+                CreateAction.action(new AdjustStrength(-1).setInputCount(1, 2).setTargetSource(new AllUnits()))
                     .desc("Give two units -1 strength")),
         spell("Lightning Storm", 2)
             .tags(Blue.class)
             .desc("Voidbind, destroy all attacking units with 2 or less strength")
             .addOnEnterEffects(
-                action(new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
+                CreateAction.action(new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
                     .desc("Voidbind"),
-                action(
+                CreateAction.action(
                         new DestroyUnit()
                             .setTargetSource(new AttackingUnits().addFilters(new MaxStrength(2))))
                     .desc("Destroy all attacking units with 2 or less strength")),
@@ -301,14 +300,14 @@ public class Cards {
             .desc("Add 2 power, give a unit +3 defense")
             .addOnEnterEffects(
                 new AdjustPower(2),
-                action(new AdjustDefense(3).setInputCount(1).setTargetSource(new AllUnits()))
+                CreateAction.action(new AdjustDefense(3).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a unit +3 defense")),
         spell("Hipshot", 3)
             .tags(Red.class)
             .desc("Add 1 power, deal 3 damage to a player")
             .addOnEnterEffects(
                 new AdjustPower(1),
-                action(new AdjustHp(-3).setInputCount(1).setTargetSource(new ActivePlayers()))
+                CreateAction.action(new AdjustHp(-3).setInputCount(1).setTargetSource(new ActivePlayers()))
                     .desc("Deal 3 damage to a player")),
         spell("Wisdom of the Elders", 5)
             .tags(Blue.class)
@@ -320,7 +319,7 @@ public class Cards {
                 "Add 2 power, give all defending units +2 strength if you generated at least 7 power")
             .addOnEnterEffects(new AdjustPower(2))
             .addOnConditionEffects(
-                action(new AdjustStrength(2).setTargetSource(new DefendingUnits()))
+                CreateAction.action(new AdjustStrength(2).setTargetSource(new DefendingUnits()))
                     .desc("Give all defending units +2 strength")
                     .addTriggerConditions(new MinPower(7))),
         spell("Deathstrike", 3)
@@ -328,12 +327,8 @@ public class Cards {
             .desc("Add 1 power, destroy a unit")
             .addOnEnterEffects(
                 new AdjustPower(1),
-                action(new DestroyUnit().setInputCount(1).setTargetSource(new AllUnits()))
+                CreateAction.action(new DestroyUnit().setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Destroy a unit")));
-  }
-
-  public static CreateAction action(CommandBuilder builder) {
-    return new CreateAction(builder);
   }
 
   public static CreateCard basic(String name) {

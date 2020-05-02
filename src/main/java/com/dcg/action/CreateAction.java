@@ -18,6 +18,10 @@ public class CreateAction extends CreateEntity {
     this.builder = builder;
   }
 
+  public static CreateAction action(CommandBuilder builder) {
+    return new CreateAction(builder);
+  }
+
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     Preconditions.checkGameState(originEntity != -1, "Must have owner for origin %d", originEntity);
