@@ -3,6 +3,9 @@ package com.dcg.command;
 import java.util.List;
 
 public interface Command {
+  /** Get a log-able string representation of the command. */
+  String getSnapshot();
+
   /** Gets the entity associated with this command. The relationship is command dependent. */
   int getOriginEntity();
 

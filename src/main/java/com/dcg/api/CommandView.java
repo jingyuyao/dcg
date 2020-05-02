@@ -6,6 +6,6 @@ public class CommandView {
   public final String logText;
 
   public CommandView(Command command) {
-    this.logText = command.toString();
+    this.logText = command.getSnapshot();
   }
 }
