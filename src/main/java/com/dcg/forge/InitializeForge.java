@@ -14,6 +14,9 @@ public class InitializeForge extends AbstractCommandBuilder {
     for (CreateEntity createEntity : Cards.createForgeDeck()) {
       commandChain.addEnd(createEntity.tags(ForgeDeck.class).build(world, -1));
     }
+    for (CreateEntity createEntity : Cards.createForgeDeck()) {
+      commandChain.addEnd(createEntity.tags(ForgeDeck.class).build(world, -1));
+    }
     for (CreateEntity createEntity : Cards.createMercenaries()) {
       commandChain.addEnd(createEntity.tags(MercenaryDeck.class).build(world, -1));
     }
