@@ -21,6 +21,24 @@ public class CreateCard extends CreateEntity {
     this.cost = cost;
   }
 
+  public static CreateCard basic(String name) {
+    CreateCard createCard = new CreateCard(name, 0);
+    createCard.tags(Basic.class);
+    return createCard;
+  }
+
+  public static CreateCard spell(String name, int cost) {
+    CreateCard createCard = new CreateCard(name, cost);
+    createCard.tags(Spell.class);
+    return createCard;
+  }
+
+  public static CreateCard unit(String name, int cost, int strength) {
+    CreateCard createCard = new CreateCard(name, cost);
+    createCard.hasUnit(strength);
+    return createCard;
+  }
+
   public CreateCard canWrap() {
     this.canWrap = true;
     return this;

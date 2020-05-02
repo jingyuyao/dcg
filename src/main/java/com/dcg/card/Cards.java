@@ -1,6 +1,9 @@
 package com.dcg.card;
 
 import static com.dcg.action.CreateAction.action;
+import static com.dcg.card.CreateCard.basic;
+import static com.dcg.card.CreateCard.spell;
+import static com.dcg.card.CreateCard.unit;
 
 import com.dcg.battle.AdjustDefense;
 import com.dcg.battle.AdjustStrength;
@@ -332,21 +335,4 @@ public class Cards {
                     .desc("Destroy a unit")));
   }
 
-  public static CreateCard basic(String name) {
-    CreateCard createCard = new CreateCard(name, 0);
-    createCard.tags(Basic.class);
-    return createCard;
-  }
-
-  public static CreateCard spell(String name, int cost) {
-    CreateCard createCard = new CreateCard(name, cost);
-    createCard.tags(Spell.class);
-    return createCard;
-  }
-
-  public static CreateCard unit(String name, int cost, int strength) {
-    CreateCard createCard = new CreateCard(name, cost);
-    createCard.hasUnit(strength);
-    return createCard;
-  }
 }
