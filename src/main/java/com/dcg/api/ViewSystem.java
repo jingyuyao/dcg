@@ -42,7 +42,10 @@ public class ViewSystem extends BaseSystem {
   public GameView getGameView(String playerName) {
     int playerEntity =
         coreSystem.findByName(playerName, Aspect.all(Player.class)).findFirst().orElse(-1);
+    Turn turn = coreSystem.getTurn();
     return new GameView(
+        coreSystem.toName(coreSystem.getCurrentPlayerEntity()),
+        coreSystem.toName(turn.previousPlayerEntity),
         getPlayers(),
         getForgeRow(),
         getThroneDeck(),

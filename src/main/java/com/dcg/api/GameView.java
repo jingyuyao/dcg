@@ -3,6 +3,8 @@ package com.dcg.api;
 import java.util.List;
 
 public class GameView {
+  public final String currentPlayerName;
+  public final String previousPlayerName;
   public final List<PlayerView> players;
   public final List<CardView> forgeRow;
   public final List<CardView> throneDeck;
@@ -15,6 +17,8 @@ public class GameView {
   public final List<ExecutionView> recentExecutions;
 
   public GameView(
+      String currentPlayerName,
+      String previousPlayerName,
       List<PlayerView> players,
       List<CardView> forgeRow,
       List<CardView> throneDeck,
@@ -25,6 +29,8 @@ public class GameView {
       List<UnitView> attackingUnits,
       List<UnitView> defendingUnits,
       List<ExecutionView> recentExecutions) {
+    this.currentPlayerName = currentPlayerName;
+    this.previousPlayerName = previousPlayerName;
     this.players = players;
     this.forgeRow = forgeRow;
     this.throneDeck = throneDeck;
