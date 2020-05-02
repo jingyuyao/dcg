@@ -24,7 +24,7 @@ public class CoreSystem extends IteratingSystem {
   private static final Player DEFAULT_PLAYER = new Player();
   private static final Turn DEFAULT_TURN = new Turn();
   protected AspectSubscriptionManager manager;
-  protected ComponentMapper<Common> mNamed;
+  protected ComponentMapper<Common> mCommon;
   protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<Player> mPlayer;
   protected ComponentMapper<Turn> mTurn;
@@ -41,11 +41,11 @@ public class CoreSystem extends IteratingSystem {
 
   public Stream<Integer> findByName(String name, Aspect.Builder aspectBuilder) {
     return getStream(aspectBuilder.all(Common.class))
-        .filter(entity -> name.equalsIgnoreCase(mNamed.get(entity).name));
+        .filter(entity -> name.equalsIgnoreCase(mCommon.get(entity).name));
   }
 
   public String toName(int entity) {
-    return entity != -1 ? mNamed.getSafe(entity, DEFAULT_COMMON).name : "";
+    return entity != -1 ? mCommon.getSafe(entity, DEFAULT_COMMON).name : "";
   }
 
   public Integer getCurrentPlayerEntity() {
