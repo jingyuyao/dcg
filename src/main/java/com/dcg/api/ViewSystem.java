@@ -50,8 +50,7 @@ public class ViewSystem extends BaseSystem {
         getHand(playerEntity),
         getAttackingUnits(),
         getDefendingUnits(),
-        // TODO: this is using a lot of bytes, split this out into incremental log version
-        getCommandHistory());
+        getRecentCommandHistory());
   }
 
   private List<PlayerView> getPlayers() {
@@ -159,8 +158,8 @@ public class ViewSystem extends BaseSystem {
         .collect(Collectors.toList());
   }
 
-  private List<CommandView> getCommandHistory() {
-    return commandChain.getHistory().stream().map(CommandView::new).collect(Collectors.toList());
+  private List<CommandView> getRecentCommandHistory() {
+    return commandChain.getHistoryBuffer().stream().map(CommandView::new).collect(Collectors.toList());
   }
 
   @Override

@@ -11,7 +11,7 @@ public class GameView {
   public final List<CardView> hand;
   public final List<UnitView> attackingUnits;
   public final List<UnitView> defendingUnits;
-  public final List<CommandView> commandHistory;
+  public final List<CommandView> recentCommandHistory;
 
   public GameView(
       List<PlayerView> players,
@@ -21,7 +21,8 @@ public class GameView {
       List<CardView> playArea,
       List<CardView> hand,
       List<UnitView> attackingUnits,
-      List<UnitView> defendingUnits, List<CommandView> commandHistory) {
+      List<UnitView> defendingUnits,
+      List<CommandView> recentCommandHistory) {
     this.players = players;
     this.forgeRow = forgeRow;
     this.throneDeck = throneDeck;
@@ -30,6 +31,6 @@ public class GameView {
     this.hand = hand;
     this.attackingUnits = attackingUnits;
     this.defendingUnits = defendingUnits;
-    this.commandHistory = commandHistory;
+    this.recentCommandHistory = recentCommandHistory;
   }
 }

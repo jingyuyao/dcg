@@ -7,19 +7,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CommandChain {
-  private final List<Command> history = new ArrayList<>();
+  private final List<Command> historyBuffer = new ArrayList<>();
   private final Deque<Command> queue = new LinkedList<>();
 
   /** Add commands to the end of the deque while preserving the order of the arguments. */
   public void addEnd(List<Command> commands) {
     queue.addAll(commands);
-    history.addAll(commands);
+    historyBuffer.addAll(commands);
   }
 
   /** Add commands to the end of the deque while preserving the order of the arguments. */
   public void addEnd(Command... commands) {
     Collections.addAll(queue, commands);
-    Collections.addAll(history, commands);
+    Collections.addAll(historyBuffer, commands);
   }
 
   public Command pop() {
@@ -30,7 +30,11 @@ public class CommandChain {
     return queue.isEmpty();
   }
 
-  public List<Command> getHistory() {
-    return history;
+  public List<Command> getHistoryBuffer() {
+    return this.historyBuffer;
+  }
+
+  public void clearHistoryBuffer() {
+    this.historyBuffer.clear();
   }
 }

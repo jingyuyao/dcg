@@ -17,6 +17,7 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
 
   @Override
   protected void process() {
+    commandChain.clearHistoryBuffer();
     while (!commandChain.isEmpty()) {
       Command command = commandChain.pop();
       updateEntityStates();

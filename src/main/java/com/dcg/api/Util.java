@@ -23,6 +23,6 @@ public class Util {
   public static void send(WebSocket socket, Kind kind, Object data) {
     String json = gson.toJson(new ServerMessage(kind, data));
     socket.send(json);
-    System.out.printf("Sent %d char\n", json.length());
+    System.out.printf("Sent %s with %d char\n", kind, json.length());
   }
 }
