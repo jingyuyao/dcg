@@ -13,13 +13,17 @@ public class CreateAction extends CreateEntity {
   protected ComponentMapper<Action> mAction;
   protected ComponentMapper<Owned> mOwned;
 
-  private CreateAction(CommandBuilder builder) {
-    super(builder.toString());
+  private CreateAction(String name, CommandBuilder builder) {
+    super(name);
     this.builder = builder;
   }
 
   public static CreateAction action(CommandBuilder builder) {
-    return new CreateAction(builder);
+    return new CreateAction(builder.toString(), builder);
+  }
+
+  public static CreateAction action(String name, CommandBuilder builder) {
+    return new CreateAction(name, builder);
   }
 
   @Override

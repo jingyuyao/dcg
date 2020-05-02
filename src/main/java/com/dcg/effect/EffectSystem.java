@@ -54,6 +54,7 @@ public class EffectSystem extends IteratingSystem {
                   commandChain.addEnd(command);
                 } else {
                   System.out.printf("Effect: trigger conditions valid for %s\n", command);
+                  // TODO: how to pass good names here?
                   commandChain.addEnd(action(builder).build(world, entityId));
                 }
                 turn.triggeredConditionalEffects.add(builder);

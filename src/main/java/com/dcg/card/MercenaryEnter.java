@@ -12,8 +12,8 @@ public class MercenaryEnter extends AbstractCommandBuilder {
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     for (Class<? extends Component> color : Colors.ALL) {
       commandChain.addEnd(
-          action(new Mercenary(color))
-              .desc("Merc: " + color.getSimpleName())
+          action(color.getSimpleName(), new Mercenary(color))
+              .desc("Become " + color.getSimpleName())
               .build(world, originEntity));
     }
   }
