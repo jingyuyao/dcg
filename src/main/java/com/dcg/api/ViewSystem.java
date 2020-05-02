@@ -14,6 +14,7 @@ import com.dcg.card.Spell;
 import com.dcg.command.CommandChain;
 import com.dcg.game.Common;
 import com.dcg.game.CoreSystem;
+import com.dcg.location.DiscardPile;
 import com.dcg.location.ForgeRow;
 import com.dcg.location.Hand;
 import com.dcg.location.MercenaryDeck;
@@ -48,6 +49,7 @@ public class ViewSystem extends BaseSystem {
         getMercenaryDeck(),
         getPlayArea(),
         getHand(playerEntity),
+        getDiscardPile(playerEntity),
         getAttackingUnits(),
         getDefendingUnits(),
         getRecentCommandHistory());
@@ -98,6 +100,13 @@ public class ViewSystem extends BaseSystem {
   private List<CardView> getHand(int playerEntity) {
     return coreSystem
         .getChildren(playerEntity, Aspect.all(Card.class, Hand.class))
+        .map(this::toCardView)
+        .collect(Collectors.toList());
+  }
+
+  private List<CardView> getDiscardPile(int playerEntity) {
+    return coreSystem
+        .getChildren(playerEntity, Aspect.all(Card.class, DiscardPile.class))
         .map(this::toCardView)
         .collect(Collectors.toList());
   }
@@ -159,7 +168,9 @@ public class ViewSystem extends BaseSystem {
   }
 
   private List<CommandView> getRecentCommandHistory() {
-    return commandChain.getHistoryBuffer().stream().map(CommandView::new).collect(Collectors.toList());
+    return commandChain.getHistoryBuffer().stream()
+        .map(CommandView::new)
+        .collect(Collectors.toList());
   }
 
   @Override
