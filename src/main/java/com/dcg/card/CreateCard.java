@@ -1,5 +1,7 @@
 package com.dcg.card;
 
+import static com.dcg.battle.CreateUnit.unitToken;
+
 import com.artemis.ComponentMapper;
 import com.dcg.battle.CreateUnit;
 import com.dcg.command.CommandArgs;
@@ -49,7 +51,7 @@ public class CreateCard extends CreateEntity {
    * added to the unit instead.
    */
   public CreateCard hasUnit(int strength) {
-    createUnit = CreateUnit.unitToken(name, strength);
+    createUnit = unitToken(name, strength);
     // NOTE: using super method here so the call won't be intercepted by our override.
     super.addOnEnterEffects(createUnit);
     return this;

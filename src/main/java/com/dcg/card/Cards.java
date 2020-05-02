@@ -1,13 +1,13 @@
 package com.dcg.card;
 
 import static com.dcg.action.CreateAction.action;
+import static com.dcg.battle.CreateUnit.unitToken;
 import static com.dcg.card.CreateCard.basic;
 import static com.dcg.card.CreateCard.spell;
 import static com.dcg.card.CreateCard.unit;
 
 import com.dcg.battle.AdjustDefense;
 import com.dcg.battle.AdjustStrength;
-import com.dcg.battle.CreateUnit;
 import com.dcg.battle.DestroyUnit;
 import com.dcg.battle.SetBerserk;
 import com.dcg.battle.SetEndurance;
@@ -92,7 +92,7 @@ public class Cards {
         unit("Grenadin Drone", 0, 2)
             .tags(Red.class, Black.class)
             .desc("Create a 1 strength Grenadin")
-            .addOnEnterEffects(CreateUnit.unitToken("Grenadin", 1)),
+            .addOnEnterEffects(unitToken("Grenadin", 1)),
         unit("Fearless Nomad", 0, 2)
             .tags(Red.class, Green.class)
             .desc("Berserk")
@@ -119,7 +119,7 @@ public class Cards {
               .desc("Add 2 power, Throne: may banish this to create a 2 strength Cavalry")
               .addOnEnterEffects(new AdjustPower(2))
               .addOnConditionEffects(
-                  action(new DeleteCard().chain(CreateUnit.unitToken("Cavalry", 2)))
+                  action(new DeleteCard().chain(unitToken("Cavalry", 2)))
                       .desc("Banish this to create a 2 strength Cavalry")
                       .addTriggerConditions(new ThroneActive())));
     }
@@ -245,8 +245,8 @@ public class Cards {
             .tags(Red.class, Blue.class)
             .desc("Red: create a 2 strength Yeti, Blue: create a 2 strength Yeti")
             .addOnConditionEffects(
-                CreateUnit.unitToken("Yeti", 2).addTriggerConditions(new PlayedTag(Red.class)),
-                CreateUnit.unitToken("Yeti", 2).addTriggerConditions(new PlayedTag(Blue.class))),
+                unitToken("Yeti", 2).addTriggerConditions(new PlayedTag(Red.class)),
+                unitToken("Yeti", 2).addTriggerConditions(new PlayedTag(Blue.class))),
         unit("Lumbering Gruan", 3, 3)
             .tags(Blue.class)
             .desc("Berserk, Blue: Add 2 power")
