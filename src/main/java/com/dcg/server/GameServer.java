@@ -54,13 +54,20 @@ public class GameServer extends WebSocketServer {
       System.out.println("Invalid message");
       return;
     }
+    try {
+      processClientMessage(socket, clientMessage.get());
+    } catch (Exception e) {
+      System.err.printf("Server: %s\n", e);
+    }
+  }
 
-    List<Integer> intArgs = clientMessage.get().getIntArgs();
-    List<String> strArgs = clientMessage.get().getStrArgs();
+  private void processClientMessage(WebSocket socket, ClientMessage message) {
+    List<Integer> intArgs = message.getIntArgs();
+    List<String> strArgs = message.getStrArgs();
     Attachment attachment = Attachment.get(socket);
     Optional<GameRoom> attachmentGameRoom = attachment.getGameRoom();
 
-    switch (clientMessage.get().getKind()) {
+    switch (message.getKind()) {
       case GET_ROOM_LIST:
         Util.send(
             socket,

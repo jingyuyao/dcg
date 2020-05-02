@@ -88,6 +88,11 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     @Override
+    public int getOriginEntity() {
+      return originEntity;
+    }
+
+    @Override
     public Command setInput(List<Integer> input) {
       this.inputs = input;
       return this;

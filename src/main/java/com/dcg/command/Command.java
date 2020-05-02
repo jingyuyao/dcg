@@ -3,6 +3,9 @@ package com.dcg.command;
 import java.util.List;
 
 public interface Command {
+  /** Gets the entity associated with this command. The relationship is command dependent. */
+  int getOriginEntity();
+
   /** Sets the optional user input for this command. */
   Command setInput(List<Integer> input);
 

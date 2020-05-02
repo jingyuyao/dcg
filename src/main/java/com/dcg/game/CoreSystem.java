@@ -108,12 +108,12 @@ public class CoreSystem extends IteratingSystem {
 
   /** Returns the direct owner of the owned entity or -1 if it does not have an owner. */
   public int getParent(int ownedEntity) {
-    return mOwned.has(ownedEntity) ? mOwned.get(ownedEntity).owner : -1;
+    return ownedEntity != -1 && mOwned.has(ownedEntity) ? mOwned.get(ownedEntity).owner : -1;
   }
 
   /** Returns the root owner of the entity or itself if it does not have an owner. */
   public int getRoot(int entity) {
-    return mOwned.has(entity) ? getRoot(mOwned.get(entity).owner) : entity;
+    return entity != -1 && mOwned.has(entity) ? getRoot(mOwned.get(entity).owner) : entity;
   }
 
   public boolean isOwnedBy(int ownerEntity, int entity) {
