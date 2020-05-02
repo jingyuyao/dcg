@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CommandChain {
-  private final List<Command> historyBuffer = new ArrayList<>();
+  private final List<Execution> executionBuffer = new ArrayList<>();
   private final Deque<Command> queue = new LinkedList<>();
 
   /** Add commands to the end of the deque while preserving the order of the arguments. */
@@ -23,15 +23,35 @@ public class CommandChain {
     return queue.isEmpty();
   }
 
-  public void logHistory(Command... commands) {
-    Collections.addAll(historyBuffer, commands);
+  public void logExecution(int executor, Command... commands) {
+    for (Command command : commands) {
+      executionBuffer.add(new Execution(executor, command));
+    }
   }
 
-  public List<Command> getHistoryBuffer() {
-    return this.historyBuffer;
+  public List<Execution> getExecutionBuffer() {
+    return this.executionBuffer;
   }
 
-  public void clearHistoryBuffer() {
-    this.historyBuffer.clear();
+  public void clearExecutionBuffer() {
+    this.executionBuffer.clear();
+  }
+
+  public static class Execution {
+    private final int executor;
+    private final Command command;
+
+    public Execution(int executor, Command command) {
+      this.executor = executor;
+      this.command = command;
+    }
+
+    public int getExecutor() {
+      return executor;
+    }
+
+    public Command getCommand() {
+      return command;
+    }
   }
 }

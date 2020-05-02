@@ -5,7 +5,7 @@ import com.dcg.command.Command;
 public class CommandView {
   public final String logText;
 
-  public CommandView(Command command) {
-    this.logText = command.getSnapshot();
+  public CommandView(String executorName, Command command) {
+    this.logText = String.format("%s: %s", executorName, command.getSnapshot());
   }
 }

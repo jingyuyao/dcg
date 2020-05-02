@@ -168,8 +168,10 @@ public class ViewSystem extends BaseSystem {
   }
 
   private List<CommandView> getRecentCommandHistory() {
-    return commandChain.getHistoryBuffer().stream()
-        .map(CommandView::new)
+    return commandChain.getExecutionBuffer().stream()
+        .map(
+            execution ->
+                new CommandView(coreSystem.toName(execution.getExecutor()), execution.getCommand()))
         .collect(Collectors.toList());
   }
 
