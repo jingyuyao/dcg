@@ -66,6 +66,10 @@ public class Game {
     return world.getSystem(ViewSystem.class).getGameView(playerName);
   }
 
+  public void clearRecentExecutions() {
+    world.getRegistered(CommandChain.class).clearExecutionBuffer();
+  }
+
   public boolean isOver() {
     return world.getSystem(CoreSystem.class).getActivePlayerEntities().count() == 1;
   }

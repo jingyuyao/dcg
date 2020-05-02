@@ -82,6 +82,7 @@ public class GameRoom {
       game = new Game(getJoinedPlayerNames());
     }
     broadcastGameView();
+    game.clearRecentExecutions();
   }
 
   public List<String> getJoinedPlayerNames() {
