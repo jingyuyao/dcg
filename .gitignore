@@ -1,3 +1,5 @@
 *.class
 /target/classes/META-INF/
 /.idea/dictionaries/
+/dependency-reduced-pom.xml
+/target/
