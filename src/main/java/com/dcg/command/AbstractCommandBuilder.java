@@ -22,8 +22,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   protected World world;
   protected CoreSystem coreSystem;
   private final List<TriggerCondition> triggerConditions = new ArrayList<>();
-  private Supplier<Integer> intArgSupplier = () -> 0;
-  private Supplier<Boolean> boolArgSupplier = () -> false;
+  private Supplier<Integer> intArgSupplier;
+  private Supplier<Boolean> boolArgSupplier;
   private TargetSource targetSource = new OriginEntity();
   private int minInputCount = 0;
   private int maxInputCount = 0;
@@ -154,9 +154,17 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     private CommandArgs getArgs() {
-      world.inject(intArgSupplier);
-      world.inject(boolArgSupplier);
-      return new CommandArgs(intArgSupplier.get(), boolArgSupplier.get());
+      int intArg = 0;
+      if (intArgSupplier != null) {
+        world.inject(intArgSupplier);
+        intArg = intArgSupplier.get();
+      }
+      boolean boolArg = false;
+      if (boolArgSupplier != null) {
+        world.inject(boolArgSupplier);
+        boolArg = boolArgSupplier.get();
+      }
+      return new CommandArgs(intArg, boolArg);
     }
 
     private List<Integer> getTargets() {
@@ -167,26 +175,18 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     public String toString() {
       StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
       CommandArgs args = getArgs();
-      builder
-          .append(" ")
-          .append(coreSystem.toName(originEntity))
-          .append("(")
-          .append(originEntity)
-          .append(") [")
-          .append(args.getInt())
-          .append(",")
-          .append(args.getBool())
-          .append("]");
+      builder.append(" ").append(coreSystem.toName(originEntity));
+      if (intArgSupplier != null) {
+        builder.append(" = ").append(args.getInt());
+      }
+      if (boolArgSupplier != null) {
+        builder.append(" = ").append(args.getBool());
+      }
       List<Integer> targets = getTargets();
       if (!targets.isEmpty() && (targets.size() > 1 || targets.get(0) != originEntity)) {
         builder.append(" ->");
         for (int entity : targets) {
-          builder
-              .append(" ")
-              .append(coreSystem.toName(entity))
-              .append("(")
-              .append(entity)
-              .append(")");
+          builder.append(" ").append(coreSystem.toName(entity));
         }
       }
       return builder.toString();
