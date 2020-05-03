@@ -4,8 +4,16 @@ import com.dcg.command.CommandArgs;
 import java.util.List;
 
 public class SetFlying extends UnitEffectBuilder {
-  public SetFlying(boolean flying) {
+  private SetFlying(boolean flying) {
     setBoolArgSupplier(() -> flying);
+  }
+
+  public static SetFlying flying() {
+    return new SetFlying(true);
+  }
+
+  public static SetFlying removeFlying() {
+    return new SetFlying(false);
   }
 
   @Override

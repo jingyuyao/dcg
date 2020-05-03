@@ -6,6 +6,7 @@ import static com.dcg.battle.AdjustStrength.strength;
 import static com.dcg.battle.CreateUnit.unitToken;
 import static com.dcg.battle.SetBerserk.berserk;
 import static com.dcg.battle.SetEndurance.endurance;
+import static com.dcg.battle.SetFlying.flying;
 import static com.dcg.card.CreateCard.basic;
 import static com.dcg.card.CreateCard.spell;
 import static com.dcg.card.CreateCard.unit;
@@ -67,7 +68,7 @@ public class Cards {
         unit("Yeti Windflyer", 4, 1)
             .tags(Red.class, Blue.class)
             .desc("Flying; deal 2 damage to a Player if you are 3 or more Units")
-            .addOnEnterEffects(new SetFlying(true))
+            .addOnEnterEffects(flying())
             .addOnConditionEffects(
                 dealDamage(2).addTriggerConditions(new MinDefendingUnitCount(3))),
         unit("Noble Firemane", 0, 2)
@@ -77,7 +78,7 @@ public class Cards {
         unit("Eager Owlet", 0, 2)
             .tags(Green.class, Blue.class)
             .desc("Flying")
-            .addOnEnterEffects(new SetFlying(true)),
+            .addOnEnterEffects(flying()),
         unit("Awakened Student", 0, 2)
             .tags(Yellow.class, Green.class)
             .desc("+2 Strength if you have a Unit with 4 Strength or more")
@@ -151,9 +152,7 @@ public class Cards {
             .tags(Blue.class)
             .desc("Give a Unit Flying")
             .addOnEnterEffects(
-                action(
-                        "Give Flying",
-                        new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))
+                action("Give Flying", flying().setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a Unit Flying")),
         unit("Amethyst Acolyte", 3, 2)
             .canWrap()
@@ -195,7 +194,7 @@ public class Cards {
         unit("Impending Doom", 4, 5)
             .tags(Black.class)
             .desc("Flying; minus 1 HP")
-            .addOnEnterEffects(new SetFlying(true), new AdjustHp(-1)),
+            .addOnEnterEffects(flying(), new AdjustHp(-1)),
         unit("Ridgeline Watcher", 4, 3)
             .tags(Blue.class)
             .desc("Add 2 Defense; Voidbind")
@@ -253,7 +252,7 @@ public class Cards {
             .desc("Add 1 Power; Blue: Flying; Black: Lifesteal")
             .addOnEnterEffects(new AdjustPower(1))
             .addOnConditionEffects(
-                new SetFlying(true).addTriggerConditions(new PlayedTag(Blue.class)),
+                flying().addTriggerConditions(new PlayedTag(Blue.class)),
                 new SetLifeSteal(true).addTriggerConditions(new PlayedTag(Black.class))),
         unit("Cabal Cutthroat", 4, 2)
             .tags(Black.class)
@@ -263,7 +262,7 @@ public class Cards {
         unit("Vampire Bat", 2, 1)
             .tags(Black.class)
             .desc("Add 1 Power; Flying; Lifesteal; Black: +1 Strength")
-            .addOnEnterEffects(new AdjustPower(1), new SetFlying(true), new SetLifeSteal(true))
+            .addOnEnterEffects(new AdjustPower(1), flying(), new SetLifeSteal(true))
             .addOnConditionEffects(strength(1).addTriggerConditions(new PlayedTag(Black.class))),
         unit("Back-Alley Bouncer", 5, 3)
             .tags(Black.class)
@@ -274,7 +273,7 @@ public class Cards {
             .canWrap()
             .tags(Yellow.class, Black.class)
             .desc("Flying; Yellow: Endurance; Black: +5 Defense")
-            .addOnEnterEffects(new SetFlying(true))
+            .addOnEnterEffects(flying())
             .addOnConditionEffects(
                 endurance().addTriggerConditions(new PlayedTag(Yellow.class)),
                 defense(5).addTriggerConditions(new PlayedTag(Black.class))),
@@ -283,11 +282,11 @@ public class Cards {
             .tags(Yellow.class)
             .desc("+5 Defense; Throne: Flying")
             .addOnEnterEffects(defense(5))
-            .addOnConditionEffects(new SetFlying(true).addTriggerConditions(new ThroneActive())),
+            .addOnConditionEffects(flying().addTriggerConditions(new ThroneActive())),
         unit("Steelbound Dragon", 6, 3)
             .tags(Red.class)
             .desc("Add 2 Power; Flying; Throne: +3 Strength")
-            .addOnEnterEffects(new AdjustPower(2), new SetFlying(true))
+            .addOnEnterEffects(new AdjustPower(2), flying())
             .addOnConditionEffects(strength(3).addTriggerConditions(new ThroneActive())),
         unit("Heart of the Vault", 6, 5)
             .tags(Red.class, Yellow.class)
@@ -300,8 +299,8 @@ public class Cards {
             .tags(Blue.class)
             .desc("Flying; Give all defending units Flying")
             .addOnEnterEffects(
-                new SetFlying(true),
-                action("Give Flying", new SetFlying(true).setTargetSource(new DefendingUnits()))
+                flying(),
+                action("Give Flying", flying().setTargetSource(new DefendingUnits()))
                     .desc("Give Flying to all defending units")),
         unit("Corrupted Umbren", 3, 3)
             .canWrap()
@@ -323,7 +322,7 @@ public class Cards {
         unit("East-Wind Herald", 2, 1)
             .tags(Blue.class)
             .desc("Flying; +3 Defense; Blue: draw a card")
-            .addOnEnterEffects(new SetFlying(true), defense(3))
+            .addOnEnterEffects(flying(), defense(3))
             .addOnConditionEffects(
                 new DrawCards(1).addTriggerConditions(new PlayedTag(Blue.class))),
         unit("Rolant, the Iron Fist", 7, 4)
@@ -344,13 +343,13 @@ public class Cards {
             .tags(Yellow.class)
             .desc("Remove Flying from all units; Yellow: Endurance")
             .addOnEnterEffects(
-                action("Remove Flying", new SetFlying(false).setTargetSource(new AllUnits()))
+                action("Remove Flying", SetFlying.removeFlying().setTargetSource(new AllUnits()))
                     .desc("Remove Flying from all units"))
             .addOnConditionEffects(endurance().addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Renegade Valkyrie", 1, 1)
             .tags(Red.class, Green.class)
             .desc("Flying; Berserk; Red: +1 Strength; Green: +1 Strength")
-            .addOnEnterEffects(new SetFlying(true), berserk())
+            .addOnEnterEffects(flying(), berserk())
             .addOnConditionEffects(
                 strength(1).addTriggerConditions(new PlayedTag(Red.class)),
                 strength(1).addTriggerConditions(new PlayedTag(Green.class))),
@@ -407,9 +406,7 @@ public class Cards {
             .desc("Add 2 Power; give a Unit Flying")
             .addOnEnterEffects(
                 new AdjustPower(2),
-                action(
-                        "Give Flying",
-                        new SetFlying(true).setInputCount(1).setTargetSource(new AllUnits()))
+                action("Give Flying", flying().setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a Unit Flying")),
         spell("Arcane Defense", 3)
             .tags(Green.class)
