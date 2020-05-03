@@ -182,9 +182,9 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public String toString() {
-      StringBuilder builder = new StringBuilder(AbstractCommandBuilder.this.toString());
+      StringBuilder builder = new StringBuilder(coreSystem.toName(originEntity));
+      builder.append(": ").append(AbstractCommandBuilder.this.toString());
       CommandArgs args = getArgs();
-      builder.append(" ").append(coreSystem.toName(originEntity));
       if (intArgSupplier != null) {
         builder.append(" = ").append(args.getInt());
       }
@@ -193,7 +193,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       }
       List<Integer> targets = getTargets();
       if (!targets.isEmpty() && (targets.size() > 1 || targets.get(0) != originEntity)) {
-        builder.append(" ->");
+        builder.append(" >>");
         for (int entity : targets) {
           builder.append(" ").append(coreSystem.toName(entity));
         }

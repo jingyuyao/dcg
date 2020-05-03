@@ -52,12 +52,12 @@ public class EffectSystem extends IteratingSystem {
                 if (command.isInputValid()) {
                   System.out.printf("Effect: all conditions valid for %s\n", command);
                   commandChain.addEnd(command);
-                  commandChain.logExecution(coreSystem.getRoot(entityId), command);
                 } else {
                   System.out.printf("Effect: trigger conditions valid for %s\n", command);
                   // TODO: how to pass good names here?
                   commandChain.addEnd(action(builder).build(world, entityId));
                 }
+                commandChain.logExecution(coreSystem.getRoot(entityId), command);
                 turn.triggeredConditionalEffects.add(builder);
               }
             });
@@ -71,6 +71,7 @@ public class EffectSystem extends IteratingSystem {
       } else {
         commandChain.addEnd(action(builder).build(world, entityId));
       }
+      commandChain.logExecution(coreSystem.getRoot(entityId), command);
     }
   }
 }
