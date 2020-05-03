@@ -6,8 +6,12 @@ import com.dcg.turn.Turn;
 import java.util.List;
 
 public class AdjustPower extends AbstractCommandBuilder {
-  public AdjustPower(int power) {
+  private AdjustPower(int power) {
     setIntArgSupplier(() -> power);
+  }
+
+  public static AdjustPower power(int power) {
+    return new AdjustPower(power);
   }
 
   @Override

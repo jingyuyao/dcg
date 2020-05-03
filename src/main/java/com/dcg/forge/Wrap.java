@@ -35,7 +35,7 @@ public class Wrap extends AbstractCommandBuilder {
     coreSystem.getCurrentPlayer().wrapTokens -= 1;
     mOwned.create(originEntity).owner = coreSystem.getCurrentPlayerEntity();
     commandChain.addEnd(
-        new AdjustPower(-mCard.get(originEntity).cost).build(world, originEntity),
+        AdjustPower.power(-mCard.get(originEntity).cost).build(world, originEntity),
         new MoveLocation(PlayArea.class).build(world, originEntity));
     if (chained != null) {
       commandChain.addEnd(chained.build(world, originEntity));

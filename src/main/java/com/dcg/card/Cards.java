@@ -14,13 +14,13 @@ import static com.dcg.card.CreateCard.spell;
 import static com.dcg.card.CreateCard.unit;
 import static com.dcg.card.CreateCard.unitNoBlock;
 import static com.dcg.player.AdjustHp.hp;
+import static com.dcg.player.AdjustPower.power;
 
 import com.dcg.battle.DestroyUnit;
 import com.dcg.battle.SetFlying;
 import com.dcg.commandargs.TotalAttackingUnits;
 import com.dcg.game.CreateEntity;
 import com.dcg.player.AdjustHp;
-import com.dcg.player.AdjustPower;
 import com.dcg.player.DrawCards;
 import com.dcg.player.RefreshWrapTokens;
 import com.dcg.targetfilter.MaxStrength;
@@ -43,12 +43,12 @@ import java.util.List;
 public class Cards {
   public static List<CreateEntity> createBasicCards() {
     return Arrays.asList(
-        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(new AdjustPower(1)),
-        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(new AdjustPower(1)),
+        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(power(1)),
+        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(power(1)),
+        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(power(1)),
+        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(power(1)),
+        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(power(1)),
+        basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(power(1)),
         basic("Refresh")
             .desc("Throne: refresh your Wrap tokens")
             .addOnConditionEffects(
@@ -61,7 +61,7 @@ public class Cards {
                 action("+2 Defense", defense(2).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a Unit +2 Defense")
                     .addTriggerConditions(new ThroneActive())),
-        basic("Secret Pages").desc("Add 2 Power").addOnEnterEffects(new AdjustPower(2)));
+        basic("Secret Pages").desc("Add 2 Power").addOnEnterEffects(power(2)));
   }
 
   public static List<CreateEntity> createBasicUnits() {
@@ -119,7 +119,7 @@ public class Cards {
       seekPowers.add(
           spell("Seek Power", 3)
               .desc("Add 2 Power; Throne: may banish this to create a 2 Strength Cavalry")
-              .addOnEnterEffects(new AdjustPower(2))
+              .addOnEnterEffects(power(2))
               .addOnConditionEffects(
                   action("Banish", new DeleteCard().chain(unitToken("Cavalry", 2)))
                       .desc("Banish this to create a 2 Strength Cavalry")
@@ -134,7 +134,7 @@ public class Cards {
       mercenaries.add(
           unit("Veteran Mercenary", 2, 2)
               .desc("Add 1 Power; can become any 1 color")
-              .addOnEnterEffects(new AdjustPower(1), new MercenaryEnter())
+              .addOnEnterEffects(power(1), new MercenaryEnter())
               .addOnLeaveEffects(new MercenaryExit()));
     }
     return mercenaries;
@@ -145,7 +145,7 @@ public class Cards {
         unit("Beckoning Lumen", 3, 3)
             .tags(Yellow.class)
             .desc("Add 1 Power; Yellow: gain 2 HP")
-            .addOnEnterEffects(new AdjustPower(1))
+            .addOnEnterEffects(power(1))
             .addOnConditionEffects(hp(2).addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Jotun Punter", 4, 4)
             .canWrap()
@@ -164,7 +164,7 @@ public class Cards {
         unit("Tinker Apprentice", 1, 1)
             .tags(Green.class)
             .desc("Add 1 Power; give a Unit +1 Strength")
-            .addOnEnterEffects(new AdjustPower(1), giveBuff(1)),
+            .addOnEnterEffects(power(1), giveBuff(1)),
         unit("Throne Warden", 4, 2)
             .canWrap()
             .tags(Green.class)
@@ -173,12 +173,12 @@ public class Cards {
         unit("Stoneshaker", 4, 1)
             .tags(Red.class)
             .desc("Add 2 Power; Berserk; add 2 Strength to generated 7 or more Power")
-            .addOnEnterEffects(new AdjustPower(2), berserk())
+            .addOnEnterEffects(power(2), berserk())
             .addOnConditionEffects(strength(2).addTriggerConditions(new MinPower(7))),
         unit("Temple Scribe", 1, 1)
             .tags(Yellow.class)
             .desc("Add 1 Power; draw 1 card if you played any Spell")
-            .addOnEnterEffects(new AdjustPower(1))
+            .addOnEnterEffects(power(1))
             .addOnConditionEffects(
                 new DrawCards(1).addTriggerConditions(new PlayedTag(Spell.class))),
         unit("Mystic Ascendant", 6, 4)
@@ -189,8 +189,7 @@ public class Cards {
         unit("Splimespitter Slug", 5, 3)
             .tags(Green.class, Black.class)
             .desc("Add 1 Power; give all attacking Units -1 Strength")
-            .addOnEnterEffects(
-                new AdjustPower(1), strength(-1).setTargetSource(new AttackingUnits())),
+            .addOnEnterEffects(power(1), strength(-1).setTargetSource(new AttackingUnits())),
         unit("Impending Doom", 4, 5)
             .tags(Black.class)
             .desc("Flying; minus 1 HP")
@@ -231,7 +230,7 @@ public class Cards {
         unit("Treasury Guard", 4, 2)
             .tags(Green.class)
             .desc("Add 2 Power; Green: +1 Defense and Endurance")
-            .addOnEnterEffects(new AdjustPower(2))
+            .addOnEnterEffects(power(2))
             .addOnConditionEffects(
                 defense(1).addTriggerConditions(new PlayedTag(Green.class)),
                 endurance().addTriggerConditions(new PlayedTag(Green.class))),
@@ -245,24 +244,23 @@ public class Cards {
             .tags(Blue.class)
             .desc("Berserk; Blue: Add 2 Power")
             .addOnEnterEffects(berserk())
-            .addOnConditionEffects(
-                new AdjustPower(2).addTriggerConditions(new PlayedTag(Blue.class))),
+            .addOnConditionEffects(power(2).addTriggerConditions(new PlayedTag(Blue.class))),
         unit("Midnight Gale", 4, 3)
             .tags(Blue.class, Black.class)
             .desc("Add 1 Power; Blue: Flying; Black: Lifesteal")
-            .addOnEnterEffects(new AdjustPower(1))
+            .addOnEnterEffects(power(1))
             .addOnConditionEffects(
                 flying().addTriggerConditions(new PlayedTag(Blue.class)),
                 lifesteal().addTriggerConditions(new PlayedTag(Black.class))),
         unit("Cabal Cutthroat", 4, 2)
             .tags(Black.class)
             .desc("Add 2 Power; Lifesteal; Throne: Banish a card in the Forge Row")
-            .addOnEnterEffects(new AdjustPower(2), lifesteal())
+            .addOnEnterEffects(power(2), lifesteal())
             .addOnConditionEffects(banishFromForgeRow().addTriggerConditions(new ThroneActive())),
         unit("Vampire Bat", 2, 1)
             .tags(Black.class)
             .desc("Add 1 Power; Flying; Lifesteal; Black: +1 Strength")
-            .addOnEnterEffects(new AdjustPower(1), flying(), lifesteal())
+            .addOnEnterEffects(power(1), flying(), lifesteal())
             .addOnConditionEffects(strength(1).addTriggerConditions(new PlayedTag(Black.class))),
         unit("Back-Alley Bouncer", 5, 3)
             .tags(Black.class)
@@ -286,13 +284,13 @@ public class Cards {
         unit("Steelbound Dragon", 6, 3)
             .tags(Red.class)
             .desc("Add 2 Power; Flying; Throne: +3 Strength")
-            .addOnEnterEffects(new AdjustPower(2), flying())
+            .addOnEnterEffects(power(2), flying())
             .addOnConditionEffects(strength(3).addTriggerConditions(new ThroneActive())),
         unit("Heart of the Vault", 6, 5)
             .tags(Red.class, Yellow.class)
             .desc("Red: add 2 Power; Yellow: draw a card")
             .addOnConditionEffects(
-                new AdjustPower(2).addTriggerConditions(new PlayedTag(Red.class)),
+                power(2).addTriggerConditions(new PlayedTag(Red.class)),
                 new DrawCards(1).addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Eilyn, Queen of the Wilds", 6, 4)
             .canWrap()
@@ -356,14 +354,14 @@ public class Cards {
         unit("Champion of Progress", 5, 4)
             .tags(Yellow.class, Green.class)
             .desc("Add 1 Power; Yellow: Endurance; Green: +1 Strength")
-            .addOnEnterEffects(new AdjustPower(1))
+            .addOnEnterEffects(power(1))
             .addOnConditionEffects(
                 endurance().addTriggerConditions(new PlayedTag(Yellow.class)),
                 strength(1).addTriggerConditions(new PlayedTag(Green.class))),
         unitNoBlock("Xenan Destroyer", 3, 3)
             .tags(Black.class)
             .desc("Add 1 Power; Lifesteal; Can't Block; Throne: +1 Strength")
-            .addOnEnterEffects(new AdjustPower(1), lifesteal())
+            .addOnEnterEffects(power(1), lifesteal())
             .addOnConditionEffects(strength(1).addTriggerConditions(new ThroneActive())),
         spell("Oasis Sanctuary", 4)
             .canWrap()
@@ -373,19 +371,19 @@ public class Cards {
         spell("Brilliant Discovery", 5)
             .tags(Red.class, Yellow.class)
             .desc("Add 3 Power; Throne: banish a card in the Forge Row")
-            .addOnEnterEffects(new AdjustPower(3))
+            .addOnEnterEffects(power(3))
             .addOnConditionEffects(banishFromForgeRow().addTriggerConditions(new ThroneActive())),
         spell("Unfinished Business", 4)
             .tags(Green.class, Black.class)
             .desc("Add 2 Power; Green: give a Unit +2 Strength; Black: give a Unit -2 Strength")
-            .addOnEnterEffects(new AdjustPower(2))
+            .addOnEnterEffects(power(2))
             .addOnConditionEffects(
                 giveBuff(2).addTriggerConditions(new PlayedTag(Green.class)),
                 giveDebuff(2).addTriggerConditions(new PlayedTag(Black.class))),
         spell("Assembly Line", 3)
             .tags(Red.class)
             .desc("Add 2 Power; Red: create two 1 Strength Grenadin")
-            .addOnEnterEffects(new AdjustPower(2))
+            .addOnEnterEffects(power(2))
             .addOnConditionEffects(
                 grenadin().addTriggerConditions(new PlayedTag(Red.class)),
                 grenadin().addTriggerConditions(new PlayedTag(Red.class))),
@@ -410,7 +408,7 @@ public class Cards {
             .tags(Blue.class)
             .desc("Add 2 Power; give a Unit Flying")
             .addOnEnterEffects(
-                new AdjustPower(2),
+                power(2),
                 action("Give Flying", flying().setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a Unit Flying")),
         spell("Arcane Defense", 3)
@@ -436,13 +434,13 @@ public class Cards {
             .tags(Yellow.class)
             .desc("Add 2 Power; give a Unit +3 Defense")
             .addOnEnterEffects(
-                new AdjustPower(2),
+                power(2),
                 action("+3 Defense", defense(3).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a Unit +3 Defense")),
         spell("Hipshot", 3)
             .tags(Red.class)
             .desc("Add 1 Power; deal 3 damage to a Player")
-            .addOnEnterEffects(new AdjustPower(1), dealDamage(3)),
+            .addOnEnterEffects(power(1), dealDamage(3)),
         spell("Wisdom of the Elders", 5)
             .tags(Blue.class)
             .desc("Draw 2 cards")
@@ -451,7 +449,7 @@ public class Cards {
             .tags(Yellow.class)
             .desc(
                 "Add 2 Power; give all defending Units +2 Strength if you generated at least 7 Power")
-            .addOnEnterEffects(new AdjustPower(2))
+            .addOnEnterEffects(power(2))
             .addOnConditionEffects(
                 action("+2 Strength", strength(2).setTargetSource(new DefendingUnits()))
                     .desc("Give all defending Units +2 Strength")
@@ -459,7 +457,7 @@ public class Cards {
         spell("Deathstrike", 3)
             .tags(Black.class)
             .desc("Add 1 Power; destroy a Unit")
-            .addOnEnterEffects(new AdjustPower(1), destroyUnit()));
+            .addOnEnterEffects(power(1), destroyUnit()));
   }
 
   public static CreateEntity voidbind() {

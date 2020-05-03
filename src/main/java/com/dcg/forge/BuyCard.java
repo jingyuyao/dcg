@@ -34,7 +34,7 @@ public class BuyCard extends AbstractCommandBuilder {
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     mOwned.create(originEntity).owner = coreSystem.getCurrentPlayerEntity();
     commandChain.addEnd(
-        new AdjustPower(-mCard.get(originEntity).cost).build(world, originEntity),
+        AdjustPower.power(-mCard.get(originEntity).cost).build(world, originEntity),
         new MoveLocation(DiscardPile.class).build(world, originEntity));
     if (chained != null) {
       commandChain.addEnd(chained.build(world, originEntity));
