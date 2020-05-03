@@ -1,6 +1,7 @@
 package com.dcg.card;
 
 import static com.dcg.battle.CreateUnit.unitToken;
+import static com.dcg.battle.CreateUnit.unitTokenNoBlock;
 
 import com.artemis.ComponentMapper;
 import com.dcg.battle.CreateUnit;
@@ -37,7 +38,13 @@ public class CreateCard extends CreateEntity {
 
   public static CreateCard unit(String name, int cost, int strength) {
     CreateCard createCard = new CreateCard(name, cost);
-    createCard.hasUnit(strength);
+    createCard.hasUnit(strength, true);
+    return createCard;
+  }
+
+  public static CreateCard unitNoBlock(String name, int cost, int strength) {
+    CreateCard createCard = new CreateCard(name, cost);
+    createCard.hasUnit(strength, false);
     return createCard;
   }
 
@@ -50,11 +57,10 @@ public class CreateCard extends CreateEntity {
    * Mark this card as having a unit with the given strength. All effects added to the card will be
    * added to the unit instead.
    */
-  public CreateCard hasUnit(int strength) {
-    createUnit = unitToken(name, strength);
+  private void hasUnit(int strength, boolean hasBlock) {
+    createUnit = hasBlock ? unitToken(name, strength) : unitTokenNoBlock(name, strength);
     // NOTE: using super method here so the call won't be intercepted by our override.
     super.addOnEnterEffects(createUnit);
-    return this;
   }
 
   @Override

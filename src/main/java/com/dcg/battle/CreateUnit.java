@@ -15,14 +15,20 @@ public class CreateUnit extends CreateEntity {
   protected ComponentMapper<Unit> mUnit;
   protected ComponentMapper<Defending> mDefending;
 
-  private CreateUnit(String name, int strength) {
+  private CreateUnit(String name, int strength, boolean hasBlock) {
     super(name);
     this.strength = strength;
-    addOnEnterEffects(action(new Block()));
+    if (hasBlock) {
+      addOnEnterEffects(action(new Block()));
+    }
   }
 
   public static CreateUnit unitToken(String name, int strength) {
-    return new CreateUnit(name, strength);
+    return new CreateUnit(name, strength, true);
+  }
+
+  public static CreateUnit unitTokenNoBlock(String name, int strength) {
+    return new CreateUnit(name, strength, false);
   }
 
   @Override
