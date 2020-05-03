@@ -218,7 +218,9 @@ public class Cards {
             .desc("Draw 1 card, give a Unit -1 Strength")
             .addOnEnterEffects(
                 new DrawCards(1),
-                action(new AdjustStrength(-1).setInputCount(1).setTargetSource(new AllUnits()))
+                action(
+                        "-1 Strength",
+                        new AdjustStrength(-1).setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a Unit -1 Strength")),
         unit("Snowrager", 2, 1)
             .canWrap()
@@ -312,6 +314,7 @@ public class Cards {
             .addOnEnterEffects(
                 voidbind(),
                 action(
+                        "Destroy Units",
                         new DestroyUnit()
                             .setTargetSource(new AttackingUnits().addFilters(new MaxStrength(2))))
                     .desc("Destroy all attacking Units with 2 or less Strength")),
@@ -351,7 +354,9 @@ public class Cards {
             .desc("Add 1 Power, destroy a Unit")
             .addOnEnterEffects(
                 new AdjustPower(1),
-                action(new DestroyUnit().setInputCount(1).setTargetSource(new AllUnits()))
+                action(
+                        "Destroy Unit",
+                        new DestroyUnit().setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Destroy a Unit")));
   }
 

@@ -30,4 +30,9 @@ public class Mercenary extends AbstractCommandBuilder {
     Unit unit = mUnit.get(originEntity);
     world.getMapper(color).create(unit.cardEntity);
   }
+
+  @Override
+  public String toString() {
+    return String.format("%s to %s", super.toString(), color.getSimpleName());
+  }
 }
