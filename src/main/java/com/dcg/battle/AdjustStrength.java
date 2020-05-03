@@ -4,8 +4,12 @@ import com.dcg.command.CommandArgs;
 import java.util.List;
 
 public class AdjustStrength extends UnitEffectBuilder {
-  public AdjustStrength(int strength) {
+  private AdjustStrength(int strength) {
     setIntArgSupplier(() -> strength);
+  }
+
+  public static AdjustStrength strength(int strength) {
+    return new AdjustStrength(strength);
   }
 
   @Override
