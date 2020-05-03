@@ -13,6 +13,7 @@ import static com.dcg.card.CreateCard.basic;
 import static com.dcg.card.CreateCard.spell;
 import static com.dcg.card.CreateCard.unit;
 import static com.dcg.card.CreateCard.unitNoBlock;
+import static com.dcg.player.AdjustHp.hp;
 
 import com.dcg.battle.DestroyUnit;
 import com.dcg.battle.SetFlying;
@@ -105,7 +106,7 @@ public class Cards {
         unit("Xenan Cupbearer", 0, 1)
             .tags(Yellow.class, Black.class)
             .desc("1 Defense; gain 1 HP")
-            .addOnEnterEffects(defense(1), new AdjustHp(1)),
+            .addOnEnterEffects(defense(1), hp(1)),
         unit("Withering Witch", 0, 2)
             .tags(Blue.class, Black.class)
             .desc("3 Defense")
@@ -145,8 +146,7 @@ public class Cards {
             .tags(Yellow.class)
             .desc("Add 1 Power; Yellow: gain 2 HP")
             .addOnEnterEffects(new AdjustPower(1))
-            .addOnConditionEffects(
-                new AdjustHp(2).addTriggerConditions(new PlayedTag(Yellow.class))),
+            .addOnConditionEffects(hp(2).addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Jotun Punter", 4, 4)
             .canWrap()
             .tags(Blue.class)
@@ -194,7 +194,7 @@ public class Cards {
         unit("Impending Doom", 4, 5)
             .tags(Black.class)
             .desc("Flying; minus 1 HP")
-            .addOnEnterEffects(flying(), new AdjustHp(-1)),
+            .addOnEnterEffects(flying(), hp(-1)),
         unit("Ridgeline Watcher", 4, 3)
             .tags(Blue.class)
             .desc("Add 2 Defense; Voidbind")
@@ -369,7 +369,7 @@ public class Cards {
             .canWrap()
             .tags(Yellow.class)
             .desc("Gain 4 HP")
-            .addOnEnterEffects(new AdjustHp(4)),
+            .addOnEnterEffects(hp(4)),
         spell("Brilliant Discovery", 5)
             .tags(Red.class, Yellow.class)
             .desc("Add 3 Power; Throne: banish a card in the Forge Row")
@@ -399,7 +399,7 @@ public class Cards {
             .tags(Black.class)
             .desc("Voidbind; Throne: gain 2 HP")
             .addOnEnterEffects(voidbind())
-            .addOnConditionEffects(new AdjustHp(2).addTriggerConditions(new ThroneActive())),
+            .addOnConditionEffects(hp(2).addTriggerConditions(new ThroneActive())),
         spell("Read the Stars", 2)
             .tags(Green.class, Blue.class)
             .desc("Draw 1 card; Voidbind if you have a Flying Unit")
@@ -476,7 +476,7 @@ public class Cards {
 
   public static CreateEntity dealDamage(int hp) {
     String str = String.format("Deal %d damage", hp);
-    return action(str, new AdjustHp(-hp).setInputCount(1).setTargetSource(new ActivePlayers()))
+    return action(str, hp(-hp).setInputCount(1).setTargetSource(new ActivePlayers()))
         .desc(str + " to a Player");
   }
 

@@ -27,9 +27,9 @@ public class BattleStep extends AbstractCommandBuilder {
   private void attack(int attackingUnitEntity, int defendingPlayerEntity) {
     Unit attackingUnit = mUnit.get(attackingUnitEntity);
     int damage = attackingUnit.berserk ? attackingUnit.strength * 2 : attackingUnit.strength;
-    commandChain.addEnd(new AdjustHp(-damage).build(world, defendingPlayerEntity));
+    commandChain.addEnd(AdjustHp.hp(-damage).build(world, defendingPlayerEntity));
     if (attackingUnit.lifeSteal) {
-      commandChain.addEnd(new AdjustHp(damage).build(world, attackingUnitEntity));
+      commandChain.addEnd(AdjustHp.hp(damage).build(world, attackingUnitEntity));
     }
     commandChain.addEnd(new DestroyUnit().build(world, attackingUnitEntity));
   }
