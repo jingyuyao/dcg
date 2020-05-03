@@ -4,8 +4,12 @@ import com.dcg.command.CommandArgs;
 import java.util.List;
 
 public class SetEndurance extends UnitEffectBuilder {
-  public SetEndurance(boolean endurance) {
+  private SetEndurance(boolean endurance) {
     setBoolArgSupplier(() -> endurance);
+  }
+
+  public static SetEndurance endurance() {
+    return new SetEndurance(true);
   }
 
   @Override

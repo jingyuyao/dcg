@@ -5,13 +5,13 @@ import static com.dcg.battle.AdjustDefense.defense;
 import static com.dcg.battle.AdjustStrength.strength;
 import static com.dcg.battle.CreateUnit.unitToken;
 import static com.dcg.battle.SetBerserk.berserk;
+import static com.dcg.battle.SetEndurance.endurance;
 import static com.dcg.card.CreateCard.basic;
 import static com.dcg.card.CreateCard.spell;
 import static com.dcg.card.CreateCard.unit;
 import static com.dcg.card.CreateCard.unitNoBlock;
 
 import com.dcg.battle.DestroyUnit;
-import com.dcg.battle.SetEndurance;
 import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
 import com.dcg.battle.SetUnblockable;
@@ -88,7 +88,7 @@ public class Cards {
             .desc("+2 Strength and Endurance if you played a Spell this turn")
             .addOnConditionEffects(
                 strength(2).addTriggerConditions(new PlayedTag(Spell.class)),
-                new SetEndurance(true).addTriggerConditions(new PlayedTag(Spell.class))),
+                endurance().addTriggerConditions(new PlayedTag(Spell.class))),
         unit("Grenadin Drone", 0, 2)
             .tags(Red.class, Black.class)
             .desc("Create a 1 Strength Grenadin")
@@ -170,7 +170,7 @@ public class Cards {
             .canWrap()
             .tags(Green.class)
             .desc("Endurance; gain HP equal to number of attacking Units")
-            .addOnEnterEffects(new SetEndurance(true), new AdjustHp(new TotalAttackingUnits())),
+            .addOnEnterEffects(endurance(), new AdjustHp(new TotalAttackingUnits())),
         unit("Stoneshaker", 4, 1)
             .tags(Red.class)
             .desc("Add 2 Power; Berserk; add 2 Strength to generated 7 or more Power")
@@ -235,7 +235,7 @@ public class Cards {
             .addOnEnterEffects(new AdjustPower(2))
             .addOnConditionEffects(
                 defense(1).addTriggerConditions(new PlayedTag(Green.class)),
-                new SetEndurance(true).addTriggerConditions(new PlayedTag(Green.class))),
+                endurance().addTriggerConditions(new PlayedTag(Green.class))),
         unit("Iceberg Warchief", 3, 3)
             .tags(Red.class, Blue.class)
             .desc("Red: create a 2 Strength Yeti; Blue: create a 2 Strength Yeti")
@@ -276,7 +276,7 @@ public class Cards {
             .desc("Flying; Yellow: Endurance; Black: +5 Defense")
             .addOnEnterEffects(new SetFlying(true))
             .addOnConditionEffects(
-                new SetEndurance(true).addTriggerConditions(new PlayedTag(Yellow.class)),
+                endurance().addTriggerConditions(new PlayedTag(Yellow.class)),
                 defense(5).addTriggerConditions(new PlayedTag(Black.class))),
         unit("Dune Phantom", 2, 1)
             .canWrap()
@@ -331,10 +331,8 @@ public class Cards {
             .tags(Green.class)
             .desc("Endurance; Give Endurance to all defending units")
             .addOnEnterEffects(
-                new SetEndurance(true),
-                action(
-                        "Give Endurance",
-                        new SetEndurance(true).setTargetSource(new DefendingUnits()))
+                endurance(),
+                action("Give Endurance", endurance().setTargetSource(new DefendingUnits()))
                     .desc("Give Endurance to all defending units")),
         unit("Vara, Vengeance-Seeker", 7, 4)
             .canWrap()
@@ -348,8 +346,7 @@ public class Cards {
             .addOnEnterEffects(
                 action("Remove Flying", new SetFlying(false).setTargetSource(new AllUnits()))
                     .desc("Remove Flying from all units"))
-            .addOnConditionEffects(
-                new SetEndurance(true).addTriggerConditions(new PlayedTag(Yellow.class))),
+            .addOnConditionEffects(endurance().addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Renegade Valkyrie", 1, 1)
             .tags(Red.class, Green.class)
             .desc("Flying; Berserk; Red: +1 Strength; Green: +1 Strength")
@@ -362,7 +359,7 @@ public class Cards {
             .desc("Add 1 Power; Yellow: Endurance; Green: +1 Strength")
             .addOnEnterEffects(new AdjustPower(1))
             .addOnConditionEffects(
-                new SetEndurance(true).addTriggerConditions(new PlayedTag(Yellow.class)),
+                endurance().addTriggerConditions(new PlayedTag(Yellow.class)),
                 strength(1).addTriggerConditions(new PlayedTag(Green.class))),
         unitNoBlock("Xenan Destroyer", 3, 3)
             .tags(Black.class)
