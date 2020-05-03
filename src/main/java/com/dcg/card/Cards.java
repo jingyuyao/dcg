@@ -468,8 +468,8 @@ public class Cards {
                     .desc("Give a Unit +3 Defense")),
         spell("Hipshot", 3)
             .tags(Red.class)
-            .desc("Add 1 Power; deal 3 damage to a Player")
-            .addOnEnterEffects(power(1), dealDamage(3)),
+            .desc("Add 1 Power; deal 2 damage to a Player")
+            .addOnEnterEffects(power(1), dealDamage(2)),
         spell("Wisdom of the Elders", 5)
             .tags(Blue.class)
             .desc("Draw 2 cards")
