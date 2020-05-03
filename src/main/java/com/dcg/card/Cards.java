@@ -365,6 +365,11 @@ public class Cards {
             .desc("Add 1 Power; Lifesteal; Can't Block; Throne: +1 Strength")
             .addOnEnterEffects(new AdjustPower(1), lifesteal())
             .addOnConditionEffects(strength(1).addTriggerConditions(new ThroneActive())),
+        spell("Oasis Sanctuary", 4)
+            .canWrap()
+            .tags(Yellow.class)
+            .desc("Gain 4 HP")
+            .addOnEnterEffects(new AdjustHp(4)),
         spell("Brilliant Discovery", 5)
             .tags(Red.class, Yellow.class)
             .desc("Add 3 Power; Throne: banish a card in the Forge Row")
