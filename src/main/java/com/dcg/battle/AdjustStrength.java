@@ -2,14 +2,19 @@ package com.dcg.battle;
 
 import com.dcg.command.CommandArgs;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class AdjustStrength extends UnitEffectBuilder {
-  private AdjustStrength(int strength) {
-    setIntArgSupplier(() -> strength);
+  private AdjustStrength(Supplier<Integer> supplier) {
+    setIntArgSupplier(supplier);
   }
 
   public static AdjustStrength strength(int strength) {
-    return new AdjustStrength(strength);
+    return new AdjustStrength(() -> strength);
+  }
+
+  public static AdjustStrength strength(Supplier<Integer> supplier) {
+    return new AdjustStrength(supplier);
   }
 
   @Override

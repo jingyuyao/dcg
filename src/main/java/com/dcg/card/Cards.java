@@ -24,6 +24,7 @@ import com.dcg.player.AdjustHp;
 import com.dcg.player.DrawCards;
 import com.dcg.player.RefreshWrapTokens;
 import com.dcg.targetfilter.MaxStrength;
+import com.dcg.targetfilter.UnitFilter;
 import com.dcg.targetsource.ActivePlayers;
 import com.dcg.targetsource.AllUnits;
 import com.dcg.targetsource.AttackingUnits;
@@ -363,6 +364,34 @@ public class Cards {
             .desc("Add 1 Power; Lifesteal; Can't Block; Throne: +1 Strength")
             .addOnEnterEffects(power(1), lifesteal())
             .addOnConditionEffects(strength(1).addTriggerConditions(new ThroneActive())),
+        unit("Icaria, the Liberator", 6, 3)
+            .canWrap()
+            .tags(Red.class, Green.class)
+            .desc("Flying; Endurance; Throne: give a Unit +2 Strength")
+            .addOnEnterEffects(flying(), endurance())
+            .addOnConditionEffects(giveBuff(2).addTriggerConditions(new ThroneActive())),
+        unit("Shelterwing Rider", 3, 3)
+            .tags(Green.class, Blue.class)
+            .desc(
+                "Flying; Blue: give a Unit Flying; Green: give all defending Flying units +1 Strength")
+            .addOnEnterEffects(flying())
+            .addOnConditionEffects(
+                action("Give Flying", flying().setInputCount(1).setTargetSource(new AllUnits()))
+                    .addTriggerConditions(new PlayedTag(Blue.class)),
+                action(
+                        "+1 Strength",
+                        strength(1)
+                            .setTargetSource(
+                                new DefendingUnits()
+                                    .addFilters(new UnitFilter(unit -> unit.flying))))
+                    .desc("Give all defending Flying units +1 Strength")
+                    .addTriggerConditions(new PlayedTag(Green.class))),
+        spell("Snowball", 1)
+            .canWrap()
+            .tags(Blue.class)
+            .desc("Add 1 Power; Deal 1 damage; Throne: create a 2 Strength Yeti")
+            .addOnEnterEffects(power(1), dealDamage(1))
+            .addOnConditionEffects(yeti().addTriggerConditions(new ThroneActive())),
         spell("Oasis Sanctuary", 4)
             .canWrap()
             .tags(Yellow.class)
