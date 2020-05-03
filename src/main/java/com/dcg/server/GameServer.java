@@ -7,15 +7,22 @@ import com.dcg.api.RoomList;
 import com.dcg.api.ServerMessage.Kind;
 import com.dcg.api.Util;
 import java.net.InetSocketAddress;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 public class GameServer extends WebSocketServer {
-  private final GameRoom gameRoom = new GameRoom();
+  private final List<GameRoom> rooms =
+      Arrays.asList(
+          new GameRoom("Room 1"),
+          new GameRoom("Room 2"),
+          new GameRoom("Room 3"),
+          new GameRoom("Room 4"),
+          new GameRoom("Room 5"));
 
   public GameServer(InetSocketAddress address) {
     super(address);
@@ -72,15 +79,17 @@ public class GameServer extends WebSocketServer {
         Util.send(
             socket,
             Kind.ROOM_LIST,
-            new RoomList(Collections.singletonList(new GameRoomView(gameRoom))));
+            new RoomList(rooms.stream().map(GameRoomView::new).collect(Collectors.toList())));
         break;
       case JOIN_ROOM:
         if (!attachmentGameRoom.isPresent()) {
           if (strArgs.size() == 2) {
-            if (strArgs.get(0).equals("default")) {
-              gameRoom.join(socket, strArgs.get(1));
+            Optional<GameRoom> room =
+                rooms.stream().filter(r -> r.getName().equals(strArgs.get(0))).findFirst();
+            if (room.isPresent()) {
+              room.get().join(socket, strArgs.get(1));
             } else {
-              System.out.println("What room?");
+              System.out.println(strArgs.get(0) + " doesn't exist");
             }
           } else {
             System.out.println("Invalid number of arguments");

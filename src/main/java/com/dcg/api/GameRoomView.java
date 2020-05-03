@@ -9,7 +9,7 @@ public class GameRoomView {
   public final boolean isGameInProgress;
 
   public GameRoomView(GameRoom gameRoom) {
-    this.roomName = gameRoom.getRoomName();
+    this.roomName = gameRoom.getName();
     this.joinedPlayerNames = gameRoom.getJoinedPlayerNames();
     this.isGameInProgress = gameRoom.isGameInProgress();
   }

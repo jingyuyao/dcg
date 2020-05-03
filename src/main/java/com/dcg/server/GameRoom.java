@@ -15,8 +15,17 @@ import org.java_websocket.WebSocket;
  * connections to that game instance.
  */
 public class GameRoom {
+  private final String name;
   private final List<WebSocket> joined = new ArrayList<>();
   private Game game;
+
+  public GameRoom(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
 
   public void join(WebSocket socket, String playerName) {
     if (getJoinedPlayerNames().contains(playerName)) {
@@ -106,9 +115,5 @@ public class GameRoom {
       String playerName = Attachment.get(socket).getPlayerName().orElse("");
       Util.send(socket, Kind.GAME_VIEW, game.getGameView(playerName));
     }
-  }
-
-  public String getRoomName() {
-    return "default";
   }
 }

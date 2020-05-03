@@ -9,6 +9,6 @@ public class AttachmentView {
 
   public AttachmentView(Attachment attachment) {
     this.playerName = attachment.getPlayerName().orElse(null);
-    this.roomName = attachment.getGameRoom().map(GameRoom::getRoomName).orElse(null);
+    this.roomName = attachment.getGameRoom().map(GameRoom::getName).orElse(null);
   }
 }
