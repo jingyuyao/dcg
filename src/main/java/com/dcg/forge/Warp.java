@@ -11,13 +11,13 @@ import com.dcg.location.PlayArea;
 import com.dcg.player.AdjustPower;
 import java.util.List;
 
-public class Wrap extends AbstractCommandBuilder {
+public class Warp extends AbstractCommandBuilder {
   private CommandBuilder chained;
   protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<PlayArea> mPlayArea;
 
-  public Wrap() {
+  public Warp() {
     addTriggerConditions(
         (originEntity, allowedTargets) -> !mPlayArea.has(originEntity),
         (cardEntity, allowedTargets) ->
@@ -25,7 +25,7 @@ public class Wrap extends AbstractCommandBuilder {
         (originEntity, allowedTargets) -> coreSystem.getCurrentPlayer().wrapTokens > 0);
   }
 
-  public Wrap chain(CommandBuilder chained) {
+  public Warp chain(CommandBuilder chained) {
     this.chained = chained;
     return this;
   }

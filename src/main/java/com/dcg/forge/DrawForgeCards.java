@@ -38,7 +38,7 @@ public class DrawForgeCards extends AbstractCommandBuilder {
         Card card = mCard.get(cardEntity);
         if (card.canWarp) {
           commandChain.addEnd(
-              action(new Wrap().chain(new DrawForgeCards(1))).build(world, cardEntity));
+              action(new Warp().chain(new DrawForgeCards(1))).build(world, cardEntity));
         }
       } else {
         System.out.println("No more forge cards");
