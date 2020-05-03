@@ -7,7 +7,8 @@ import static com.dcg.battle.CreateUnit.unitToken;
 import static com.dcg.battle.SetBerserk.berserk;
 import static com.dcg.battle.SetEndurance.endurance;
 import static com.dcg.battle.SetFlying.flying;
-import static com.dcg.battle.SetLifeSteal.lifeSteal;
+import static com.dcg.battle.SetLifeSteal.lifesteal;
+import static com.dcg.battle.SetUnblockable.unblockable;
 import static com.dcg.card.CreateCard.basic;
 import static com.dcg.card.CreateCard.spell;
 import static com.dcg.card.CreateCard.unit;
@@ -15,7 +16,6 @@ import static com.dcg.card.CreateCard.unitNoBlock;
 
 import com.dcg.battle.DestroyUnit;
 import com.dcg.battle.SetFlying;
-import com.dcg.battle.SetUnblockable;
 import com.dcg.commandargs.TotalAttackingUnits;
 import com.dcg.game.CreateEntity;
 import com.dcg.player.AdjustHp;
@@ -101,7 +101,7 @@ public class Cards {
         unit("Stonepowder Alchemist", 0, 2)
             .tags(Green.class, Black.class)
             .desc("Lifesteal")
-            .addOnEnterEffects(lifeSteal()),
+            .addOnEnterEffects(lifesteal()),
         unit("Xenan Cupbearer", 0, 1)
             .tags(Yellow.class, Black.class)
             .desc("1 Defense; gain 1 HP")
@@ -213,10 +213,10 @@ public class Cards {
             .tags(Black.class)
             .desc("Unblockable; give all defending Units with 3 or less Strength Unblockable")
             .addOnEnterEffects(
-                new SetUnblockable(true),
+                unblockable(),
                 action(
                         "Give Unblockable",
-                        new SetUnblockable(true)
+                        unblockable()
                             .setTargetSource(new DefendingUnits().addFilters(new MaxStrength(3))))
                     .desc("Give all defending Units with 3 or less Strength Unblockable")),
         unit("Oni Ronin", 1, 1)
@@ -253,16 +253,16 @@ public class Cards {
             .addOnEnterEffects(new AdjustPower(1))
             .addOnConditionEffects(
                 flying().addTriggerConditions(new PlayedTag(Blue.class)),
-                lifeSteal().addTriggerConditions(new PlayedTag(Black.class))),
+                lifesteal().addTriggerConditions(new PlayedTag(Black.class))),
         unit("Cabal Cutthroat", 4, 2)
             .tags(Black.class)
             .desc("Add 2 Power; Lifesteal; Throne: Banish a card in the Forge Row")
-            .addOnEnterEffects(new AdjustPower(2), lifeSteal())
+            .addOnEnterEffects(new AdjustPower(2), lifesteal())
             .addOnConditionEffects(banishFromForgeRow().addTriggerConditions(new ThroneActive())),
         unit("Vampire Bat", 2, 1)
             .tags(Black.class)
             .desc("Add 1 Power; Flying; Lifesteal; Black: +1 Strength")
-            .addOnEnterEffects(new AdjustPower(1), flying(), lifeSteal())
+            .addOnEnterEffects(new AdjustPower(1), flying(), lifesteal())
             .addOnConditionEffects(strength(1).addTriggerConditions(new PlayedTag(Black.class))),
         unit("Back-Alley Bouncer", 5, 3)
             .tags(Black.class)
@@ -306,7 +306,7 @@ public class Cards {
             .canWrap()
             .tags(Black.class)
             .desc("+2 Defense; Lifesteal")
-            .addOnEnterEffects(defense(2), lifeSteal()),
+            .addOnEnterEffects(defense(2), lifesteal()),
         unitNoBlock("Horned Vorlunk", 2, 4).canWrap().tags(Yellow.class).desc("Can't Block"),
         unit("Icicle Marksman", 3, 2)
             .canWrap()
@@ -337,7 +337,7 @@ public class Cards {
             .canWrap()
             .tags(Black.class)
             .desc("Lifesteal; Unblockable")
-            .addOnEnterEffects(lifeSteal(), new SetUnblockable(true)),
+            .addOnEnterEffects(lifesteal(), unblockable()),
         unit("Sandstorm Titan", 5, 5)
             .canWrap()
             .tags(Yellow.class)
@@ -363,7 +363,7 @@ public class Cards {
         unitNoBlock("Xenan Destroyer", 3, 3)
             .tags(Black.class)
             .desc("Add 1 Power; Lifesteal; Can't Block; Throne: +1 Strength")
-            .addOnEnterEffects(new AdjustPower(1), lifeSteal())
+            .addOnEnterEffects(new AdjustPower(1), lifesteal())
             .addOnConditionEffects(strength(1).addTriggerConditions(new ThroneActive())),
         spell("Brilliant Discovery", 5)
             .tags(Red.class, Yellow.class)

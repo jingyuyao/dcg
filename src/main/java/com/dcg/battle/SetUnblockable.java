@@ -4,8 +4,12 @@ import com.dcg.command.CommandArgs;
 import java.util.List;
 
 public class SetUnblockable extends UnitEffectBuilder {
-  public SetUnblockable(boolean unblockable) {
+  private SetUnblockable(boolean unblockable) {
     setBoolArgSupplier(() -> unblockable);
+  }
+
+  public static SetUnblockable unblockable() {
+    return new SetUnblockable(true);
   }
 
   @Override

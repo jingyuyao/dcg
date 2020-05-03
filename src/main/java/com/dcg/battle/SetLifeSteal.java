@@ -8,7 +8,7 @@ public class SetLifeSteal extends UnitEffectBuilder {
     setBoolArgSupplier(() -> lifeSteal);
   }
 
-  public static SetLifeSteal lifeSteal() {
+  public static SetLifeSteal lifesteal() {
     return new SetLifeSteal(true);
   }
 
