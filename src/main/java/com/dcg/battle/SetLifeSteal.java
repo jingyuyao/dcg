@@ -4,8 +4,12 @@ import com.dcg.command.CommandArgs;
 import java.util.List;
 
 public class SetLifeSteal extends UnitEffectBuilder {
-  public SetLifeSteal(boolean lifeSteal) {
+  private SetLifeSteal(boolean lifeSteal) {
     setBoolArgSupplier(() -> lifeSteal);
+  }
+
+  public static SetLifeSteal lifeSteal() {
+    return new SetLifeSteal(true);
   }
 
   @Override
