@@ -4,13 +4,13 @@ import static com.dcg.action.CreateAction.action;
 import static com.dcg.battle.AdjustDefense.defense;
 import static com.dcg.battle.AdjustStrength.strength;
 import static com.dcg.battle.CreateUnit.unitToken;
+import static com.dcg.battle.SetBerserk.berserk;
 import static com.dcg.card.CreateCard.basic;
 import static com.dcg.card.CreateCard.spell;
 import static com.dcg.card.CreateCard.unit;
 import static com.dcg.card.CreateCard.unitNoBlock;
 
 import com.dcg.battle.DestroyUnit;
-import com.dcg.battle.SetBerserk;
 import com.dcg.battle.SetEndurance;
 import com.dcg.battle.SetFlying;
 import com.dcg.battle.SetLifeSteal;
@@ -96,7 +96,7 @@ public class Cards {
         unit("Fearless Nomad", 0, 2)
             .tags(Red.class, Green.class)
             .desc("Berserk")
-            .addOnEnterEffects(new SetBerserk(true)),
+            .addOnEnterEffects(berserk()),
         unit("Stonepowder Alchemist", 0, 2)
             .tags(Green.class, Black.class)
             .desc("Lifesteal")
@@ -174,7 +174,7 @@ public class Cards {
         unit("Stoneshaker", 4, 1)
             .tags(Red.class)
             .desc("Add 2 Power; Berserk; add 2 Strength to generated 7 or more Power")
-            .addOnEnterEffects(new AdjustPower(2), new SetBerserk(true))
+            .addOnEnterEffects(new AdjustPower(2), berserk())
             .addOnConditionEffects(strength(2).addTriggerConditions(new MinPower(7))),
         unit("Temple Scribe", 1, 1)
             .tags(Yellow.class)
@@ -208,7 +208,7 @@ public class Cards {
             .canWrap()
             .tags(Blue.class)
             .desc("Berserk; add 1 Strength to this if you have 3 or more Units")
-            .addOnEnterEffects(new SetBerserk(true))
+            .addOnEnterEffects(berserk())
             .addOnConditionEffects(strength(1).addTriggerConditions(new MinDefendingUnitCount(3))),
         unit("Cabal Spymaster", 3, 1)
             .tags(Black.class)
@@ -245,7 +245,7 @@ public class Cards {
         unit("Lumbering Gruan", 3, 3)
             .tags(Blue.class)
             .desc("Berserk; Blue: Add 2 Power")
-            .addOnEnterEffects(new SetBerserk(true))
+            .addOnEnterEffects(berserk())
             .addOnConditionEffects(
                 new AdjustPower(2).addTriggerConditions(new PlayedTag(Blue.class))),
         unit("Midnight Gale", 4, 3)
@@ -353,7 +353,7 @@ public class Cards {
         unit("Renegade Valkyrie", 1, 1)
             .tags(Red.class, Green.class)
             .desc("Flying; Berserk; Red: +1 Strength; Green: +1 Strength")
-            .addOnEnterEffects(new SetFlying(true), new SetBerserk(true))
+            .addOnEnterEffects(new SetFlying(true), berserk())
             .addOnConditionEffects(
                 strength(1).addTriggerConditions(new PlayedTag(Red.class)),
                 strength(1).addTriggerConditions(new PlayedTag(Green.class))),
