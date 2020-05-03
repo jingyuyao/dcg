@@ -1,3 +1,10 @@
+# Deployment
+
+1. Package shaded jar `mvn package`
+2. Copy `target/dcg-{version}-shaded.jar` to server
+    1. `gcloud compute scp {PATH_TO_JAR} {GCP_INSTANCE}:`
+3. Run jar `sudo nohup java -jar {JAR_NAME} prod`
+ 
 # Entities
 - All
   - Attached actions will be deleted upon leaving the effect area
