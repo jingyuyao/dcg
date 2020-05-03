@@ -7,6 +7,8 @@ import com.artemis.annotations.All;
 import com.artemis.annotations.One;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
+import com.dcg.action.CreateAction;
+import com.dcg.action.DeleteActions;
 import com.dcg.battle.Defending;
 import com.dcg.command.Command;
 import com.dcg.command.CommandBuilder;
@@ -14,6 +16,7 @@ import com.dcg.command.CommandChain;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.PlayArea;
 import com.dcg.turn.Turn;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,6 +26,8 @@ import java.util.List;
 @All(Effect.class)
 @One({Turn.class, PlayArea.class, Defending.class})
 public class EffectSystem extends IteratingSystem {
+  private static final List<Class<?>> NO_LOG_BUILDERS =
+      Arrays.asList(CreateAction.class, DeleteActions.class);
   @Wire protected CommandChain commandChain;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Effect> mEffect;
@@ -57,7 +62,9 @@ public class EffectSystem extends IteratingSystem {
                   // TODO: how to pass good names here?
                   commandChain.addEnd(action(builder).build(world, entityId));
                 }
-                commandChain.logExecution(coreSystem.getRoot(entityId), command);
+                if (!NO_LOG_BUILDERS.contains(builder.getClass())) {
+                  commandChain.logExecution(coreSystem.getRoot(entityId), command);
+                }
                 turn.triggeredConditionalEffects.add(builder);
               }
             });
@@ -71,7 +78,9 @@ public class EffectSystem extends IteratingSystem {
       } else {
         commandChain.addEnd(action(builder).build(world, entityId));
       }
-      commandChain.logExecution(coreSystem.getRoot(entityId), command);
+      if (!NO_LOG_BUILDERS.contains(builder.getClass())) {
+        commandChain.logExecution(coreSystem.getRoot(entityId), command);
+      }
     }
   }
 }
