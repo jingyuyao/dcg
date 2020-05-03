@@ -22,7 +22,7 @@ import com.dcg.commandargs.TotalAttackingUnits;
 import com.dcg.game.CreateEntity;
 import com.dcg.player.AdjustHp;
 import com.dcg.player.DrawCards;
-import com.dcg.player.RefreshWrapTokens;
+import com.dcg.player.RefreshWarpTokens;
 import com.dcg.targetfilter.MaxStrength;
 import com.dcg.targetfilter.UnitFilter;
 import com.dcg.targetsource.ActivePlayers;
@@ -51,10 +51,10 @@ public class Cards {
         basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(power(1)),
         basic("Diplomacy").desc("Add 1 Power").addOnEnterEffects(power(1)),
         basic("Refresh")
-            .desc("Throne: refresh your Wrap tokens")
+            .desc("Throne: refresh your Warp tokens")
             .addOnConditionEffects(
-                action("Refresh", new RefreshWrapTokens())
-                    .desc("Refresh your Wrap tokens")
+                action("Refresh", new RefreshWarpTokens())
+                    .desc("Refresh your Warp tokens")
                     .addTriggerConditions(new ThroneActive())),
         basic("Worn Shield")
             .desc("Throne: give a Unit +2 Defense")
@@ -149,14 +149,14 @@ public class Cards {
             .addOnEnterEffects(power(1))
             .addOnConditionEffects(hp(2).addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Jotun Punter", 4, 4)
-            .canWrap()
+            .canWarp()
             .tags(Blue.class)
             .desc("Give a Unit Flying")
             .addOnEnterEffects(
                 action("Give Flying", flying().setInputCount(1).setTargetSource(new AllUnits()))
                     .desc("Give a Unit Flying")),
         unit("Amethyst Acolyte", 3, 2)
-            .canWrap()
+            .canWarp()
             .tags(Black.class)
             .desc("Give a Unit -2 Strength")
             .addOnEnterEffects(
@@ -167,7 +167,7 @@ public class Cards {
             .desc("Add 1 Power; give a Unit +1 Strength")
             .addOnEnterEffects(power(1), giveBuff(1)),
         unit("Throne Warden", 4, 2)
-            .canWrap()
+            .canWarp()
             .tags(Green.class)
             .desc("Endurance; gain HP equal to number of attacking Units")
             .addOnEnterEffects(endurance(), new AdjustHp(new TotalAttackingUnits())),
@@ -204,7 +204,7 @@ public class Cards {
             .desc("Draw 1 card; give a Unit -1 Strength")
             .addOnEnterEffects(new DrawCards(1), giveDebuff(1)),
         unit("Snowrager", 2, 1)
-            .canWrap()
+            .canWarp()
             .tags(Blue.class)
             .desc("Berserk; add 1 Strength to this if you have 3 or more Units")
             .addOnEnterEffects(berserk())
@@ -220,7 +220,7 @@ public class Cards {
                             .setTargetSource(new DefendingUnits().addFilters(new MaxStrength(3))))
                     .desc("Give all defending Units with 3 or less Strength Unblockable")),
         unit("Oni Ronin", 1, 1)
-            .canWrap()
+            .canWarp()
             .tags(Red.class)
             .desc("Add 1 Strength to two Units")
             .addOnEnterEffects(
@@ -269,7 +269,7 @@ public class Cards {
             .addOnEnterEffects(voidbind())
             .addOnConditionEffects(destroyUnit().addTriggerConditions(new PlayedTag(Black.class))),
         unit("Blistersting Wasp", 2, 2)
-            .canWrap()
+            .canWarp()
             .tags(Yellow.class, Black.class)
             .desc("Flying; Yellow: Endurance; Black: +5 Defense")
             .addOnEnterEffects(flying())
@@ -277,7 +277,7 @@ public class Cards {
                 endurance().addTriggerConditions(new PlayedTag(Yellow.class)),
                 defense(5).addTriggerConditions(new PlayedTag(Black.class))),
         unit("Dune Phantom", 2, 1)
-            .canWrap()
+            .canWarp()
             .tags(Yellow.class)
             .desc("+5 Defense; Throne: Flying")
             .addOnEnterEffects(defense(5))
@@ -294,7 +294,7 @@ public class Cards {
                 power(2).addTriggerConditions(new PlayedTag(Red.class)),
                 new DrawCards(1).addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Eilyn, Queen of the Wilds", 6, 4)
-            .canWrap()
+            .canWarp()
             .tags(Blue.class)
             .desc("Flying; Give all defending units Flying")
             .addOnEnterEffects(
@@ -302,13 +302,13 @@ public class Cards {
                 action("Give Flying", flying().setTargetSource(new DefendingUnits()))
                     .desc("Give Flying to all defending units")),
         unit("Corrupted Umbren", 3, 3)
-            .canWrap()
+            .canWarp()
             .tags(Black.class)
             .desc("+2 Defense; Lifesteal")
             .addOnEnterEffects(defense(2), lifesteal()),
-        unitNoBlock("Horned Vorlunk", 2, 4).canWrap().tags(Yellow.class).desc("Can't Block"),
+        unitNoBlock("Horned Vorlunk", 2, 4).canWarp().tags(Yellow.class).desc("Can't Block"),
         unit("Icicle Marksman", 3, 2)
-            .canWrap()
+            .canWarp()
             .tags(Blue.class)
             .desc("Deals 3 damage if you played a spell")
             .addOnConditionEffects(dealDamage(3).addTriggerConditions(new PlayedTag(Spell.class))),
@@ -325,7 +325,7 @@ public class Cards {
             .addOnConditionEffects(
                 new DrawCards(1).addTriggerConditions(new PlayedTag(Blue.class))),
         unit("Rolant, the Iron Fist", 7, 4)
-            .canWrap()
+            .canWarp()
             .tags(Green.class)
             .desc("Endurance; Give Endurance to all defending units")
             .addOnEnterEffects(
@@ -333,12 +333,12 @@ public class Cards {
                 action("Give Endurance", endurance().setTargetSource(new DefendingUnits()))
                     .desc("Give Endurance to all defending units")),
         unit("Vara, Vengeance-Seeker", 7, 4)
-            .canWrap()
+            .canWarp()
             .tags(Black.class)
             .desc("Lifesteal; Unblockable")
             .addOnEnterEffects(lifesteal(), unblockable()),
         unit("Sandstorm Titan", 5, 5)
-            .canWrap()
+            .canWarp()
             .tags(Yellow.class)
             .desc("Remove Flying from all units; Yellow: Endurance")
             .addOnEnterEffects(
@@ -365,7 +365,7 @@ public class Cards {
             .addOnEnterEffects(power(1), lifesteal())
             .addOnConditionEffects(strength(1).addTriggerConditions(new ThroneActive())),
         unit("Icaria, the Liberator", 6, 3)
-            .canWrap()
+            .canWarp()
             .tags(Red.class, Green.class)
             .desc("Flying; Endurance; Throne: give a Unit +2 Strength")
             .addOnEnterEffects(flying(), endurance())
@@ -387,13 +387,13 @@ public class Cards {
                     .desc("Give all defending Flying units +1 Strength")
                     .addTriggerConditions(new PlayedTag(Green.class))),
         spell("Snowball", 1)
-            .canWrap()
+            .canWarp()
             .tags(Blue.class)
             .desc("Add 1 Power; Deal 1 damage; Throne: create a 2 Strength Yeti")
             .addOnEnterEffects(power(1), dealDamage(1))
             .addOnConditionEffects(yeti().addTriggerConditions(new ThroneActive())),
         spell("Oasis Sanctuary", 4)
-            .canWrap()
+            .canWarp()
             .tags(Yellow.class)
             .desc("Gain 4 HP")
             .addOnEnterEffects(hp(4)),
@@ -417,7 +417,7 @@ public class Cards {
                 grenadin().addTriggerConditions(new PlayedTag(Red.class)),
                 grenadin().addTriggerConditions(new PlayedTag(Red.class))),
         spell("Scouting Party", 5)
-            .canWrap()
+            .canWarp()
             .tags(Blue.class)
             .desc("Create two 2 Strength Yeti; Throne: create another 2 Strength Yeti")
             .addOnEnterEffects(yeti(), yeti())

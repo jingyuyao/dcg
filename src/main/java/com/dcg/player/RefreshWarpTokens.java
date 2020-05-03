@@ -4,7 +4,7 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.CommandArgs;
 import java.util.List;
 
-public class RefreshWrapTokens extends PlayerEffect {
+public class RefreshWarpTokens extends PlayerEffect {
   protected ComponentMapper<Player> mPlayer;
 
   @Override

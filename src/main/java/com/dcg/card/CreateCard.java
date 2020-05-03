@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CreateCard extends CreateEntity {
   private final int cost;
-  private boolean canWrap = false;
+  private boolean canWarp = false;
   private CreateUnit createUnit;
   protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<Card> mCard;
@@ -48,8 +48,8 @@ public class CreateCard extends CreateEntity {
     return createCard;
   }
 
-  public CreateCard canWrap() {
-    this.canWrap = true;
+  public CreateCard canWarp() {
+    this.canWarp = true;
     return this;
   }
 
@@ -98,7 +98,7 @@ public class CreateCard extends CreateEntity {
     }
     Card card = mCard.create(cardEntity);
     card.cost = cost;
-    card.canWarp = canWrap;
+    card.canWarp = canWarp;
     if (createUnit != null) {
       HasUnit hasUnit = mHasUnit.create(cardEntity);
       hasUnit.strength = createUnit.strength;
