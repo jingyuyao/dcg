@@ -91,7 +91,6 @@ public class GameRoom {
       game = new Game(getJoinedPlayerNames());
     }
     broadcastGameView();
-    game.clearRecentExecutions();
   }
 
   public List<String> getJoinedPlayerNames() {
@@ -115,5 +114,6 @@ public class GameRoom {
       String playerName = Attachment.get(socket).getPlayerName().orElse("");
       Util.send(socket, Kind.GAME_VIEW, game.getGameView(playerName));
     }
+    game.clearRecentExecutions();
   }
 }
