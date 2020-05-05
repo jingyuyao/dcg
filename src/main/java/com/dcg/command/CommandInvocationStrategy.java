@@ -22,8 +22,8 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
       updateEntityStates();
       if (command.canRun()) {
         try {
-          command.run();
           System.out.printf("Exec: %s\n", command.getSnapshot());
+          command.run();
         } catch (GameStateException e) {
           System.out.printf("Exception: %s\n", e.getMessage());
         }
