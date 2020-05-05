@@ -72,7 +72,7 @@ public class Cards {
             .desc("Flying; deal 2 damage to a Player if you are 3 or more Units")
             .addOnEnterEffects(flying())
             .addOnConditionEffects(
-                dealDamage(2).addTriggerConditions(new MinDefendingUnitCount(3))),
+                dealDamageAction(2).addTriggerConditions(new MinDefendingUnitCount(3))),
         unit("Noble Firemane", 0, 2)
             .tags(Red.class, Yellow.class)
             .desc("Throne: +3 Strength")
@@ -95,7 +95,7 @@ public class Cards {
         unit("Grenadin Drone", 0, 2)
             .tags(Red.class, Black.class)
             .desc("Create a 1 Strength Grenadin")
-            .addOnEnterEffects(grenadin()),
+            .addOnEnterEffects(createGrenadin()),
         unit("Fearless Nomad", 0, 2)
             .tags(Red.class, Green.class)
             .desc("Berserk")
@@ -165,7 +165,7 @@ public class Cards {
         unit("Tinker Apprentice", 1, 1)
             .tags(Green.class)
             .desc("Add 1 Power; give a Unit +1 Strength")
-            .addOnEnterEffects(power(1), giveBuff(1)),
+            .addOnEnterEffects(power(1), buffAction(1)),
         unit("Throne Warden", 4, 2)
             .canWarp()
             .tags(Green.class)
@@ -198,11 +198,11 @@ public class Cards {
         unit("Ridgeline Watcher", 4, 3)
             .tags(Blue.class)
             .desc("Add 2 Defense; Voidbind")
-            .addOnEnterEffects(defense(2), voidbind()),
+            .addOnEnterEffects(defense(2), voidbindAction()),
         unit("Pokpok, Rockpacker", 3, 1)
             .tags(Red.class, Blue.class)
             .desc("Draw 1 card; give a Unit -1 Strength")
-            .addOnEnterEffects(draw(1), giveDebuff(1)),
+            .addOnEnterEffects(draw(1), debuffAction(1)),
         unit("Snowrager", 2, 1)
             .canWarp()
             .tags(Blue.class)
@@ -239,8 +239,8 @@ public class Cards {
             .tags(Red.class, Blue.class)
             .desc("Red: create a 2 Strength Yeti; Blue: create a 2 Strength Yeti")
             .addOnConditionEffects(
-                yeti().addTriggerConditions(new PlayedTag(Red.class)),
-                yeti().addTriggerConditions(new PlayedTag(Blue.class))),
+                createYeti().addTriggerConditions(new PlayedTag(Red.class)),
+                createYeti().addTriggerConditions(new PlayedTag(Blue.class))),
         unit("Lumbering Gruan", 3, 3)
             .tags(Blue.class)
             .desc("Berserk; Blue: Add 2 Power")
@@ -257,7 +257,7 @@ public class Cards {
             .tags(Black.class)
             .desc("Add 2 Power; Lifesteal; Throne: Banish a card in the Forge Row")
             .addOnEnterEffects(power(2), lifesteal())
-            .addOnConditionEffects(banishFromForgeRow().addTriggerConditions(new ThroneActive())),
+            .addOnConditionEffects(banishInForgeRowAction().addTriggerConditions(new ThroneActive())),
         unit("Vampire Bat", 2, 1)
             .tags(Black.class)
             .desc("Add 1 Power; Flying; Lifesteal; Black: +1 Strength")
@@ -266,8 +266,8 @@ public class Cards {
         unit("Back-Alley Bouncer", 5, 3)
             .tags(Black.class)
             .desc("Voidbind; Black: Destroy an Unit")
-            .addOnEnterEffects(voidbind())
-            .addOnConditionEffects(destroyUnit().addTriggerConditions(new PlayedTag(Black.class))),
+            .addOnEnterEffects(voidbindAction())
+            .addOnConditionEffects(destroyUnitAction().addTriggerConditions(new PlayedTag(Black.class))),
         unit("Blistersting Wasp", 2, 2)
             .canWarp()
             .tags(Yellow.class, Black.class)
@@ -311,7 +311,7 @@ public class Cards {
             .canWarp()
             .tags(Blue.class)
             .desc("Deals 3 damage if you played a spell")
-            .addOnConditionEffects(dealDamage(3).addTriggerConditions(new PlayedTag(Spell.class))),
+            .addOnConditionEffects(dealDamageAction(3).addTriggerConditions(new PlayedTag(Spell.class))),
         unit("Explorer Emeritus", 4, 1)
             .tags(Yellow.class, Blue.class)
             .desc("Add 1 Power; Yellow: draw a card; Blue: draw a card")
@@ -369,7 +369,7 @@ public class Cards {
             .tags(Red.class, Green.class)
             .desc("Flying; Endurance; Throne: give a Unit +2 Strength")
             .addOnEnterEffects(flying(), endurance())
-            .addOnConditionEffects(giveBuff(2).addTriggerConditions(new ThroneActive())),
+            .addOnConditionEffects(buffAction(2).addTriggerConditions(new ThroneActive())),
         unit("Shelterwing Rider", 3, 3)
             .tags(Green.class, Blue.class)
             .desc(
@@ -390,8 +390,8 @@ public class Cards {
             .canWarp()
             .tags(Blue.class)
             .desc("Add 1 Power; Deal 1 damage; Throne: create a 2 Strength Yeti")
-            .addOnEnterEffects(power(1), dealDamage(1))
-            .addOnConditionEffects(yeti().addTriggerConditions(new ThroneActive())),
+            .addOnEnterEffects(power(1), dealDamageAction(1))
+            .addOnConditionEffects(createYeti().addTriggerConditions(new ThroneActive())),
         spell("Oasis Sanctuary", 4)
             .canWarp()
             .tags(Yellow.class)
@@ -401,38 +401,38 @@ public class Cards {
             .tags(Red.class, Yellow.class)
             .desc("Add 3 Power; Throne: banish a card in the Forge Row")
             .addOnEnterEffects(power(3))
-            .addOnConditionEffects(banishFromForgeRow().addTriggerConditions(new ThroneActive())),
+            .addOnConditionEffects(banishInForgeRowAction().addTriggerConditions(new ThroneActive())),
         spell("Unfinished Business", 4)
             .tags(Green.class, Black.class)
             .desc("Add 2 Power; Green: give a Unit +2 Strength; Black: give a Unit -2 Strength")
             .addOnEnterEffects(power(2))
             .addOnConditionEffects(
-                giveBuff(2).addTriggerConditions(new PlayedTag(Green.class)),
-                giveDebuff(2).addTriggerConditions(new PlayedTag(Black.class))),
+                buffAction(2).addTriggerConditions(new PlayedTag(Green.class)),
+                debuffAction(2).addTriggerConditions(new PlayedTag(Black.class))),
         spell("Assembly Line", 3)
             .tags(Red.class)
             .desc("Add 2 Power; Red: create two 1 Strength Grenadin")
             .addOnEnterEffects(power(2))
             .addOnConditionEffects(
-                grenadin().addTriggerConditions(new PlayedTag(Red.class)),
-                grenadin().addTriggerConditions(new PlayedTag(Red.class))),
+                createGrenadin().addTriggerConditions(new PlayedTag(Red.class)),
+                createGrenadin().addTriggerConditions(new PlayedTag(Red.class))),
         spell("Scouting Party", 5)
             .canWarp()
             .tags(Blue.class)
             .desc("Create two 2 Strength Yeti; Throne: create another 2 Strength Yeti")
-            .addOnEnterEffects(yeti(), yeti())
-            .addOnConditionEffects(yeti().addTriggerConditions(new ThroneActive())),
+            .addOnEnterEffects(createYeti(), createYeti())
+            .addOnConditionEffects(createYeti().addTriggerConditions(new ThroneActive())),
         spell("Xenan Augury", 2)
             .tags(Black.class)
             .desc("Voidbind; Throne: gain 2 HP")
-            .addOnEnterEffects(voidbind())
+            .addOnEnterEffects(voidbindAction())
             .addOnConditionEffects(hp(2).addTriggerConditions(new ThroneActive())),
         spell("Read the Stars", 2)
             .tags(Green.class, Blue.class)
             .desc("Draw 1 card; Voidbind if you have a Flying Unit")
             .addOnEnterEffects(draw(1))
             .addOnConditionEffects(
-                voidbind().addTriggerConditions(new AnyDefendingUnit(unit -> unit.flying))),
+                voidbindAction().addTriggerConditions(new AnyDefendingUnit(unit -> unit.flying))),
         spell("Levitate", 2)
             .tags(Blue.class)
             .desc("Add 2 Power; give a Unit Flying")
@@ -453,7 +453,7 @@ public class Cards {
             .tags(Blue.class)
             .desc("Voidbind; destroy all attacking Units with 2 or less Strength")
             .addOnEnterEffects(
-                voidbind(),
+                voidbindAction(),
                 action(
                         "Destroy Units",
                         new DestroyUnit()
@@ -469,7 +469,7 @@ public class Cards {
         spell("Hipshot", 3)
             .tags(Red.class)
             .desc("Add 1 Power; deal 2 damage to a Player")
-            .addOnEnterEffects(power(1), dealDamage(2)),
+            .addOnEnterEffects(power(1), dealDamageAction(2)),
         spell("Wisdom of the Elders", 5)
             .tags(Blue.class)
             .desc("Draw 2 cards")
@@ -486,49 +486,49 @@ public class Cards {
         spell("Deathstrike", 3)
             .tags(Black.class)
             .desc("Add 1 Power; destroy a Unit")
-            .addOnEnterEffects(power(1), destroyUnit()));
+            .addOnEnterEffects(power(1), destroyUnitAction()));
   }
 
-  public static CreateEntity voidbind() {
+  public static CreateEntity voidbindAction() {
     return action(
             "Voidbind", new DeleteCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
         .desc("Banish a card from your Hand or Discard Pile");
   }
 
-  public static CreateEntity destroyUnit() {
+  public static CreateEntity destroyUnitAction() {
     return action(
             "Destroy Unit", new DestroyUnit().setInputCount(1).setTargetSource(new AllUnits()))
         .desc("Destroy a Unit");
   }
 
-  public static CreateEntity dealDamage(int hp) {
+  public static CreateEntity dealDamageAction(int hp) {
     String str = String.format("Deal %d damage", hp);
     return action(str, hp(-hp).setInputCount(1).setTargetSource(new ActivePlayers()))
         .desc(str + " to a Player");
   }
 
-  public static CreateEntity banishFromForgeRow() {
+  public static CreateEntity banishInForgeRowAction() {
     return action("Banish", new DeleteCard().setInputCount(1).setTargetSource(new ForgeRowCards()))
         .desc("Banish a card from the Forge Row");
   }
 
-  public static CreateEntity giveBuff(int strength) {
+  public static CreateEntity buffAction(int strength) {
     String str = String.format("+%d Strength", strength);
     return action(str, strength(strength).setInputCount(1).setTargetSource(new AllUnits()))
         .desc("Give a Unit " + str);
   }
 
-  public static CreateEntity giveDebuff(int strength) {
+  public static CreateEntity debuffAction(int strength) {
     String str = String.format("-%d Strength", strength);
     return action(str, strength(-strength).setInputCount(1).setTargetSource(new AllUnits()))
         .desc("Give a Unit " + str);
   }
 
-  public static CreateEntity yeti() {
+  public static CreateEntity createYeti() {
     return unitToken("Yeti", 2);
   }
 
-  public static CreateEntity grenadin() {
+  public static CreateEntity createGrenadin() {
     return unitToken("Grenadin", 1);
   }
 }
