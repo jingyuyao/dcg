@@ -15,13 +15,13 @@ import static com.dcg.card.CreateCard.unit;
 import static com.dcg.card.CreateCard.unitNoBlock;
 import static com.dcg.player.AdjustHp.hp;
 import static com.dcg.player.AdjustPower.power;
+import static com.dcg.player.DrawCards.draw;
 
 import com.dcg.battle.DestroyUnit;
 import com.dcg.battle.SetFlying;
 import com.dcg.commandargs.TotalAttackingUnits;
 import com.dcg.game.CreateEntity;
 import com.dcg.player.AdjustHp;
-import com.dcg.player.DrawCards;
 import com.dcg.player.RefreshWarpTokens;
 import com.dcg.targetfilter.MaxStrength;
 import com.dcg.targetfilter.UnitFilter;
@@ -181,11 +181,11 @@ public class Cards {
             .desc("Add 1 Power; draw 1 card if you played any Spell")
             .addOnEnterEffects(power(1))
             .addOnConditionEffects(
-                new DrawCards(1).addTriggerConditions(new PlayedTag(Spell.class))),
+                draw(1).addTriggerConditions(new PlayedTag(Spell.class))),
         unit("Mystic Ascendant", 6, 4)
             .tags(Yellow.class)
             .desc("Draw 1 card; add 2 Strength to this if you generated 7 or more Power")
-            .addOnEnterEffects(new DrawCards(1))
+            .addOnEnterEffects(draw(1))
             .addOnConditionEffects(strength(2).addTriggerConditions(new MinPower(7))),
         unit("Splimespitter Slug", 5, 3)
             .tags(Green.class, Black.class)
@@ -202,7 +202,7 @@ public class Cards {
         unit("Pokpok, Rockpacker", 3, 1)
             .tags(Red.class, Blue.class)
             .desc("Draw 1 card; give a Unit -1 Strength")
-            .addOnEnterEffects(new DrawCards(1), giveDebuff(1)),
+            .addOnEnterEffects(draw(1), giveDebuff(1)),
         unit("Snowrager", 2, 1)
             .canWarp()
             .tags(Blue.class)
@@ -292,7 +292,7 @@ public class Cards {
             .desc("Red: add 2 Power; Yellow: draw a card")
             .addOnConditionEffects(
                 power(2).addTriggerConditions(new PlayedTag(Red.class)),
-                new DrawCards(1).addTriggerConditions(new PlayedTag(Yellow.class))),
+                draw(1).addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Eilyn, Queen of the Wilds", 6, 4)
             .canWarp()
             .tags(Blue.class)
@@ -316,14 +316,14 @@ public class Cards {
             .tags(Yellow.class, Blue.class)
             .desc("Add 1 Power; Yellow: draw a card; Blue: draw a card")
             .addOnConditionEffects(
-                new DrawCards(1).addTriggerConditions(new PlayedTag(Yellow.class)),
-                new DrawCards(1).addTriggerConditions(new PlayedTag(Blue.class))),
+                draw(1).addTriggerConditions(new PlayedTag(Yellow.class)),
+                draw(1).addTriggerConditions(new PlayedTag(Blue.class))),
         unit("East-Wind Herald", 2, 1)
             .tags(Blue.class)
             .desc("Flying; +3 Defense; Blue: draw a card")
             .addOnEnterEffects(flying(), defense(3))
             .addOnConditionEffects(
-                new DrawCards(1).addTriggerConditions(new PlayedTag(Blue.class))),
+                draw(1).addTriggerConditions(new PlayedTag(Blue.class))),
         unit("Rolant, the Iron Fist", 7, 4)
             .canWarp()
             .tags(Green.class)
@@ -430,7 +430,7 @@ public class Cards {
         spell("Read the Stars", 2)
             .tags(Green.class, Blue.class)
             .desc("Draw 1 card; Voidbind if you have a Flying Unit")
-            .addOnEnterEffects(new DrawCards(1))
+            .addOnEnterEffects(draw(1))
             .addOnConditionEffects(
                 voidbind().addTriggerConditions(new AnyDefendingUnit(unit -> unit.flying))),
         spell("Levitate", 2)
@@ -444,7 +444,7 @@ public class Cards {
             .tags(Green.class)
             .desc("Draw 1 card; give two Units -1 Strength")
             .addOnEnterEffects(
-                new DrawCards(1),
+                draw(1),
                 action(
                         "-1 Strength",
                         strength(-1).setInputCount(1, 2).setTargetSource(new AllUnits()))
@@ -473,7 +473,7 @@ public class Cards {
         spell("Wisdom of the Elders", 5)
             .tags(Blue.class)
             .desc("Draw 2 cards")
-            .addOnEnterEffects(new DrawCards(2)),
+            .addOnEnterEffects(draw(2)),
         spell("Pack Hunt", 4)
             .tags(Yellow.class)
             .desc(

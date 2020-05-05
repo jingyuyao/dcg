@@ -13,13 +13,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// TODO: consider making this an action for most effects so players can draw cards they brought from
-// the forge immediately? Also make it more obvious where the card draw came from.
 public class DrawCards extends PlayerEffect {
   protected ComponentMapper<Player> mPlayer;
 
-  public DrawCards(int num) {
+  private DrawCards(int num) {
     setIntArgSupplier(() -> num);
+  }
+
+  public static DrawCards draw(int num) {
+    return new DrawCards(num);
   }
 
   @Override
@@ -52,7 +54,7 @@ public class DrawCards extends PlayerEffect {
           for (int cardEntity : discardPile) {
             commandChain.addEnd(new MoveLocation(PlayerDeck.class).build(world, cardEntity));
           }
-          commandChain.addEnd(new DrawCards(leftOverDrawCount).build(world, playerEntity));
+          commandChain.addEnd(draw(leftOverDrawCount).build(world, playerEntity));
         } else {
           System.out.printf("No more cards to draw: %d not drawn\n", leftOverDrawCount);
         }
@@ -65,7 +67,7 @@ public class DrawCards extends PlayerEffect {
     } else {
       // Delay the card draw to the end of the chain if we are currently in the processing of
       // drawing or shuffling.
-      commandChain.addEnd(new DrawCards(totalToDraw).build(world, playerEntity));
+      commandChain.addEnd(draw(totalToDraw).build(world, playerEntity));
     }
   }
 

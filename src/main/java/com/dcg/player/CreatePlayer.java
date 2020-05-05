@@ -1,6 +1,7 @@
 package com.dcg.player;
 
 import static com.dcg.action.CreateAction.action;
+import static com.dcg.player.DrawCards.draw;
 
 import com.artemis.ComponentMapper;
 import com.dcg.card.Cards;
@@ -28,6 +29,6 @@ public class CreatePlayer extends CreateEntity {
       commandChain.addEnd(createEntity.tags(PlayerDeck.class).build(world, playerEntity));
     }
     commandChain.addEnd(basicUnit.tags(PlayerDeck.class).build(world, playerEntity));
-    commandChain.addEnd(new DrawCards(5).build(world, playerEntity));
+    commandChain.addEnd(draw(5).build(world, playerEntity));
   }
 }

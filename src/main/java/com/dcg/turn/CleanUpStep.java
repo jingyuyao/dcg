@@ -1,5 +1,7 @@
 package com.dcg.turn;
 
+import static com.dcg.player.DrawCards.draw;
+
 import com.artemis.Aspect;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
@@ -7,7 +9,6 @@ import com.dcg.command.CommandArgs;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
-import com.dcg.player.DrawCards;
 import java.util.List;
 
 public class CleanUpStep extends AbstractCommandBuilder {
@@ -19,7 +20,6 @@ public class CleanUpStep extends AbstractCommandBuilder {
             cardEntity ->
                 commandChain.addEnd(new MoveLocation(DiscardPile.class).build(world, cardEntity)));
     commandChain.addEnd(
-        new DrawCards(5).build(world, originEntity),
-        new AdvancePlayerStep().build(world, originEntity));
+        draw(5).build(world, originEntity), new AdvancePlayerStep().build(world, originEntity));
   }
 }
