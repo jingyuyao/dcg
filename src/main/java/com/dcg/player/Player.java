@@ -9,4 +9,6 @@ import com.artemis.Component;
 public class Player extends Component {
   public int hp = 25;
   public int wrapTokens = 2;
+  /** Used to ensure draw and shuffle commands happens sequentially. */
+  public boolean drawCardLock = false;
 }

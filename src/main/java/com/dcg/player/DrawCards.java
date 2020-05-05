@@ -1,20 +1,22 @@
 package com.dcg.player;
 
 import com.artemis.Aspect;
-import com.artemis.annotations.Wire;
+import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
+import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.Hand;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayerDeck;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+// TODO: consider making this an action for most effects so players can draw cards they brought from
+// the forge immediately? Also make it more obvious where the card draw came from.
 public class DrawCards extends PlayerEffect {
-  @Wire protected Random random;
+  protected ComponentMapper<Player> mPlayer;
 
   public DrawCards(int num) {
     setIntArgSupplier(() -> num);
@@ -23,41 +25,72 @@ public class DrawCards extends PlayerEffect {
   @Override
   protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
     for (int playerEntity : targets) {
-      List<Integer> deck = getDeck(playerEntity).collect(Collectors.toList());
-      List<Integer> discardPile = getDiscardPile(playerEntity).collect(Collectors.toList());
-
-      boolean reshuffleDiscard = false;
-      for (int i = 0; i < args.getInt(); i++) {
-        if (!deck.isEmpty()) {
-          drawFrom(deck);
-        } else if (!discardPile.isEmpty()) {
-          drawFrom(discardPile);
-          reshuffleDiscard = true;
-        } else {
-          System.out.printf(
-              "No cards in deck or discard pile, %d cards not drawn\n", args.getInt() - i);
-          break;
-        }
-      }
-
-      if (reshuffleDiscard) {
-        commandChain.addEnd(new ReshuffleDiscardPile().build(world, playerEntity));
-      }
+      drawCards(playerEntity, args.getInt());
     }
   }
 
-  private Stream<Integer> getDeck(int playerEntity) {
-    return coreSystem.getChildren(playerEntity, Aspect.all(Card.class, PlayerDeck.class));
+  private void drawCards(int playerEntity, int totalToDraw) {
+    Player player = mPlayer.get(playerEntity);
+    if (!player.drawCardLock) {
+      List<Integer> drawnCardEntities = drawFromDeck(playerEntity, totalToDraw);
+
+      // Draw cards from deck if possible.
+      if (!drawnCardEntities.isEmpty()) {
+        player.drawCardLock = true;
+        for (int cardEntity : drawnCardEntities) {
+          commandChain.addEnd(new MoveLocation(Hand.class).build(world, cardEntity));
+        }
+      }
+
+      int leftOverDrawCount = totalToDraw - drawnCardEntities.size();
+      // If we didn't draw enough from the deck.
+      if (leftOverDrawCount > 0) {
+        List<Integer> discardPile = getDiscardPile(playerEntity);
+        // Shuffling discard pile back into deck and then queue up drawing the remaining cards.
+        if (!discardPile.isEmpty()) {
+          player.drawCardLock = true;
+          for (int cardEntity : discardPile) {
+            commandChain.addEnd(new MoveLocation(PlayerDeck.class).build(world, cardEntity));
+          }
+          commandChain.addEnd(new DrawCards(leftOverDrawCount).build(world, playerEntity));
+        } else {
+          System.out.printf("No more cards to draw: %d not drawn\n", leftOverDrawCount);
+        }
+      }
+
+      // Unlock the card draw at the end of our processing commands if we locked it.
+      if (player.drawCardLock) {
+        commandChain.addEnd(new UnlockDrawCard().build(world, playerEntity));
+      }
+    } else {
+      // Delay the card draw to the end of the chain if we are currently in the processing of
+      // drawing or shuffling.
+      commandChain.addEnd(new DrawCards(totalToDraw).build(world, playerEntity));
+    }
   }
 
-  private Stream<Integer> getDiscardPile(int playerEntity) {
-    return coreSystem.getChildren(playerEntity, Aspect.all(Card.class, DiscardPile.class));
+  private List<Integer> drawFromDeck(int playerEntity, int totalToDraw) {
+    List<Integer> deck =
+        coreSystem
+            .getChildren(playerEntity, Aspect.all(Card.class, PlayerDeck.class))
+            .collect(Collectors.toList());
+    Collections.shuffle(deck);
+    return deck.stream().limit(totalToDraw).collect(Collectors.toList());
   }
 
-  private void drawFrom(List<Integer> cards) {
-    int cardIndex = random.nextInt(cards.size());
-    int cardEntity = cards.get(cardIndex);
-    cards.remove(cardIndex);
-    commandChain.addEnd(new MoveLocation(Hand.class).build(world, cardEntity));
+  private List<Integer> getDiscardPile(int playerEntity) {
+    return coreSystem
+        .getChildren(playerEntity, Aspect.all(Card.class, DiscardPile.class))
+        .collect(Collectors.toList());
+  }
+
+  private static class UnlockDrawCard extends AbstractCommandBuilder {
+    protected ComponentMapper<Player> mPlayer;
+
+    @Override
+    protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+      Player player = mPlayer.get(originEntity);
+      player.drawCardLock = false;
+    }
   }
 }
