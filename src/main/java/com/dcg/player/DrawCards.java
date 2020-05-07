@@ -5,11 +5,11 @@ import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandArgs;
+import com.dcg.game.Util;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.Hand;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayerDeck;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,8 +76,7 @@ public class DrawCards extends PlayerEffect {
         coreSystem
             .getChildren(playerEntity, Aspect.all(Card.class, PlayerDeck.class))
             .collect(Collectors.toList());
-    Collections.shuffle(deck);
-    return deck.stream().limit(totalToDraw).collect(Collectors.toList());
+    return Util.pickRandom(deck, totalToDraw);
   }
 
   private List<Integer> getDiscardPile(int playerEntity) {

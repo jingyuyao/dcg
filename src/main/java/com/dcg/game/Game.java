@@ -17,7 +17,6 @@ import com.dcg.player.PlayHandSystem;
 import com.dcg.player.Player;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 public class Game {
   private final List<String> playerNames;
@@ -34,7 +33,6 @@ public class Game {
               new ActionSystem(),
               new ViewSystem())
           .build()
-          .register(new Random())
           .register(new CommandChain());
   private final World world = new World(configuration);
 
