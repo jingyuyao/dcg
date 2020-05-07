@@ -180,12 +180,11 @@ public class Cards {
             .tags(Yellow.class)
             .desc("Add 1 Power; draw 1 card if you played any Spell")
             .addOnEnterEffects(power(1))
-            .addOnConditionEffects(
-                draw(1).addTriggerConditions(new PlayedTag(Spell.class))),
+            .addOnConditionEffects(drawAction(1).addTriggerConditions(new PlayedTag(Spell.class))),
         unit("Mystic Ascendant", 6, 4)
             .tags(Yellow.class)
             .desc("Draw 1 card; add 2 Strength to this if you generated 7 or more Power")
-            .addOnEnterEffects(draw(1))
+            .addOnEnterEffects(drawAction(1))
             .addOnConditionEffects(strength(2).addTriggerConditions(new MinPower(7))),
         unit("Splimespitter Slug", 5, 3)
             .tags(Green.class, Black.class)
@@ -202,7 +201,7 @@ public class Cards {
         unit("Pokpok, Rockpacker", 3, 1)
             .tags(Red.class, Blue.class)
             .desc("Draw 1 card; give a Unit -1 Strength")
-            .addOnEnterEffects(draw(1), debuffAction(1)),
+            .addOnEnterEffects(drawAction(1), debuffAction(1)),
         unit("Snowrager", 2, 1)
             .canWarp()
             .tags(Blue.class)
@@ -257,7 +256,8 @@ public class Cards {
             .tags(Black.class)
             .desc("Add 2 Power; Lifesteal; Throne: Banish a card in the Forge Row")
             .addOnEnterEffects(power(2), lifesteal())
-            .addOnConditionEffects(banishInForgeRowAction().addTriggerConditions(new ThroneActive())),
+            .addOnConditionEffects(
+                banishInForgeRowAction().addTriggerConditions(new ThroneActive())),
         unit("Vampire Bat", 2, 1)
             .tags(Black.class)
             .desc("Add 1 Power; Flying; Lifesteal; Black: +1 Strength")
@@ -267,7 +267,8 @@ public class Cards {
             .tags(Black.class)
             .desc("Voidbind; Black: Destroy an Unit")
             .addOnEnterEffects(voidbindAction())
-            .addOnConditionEffects(destroyUnitAction().addTriggerConditions(new PlayedTag(Black.class))),
+            .addOnConditionEffects(
+                destroyUnitAction().addTriggerConditions(new PlayedTag(Black.class))),
         unit("Blistersting Wasp", 2, 2)
             .canWarp()
             .tags(Yellow.class, Black.class)
@@ -292,7 +293,7 @@ public class Cards {
             .desc("Red: add 2 Power; Yellow: draw a card")
             .addOnConditionEffects(
                 power(2).addTriggerConditions(new PlayedTag(Red.class)),
-                draw(1).addTriggerConditions(new PlayedTag(Yellow.class))),
+                drawAction(1).addTriggerConditions(new PlayedTag(Yellow.class))),
         unit("Eilyn, Queen of the Wilds", 6, 4)
             .canWarp()
             .tags(Blue.class)
@@ -311,19 +312,19 @@ public class Cards {
             .canWarp()
             .tags(Blue.class)
             .desc("Deals 3 damage if you played a spell")
-            .addOnConditionEffects(dealDamageAction(3).addTriggerConditions(new PlayedTag(Spell.class))),
+            .addOnConditionEffects(
+                dealDamageAction(3).addTriggerConditions(new PlayedTag(Spell.class))),
         unit("Explorer Emeritus", 4, 1)
             .tags(Yellow.class, Blue.class)
             .desc("Add 1 Power; Yellow: draw a card; Blue: draw a card")
             .addOnConditionEffects(
-                draw(1).addTriggerConditions(new PlayedTag(Yellow.class)),
-                draw(1).addTriggerConditions(new PlayedTag(Blue.class))),
+                drawAction(1).addTriggerConditions(new PlayedTag(Yellow.class)),
+                drawAction(1).addTriggerConditions(new PlayedTag(Blue.class))),
         unit("East-Wind Herald", 2, 1)
             .tags(Blue.class)
             .desc("Flying; +3 Defense; Blue: draw a card")
             .addOnEnterEffects(flying(), defense(3))
-            .addOnConditionEffects(
-                draw(1).addTriggerConditions(new PlayedTag(Blue.class))),
+            .addOnConditionEffects(drawAction(1).addTriggerConditions(new PlayedTag(Blue.class))),
         unit("Rolant, the Iron Fist", 7, 4)
             .canWarp()
             .tags(Green.class)
@@ -401,7 +402,8 @@ public class Cards {
             .tags(Red.class, Yellow.class)
             .desc("Add 3 Power; Throne: banish a card in the Forge Row")
             .addOnEnterEffects(power(3))
-            .addOnConditionEffects(banishInForgeRowAction().addTriggerConditions(new ThroneActive())),
+            .addOnConditionEffects(
+                banishInForgeRowAction().addTriggerConditions(new ThroneActive())),
         spell("Unfinished Business", 4)
             .tags(Green.class, Black.class)
             .desc("Add 2 Power; Green: give a Unit +2 Strength; Black: give a Unit -2 Strength")
@@ -430,7 +432,7 @@ public class Cards {
         spell("Read the Stars", 2)
             .tags(Green.class, Blue.class)
             .desc("Draw 1 card; Voidbind if you have a Flying Unit")
-            .addOnEnterEffects(draw(1))
+            .addOnEnterEffects(drawAction(1))
             .addOnConditionEffects(
                 voidbindAction().addTriggerConditions(new AnyDefendingUnit(unit -> unit.flying))),
         spell("Levitate", 2)
@@ -444,7 +446,7 @@ public class Cards {
             .tags(Green.class)
             .desc("Draw 1 card; give two Units -1 Strength")
             .addOnEnterEffects(
-                draw(1),
+                drawAction(1),
                 action(
                         "-1 Strength",
                         strength(-1).setInputCount(1, 2).setTargetSource(new AllUnits()))
@@ -473,7 +475,7 @@ public class Cards {
         spell("Wisdom of the Elders", 5)
             .tags(Blue.class)
             .desc("Draw 2 cards")
-            .addOnEnterEffects(draw(2)),
+            .addOnEnterEffects(drawAction(2)),
         spell("Pack Hunt", 4)
             .tags(Yellow.class)
             .desc(
@@ -487,6 +489,11 @@ public class Cards {
             .tags(Black.class)
             .desc("Add 1 Power; destroy a Unit")
             .addOnEnterEffects(power(1), destroyUnitAction()));
+  }
+
+  public static CreateEntity drawAction(int count) {
+    String str = String.format("Draw %d", count);
+    return action(str, draw(count)).desc(str + " cards");
   }
 
   public static CreateEntity voidbindAction() {
