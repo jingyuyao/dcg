@@ -29,7 +29,7 @@ public class DrawForgeCards extends AbstractCommandBuilder {
     for (int cardEntity : drawnCardEntities) {
       commandChain.addEnd(
           new MoveLocation(ForgeRow.class).build(world, cardEntity),
-          action(new BuyCard().chain(new DrawForgeCards(1))).build(world, cardEntity));
+          action("Buy", new BuyCard().chain(new DrawForgeCards(1))).build(world, cardEntity));
       Card card = mCard.get(cardEntity);
       if (card.canWarp) {
         commandChain.addEnd(
