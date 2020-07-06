@@ -125,7 +125,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       // NOTE: toString() may miss some information if the command delete entities. Thus we save
       // the snapshot before the command is run and use that for logging, etc.
       snapshot = toString();
-      AbstractCommandBuilder.this.run(originEntity, getTargets(), getArgs());
+      AbstractCommandBuilder.this.run(originEntity, getTargets(), getData());
     }
 
     @Override
@@ -162,7 +162,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       return true;
     }
 
-    private CommandData getArgs() {
+    private CommandData getData() {
       int intArg = 0;
       if (intArgSupplier != null) {
         world.inject(intArgSupplier);
@@ -173,7 +173,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
         world.inject(boolArgSupplier);
         boolArg = boolArgSupplier.get();
       }
-      return new CommandData(intArg, boolArg);
+      return new CommandData(originEntity, getTargets(), intArg, boolArg);
     }
 
     private List<Integer> getTargets() {
@@ -184,7 +184,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     public String toString() {
       StringBuilder builder = new StringBuilder(coreSystem.toName(originEntity));
       builder.append(": ").append(AbstractCommandBuilder.this.toString());
-      CommandData args = getArgs();
+      CommandData args = getData();
       if (intArgSupplier != null) {
         builder.append(" = ").append(args.getInt());
       }
