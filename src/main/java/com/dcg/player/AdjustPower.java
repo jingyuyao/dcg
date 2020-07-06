@@ -1,7 +1,7 @@
 package com.dcg.player;
 
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.CommandArgs;
+import com.dcg.command.CommandData;
 import com.dcg.turn.Turn;
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class AdjustPower extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+  protected void run(int originEntity, List<Integer> targets, CommandData args) {
     Turn turn = coreSystem.getTurn();
     turn.powerPool += args.getInt();
   }

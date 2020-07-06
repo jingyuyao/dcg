@@ -3,7 +3,7 @@ package com.dcg.action;
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
-import com.dcg.command.CommandArgs;
+import com.dcg.command.CommandData;
 import java.util.List;
 
 public class ExecuteAction extends AbstractCommandBuilder {
@@ -17,7 +17,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+  protected void run(int originEntity, List<Integer> targets, CommandData args) {
     int currentPlayerEntity = coreSystem.getCurrentPlayerEntity();
     if (originEntity != currentPlayerEntity) {
       System.out.printf("%d is not the current player\n", originEntity);

@@ -3,7 +3,7 @@ package com.dcg.battle;
 import static com.dcg.action.CreateAction.action;
 
 import com.artemis.ComponentMapper;
-import com.dcg.command.CommandArgs;
+import com.dcg.command.CommandData;
 import com.dcg.game.CreateEntity;
 import com.dcg.game.Owned;
 import com.dcg.game.Preconditions;
@@ -32,7 +32,7 @@ public class CreateUnit extends CreateEntity {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+  protected void run(int originEntity, List<Integer> targets, CommandData args) {
     Preconditions.checkGameState(originEntity != -1, "Must have card entity for CreateUnit");
     int ownerEntity = coreSystem.getRoot(originEntity);
     Preconditions.checkGameState(ownerEntity != -1, "Must have owner for CreateUnit");

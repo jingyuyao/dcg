@@ -4,7 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Cards;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.CommandArgs;
+import com.dcg.command.CommandData;
 import com.dcg.forge.InitializeBuyCard;
 import com.dcg.game.CreateEntity;
 import com.dcg.location.ThroneDeck;
@@ -20,7 +20,7 @@ public class InitTurn extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+  protected void run(int originEntity, List<Integer> targets, CommandData args) {
     coreSystem
         .findByName(playerName, Aspect.all(Player.class))
         .findFirst()

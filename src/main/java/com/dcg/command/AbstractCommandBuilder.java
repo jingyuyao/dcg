@@ -72,7 +72,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  protected abstract void run(int originEntity, List<Integer> targets, CommandArgs args);
+  protected abstract void run(int originEntity, List<Integer> targets, CommandData args);
 
   @Override
   public String toString() {
@@ -162,7 +162,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       return true;
     }
 
-    private CommandArgs getArgs() {
+    private CommandData getArgs() {
       int intArg = 0;
       if (intArgSupplier != null) {
         world.inject(intArgSupplier);
@@ -173,7 +173,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
         world.inject(boolArgSupplier);
         boolArg = boolArgSupplier.get();
       }
-      return new CommandArgs(intArg, boolArg);
+      return new CommandData(intArg, boolArg);
     }
 
     private List<Integer> getTargets() {
@@ -184,7 +184,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     public String toString() {
       StringBuilder builder = new StringBuilder(coreSystem.toName(originEntity));
       builder.append(": ").append(AbstractCommandBuilder.this.toString());
-      CommandArgs args = getArgs();
+      CommandData args = getArgs();
       if (intArgSupplier != null) {
         builder.append(" = ").append(args.getInt());
       }

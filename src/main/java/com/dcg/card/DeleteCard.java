@@ -2,8 +2,8 @@ package com.dcg.card;
 
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
+import com.dcg.command.CommandData;
 import com.dcg.forge.DrawForgeCards;
 import com.dcg.location.ForgeRow;
 import java.util.List;
@@ -18,7 +18,7 @@ public class DeleteCard extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+  protected void run(int originEntity, List<Integer> targets, CommandData args) {
     for (int cardEntity : targets) {
       if (mForgeRow.has(cardEntity)) {
         commandChain.addEnd(new DrawForgeCards(1).build(world, -1));

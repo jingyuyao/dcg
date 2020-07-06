@@ -6,7 +6,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.CommandArgs;
+import com.dcg.command.CommandData;
 import com.dcg.game.Util;
 import com.dcg.location.ForgeDeck;
 import com.dcg.location.ForgeRow;
@@ -22,7 +22,7 @@ public class DrawForgeCards extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+  protected void run(int originEntity, List<Integer> targets, CommandData args) {
     List<Integer> forgeDeck =
         coreSystem.getStream(Aspect.all(Card.class, ForgeDeck.class)).collect(Collectors.toList());
     List<Integer> drawnCardEntities = Util.pickRandom(forgeDeck, args.getInt());

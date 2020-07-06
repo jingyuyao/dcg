@@ -3,7 +3,7 @@ package com.dcg.turn;
 import com.artemis.Aspect;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.CommandArgs;
+import com.dcg.command.CommandData;
 import com.dcg.location.Hand;
 import com.dcg.location.PlayArea;
 import java.util.List;
@@ -23,7 +23,7 @@ public class AdvanceTurn extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+  protected void run(int originEntity, List<Integer> targets, CommandData args) {
     // Since we only allow adding things to the end of the chain, each step is responsible for
     // adding its required actions and then invoking the next step. The general flow is:
     // - BattleStep

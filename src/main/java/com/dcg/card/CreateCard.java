@@ -5,8 +5,8 @@ import static com.dcg.battle.CreateUnit.unitTokenNoBlock;
 
 import com.artemis.ComponentMapper;
 import com.dcg.battle.CreateUnit;
-import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
+import com.dcg.command.CommandData;
 import com.dcg.game.CreateEntity;
 import com.dcg.game.Owned;
 import java.util.List;
@@ -91,7 +91,7 @@ public class CreateCard extends CreateEntity {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+  protected void run(int originEntity, List<Integer> targets, CommandData args) {
     int cardEntity = createEntity();
     if (originEntity != -1) {
       mOwned.create(cardEntity).owner = originEntity;

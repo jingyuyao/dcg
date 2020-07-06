@@ -3,8 +3,8 @@ package com.dcg.forge;
 import com.artemis.ComponentMapper;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
-import com.dcg.command.CommandArgs;
 import com.dcg.command.CommandBuilder;
+import com.dcg.command.CommandData;
 import com.dcg.game.Owned;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
@@ -31,7 +31,7 @@ public class Warp extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandArgs args) {
+  protected void run(int originEntity, List<Integer> targets, CommandData args) {
     coreSystem.getCurrentPlayer().wrapTokens -= 1;
     mOwned.create(originEntity).owner = coreSystem.getCurrentPlayerEntity();
     commandChain.addEnd(
