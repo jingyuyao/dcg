@@ -1,4 +1,4 @@
-package com.dcg.api;
+package com.dcg.api.legacy;
 
 import com.artemis.Aspect;
 import com.artemis.BaseSystem;

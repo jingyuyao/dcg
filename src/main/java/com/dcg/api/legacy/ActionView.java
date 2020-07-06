@@ -1,4 +1,4 @@
-package com.dcg.api;
+package com.dcg.api.legacy;
 
 import com.dcg.action.Action;
 import com.dcg.game.Common;

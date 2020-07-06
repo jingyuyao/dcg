@@ -1,4 +1,4 @@
-package com.dcg.api;
+package com.dcg.api.legacy;
 
 import com.dcg.card.Card;
 import com.dcg.card.HasUnit;
