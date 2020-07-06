@@ -9,7 +9,6 @@ import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandData;
 import com.dcg.game.CreateEntity;
 import com.dcg.game.Owned;
-import java.util.List;
 
 public class CreateCard extends CreateEntity {
   private final int cost;
@@ -91,7 +90,8 @@ public class CreateCard extends CreateEntity {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
+    int originEntity = data.getOriginEntity();
     int cardEntity = createEntity();
     if (originEntity != -1) {
       mOwned.create(cardEntity).owner = originEntity;

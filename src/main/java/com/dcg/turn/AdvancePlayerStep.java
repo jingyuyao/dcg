@@ -13,7 +13,8 @@ public class AdvancePlayerStep extends AbstractCommandBuilder {
   protected ComponentMapper<Turn> mTurn;
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
+    int originEntity = data.getOriginEntity();
     List<Integer> allPlayerEntities =
         coreSystem.getStream(Aspect.all(Player.class)).collect(Collectors.toList());
     int currentPlayerIndex = allPlayerEntities.indexOf(originEntity);

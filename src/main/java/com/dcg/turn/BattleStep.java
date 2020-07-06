@@ -10,7 +10,6 @@ import com.dcg.battle.Unit;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
 import com.dcg.command.CommandData;
-import java.util.List;
 
 public class BattleStep extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
@@ -18,7 +17,8 @@ public class BattleStep extends AbstractCommandBuilder {
   protected ComponentMapper<Attacking> mAttacking;
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
+    int originEntity = data.getOriginEntity();
     coreSystem
         .getAttackingEntities()
         .forEach(attackingUnitEntity -> attack(attackingUnitEntity, originEntity));

@@ -1,7 +1,6 @@
 package com.dcg.battle;
 
 import com.dcg.command.CommandData;
-import java.util.List;
 
 public class SetLifeSteal extends UnitEffectBuilder {
   private SetLifeSteal(boolean lifeSteal) {
@@ -13,7 +12,7 @@ public class SetLifeSteal extends UnitEffectBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
-    getUnits(targets).forEach(unit -> unit.lifeSteal = args.getBool());
+  protected void run(CommandData data) {
+    getUnits(data.getTargets()).forEach(unit -> unit.lifeSteal = data.getBool());
   }
 }

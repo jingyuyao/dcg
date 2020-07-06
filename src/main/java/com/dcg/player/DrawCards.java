@@ -25,9 +25,9 @@ public class DrawCards extends PlayerEffect {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
-    for (int playerEntity : targets) {
-      drawCards(playerEntity, args.getInt());
+  protected void run(CommandData data) {
+    for (int playerEntity : data.getTargets()) {
+      drawCards(playerEntity, data.getInt());
     }
   }
 
@@ -89,8 +89,8 @@ public class DrawCards extends PlayerEffect {
     protected ComponentMapper<Player> mPlayer;
 
     @Override
-    protected void run(int originEntity, List<Integer> targets, CommandData args) {
-      Player player = mPlayer.get(originEntity);
+    protected void run(CommandData data) {
+      Player player = mPlayer.get(data.getOriginEntity());
       player.drawCardLock = false;
     }
   }

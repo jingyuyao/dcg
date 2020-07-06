@@ -7,7 +7,6 @@ import com.dcg.game.CoreSystem;
 import com.dcg.targetfilter.TargetFilter;
 import com.dcg.targetsource.AttackingUnits;
 import com.dcg.triggercondition.MinAllowedTargets;
-import java.util.List;
 
 public class Block extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
@@ -19,8 +18,9 @@ public class Block extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
-    commandChain.addEnd(new DestroyUnit().build(world, targets.get(0)));
+  protected void run(CommandData data) {
+    int originEntity = data.getOriginEntity();
+    commandChain.addEnd(new DestroyUnit().build(world, data.getTargets().get(0)));
     Unit blockingUnit = mUnit.get(originEntity);
     if (!blockingUnit.endurance) {
       commandChain.addEnd(new DestroyUnit().build(world, originEntity));

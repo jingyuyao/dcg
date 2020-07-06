@@ -7,11 +7,10 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandData;
 import com.dcg.location.MercenaryDeck;
 import com.dcg.location.ThroneDeck;
-import java.util.List;
 
 public class InitializeBuyCard extends AbstractCommandBuilder {
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
     coreSystem
         .getStream(Aspect.one(ThroneDeck.class, MercenaryDeck.class))
         .forEach(

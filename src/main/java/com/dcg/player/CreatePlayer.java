@@ -9,7 +9,6 @@ import com.dcg.command.CommandData;
 import com.dcg.game.CreateEntity;
 import com.dcg.location.PlayerDeck;
 import com.dcg.turn.AdvanceTurn;
-import java.util.List;
 
 public class CreatePlayer extends CreateEntity {
   private final CreateEntity basicUnit;
@@ -22,7 +21,7 @@ public class CreatePlayer extends CreateEntity {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
     int playerEntity = createEntity();
     mPlayer.create(playerEntity);
     for (CreateEntity createEntity : Cards.createBasicCards()) {

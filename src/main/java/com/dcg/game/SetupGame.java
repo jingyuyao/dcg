@@ -16,7 +16,8 @@ public class SetupGame extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
+    int originEntity = data.getOriginEntity();
     commandChain.addEnd(new InitializeForge().build(world, originEntity));
     List<CreateEntity> units = Util.pickRandom(Cards.createBasicUnits(), players.size());
     for (int i = 0; i < players.size(); i++) {

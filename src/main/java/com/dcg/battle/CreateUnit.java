@@ -7,7 +7,6 @@ import com.dcg.command.CommandData;
 import com.dcg.game.CreateEntity;
 import com.dcg.game.Owned;
 import com.dcg.game.Preconditions;
-import java.util.List;
 
 public class CreateUnit extends CreateEntity {
   public final int strength;
@@ -32,7 +31,8 @@ public class CreateUnit extends CreateEntity {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
+    int originEntity = data.getOriginEntity();
     Preconditions.checkGameState(originEntity != -1, "Must have card entity for CreateUnit");
     int ownerEntity = coreSystem.getRoot(originEntity);
     Preconditions.checkGameState(ownerEntity != -1, "Must have owner for CreateUnit");

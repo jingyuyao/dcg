@@ -9,7 +9,6 @@ import com.dcg.forge.InitializeBuyCard;
 import com.dcg.game.CreateEntity;
 import com.dcg.location.ThroneDeck;
 import com.dcg.player.Player;
-import java.util.List;
 
 public class InitTurn extends AbstractCommandBuilder {
   private final String playerName;
@@ -20,7 +19,7 @@ public class InitTurn extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
     coreSystem
         .findByName(playerName, Aspect.all(Player.class))
         .findFirst()

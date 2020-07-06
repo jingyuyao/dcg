@@ -1,7 +1,6 @@
 package com.dcg.battle;
 
 import com.dcg.command.CommandData;
-import java.util.List;
 
 public class AdjustDefense extends UnitEffectBuilder {
   private AdjustDefense(int defense) {
@@ -13,7 +12,7 @@ public class AdjustDefense extends UnitEffectBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
-    getUnits(targets).forEach(unit -> unit.defense += args.getInt());
+  protected void run(CommandData data) {
+    getUnits(data.getTargets()).forEach(unit -> unit.defense += data.getInt());
   }
 }

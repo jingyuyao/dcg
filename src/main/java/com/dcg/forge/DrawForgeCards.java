@@ -22,10 +22,10 @@ public class DrawForgeCards extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
     List<Integer> forgeDeck =
         coreSystem.getStream(Aspect.all(Card.class, ForgeDeck.class)).collect(Collectors.toList());
-    List<Integer> drawnCardEntities = Util.pickRandom(forgeDeck, args.getInt());
+    List<Integer> drawnCardEntities = Util.pickRandom(forgeDeck, data.getInt());
     for (int cardEntity : drawnCardEntities) {
       commandChain.addEnd(
           new MoveLocation(ForgeRow.class).build(world, cardEntity),
@@ -36,9 +36,9 @@ public class DrawForgeCards extends AbstractCommandBuilder {
             action(new Warp().chain(new DrawForgeCards(1))).build(world, cardEntity));
       }
     }
-    if (drawnCardEntities.size() < args.getInt()) {
+    if (drawnCardEntities.size() < data.getInt()) {
       System.out.printf(
-          "%s cards not drawn from forge\n", args.getInt() - drawnCardEntities.size());
+          "%s cards not drawn from forge\n", data.getInt() - drawnCardEntities.size());
     }
   }
 }

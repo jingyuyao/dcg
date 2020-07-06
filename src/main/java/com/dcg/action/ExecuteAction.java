@@ -17,7 +17,8 @@ public class ExecuteAction extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
+    int originEntity = data.getOriginEntity();
     int currentPlayerEntity = coreSystem.getCurrentPlayerEntity();
     if (originEntity != currentPlayerEntity) {
       System.out.printf("%d is not the current player\n", originEntity);

@@ -10,7 +10,6 @@ import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
 import com.dcg.player.AdjustPower;
-import java.util.List;
 
 public class BuyCard extends AbstractCommandBuilder {
   private CommandBuilder chained;
@@ -31,7 +30,8 @@ public class BuyCard extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
+    int originEntity = data.getOriginEntity();
     mOwned.create(originEntity).owner = coreSystem.getCurrentPlayerEntity();
     commandChain.addEnd(
         AdjustPower.power(-mCard.get(originEntity).cost).build(world, originEntity),

@@ -1,7 +1,6 @@
 package com.dcg.battle;
 
 import com.dcg.command.CommandData;
-import java.util.List;
 import java.util.function.Supplier;
 
 public class AdjustStrength extends UnitEffectBuilder {
@@ -18,10 +17,10 @@ public class AdjustStrength extends UnitEffectBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
-    for (int targetEntity : targets) {
+  protected void run(CommandData data) {
+    for (int targetEntity : data.getTargets()) {
       Unit unit = mUnit.get(targetEntity);
-      unit.strength += args.getInt();
+      unit.strength += data.getInt();
       if (unit.strength <= 0) {
         commandChain.addEnd(new DestroyUnit().build(world, targetEntity));
       }

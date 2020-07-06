@@ -9,7 +9,6 @@ import com.dcg.game.Owned;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
 import com.dcg.player.AdjustPower;
-import java.util.List;
 
 public class Warp extends AbstractCommandBuilder {
   private CommandBuilder chained;
@@ -31,7 +30,8 @@ public class Warp extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
+    int originEntity = data.getOriginEntity();
     coreSystem.getCurrentPlayer().wrapTokens -= 1;
     mOwned.create(originEntity).owner = coreSystem.getCurrentPlayerEntity();
     commandChain.addEnd(

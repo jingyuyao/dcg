@@ -16,6 +16,14 @@ public class CommandData {
     this.boolValue = boolValue;
   }
 
+  public int getOriginEntity() {
+    return originEntity;
+  }
+
+  public List<Integer> getTargets() {
+    return targets;
+  }
+
   public int getInt() {
     return intValue;
   }

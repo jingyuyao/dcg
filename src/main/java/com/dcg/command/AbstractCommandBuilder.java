@@ -72,7 +72,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     return this;
   }
 
-  protected abstract void run(int originEntity, List<Integer> targets, CommandData args);
+  protected abstract void run(CommandData data);
 
   @Override
   public String toString() {
@@ -125,7 +125,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       // NOTE: toString() may miss some information if the command delete entities. Thus we save
       // the snapshot before the command is run and use that for logging, etc.
       snapshot = toString();
-      AbstractCommandBuilder.this.run(originEntity, getTargets(), getData());
+      AbstractCommandBuilder.this.run(getData());
     }
 
     @Override

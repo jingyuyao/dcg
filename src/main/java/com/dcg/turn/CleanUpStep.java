@@ -9,11 +9,11 @@ import com.dcg.command.CommandData;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayArea;
-import java.util.List;
 
 public class CleanUpStep extends AbstractCommandBuilder {
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
+    int originEntity = data.getOriginEntity();
     coreSystem
         .getChildren(originEntity, Aspect.all(Card.class, PlayArea.class))
         .forEach(

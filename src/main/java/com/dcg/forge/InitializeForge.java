@@ -6,11 +6,10 @@ import com.dcg.command.CommandData;
 import com.dcg.game.CreateEntity;
 import com.dcg.location.ForgeDeck;
 import com.dcg.location.MercenaryDeck;
-import java.util.List;
 
 public class InitializeForge extends AbstractCommandBuilder {
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
+  protected void run(CommandData data) {
     for (CreateEntity createEntity : Cards.createForgeDeck()) {
       commandChain.addEnd(createEntity.tags(ForgeDeck.class).build(world, -1));
     }

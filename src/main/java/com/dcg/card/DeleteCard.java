@@ -6,7 +6,6 @@ import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandData;
 import com.dcg.forge.DrawForgeCards;
 import com.dcg.location.ForgeRow;
-import java.util.List;
 
 public class DeleteCard extends AbstractCommandBuilder {
   private CommandBuilder chained;
@@ -18,15 +17,15 @@ public class DeleteCard extends AbstractCommandBuilder {
   }
 
   @Override
-  protected void run(int originEntity, List<Integer> targets, CommandData args) {
-    for (int cardEntity : targets) {
+  protected void run(CommandData data) {
+    for (int cardEntity : data.getTargets()) {
       if (mForgeRow.has(cardEntity)) {
         commandChain.addEnd(new DrawForgeCards(1).build(world, -1));
       }
       world.delete(cardEntity);
     }
     if (chained != null) {
-      commandChain.addEnd(chained.build(world, originEntity));
+      commandChain.addEnd(chained.build(world, data.getOriginEntity()));
     }
   }
 }
