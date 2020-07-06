@@ -7,6 +7,8 @@ import com.dcg.api.RoomList;
 import com.dcg.api.ServerMessage.Kind;
 import com.dcg.api.Util;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -66,6 +68,12 @@ public class GameServer extends WebSocketServer {
     } catch (Exception e) {
       System.err.printf("Server: %s\n", e);
     }
+  }
+
+  @Override
+  public void onMessage(WebSocket socket, ByteBuffer byteBuffer) {
+    String message = StandardCharsets.UTF_8.decode(byteBuffer).toString();
+    onMessage(socket, message);
   }
 
   private void processClientMessage(WebSocket socket, ClientMessage message) {
