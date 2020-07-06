@@ -1,5 +1,7 @@
 package com.dcg.player;
 
+import static com.dcg.action.CreateAction.action;
+
 import com.artemis.Aspect;
 import com.artemis.AspectSubscriptionManager;
 import com.artemis.BaseEntitySystem;
@@ -11,12 +13,10 @@ import com.dcg.card.Card;
 import com.dcg.command.CommandChain;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.Hand;
-import com.dcg.location.MoveLocation;
-import com.dcg.location.PlayArea;
 import com.dcg.turn.Turn;
 
 @All({Player.class, Turn.class})
-public class PlayHandSystem extends BaseEntitySystem {
+public class AddPlayCardSystem extends BaseEntitySystem {
   @Wire protected CommandChain commandChain;
   protected AspectSubscriptionManager manager;
   protected CoreSystem coreSystem;
@@ -33,7 +33,7 @@ public class PlayHandSystem extends BaseEntitySystem {
                 for (int i = 0; i < cardEntities.size(); i++) {
                   int cardEntity = cardEntities.get(i);
                   if (coreSystem.getParent(cardEntity) == currentPlayerEntity) {
-                    commandChain.addEnd(new MoveLocation(PlayArea.class).build(world, cardEntity));
+                    commandChain.addEnd(action("Play", new PlayCard()).build(world, cardEntity));
                   }
                 }
               }
@@ -49,7 +49,7 @@ public class PlayHandSystem extends BaseEntitySystem {
         .getChildren(playerEntity, Aspect.all(Card.class, Hand.class))
         .forEach(
             cardEntity ->
-                commandChain.addEnd(new MoveLocation(PlayArea.class).build(world, cardEntity)));
+                commandChain.addEnd(action("Play", new PlayCard()).build(world, cardEntity)));
   }
 
   @Override

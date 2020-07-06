@@ -13,7 +13,7 @@ import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandInvocationStrategy;
 import com.dcg.effect.EffectSystem;
-import com.dcg.player.PlayHandSystem;
+import com.dcg.player.AddPlayCardSystem;
 import com.dcg.player.Player;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +28,7 @@ public class Game {
           .with(
               new EntityLinkManager(),
               new CoreSystem(),
-              new PlayHandSystem(),
+              new AddPlayCardSystem(),
               new EffectSystem(),
               new ActionSystem(),
               new ViewSystem())
