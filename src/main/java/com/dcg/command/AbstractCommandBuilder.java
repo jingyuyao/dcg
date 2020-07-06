@@ -175,7 +175,12 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
         world.inject(boolArgSupplier);
         boolArg = boolArgSupplier.get();
       }
-      return new CommandData(originEntity, getTargets(), intArg, boolArg);
+      return new CommandData(
+          AbstractCommandBuilder.class.getSimpleName(),
+          originEntity,
+          getTargets(),
+          intArg,
+          boolArg);
     }
 
     private List<Integer> getTargets() {
