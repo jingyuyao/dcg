@@ -23,7 +23,7 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
       if (command.canRun()) {
         try {
           System.out.printf("Exec: %s\n", command.getSnapshot());
-          command.run();
+          commandChain.log(command.run());
         } catch (GameStateException e) {
           System.out.printf("Exception: %s\n", e.getMessage());
         }

@@ -121,11 +121,13 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     @Override
-    public void run() {
+    public CommandData run() {
       // NOTE: toString() may miss some information if the command delete entities. Thus we save
       // the snapshot before the command is run and use that for logging, etc.
       snapshot = toString();
-      AbstractCommandBuilder.this.run(getData());
+      CommandData data = getData();
+      AbstractCommandBuilder.this.run(data);
+      return data;
     }
 
     @Override

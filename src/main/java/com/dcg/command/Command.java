@@ -21,8 +21,11 @@ public interface Command {
   /** Returns the list of allowed inputs. */
   List<Integer> getAllowedTargets();
 
-  /** Execute the logic for this command. This must be repeatedly callable. */
-  void run();
+  /**
+   * Execute the logic for this command. This must be repeatedly callable. Returns the data used for
+   * this execution.
+   */
+  CommandData run();
 
   /** Returns whether all the preconditions for this command are satisfied. */
   boolean canRun();
