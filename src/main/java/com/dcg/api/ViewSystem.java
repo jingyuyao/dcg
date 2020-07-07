@@ -59,6 +59,8 @@ public class ViewSystem extends BaseSystem {
         coreSystem.toName(coreSystem.getCurrentPlayerEntity()),
         coreSystem.toName(turn.previousPlayerEntity),
         getPlayers(),
+        getCards(),
+        getUnits(),
         getForgeRow(),
         getThroneDeck(),
         getMercenaryDeck(),
@@ -81,6 +83,20 @@ public class ViewSystem extends BaseSystem {
               List<ActionView> actions = getActions(playerEntity);
               return new PlayerView(playerEntity, common, player, turn, actions);
             })
+        .collect(Collectors.toList());
+  }
+
+  private List<CardView> getCards() {
+    return coreSystem
+        .getStream(Aspect.all(Card.class))
+        .map(this::toCardView)
+        .collect(Collectors.toList());
+  }
+
+  private List<UnitView> getUnits() {
+    return coreSystem
+        .getStream(Aspect.all(Unit.class))
+        .map(this::toUnitView)
         .collect(Collectors.toList());
   }
 
