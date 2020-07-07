@@ -136,13 +136,15 @@ public class ViewSystem extends BaseSystem {
 
   private CardView toCardView(int cardEntity) {
     Common common = mCommon.get(cardEntity);
+    int ownerEntity = coreSystem.getRoot(cardEntity);
     Card card = mCard.get(cardEntity);
     CardKind kind = getCardKind(cardEntity);
     CardLocation location = getCardLocation(cardEntity);
     List<String> colors = getCardColors(cardEntity);
     int strength = mHasUnit.has(cardEntity) ? mHasUnit.get(cardEntity).strength : 0;
     List<ActionView> actions = getActions(cardEntity);
-    return new CardView(cardEntity, common, card, kind, location, colors, strength, actions);
+    return new CardView(
+        cardEntity, common, ownerEntity, card, kind, location, colors, strength, actions);
   }
 
   private CardKind getCardKind(int cardEntity) {

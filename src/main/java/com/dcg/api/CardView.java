@@ -5,6 +5,7 @@ import com.dcg.game.Common;
 import java.util.List;
 
 public class CardView extends EntityView {
+  public final int ownerEntity;
   public final int cost;
   public final boolean canWrap;
   public final CardKind kind;
@@ -16,6 +17,7 @@ public class CardView extends EntityView {
   public CardView(
       int id,
       Common common,
+      int ownerEntity,
       Card card,
       CardKind kind,
       CardLocation location,
@@ -23,6 +25,7 @@ public class CardView extends EntityView {
       int strength,
       List<ActionView> actions) {
     super(id, common);
+    this.ownerEntity = ownerEntity;
     this.cost = card.cost;
     this.canWrap = card.canWarp;
     this.kind = kind;
