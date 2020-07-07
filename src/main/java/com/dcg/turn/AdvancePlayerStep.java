@@ -20,6 +20,7 @@ public class AdvancePlayerStep extends AbstractCommandBuilder {
     int currentPlayerIndex = allPlayerEntities.indexOf(originEntity);
     int nextPlayerIndex = (currentPlayerIndex + 1) % allPlayerEntities.size();
     // Ignore players that are already dead.
+    // TODO: tag dead players
     while (mPlayer.get(nextPlayerIndex).hp <= 0) {
       nextPlayerIndex = (nextPlayerIndex + 1) % allPlayerEntities.size();
     }

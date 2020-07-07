@@ -22,6 +22,8 @@ public class DeleteCard extends AbstractCommandBuilder {
       if (mForgeRow.has(cardEntity)) {
         commandChain.addEnd(new DrawForgeCards(1).build(world, -1));
       }
+      // TODO: rather than deleting cards we should just move them to a "banished" pile. That way
+      // card entity references will always be valid for things like action logs.
       world.delete(cardEntity);
     }
     if (chained != null) {
