@@ -1,4 +1,4 @@
-package com.dcg.api.legacy;
+package com.dcg.api;
 
 import java.util.List;
 
