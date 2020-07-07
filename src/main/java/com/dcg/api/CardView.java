@@ -8,6 +8,7 @@ public class CardView extends EntityView {
   public final int cost;
   public final boolean canWrap;
   public final CardKind kind;
+  public final CardLocation location;
   public final List<String> colors;
   public final int strength;
   public final List<ActionView> actions;
@@ -17,6 +18,7 @@ public class CardView extends EntityView {
       Common common,
       Card card,
       CardKind kind,
+      CardLocation location,
       List<String> colors,
       int strength,
       List<ActionView> actions) {
@@ -24,6 +26,7 @@ public class CardView extends EntityView {
     this.cost = card.cost;
     this.canWrap = card.canWarp;
     this.kind = kind;
+    this.location = location;
     this.colors = colors;
     this.strength = strength;
     this.actions = actions;
@@ -34,5 +37,17 @@ public class CardView extends EntityView {
     BASIC,
     SPELL,
     UNIT
+  }
+
+  public enum CardLocation {
+    UNKNOWN,
+    FORGE_DECK,
+    FORGE_ROW,
+    THRONE_DECK,
+    MERCENARY_DECK,
+    PLAYER_DECK,
+    DISCARD_PILE,
+    HAND,
+    PLAY_AREA,
   }
 }

@@ -6,6 +6,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.dcg.action.Action;
 import com.dcg.api.CardView.CardKind;
+import com.dcg.api.CardView.CardLocation;
 import com.dcg.battle.Unit;
 import com.dcg.card.Basic;
 import com.dcg.card.Card;
@@ -16,10 +17,12 @@ import com.dcg.command.CommandChain;
 import com.dcg.game.Common;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.DiscardPile;
+import com.dcg.location.ForgeDeck;
 import com.dcg.location.ForgeRow;
 import com.dcg.location.Hand;
 import com.dcg.location.MercenaryDeck;
 import com.dcg.location.PlayArea;
+import com.dcg.location.PlayerDeck;
 import com.dcg.location.ThroneDeck;
 import com.dcg.player.Player;
 import com.dcg.turn.Turn;
@@ -39,6 +42,14 @@ public class ViewSystem extends BaseSystem {
   protected ComponentMapper<Basic> mBasic;
   protected ComponentMapper<Unit> mUnit;
   protected ComponentMapper<Action> mAction;
+  protected ComponentMapper<ForgeDeck> mForgeDeck;
+  protected ComponentMapper<ForgeRow> mForgeRow;
+  protected ComponentMapper<ThroneDeck> mThroneDeck;
+  protected ComponentMapper<MercenaryDeck> mMercenaryDeck;
+  protected ComponentMapper<PlayerDeck> mPlayerDeck;
+  protected ComponentMapper<DiscardPile> mDiscardPile;
+  protected ComponentMapper<Hand> mHand;
+  protected ComponentMapper<PlayArea> mPlayArea;
 
   public GameView getGameView(String playerName) {
     int playerEntity =
@@ -127,10 +138,11 @@ public class ViewSystem extends BaseSystem {
     Common common = mCommon.get(cardEntity);
     Card card = mCard.get(cardEntity);
     CardKind kind = getCardKind(cardEntity);
+    CardLocation location = getCardLocation(cardEntity);
     List<String> colors = getCardColors(cardEntity);
     int strength = mHasUnit.has(cardEntity) ? mHasUnit.get(cardEntity).strength : 0;
     List<ActionView> actions = getActions(cardEntity);
-    return new CardView(cardEntity, common, card, kind, colors, strength, actions);
+    return new CardView(cardEntity, common, card, kind, location, colors, strength, actions);
   }
 
   private CardKind getCardKind(int cardEntity) {
@@ -142,6 +154,28 @@ public class ViewSystem extends BaseSystem {
       return CardKind.BASIC;
     } else {
       return CardKind.UNKNOWN;
+    }
+  }
+
+  private CardLocation getCardLocation(int cardEntity) {
+    if (mForgeDeck.has(cardEntity)) {
+      return CardLocation.FORGE_DECK;
+    } else if (mForgeRow.has(cardEntity)) {
+      return CardLocation.FORGE_ROW;
+    } else if (mThroneDeck.has(cardEntity)) {
+      return CardLocation.THRONE_DECK;
+    } else if (mMercenaryDeck.has(cardEntity)) {
+      return CardLocation.MERCENARY_DECK;
+    } else if (mPlayerDeck.has(cardEntity)) {
+      return CardLocation.PLAYER_DECK;
+    } else if (mHand.has(cardEntity)) {
+      return CardLocation.HAND;
+    } else if (mDiscardPile.has(cardEntity)) {
+      return CardLocation.DISCARD_PILE;
+    } else if (mPlayArea.has(cardEntity)) {
+      return CardLocation.PLAY_AREA;
+    } else {
+      return CardLocation.UNKNOWN;
     }
   }
 
