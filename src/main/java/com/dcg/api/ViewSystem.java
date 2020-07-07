@@ -5,6 +5,7 @@ import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.dcg.action.Action;
+import com.dcg.api.CardView.CardKind;
 import com.dcg.battle.Unit;
 import com.dcg.card.Basic;
 import com.dcg.card.Card;
@@ -125,22 +126,22 @@ public class ViewSystem extends BaseSystem {
   private CardView toCardView(int cardEntity) {
     Common common = mCommon.get(cardEntity);
     Card card = mCard.get(cardEntity);
-    String kind = getCardKind(cardEntity);
+    CardKind kind = getCardKind(cardEntity);
     List<String> colors = getCardColors(cardEntity);
-    HasUnit hasUnit = mHasUnit.has(cardEntity) ? mHasUnit.get(cardEntity) : null;
+    int strength = mHasUnit.has(cardEntity) ? mHasUnit.get(cardEntity).strength : 0;
     List<ActionView> actions = getActions(cardEntity);
-    return new CardView(cardEntity, common, card, kind, colors, hasUnit, actions);
+    return new CardView(cardEntity, common, card, kind, colors, strength, actions);
   }
 
-  private String getCardKind(int cardEntity) {
+  private CardKind getCardKind(int cardEntity) {
     if (mHasUnit.has(cardEntity)) {
-      return "Unit";
+      return CardKind.UNIT;
     } else if (mSpell.has(cardEntity)) {
-      return "Spell";
+      return CardKind.SPELL;
     } else if (mBasic.has(cardEntity)) {
-      return "Basic";
+      return CardKind.BASIC;
     } else {
-      return "Unknown";
+      return CardKind.UNKNOWN;
     }
   }
 
