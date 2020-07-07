@@ -10,7 +10,7 @@ public class UnitView extends EntityView {
   public final int cardEntity;
   public final int strength;
   public final int defense;
-  public final List<String> attributes = new ArrayList<>();
+  public final List<UnitAttribute> attributes = new ArrayList<>();
   public final List<ActionView> actions;
 
   public UnitView(int id, Common common, int ownerEntity, Unit unit, List<ActionView> actions) {
@@ -21,19 +21,27 @@ public class UnitView extends EntityView {
     this.defense = unit.defense;
     this.actions = actions;
     if (unit.flying) {
-      attributes.add("Flying");
+      attributes.add(UnitAttribute.FLYING);
     }
     if (unit.lifeSteal) {
-      attributes.add("Lifesteal");
+      attributes.add(UnitAttribute.LIFESTEAL);
     }
     if (unit.berserk) {
-      attributes.add("Berserk");
+      attributes.add(UnitAttribute.BERSERK);
     }
     if (unit.endurance) {
-      attributes.add("Endurance");
+      attributes.add(UnitAttribute.ENDURANCE);
     }
     if (unit.unblockable) {
-      attributes.add("Unblockable");
+      attributes.add(UnitAttribute.UNBLOCKABLE);
     }
+  }
+
+  public enum UnitAttribute {
+    FLYING,
+    LIFESTEAL,
+    BERSERK,
+    ENDURANCE,
+    UNBLOCKABLE,
   }
 }
