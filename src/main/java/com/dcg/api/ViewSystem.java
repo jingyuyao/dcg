@@ -136,7 +136,7 @@ public class ViewSystem extends BaseSystem {
 
   private CardView toCardView(int cardEntity) {
     Common common = mCommon.get(cardEntity);
-    int ownerEntity = coreSystem.getRoot(cardEntity);
+    int ownerEntity = coreSystem.getParent(cardEntity);
     Card card = mCard.get(cardEntity);
     CardKind kind = getCardKind(cardEntity);
     CardLocation location = getCardLocation(cardEntity);
@@ -189,7 +189,7 @@ public class ViewSystem extends BaseSystem {
   }
 
   private UnitView toUnitView(int unitEntity) {
-    int ownerEntity = coreSystem.getRoot(unitEntity);
+    int ownerEntity = coreSystem.getParent(unitEntity);
     Common common = mCommon.get(unitEntity);
     Unit unit = mUnit.get(unitEntity);
     List<ActionView> actions = getActions(unitEntity);
