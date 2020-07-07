@@ -3,6 +3,7 @@ package com.dcg.battle;
 import static com.dcg.action.CreateAction.action;
 
 import com.artemis.ComponentMapper;
+import com.dcg.card.Card;
 import com.dcg.command.CommandData;
 import com.dcg.game.CreateEntity;
 import com.dcg.game.Owned;
@@ -11,6 +12,7 @@ import com.dcg.game.Preconditions;
 public class CreateUnit extends CreateEntity {
   public final int strength;
   protected ComponentMapper<Owned> mOwned;
+  protected ComponentMapper<Card> mCard;
   protected ComponentMapper<Unit> mUnit;
   protected ComponentMapper<Defending> mDefending;
 
@@ -39,8 +41,20 @@ public class CreateUnit extends CreateEntity {
     int unitEntity = createEntity();
     mOwned.create(unitEntity).owner = ownerEntity;
     Unit unit = mUnit.create(unitEntity);
-    unit.cardEntity = originEntity;
+    unit.cardEntity = getCardEntity(originEntity);
     unit.strength = strength;
     mDefending.create(unitEntity);
+  }
+
+  private int getCardEntity(int originEntity) {
+    Preconditions.checkGameState(
+        mCard.has(originEntity) || mUnit.has(originEntity),
+        "CreateUnit must be spawned from either a card or an unit");
+
+    if (mCard.has(originEntity)) {
+      return originEntity;
+    } else {
+      return mUnit.get(originEntity).cardEntity;
+    }
   }
 }
