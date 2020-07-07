@@ -189,10 +189,11 @@ public class ViewSystem extends BaseSystem {
   }
 
   private UnitView toUnitView(int unitEntity) {
+    int ownerEntity = coreSystem.getRoot(unitEntity);
     Common common = mCommon.get(unitEntity);
     Unit unit = mUnit.get(unitEntity);
     List<ActionView> actions = getActions(unitEntity);
-    return new UnitView(unitEntity, common, unit, actions);
+    return new UnitView(unitEntity, common, ownerEntity, unit, actions);
   }
 
   private List<ActionView> getActions(int ownerEntity) {

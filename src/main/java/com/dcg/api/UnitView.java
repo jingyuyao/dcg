@@ -6,13 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UnitView extends EntityView {
+  public final int ownerEntity;
+  public final int cardEntity;
   public final int strength;
   public final int defense;
   public final List<String> attributes = new ArrayList<>();
   public final List<ActionView> actions;
 
-  public UnitView(int id, Common common, Unit unit, List<ActionView> actions) {
+  public UnitView(int id, Common common, int ownerEntity, Unit unit, List<ActionView> actions) {
     super(id, common);
+    this.ownerEntity = ownerEntity;
+    this.cardEntity = unit.cardEntity;
     this.strength = unit.strength;
     this.defense = unit.defense;
     this.actions = actions;
