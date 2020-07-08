@@ -7,6 +7,9 @@ import com.artemis.annotations.Wire;
 import com.dcg.action.Action;
 import com.dcg.api.CardView.CardKind;
 import com.dcg.api.CardView.CardLocation;
+import com.dcg.api.UnitView.UnitState;
+import com.dcg.battle.Attacking;
+import com.dcg.battle.Defending;
 import com.dcg.battle.Unit;
 import com.dcg.card.Basic;
 import com.dcg.card.Card;
@@ -41,6 +44,8 @@ public class ViewSystem extends BaseSystem {
   protected ComponentMapper<Spell> mSpell;
   protected ComponentMapper<Basic> mBasic;
   protected ComponentMapper<Unit> mUnit;
+  protected ComponentMapper<Attacking> mAttacking;
+  protected ComponentMapper<Defending> mDefending;
   protected ComponentMapper<Action> mAction;
   protected ComponentMapper<ForgeDeck> mForgeDeck;
   protected ComponentMapper<ForgeRow> mForgeRow;
@@ -208,8 +213,19 @@ public class ViewSystem extends BaseSystem {
     int ownerEntity = coreSystem.getParent(unitEntity);
     Common common = mCommon.get(unitEntity);
     Unit unit = mUnit.get(unitEntity);
+    UnitState state = getUnitState(unitEntity);
     List<ActionView> actions = getActions(unitEntity);
-    return new UnitView(unitEntity, common, ownerEntity, unit, actions);
+    return new UnitView(unitEntity, common, ownerEntity, unit, state, actions);
+  }
+
+  private UnitState getUnitState(int unitEntity) {
+    if (mAttacking.has(unitEntity)) {
+      return UnitState.ATTACKING;
+    } else if (mDefending.has(unitEntity)) {
+      return UnitState.DEFENDING;
+    } else {
+      return UnitState.UNKNOWN;
+    }
   }
 
   private List<ActionView> getActions(int ownerEntity) {
