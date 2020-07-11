@@ -65,16 +65,7 @@ public class ViewSystem extends BaseSystem {
         coreSystem.toName(turn.previousPlayerEntity),
         getPlayers(),
         getCards(playerEntity),
-        getUnits(),
-        getForgeRow(),
-        getThroneDeck(),
-        getMercenaryDeck(),
-        getPlayArea(),
-        getHand(playerEntity),
-        getDiscardPile(playerEntity),
-        getAttackingUnits(),
-        getDefendingUnits(),
-        getRecentExecutions());
+        getUnits());
   }
 
   private List<PlayerView> getPlayers() {
@@ -104,56 +95,6 @@ public class ViewSystem extends BaseSystem {
         .getStream(Aspect.all(Unit.class))
         .map(this::toUnitView)
         .collect(Collectors.toList());
-  }
-
-  private List<CardView> getForgeRow() {
-    return coreSystem
-        .getStream(Aspect.all(Card.class, ForgeRow.class))
-        .map(this::toCardView)
-        .collect(Collectors.toList());
-  }
-
-  private List<CardView> getThroneDeck() {
-    return coreSystem
-        .getStream(Aspect.all(Card.class, ThroneDeck.class))
-        .map(this::toCardView)
-        .collect(Collectors.toList());
-  }
-
-  private List<CardView> getMercenaryDeck() {
-    return coreSystem
-        .getStream(Aspect.all(Card.class, MercenaryDeck.class))
-        .map(this::toCardView)
-        .collect(Collectors.toList());
-  }
-
-  private List<CardView> getPlayArea() {
-    return coreSystem
-        .getStream(Aspect.all(Card.class, PlayArea.class))
-        .map(this::toCardView)
-        .collect(Collectors.toList());
-  }
-
-  private List<CardView> getHand(int playerEntity) {
-    return coreSystem
-        .getChildren(playerEntity, Aspect.all(Card.class, Hand.class))
-        .map(this::toCardView)
-        .collect(Collectors.toList());
-  }
-
-  private List<CardView> getDiscardPile(int playerEntity) {
-    return coreSystem
-        .getChildren(playerEntity, Aspect.all(Card.class, DiscardPile.class))
-        .map(this::toCardView)
-        .collect(Collectors.toList());
-  }
-
-  private List<UnitView> getAttackingUnits() {
-    return coreSystem.getAttackingEntities().map(this::toUnitView).collect(Collectors.toList());
-  }
-
-  private List<UnitView> getDefendingUnits() {
-    return coreSystem.getDefendingEntities().map(this::toUnitView).collect(Collectors.toList());
   }
 
   private CardView toCardView(int cardEntity) {
@@ -238,15 +179,6 @@ public class ViewSystem extends BaseSystem {
               Action action = mAction.get(actionEntity);
               return new ActionView(actionEntity, common, action);
             })
-        .collect(Collectors.toList());
-  }
-
-  private List<ExecutionView> getRecentExecutions() {
-    return commandChain.getExecutionBuffer().stream()
-        .map(
-            execution ->
-                new ExecutionView(
-                    coreSystem.toName(execution.getExecutor()), execution.getCommand()))
         .collect(Collectors.toList());
   }
 

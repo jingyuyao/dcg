@@ -31,11 +31,9 @@ public class BattleStep extends AbstractCommandBuilder {
     int damage = attackingUnit.berserk ? attackingUnit.strength * 2 : attackingUnit.strength;
     Command damageCommand = hp(-damage).build(world, defendingPlayerEntity);
     commandChain.addEnd(damageCommand);
-    commandChain.logExecution(coreSystem.getRoot(attackingUnitEntity), damageCommand);
     if (attackingUnit.lifeSteal) {
       Command healCommand = hp(damage).build(world, attackingUnitEntity);
       commandChain.addEnd(healCommand);
-      commandChain.logExecution(coreSystem.getRoot(attackingUnitEntity), healCommand);
     }
     commandChain.addEnd(new DestroyUnit().build(world, attackingUnitEntity));
   }

@@ -114,6 +114,5 @@ public class GameRoom {
       String playerName = Attachment.get(socket).getPlayerName().orElse("");
       Util.send(socket, Kind.GAME_VIEW, game.getGameView(playerName));
     }
-    game.clearRecentExecutions();
   }
 }
