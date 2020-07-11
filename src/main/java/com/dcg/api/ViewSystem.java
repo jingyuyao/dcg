@@ -64,7 +64,7 @@ public class ViewSystem extends BaseSystem {
         coreSystem.toName(coreSystem.getCurrentPlayerEntity()),
         coreSystem.toName(turn.previousPlayerEntity),
         getPlayers(),
-        getCards(),
+        getCards(playerEntity),
         getUnits(),
         getForgeRow(),
         getThroneDeck(),
@@ -91,10 +91,11 @@ public class ViewSystem extends BaseSystem {
         .collect(Collectors.toList());
   }
 
-  private List<CardView> getCards() {
+  private List<CardView> getCards(int playerEntity) {
     return coreSystem
-        .getStream(Aspect.all(Card.class))
+        .getStream(Aspect.all(Card.class).exclude(ForgeDeck.class))
         .map(this::toCardView)
+        .filter(card -> card.ownerEntity == -1 || card.ownerEntity == playerEntity)
         .collect(Collectors.toList());
   }
 
