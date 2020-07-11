@@ -3,7 +3,6 @@ package com.dcg.api;
 import com.artemis.Aspect;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
-import com.artemis.annotations.Wire;
 import com.dcg.action.Action;
 import com.dcg.api.CardView.CardKind;
 import com.dcg.api.CardView.CardLocation;
@@ -16,7 +15,6 @@ import com.dcg.card.Card;
 import com.dcg.card.Colors;
 import com.dcg.card.HasUnit;
 import com.dcg.card.Spell;
-import com.dcg.command.CommandChain;
 import com.dcg.game.Common;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.DiscardPile;
@@ -34,7 +32,6 @@ import java.util.stream.Collectors;
 
 /** Provide views into the game world. */
 public class ViewSystem extends BaseSystem {
-  @Wire CommandChain commandChain;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Common> mCommon;
   protected ComponentMapper<Player> mPlayer;
@@ -61,8 +58,9 @@ public class ViewSystem extends BaseSystem {
         coreSystem.findByName(playerName, Aspect.all(Player.class)).findFirst().orElse(-1);
     Turn turn = coreSystem.getTurn();
     return new GameView(
-        coreSystem.toName(coreSystem.getCurrentPlayerEntity()),
-        coreSystem.toName(turn.previousPlayerEntity),
+        playerEntity,
+        coreSystem.getCurrentPlayerEntity(),
+        turn.previousPlayerEntity,
         getPlayers(),
         getCards(playerEntity),
         getUnits());
@@ -86,7 +84,7 @@ public class ViewSystem extends BaseSystem {
     return coreSystem
         .getStream(Aspect.all(Card.class).exclude(ForgeDeck.class))
         .map(this::toCardView)
-        .filter(card -> card.ownerEntity == -1 || card.ownerEntity == playerEntity)
+        .filter(card -> this.filterCardView(playerEntity, card))
         .collect(Collectors.toList());
   }
 
@@ -108,6 +106,12 @@ public class ViewSystem extends BaseSystem {
     List<ActionView> actions = getActions(cardEntity);
     return new CardView(
         cardEntity, common, ownerEntity, card, kind, location, colors, strength, actions);
+  }
+
+  private boolean filterCardView(int playerEntity, CardView card) {
+    return card.ownerEntity == -1
+        || card.ownerEntity == playerEntity
+        || card.location == CardLocation.PLAY_AREA;
   }
 
   private CardKind getCardKind(int cardEntity) {
