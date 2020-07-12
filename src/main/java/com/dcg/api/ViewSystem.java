@@ -69,15 +69,21 @@ public class ViewSystem extends BaseSystem {
   private List<PlayerView> getPlayers() {
     return coreSystem
         .getStream(Aspect.all(Player.class))
-        .map(
-            playerEntity -> {
-              Common common = mCommon.get(playerEntity);
-              Player player = mPlayer.get(playerEntity);
-              Turn turn = mTurn.has(playerEntity) ? mTurn.get(playerEntity) : null;
-              List<ActionView> actions = getActions(playerEntity);
-              return new PlayerView(playerEntity, common, player, turn, actions);
-            })
+        .map(this::toPlayerView)
         .collect(Collectors.toList());
+  }
+
+  private PlayerView toPlayerView(int playerEntity) {
+    Common common = mCommon.get(playerEntity);
+    Player player = mPlayer.get(playerEntity);
+    Turn turn = mTurn.has(playerEntity) ? mTurn.get(playerEntity) : null;
+    List<ActionView> actions = getActions(playerEntity);
+    int totalDeckSize = (int) coreSystem.getChildren(playerEntity, Aspect.all(Card.class)).count();
+    int currentDeckSize =
+        (int)
+            coreSystem.getChildren(playerEntity, Aspect.all(Card.class, PlayerDeck.class)).count();
+    return new PlayerView(
+        playerEntity, common, player, turn, totalDeckSize, currentDeckSize, actions);
   }
 
   private List<CardView> getCards(int playerEntity) {
