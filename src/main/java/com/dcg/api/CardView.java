@@ -10,7 +10,7 @@ public class CardView extends EntityView {
   public final boolean canWrap;
   public final CardKind kind;
   public final CardLocation location;
-  public final List<String> colors;
+  public final List<CardColor> colors;
   public final int strength;
   public final List<ActionView> actions;
 
@@ -21,7 +21,7 @@ public class CardView extends EntityView {
       Card card,
       CardKind kind,
       CardLocation location,
-      List<String> colors,
+      List<CardColor> colors,
       int strength,
       List<ActionView> actions) {
     super(id, common);
@@ -36,14 +36,12 @@ public class CardView extends EntityView {
   }
 
   public enum CardKind {
-    UNKNOWN,
     BASIC,
     SPELL,
     UNIT
   }
 
   public enum CardLocation {
-    UNKNOWN,
     FORGE_DECK,
     FORGE_ROW,
     THRONE_DECK,
@@ -52,5 +50,13 @@ public class CardView extends EntityView {
     DISCARD_PILE,
     HAND,
     PLAY_AREA,
+  }
+
+  public enum CardColor {
+    RED,
+    GREEN,
+    BLUE,
+    YELLOW,
+    BLACK,
   }
 }

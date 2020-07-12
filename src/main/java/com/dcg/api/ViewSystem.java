@@ -4,6 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.dcg.action.Action;
+import com.dcg.api.CardView.CardColor;
 import com.dcg.api.CardView.CardKind;
 import com.dcg.api.CardView.CardLocation;
 import com.dcg.api.UnitView.UnitState;
@@ -11,10 +12,15 @@ import com.dcg.battle.Attacking;
 import com.dcg.battle.Defending;
 import com.dcg.battle.Unit;
 import com.dcg.card.Basic;
+import com.dcg.card.Black;
+import com.dcg.card.Blue;
 import com.dcg.card.Card;
 import com.dcg.card.Colors;
+import com.dcg.card.Green;
 import com.dcg.card.HasUnit;
+import com.dcg.card.Red;
 import com.dcg.card.Spell;
+import com.dcg.card.Yellow;
 import com.dcg.game.Common;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.DiscardPile;
@@ -107,7 +113,7 @@ public class ViewSystem extends BaseSystem {
     Card card = mCard.get(cardEntity);
     CardKind kind = getCardKind(cardEntity);
     CardLocation location = getCardLocation(cardEntity);
-    List<String> colors = getCardColors(cardEntity);
+    List<CardColor> colors = getCardColors(cardEntity);
     int strength = mHasUnit.has(cardEntity) ? mHasUnit.get(cardEntity).strength : 0;
     List<ActionView> actions = getActions(cardEntity);
     return new CardView(
@@ -127,9 +133,8 @@ public class ViewSystem extends BaseSystem {
       return CardKind.SPELL;
     } else if (mBasic.has(cardEntity)) {
       return CardKind.BASIC;
-    } else {
-      return CardKind.UNKNOWN;
     }
+    throw new RuntimeException("Not possible");
   }
 
   private CardLocation getCardLocation(int cardEntity) {
@@ -149,15 +154,14 @@ public class ViewSystem extends BaseSystem {
       return CardLocation.DISCARD_PILE;
     } else if (mPlayArea.has(cardEntity)) {
       return CardLocation.PLAY_AREA;
-    } else {
-      return CardLocation.UNKNOWN;
     }
+    throw new RuntimeException("Not possible");
   }
 
-  private List<String> getCardColors(int cardEntity) {
+  private List<CardColor> getCardColors(int cardEntity) {
     return Colors.ALL.stream()
         .filter(clazz -> world.getMapper(clazz).has(cardEntity))
-        .map(Class::getSimpleName)
+        .map(this::toColor)
         .collect(Collectors.toList());
   }
 
@@ -166,8 +170,9 @@ public class ViewSystem extends BaseSystem {
     Common common = mCommon.get(unitEntity);
     Unit unit = mUnit.get(unitEntity);
     UnitState state = getUnitState(unitEntity);
+    List<CardColor> colors = getCardColors(unit.cardEntity);
     List<ActionView> actions = getActions(unitEntity);
-    return new UnitView(unitEntity, common, ownerEntity, unit, state, actions);
+    return new UnitView(unitEntity, common, ownerEntity, unit, state, colors, actions);
   }
 
   private UnitState getUnitState(int unitEntity) {
@@ -175,9 +180,8 @@ public class ViewSystem extends BaseSystem {
       return UnitState.ATTACKING;
     } else if (mDefending.has(unitEntity)) {
       return UnitState.DEFENDING;
-    } else {
-      return UnitState.UNKNOWN;
     }
+    throw new RuntimeException("Not possible");
   }
 
   private List<ActionView> getActions(int ownerEntity) {
@@ -190,6 +194,25 @@ public class ViewSystem extends BaseSystem {
               return new ActionView(actionEntity, common, action);
             })
         .collect(Collectors.toList());
+  }
+
+  private CardColor toColor(Class<?> clazz) {
+    if (clazz.equals(Red.class)) {
+      return CardColor.RED;
+    }
+    if (clazz.equals(Green.class)) {
+      return CardColor.GREEN;
+    }
+    if (clazz.equals(Blue.class)) {
+      return CardColor.BLUE;
+    }
+    if (clazz.equals(Yellow.class)) {
+      return CardColor.YELLOW;
+    }
+    if (clazz.equals(Black.class)) {
+      return CardColor.BLACK;
+    }
+    throw new RuntimeException("Not possible");
   }
 
   @Override

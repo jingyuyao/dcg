@@ -1,5 +1,6 @@
 package com.dcg.api;
 
+import com.dcg.api.CardView.CardColor;
 import com.dcg.battle.Unit;
 import com.dcg.game.Common;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class UnitView extends EntityView {
   public final UnitState state;
   public final int strength;
   public final int defense;
+  public final List<CardColor> colors;
   public final List<UnitAttribute> attributes = new ArrayList<>();
   public final List<ActionView> actions;
 
@@ -20,6 +22,7 @@ public class UnitView extends EntityView {
       int ownerEntity,
       Unit unit,
       UnitState state,
+      List<CardColor> colors,
       List<ActionView> actions) {
     super(id, common);
     this.ownerEntity = ownerEntity;
@@ -27,6 +30,7 @@ public class UnitView extends EntityView {
     this.strength = unit.strength;
     this.defense = unit.defense;
     this.state = state;
+    this.colors = colors;
     this.actions = actions;
     if (unit.flying) {
       attributes.add(UnitAttribute.FLYING);
@@ -46,7 +50,6 @@ public class UnitView extends EntityView {
   }
 
   public enum UnitState {
-    UNKNOWN,
     ATTACKING,
     DEFENDING,
   }
