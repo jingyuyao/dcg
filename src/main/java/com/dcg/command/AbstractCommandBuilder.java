@@ -82,15 +82,9 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
   private class CommandImpl implements Command {
     private final int originEntity;
     private List<Integer> inputs = Collections.emptyList();
-    private String snapshot;
 
     private CommandImpl(int originEntity) {
       this.originEntity = originEntity;
-    }
-
-    @Override
-    public String getSnapshot() {
-      return snapshot != null ? snapshot : toString();
     }
 
     @Override
@@ -122,9 +116,6 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
     @Override
     public CommandData run() {
-      // NOTE: toString() may miss some information if the command delete entities. Thus we save
-      // the snapshot before the command is run and use that for logging, etc.
-      snapshot = toString();
       CommandData data = getData();
       AbstractCommandBuilder.this.run(data);
       return data;
