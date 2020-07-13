@@ -3,7 +3,7 @@ package com.dcg.game;
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
-import com.dcg.action.DeleteActions;
+import com.dcg.action.RemoveActions;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
 import com.dcg.effect.Effect;
@@ -30,7 +30,7 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
 
   public CreateEntity(String name) {
     this.name = name;
-    addOnLeaveEffects(new DeleteActions());
+    addOnLeaveEffects(new RemoveActions());
   }
 
   public CreateEntity desc(String description) {

@@ -7,11 +7,11 @@ import com.dcg.command.CommandData;
 import com.dcg.forge.DrawForgeCards;
 import com.dcg.location.ForgeRow;
 
-public class DeleteCard extends AbstractCommandBuilder {
+public class RemoveCard extends AbstractCommandBuilder {
   private CommandBuilder chained;
   protected ComponentMapper<ForgeRow> mForgeRow;
 
-  public DeleteCard chain(CommandBuilder builder) {
+  public RemoveCard chain(CommandBuilder builder) {
     this.chained = builder;
     return this;
   }
@@ -22,9 +22,7 @@ public class DeleteCard extends AbstractCommandBuilder {
       if (mForgeRow.has(cardEntity)) {
         commandChain.addEnd(new DrawForgeCards(1).build(world, -1));
       }
-      // TODO: rather than deleting cards we should just move them to a "banished" pile. That way
-      // card entity references will always be valid for things like action logs.
-      world.delete(cardEntity);
+      coreSystem.remove(cardEntity);
     }
     if (chained != null) {
       commandChain.addEnd(chained.build(world, data.getOriginEntity()));

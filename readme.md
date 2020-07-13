@@ -7,8 +7,9 @@
  
 # Entities
 - All
-  - Attached actions will be deleted upon leaving the effect area
   - Tree based ownership
+  - Entity are never 'deleted', they are only marked with `Removed`
+    - This is to support logging and referencing 'banished' entities
 - Player
   - Persistent throughout the game
   - Turn component cycles through them
