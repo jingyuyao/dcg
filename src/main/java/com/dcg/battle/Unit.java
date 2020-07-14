@@ -10,6 +10,7 @@ import com.artemis.annotations.EntityId;
  */
 public class Unit extends Component {
   @EntityId public int cardEntity = -1;
+  public boolean isToken = false;
   public int strength = 0;
   public int defense = 0;
   public boolean flying = false;

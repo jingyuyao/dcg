@@ -10,6 +10,7 @@ public class UnitView extends EntityView {
   public final int ownerEntity;
   public final int cardEntity;
   public final UnitState state;
+  public final boolean isToken;
   public final int strength;
   public final int defense;
   public final List<CardColor> colors;
@@ -27,6 +28,7 @@ public class UnitView extends EntityView {
     super(id, common);
     this.ownerEntity = ownerEntity;
     this.cardEntity = unit.cardEntity;
+    this.isToken = unit.isToken;
     this.strength = unit.strength;
     this.defense = unit.defense;
     this.state = state;

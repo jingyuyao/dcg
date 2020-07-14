@@ -3,7 +3,7 @@ package com.dcg.card;
 import static com.dcg.action.CreateAction.action;
 import static com.dcg.battle.AdjustDefense.defense;
 import static com.dcg.battle.AdjustStrength.strength;
-import static com.dcg.battle.CreateUnit.unitToken;
+import static com.dcg.battle.CreateUnit.createUnitToken;
 import static com.dcg.battle.SetBerserk.berserk;
 import static com.dcg.battle.SetEndurance.endurance;
 import static com.dcg.battle.SetFlying.flying;
@@ -122,7 +122,7 @@ public class Cards {
               .desc("Add 2 Power; Throne: may banish this to create a 2 Strength Cavalry")
               .addOnEnterEffects(power(2))
               .addOnConditionEffects(
-                  action("Banish", new RemoveCard().chain(unitToken("Cavalry", 2)))
+                  action("Banish", new RemoveCard().chain(createUnitToken("Cavalry", 2)))
                       .desc("Banish this to create a 2 Strength Cavalry")
                       .addTriggerConditions(new ThroneActive())));
     }
@@ -532,10 +532,10 @@ public class Cards {
   }
 
   public static CreateEntity createYeti() {
-    return unitToken("Yeti", 2);
+    return createUnitToken("Yeti", 2);
   }
 
   public static CreateEntity createGrenadin() {
-    return unitToken("Grenadin", 1);
+    return createUnitToken("Grenadin", 1);
   }
 }
