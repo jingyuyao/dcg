@@ -33,6 +33,7 @@ import com.dcg.location.PlayerDeck;
 import com.dcg.location.ThroneDeck;
 import com.dcg.player.Player;
 import com.dcg.turn.Turn;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -170,7 +171,8 @@ public class ViewSystem extends BaseSystem {
     Common common = mCommon.get(unitEntity);
     Unit unit = mUnit.get(unitEntity);
     UnitState state = getUnitState(unitEntity);
-    List<CardColor> colors = getCardColors(unit.cardEntity);
+    List<CardColor> colors =
+        unit.isToken ? Collections.emptyList() : getCardColors(unit.cardEntity);
     List<ActionView> actions = getActions(unitEntity);
     return new UnitView(unitEntity, common, ownerEntity, unit, state, colors, actions);
   }
