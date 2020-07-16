@@ -2,16 +2,20 @@ package com.dcg.effect;
 
 import static com.dcg.action.CreateAction.action;
 
+import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
+import com.artemis.EntitySubscription.SubscriptionListener;
 import com.artemis.annotations.All;
 import com.artemis.annotations.One;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
+import com.artemis.utils.IntBag;
 import com.dcg.battle.Defending;
 import com.dcg.command.Command;
 import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
 import com.dcg.game.CoreSystem;
+import com.dcg.game.Removed;
 import com.dcg.location.PlayArea;
 import com.dcg.turn.Turn;
 import java.util.List;
@@ -26,6 +30,29 @@ public class EffectSystem extends IteratingSystem {
   @Wire protected CommandChain commandChain;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Effect> mEffect;
+
+  @Override
+  protected void initialize() {
+    super.initialize();
+    world
+        .getAspectSubscriptionManager()
+        .get(
+            Aspect.all(Effect.class, Removed.class)
+                .one(Turn.class, PlayArea.class, Defending.class))
+        .addSubscriptionListener(
+            new SubscriptionListener() {
+              @Override
+              public void inserted(IntBag entities) {
+                for (int i = 0; i < entities.size(); i++) {
+                  int entityId = entities.get(i);
+                  triggerEffects(entityId, mEffect.get(entityId).onLeave);
+                }
+              }
+
+              @Override
+              public void removed(IntBag entities) {}
+            });
+  }
 
   @Override
   protected void inserted(int entityId) {
