@@ -15,6 +15,7 @@ import org.java_websocket.WebSocket;
  * connections to that game instance.
  */
 public class GameRoom {
+  private static final int MAX_PLAYER_COUNT = 4;
   private final String name;
   private final List<WebSocket> joined = new ArrayList<>();
   private Game game;
@@ -30,6 +31,8 @@ public class GameRoom {
   public void join(WebSocket socket, String playerName) {
     if (getJoinedPlayerNames().contains(playerName)) {
       System.out.println("Session: Player with the given name already joined");
+    } else if (joined.size() >= MAX_PLAYER_COUNT) {
+      System.out.println("Session: Max player count reached");
     } else {
       if (isGameInProgress()) {
         if (game.getPlayerNames().contains(playerName)) {
