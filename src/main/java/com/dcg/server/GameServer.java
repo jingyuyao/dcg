@@ -127,6 +127,17 @@ public class GameServer extends WebSocketServer {
           System.out.println("Not joined");
         }
         break;
+      case GET_GAME_LOGS:
+        if (attachmentGameRoom.isPresent()) {
+          if (intArgs.size() == 1) {
+            attachmentGameRoom.get().getLogs(socket, intArgs.get(0));
+          } else {
+            System.out.println("Invalid number of arguments");
+          }
+        } else {
+          System.out.println("Not joined");
+        }
+        break;
     }
     sendAttachmentView(socket);
   }

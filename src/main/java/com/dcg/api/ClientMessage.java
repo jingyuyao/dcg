@@ -26,5 +26,6 @@ public class ClientMessage {
     LEAVE_ROOM,
     START_GAME,
     EXECUTE_ACTION,
+    GET_GAME_LOGS,
   }
 }

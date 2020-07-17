@@ -1,6 +1,7 @@
 package com.dcg.command;
 
 import java.util.List;
+import java.util.Optional;
 
 /** Contains the data used for a single execution of a command. */
 public class CommandData {
@@ -8,11 +9,11 @@ public class CommandData {
   private final String name;
   private final int originEntity;
   private final List<Integer> targets;
-  private final int intValue;
-  private final boolean boolValue;
+  private final Integer intValue;
+  private final Boolean boolValue;
 
   public CommandData(
-      String name, int originEntity, List<Integer> targets, int intValue, boolean boolValue) {
+      String name, int originEntity, List<Integer> targets, Integer intValue, Boolean boolValue) {
     this.name = name;
     this.originEntity = originEntity;
     this.targets = targets;
@@ -32,11 +33,19 @@ public class CommandData {
     return targets;
   }
 
+  public Optional<Integer> getIntOptional() {
+    return Optional.ofNullable(intValue);
+  }
+
   public int getInt() {
-    return intValue;
+    return intValue == null ? 0 : intValue;
   }
 
   public boolean getBool() {
-    return boolValue;
+    return boolValue == null ? false : boolValue;
+  }
+
+  public Optional<Boolean> getBoolOptional() {
+    return Optional.ofNullable(boolValue);
   }
 }

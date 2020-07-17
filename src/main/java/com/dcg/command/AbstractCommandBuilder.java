@@ -156,18 +156,18 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     private CommandData getData() {
-      int intArg = 0;
+      Integer intArg = null;
       if (intArgSupplier != null) {
         world.inject(intArgSupplier);
         intArg = intArgSupplier.get();
       }
-      boolean boolArg = false;
+      Boolean boolArg = null;
       if (boolArgSupplier != null) {
         world.inject(boolArgSupplier);
         boolArg = boolArgSupplier.get();
       }
       return new CommandData(
-          AbstractCommandBuilder.class.getSimpleName(),
+          AbstractCommandBuilder.this.toString(),
           originEntity,
           getTargets(),
           intArg,

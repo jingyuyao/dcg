@@ -8,6 +8,7 @@ import com.artemis.link.EntityLinkManager;
 import com.dcg.action.ActionSystem;
 import com.dcg.action.ExecuteAction;
 import com.dcg.api.GameView;
+import com.dcg.api.LogsView;
 import com.dcg.api.ViewSystem;
 import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
@@ -62,6 +63,10 @@ public class Game {
 
   public GameView getGameView(String playerName) {
     return world.getSystem(ViewSystem.class).getGameView(playerName);
+  }
+
+  public LogsView getLogsView(int startIndex) {
+    return world.getSystem(ViewSystem.class).getLogsView(startIndex);
   }
 
   public boolean isOver() {

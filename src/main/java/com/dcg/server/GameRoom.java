@@ -96,6 +96,15 @@ public class GameRoom {
     broadcastGameView();
   }
 
+  public void getLogs(WebSocket socket, int startIndex) {
+    if (game == null) {
+      System.out.println("Session: Game is not started yet.");
+      return;
+    }
+
+    Util.send(socket, Kind.GAME_LOGS, game.getLogsView(startIndex));
+  }
+
   public List<String> getJoinedPlayerNames() {
     return joined.stream()
         .map(c -> Attachment.get(c).getPlayerName().orElse(""))

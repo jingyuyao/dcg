@@ -14,5 +14,6 @@ public class ServerMessage {
     ROOM_LIST,
     GAME_ROOM_VIEW,
     GAME_VIEW,
+    GAME_LOGS,
   }
 }

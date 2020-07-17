@@ -3,6 +3,7 @@ package com.dcg.api;
 import com.artemis.Aspect;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
+import com.artemis.annotations.Wire;
 import com.dcg.action.Action;
 import com.dcg.api.CardView.CardColor;
 import com.dcg.api.CardView.CardKind;
@@ -21,6 +22,8 @@ import com.dcg.card.HasUnit;
 import com.dcg.card.Red;
 import com.dcg.card.Spell;
 import com.dcg.card.Yellow;
+import com.dcg.command.CommandChain;
+import com.dcg.command.CommandData;
 import com.dcg.game.Common;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.DiscardPile;
@@ -39,6 +42,7 @@ import java.util.stream.Collectors;
 
 /** Provide views into the game world. */
 public class ViewSystem extends BaseSystem {
+  @Wire CommandChain commandChain;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Common> mCommon;
   protected ComponentMapper<Player> mPlayer;
@@ -71,6 +75,12 @@ public class ViewSystem extends BaseSystem {
         getPlayers(),
         getCards(playerEntity),
         getUnits());
+  }
+
+  public LogsView getLogsView(int startIndex) {
+    List<LogView> logs =
+        commandChain.getLog(startIndex).stream().map(this::toLogView).collect(Collectors.toList());
+    return new LogsView(startIndex, startIndex + logs.size(), logs);
   }
 
   private List<PlayerView> getPlayers() {
@@ -215,6 +225,17 @@ public class ViewSystem extends BaseSystem {
       return CardColor.BLACK;
     }
     throw new RuntimeException("Not possible");
+  }
+
+  private LogView toLogView(CommandData data) {
+    String name = data.getName();
+    String originName = coreSystem.toName(data.getOriginEntity());
+    String ownerName = coreSystem.toName(coreSystem.getRoot(data.getOriginEntity()));
+    List<String> targets =
+        data.getTargets().stream().map(coreSystem::toName).collect(Collectors.toList());
+    Integer intValue = data.getIntOptional().orElse(null);
+    Boolean boolValue = data.getBoolOptional().orElse(null);
+    return new LogView(name, originName, ownerName, targets, intValue, boolValue);
   }
 
   @Override
