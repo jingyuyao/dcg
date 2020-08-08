@@ -8,7 +8,8 @@
 # Entities
 - All
   - Tree based ownership
-  - Entity are never 'deleted', they are only marked with `Removed`
+  - Entities are never 'deleted', they simply have their `Active` tag removed to indicate that they
+    are no longer part of the game
     - This is to support logging and referencing 'banished' entities
 - Player
   - Persistent throughout the game
