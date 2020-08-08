@@ -4,6 +4,8 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandData;
 import com.dcg.game.CoreSystem;
+import com.dcg.location.DiscardPile;
+import com.dcg.location.MoveLocation;
 import com.dcg.targetfilter.TargetFilter;
 import com.dcg.targetsource.AttackingUnits;
 import com.dcg.triggercondition.MinAllowedTargets;
@@ -24,6 +26,10 @@ public class Block extends AbstractCommandBuilder {
     Unit blockingUnit = mUnit.get(originEntity);
     if (!blockingUnit.endurance) {
       commandChain.addEnd(new DestroyUnit().build(world, originEntity));
+      if (!blockingUnit.isToken) {
+        commandChain.addEnd(
+            new MoveLocation(DiscardPile.class).build(world, blockingUnit.cardEntity));
+      }
     }
   }
 
