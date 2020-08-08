@@ -1,6 +1,7 @@
 package com.dcg.forge;
 
 import com.artemis.ComponentMapper;
+import com.dcg.action.RemoveActions;
 import com.dcg.card.Card;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
@@ -35,6 +36,7 @@ public class Warp extends AbstractCommandBuilder {
     coreSystem.getCurrentPlayer().wrapTokens -= 1;
     mOwned.create(originEntity).owner = coreSystem.getCurrentPlayerEntity();
     commandChain.addEnd(
+        new RemoveActions().build(world, originEntity),
         AdjustPower.power(-mCard.get(originEntity).cost).build(world, originEntity),
         new MoveLocation(PlayArea.class).build(world, originEntity));
     if (chained != null) {
