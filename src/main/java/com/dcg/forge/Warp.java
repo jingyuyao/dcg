@@ -43,4 +43,15 @@ public class Warp extends AbstractCommandBuilder {
       commandChain.addEnd(chained.build(world, originEntity));
     }
   }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    int originEntity = data.getOriginEntity();
+    return String.format("warping for %d Power", mCard.get(originEntity).cost);
+  }
+
+  @Override
+  protected boolean isClientVisible(CommandData data) {
+    return true;
+  }
 }

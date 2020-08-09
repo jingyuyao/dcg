@@ -49,4 +49,11 @@ public class ExecuteAction extends AbstractCommandBuilder {
       System.out.printf("%s cannot run\n", command);
     }
   }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    Action action = mAction.get(actionEntity);
+    Command command = action.command;
+    return String.format("%s", command.getClass().getSimpleName());
+  }
 }

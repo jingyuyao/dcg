@@ -11,7 +11,9 @@ import com.dcg.battle.Defending;
 import com.dcg.battle.Unit;
 import com.dcg.player.Player;
 import com.dcg.turn.Turn;
+import java.util.List;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -51,6 +53,11 @@ public class CoreSystem extends IteratingSystem {
 
   public String toName(int entity) {
     return entity != -1 ? mCommon.getSafe(entity, DEFAULT_COMMON).name : "";
+  }
+
+  // TODO: add a relative version of this where 'self' is used
+  public String toNames(List<Integer> entities) {
+    return entities.stream().map(this::toName).collect(Collectors.joining(", "));
   }
 
   public Integer getCurrentPlayerEntity() {

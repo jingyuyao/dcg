@@ -6,6 +6,7 @@ import com.artemis.World;
 import com.dcg.action.RemoveActions;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
+import com.dcg.command.CommandData;
 import com.dcg.effect.Effect;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,11 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
   public CreateEntity(String name) {
     this.name = name;
     addOnLeaveEffects(new RemoveActions());
+  }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    return String.format("creating %s", name);
   }
 
   public CreateEntity desc(String description) {
@@ -76,10 +82,5 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
     effect.onLeave = onLeaveEffects;
     effect.onCondition = onConditionEffects;
     return entity;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("%s %s", super.toString(), name);
   }
 }

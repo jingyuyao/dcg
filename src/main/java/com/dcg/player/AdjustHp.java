@@ -26,4 +26,16 @@ public class AdjustHp extends PlayerEffect {
       player.hp += data.getInt();
     }
   }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    int value = data.getInt();
+    String format = value > 0 ? "heals %d health to %s" : "deals %d damage to %s";
+    return String.format(format, value, coreSystem.toNames(data.getTargets()));
+  }
+
+  @Override
+  protected boolean isClientVisible(CommandData data) {
+    return true;
+  }
 }

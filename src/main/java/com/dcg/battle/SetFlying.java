@@ -16,6 +16,11 @@ public class SetFlying extends UnitEffectBuilder {
   }
 
   @Override
+  protected String getKeyword() {
+    return "Flying";
+  }
+
+  @Override
   protected void run(CommandData data) {
     getUnits(data.getTargets()).forEach(unit -> unit.flying = data.getBool());
   }

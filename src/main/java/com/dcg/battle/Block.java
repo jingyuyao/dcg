@@ -33,6 +33,16 @@ public class Block extends AbstractCommandBuilder {
     }
   }
 
+  @Override
+  protected String getDescription(CommandData data) {
+    return String.format("blocks %s", coreSystem.toNames(data.getTargets()));
+  }
+
+  @Override
+  protected boolean isClientVisible(CommandData data) {
+    return true;
+  }
+
   private static class BlockPredicate implements TargetFilter {
     protected CoreSystem coreSystem;
     protected ComponentMapper<Unit> mUnit;

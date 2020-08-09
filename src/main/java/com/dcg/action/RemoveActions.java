@@ -11,4 +11,9 @@ public class RemoveActions extends AbstractCommandBuilder {
         .getChildren(data.getOriginEntity(), Aspect.all(Action.class))
         .forEach(coreSystem::remove);
   }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    return String.format("for %s", coreSystem.toName(data.getOriginEntity()));
+  }
 }

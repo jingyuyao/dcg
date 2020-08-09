@@ -30,7 +30,6 @@
 # Commands
 - Has optional owner entity and input
 - Invoked through a queue
-- Don't use injected fields for toString()
 
 ### Components without data or component whose data didn't change
 These components are not stores as a part of the "components" object. They will only be listed in

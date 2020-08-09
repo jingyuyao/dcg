@@ -28,4 +28,14 @@ public class RemoveCard extends AbstractCommandBuilder {
       commandChain.addEnd(chained.build(world, data.getOriginEntity()));
     }
   }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    return String.format("banishing %s", coreSystem.toNames(data.getTargets()));
+  }
+
+  @Override
+  protected boolean isClientVisible(CommandData data) {
+    return true;
+  }
 }

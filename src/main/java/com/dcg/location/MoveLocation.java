@@ -32,7 +32,8 @@ public class MoveLocation extends AbstractCommandBuilder {
   }
 
   @Override
-  public String toString() {
-    return String.format("%s to %s", super.toString(), location.getSimpleName());
+  protected String getDescription(CommandData data) {
+    return String.format(
+        "%s to %s", coreSystem.toName(data.getOriginEntity()), location.getSimpleName());
   }
 }

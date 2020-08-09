@@ -24,6 +24,7 @@ import com.dcg.card.Spell;
 import com.dcg.card.Yellow;
 import com.dcg.command.CommandChain;
 import com.dcg.command.CommandData;
+import com.dcg.command.CommandLog;
 import com.dcg.game.Common;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.DiscardPile;
@@ -79,8 +80,12 @@ public class ViewSystem extends BaseSystem {
 
   public LogsView getLogsView(int startIndex) {
     List<LogView> logs =
-        commandChain.getLog(startIndex).stream().map(this::toLogView).collect(Collectors.toList());
-    return new LogsView(startIndex, startIndex + logs.size(), logs);
+        commandChain.getHistory().stream()
+            .filter(CommandLog::isClientVisible)
+            .skip(startIndex)
+            .map(this::toLogView)
+            .collect(Collectors.toList());
+    return new LogsView(logs);
   }
 
   private List<PlayerView> getPlayers() {
@@ -227,15 +232,13 @@ public class ViewSystem extends BaseSystem {
     throw new RuntimeException("Not possible");
   }
 
-  private LogView toLogView(CommandData data) {
-    String name = data.getName();
-    String originName = coreSystem.toName(data.getOriginEntity());
-    String ownerName = coreSystem.toName(coreSystem.getRoot(data.getOriginEntity()));
-    List<String> targets =
-        data.getTargets().stream().map(coreSystem::toName).collect(Collectors.toList());
-    Integer intValue = data.getIntOptional().orElse(null);
-    Boolean boolValue = data.getBoolOptional().orElse(null);
-    return new LogView(name, originName, ownerName, targets, intValue, boolValue);
+  private LogView toLogView(CommandLog log) {
+    CommandData data = log.getData();
+    int originEntity = data.getOriginEntity();
+    String originName = coreSystem.toName(originEntity);
+    String ownerName = coreSystem.toName(coreSystem.getRoot(originEntity));
+    String description = log.getDescription();
+    return new LogView(ownerName, originName, description);
   }
 
   @Override

@@ -12,6 +12,11 @@ public class SetEndurance extends UnitEffectBuilder {
   }
 
   @Override
+  protected String getKeyword() {
+    return "Endurance";
+  }
+
+  @Override
   protected void run(CommandData data) {
     getUnits(data.getTargets()).forEach(unit -> unit.endurance = data.getBool());
   }

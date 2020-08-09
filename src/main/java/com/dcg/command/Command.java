@@ -35,4 +35,7 @@ public interface Command {
 
   /** Returns whether the command can be run in the current world state. No side effects allowed. */
   boolean canTrigger();
+
+  /** Creates a log for this command with the given data. */
+  CommandLog createLog(CommandData data);
 }

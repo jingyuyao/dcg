@@ -12,6 +12,11 @@ public class SetBerserk extends UnitEffectBuilder {
   }
 
   @Override
+  protected String getKeyword() {
+    return "Berserk";
+  }
+
+  @Override
   protected void run(CommandData data) {
     getUnits(data.getTargets()).forEach(unit -> unit.berserk = data.getBool());
   }

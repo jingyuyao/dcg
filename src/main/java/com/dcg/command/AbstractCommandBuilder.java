@@ -74,9 +74,12 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
 
   protected abstract void run(CommandData data);
 
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
+  protected String getDescription(CommandData data) {
+    return "";
+  }
+
+  protected boolean isClientVisible(CommandData data) {
+    return false;
   }
 
   private class CommandImpl implements Command {
@@ -155,6 +158,15 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
       return true;
     }
 
+    @Override
+    public CommandLog createLog(CommandData data) {
+      return new CommandLog(
+          data,
+          AbstractCommandBuilder.this.getClass().getSimpleName(),
+          getDescription(data),
+          isClientVisible(data));
+    }
+
     private CommandData getData() {
       Integer intArg = null;
       if (intArgSupplier != null) {
@@ -166,37 +178,11 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
         world.inject(boolArgSupplier);
         boolArg = boolArgSupplier.get();
       }
-      return new CommandData(
-          AbstractCommandBuilder.this.toString(),
-          originEntity,
-          getTargets(),
-          intArg,
-          boolArg);
+      return new CommandData(originEntity, getTargets(), intArg, boolArg);
     }
 
     private List<Integer> getTargets() {
       return minInputCount > 0 ? inputs : getAllowedTargets();
-    }
-
-    @Override
-    public String toString() {
-      StringBuilder builder = new StringBuilder(coreSystem.toName(originEntity));
-      builder.append(": ").append(AbstractCommandBuilder.this.toString());
-      CommandData args = getData();
-      if (intArgSupplier != null) {
-        builder.append(" = ").append(args.getInt());
-      }
-      if (boolArgSupplier != null) {
-        builder.append(" = ").append(args.getBool());
-      }
-      List<Integer> targets = getTargets();
-      if (!targets.isEmpty() && (targets.size() > 1 || targets.get(0) != originEntity)) {
-        builder.append(" >>");
-        for (int entity : targets) {
-          builder.append(" ").append(coreSystem.toName(entity));
-        }
-      }
-      return builder.toString();
     }
   }
 }

@@ -12,6 +12,11 @@ public class SetLifeSteal extends UnitEffectBuilder {
   }
 
   @Override
+  protected String getKeyword() {
+    return "Lifesteal";
+  }
+
+  @Override
   protected void run(CommandData data) {
     getUnits(data.getTargets()).forEach(unit -> unit.lifeSteal = data.getBool());
   }

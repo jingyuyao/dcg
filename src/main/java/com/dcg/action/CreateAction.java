@@ -18,7 +18,8 @@ public class CreateAction extends CreateEntity {
   }
 
   public static CreateAction action(CommandBuilder builder) {
-    return new CreateAction(builder.toString(), builder);
+    // TODO: don't use getSimpleName()
+    return new CreateAction(builder.getClass().getSimpleName(), builder);
   }
 
   public static CreateAction action(String name, CommandBuilder builder) {
@@ -28,9 +29,15 @@ public class CreateAction extends CreateEntity {
   @Override
   protected void run(CommandData data) {
     int originEntity = data.getOriginEntity();
-    Preconditions.checkGameState(originEntity != -1, "Must have owner for origin %d", originEntity);
+    Preconditions.checkGameState(originEntity != -1, "Must have origin");
     int actionEntity = createEntity();
     mOwned.create(actionEntity).owner = originEntity;
     mAction.create(actionEntity).command = builder.build(world, originEntity);
+  }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    return String.format(
+        "%s for %s", super.getDescription(data), coreSystem.toName(data.getOriginEntity()));
   }
 }

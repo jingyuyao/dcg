@@ -14,4 +14,9 @@ public class PlayCard extends AbstractCommandBuilder {
   protected void run(CommandData data) {
     commandChain.addEnd(new MoveLocation(PlayArea.class).build(world, data.getOriginEntity()));
   }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    return String.format("%s", coreSystem.toName(data.getOriginEntity()));
+  }
 }

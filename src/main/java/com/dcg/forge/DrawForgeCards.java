@@ -41,4 +41,9 @@ public class DrawForgeCards extends AbstractCommandBuilder {
           "%s cards not drawn from forge\n", data.getInt() - drawnCardEntities.size());
     }
   }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    return String.format("%d", data.getInt());
+  }
 }

@@ -14,14 +14,30 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DrawCards extends PlayerEffect {
+  private final boolean isInitial;
   protected ComponentMapper<Player> mPlayer;
 
-  private DrawCards(int num) {
+  private DrawCards(int num, boolean isInitial) {
+    this.isInitial = isInitial;
     setIntArgSupplier(() -> num);
   }
 
   public static DrawCards draw(int num) {
-    return new DrawCards(num);
+    return new DrawCards(num, true);
+  }
+
+  private static DrawCards drawDeferred(int num) {
+    return new DrawCards(num, false);
+  }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    return String.format("draws %d cards", data.getInt());
+  }
+
+  @Override
+  protected boolean isClientVisible(CommandData data) {
+    return isInitial;
   }
 
   @Override
@@ -54,7 +70,7 @@ public class DrawCards extends PlayerEffect {
           for (int cardEntity : discardPile) {
             commandChain.addEnd(new MoveLocation(PlayerDeck.class).build(world, cardEntity));
           }
-          commandChain.addEnd(draw(leftOverDrawCount).build(world, playerEntity));
+          commandChain.addEnd(drawDeferred(leftOverDrawCount).build(world, playerEntity));
         } else {
           System.out.printf("No more cards to draw: %d not drawn\n", leftOverDrawCount);
         }
@@ -67,7 +83,7 @@ public class DrawCards extends PlayerEffect {
     } else {
       // Delay the card draw to the end of the chain if we are currently in the processing of
       // drawing or shuffling.
-      commandChain.addEnd(draw(totalToDraw).build(world, playerEntity));
+      commandChain.addEnd(drawDeferred(totalToDraw).build(world, playerEntity));
     }
   }
 

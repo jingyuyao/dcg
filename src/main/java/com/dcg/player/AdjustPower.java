@@ -18,4 +18,15 @@ public class AdjustPower extends AbstractCommandBuilder {
     Turn turn = coreSystem.getTurn();
     turn.powerPool += data.getInt();
   }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    return String.format("adds %d Power", data.getInt());
+  }
+
+  @Override
+  protected boolean isClientVisible(CommandData data) {
+    // Only show adding power since buy/warp already shows subtracting power
+    return data.getInt() > 0;
+  }
 }

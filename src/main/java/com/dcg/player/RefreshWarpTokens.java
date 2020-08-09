@@ -13,4 +13,14 @@ public class RefreshWarpTokens extends PlayerEffect {
       player.wrapTokens = 2;
     }
   }
+
+  @Override
+  protected String getDescription(CommandData data) {
+    return "refreshed warp tokens";
+  }
+
+  @Override
+  protected boolean isClientVisible(CommandData data) {
+    return true;
+  }
 }

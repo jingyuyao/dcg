@@ -31,7 +31,12 @@ public class Mercenary extends AbstractCommandBuilder {
   }
 
   @Override
-  public String toString() {
-    return String.format("%s to %s", super.toString(), color.getSimpleName());
+  protected String getDescription(CommandData data) {
+    return String.format("becomes %s", color.getSimpleName());
+  }
+
+  @Override
+  protected boolean isClientVisible(CommandData data) {
+    return true;
   }
 }

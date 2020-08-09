@@ -30,9 +30,4 @@ public class InitTurn extends AbstractCommandBuilder {
     }
     commandChain.addEnd(new InitializeBuyCard().build(world, -1));
   }
-
-  @Override
-  public String toString() {
-    return String.format("%s %s", super.toString(), playerName);
-  }
 }

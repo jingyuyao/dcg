@@ -12,6 +12,11 @@ public class SetUnblockable extends UnitEffectBuilder {
   }
 
   @Override
+  protected String getKeyword() {
+    return "Unblockable";
+  }
+
+  @Override
   protected void run(CommandData data) {
     getUnits(data.getTargets()).forEach(unit -> unit.unblockable = data.getBool());
   }

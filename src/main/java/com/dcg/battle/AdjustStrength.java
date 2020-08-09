@@ -17,6 +17,11 @@ public class AdjustStrength extends UnitEffectBuilder {
   }
 
   @Override
+  protected String getKeyword() {
+    return "Strength";
+  }
+
+  @Override
   protected void run(CommandData data) {
     for (int targetEntity : data.getTargets()) {
       Unit unit = mUnit.get(targetEntity);

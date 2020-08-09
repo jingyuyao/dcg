@@ -12,6 +12,11 @@ public class AdjustDefense extends UnitEffectBuilder {
   }
 
   @Override
+  protected String getKeyword() {
+    return "Defense";
+  }
+
+  @Override
   protected void run(CommandData data) {
     getUnits(data.getTargets()).forEach(unit -> unit.defense += data.getInt());
   }

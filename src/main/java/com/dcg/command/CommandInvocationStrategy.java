@@ -22,13 +22,15 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
       updateEntityStates();
       if (command.canRun()) {
         try {
-          commandChain.log(command.run());
-          System.out.printf("Exec: %s\n", command.toString());
+          CommandData data = command.run();
+          CommandLog log = command.createLog(data);
+          commandChain.log(log);
+          System.out.printf("Exec: %s %s\n", log.getCommandName(), log.getDescription());
         } catch (GameStateException e) {
           System.out.printf("Exception: %s\n", e.getMessage());
         }
       } else {
-        System.out.printf("Pass: %s\n", command.toString());
+        System.out.printf("Pass: %s\n", command.getClass().getSimpleName());
       }
       processSystems();
     }
