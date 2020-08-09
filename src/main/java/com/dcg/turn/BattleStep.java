@@ -10,6 +10,7 @@ import com.dcg.battle.Unit;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
 import com.dcg.command.CommandData;
+import com.dcg.targetsource.TargetSource;
 
 public class BattleStep extends AbstractCommandBuilder {
   protected ComponentMapper<Unit> mUnit;
@@ -29,10 +30,17 @@ public class BattleStep extends AbstractCommandBuilder {
   private void attack(int attackingUnitEntity, int defendingPlayerEntity) {
     Unit attackingUnit = mUnit.get(attackingUnitEntity);
     int damage = attackingUnit.berserk ? attackingUnit.strength * 2 : attackingUnit.strength;
-    Command damageCommand = hp(-damage).build(world, defendingPlayerEntity);
+    Command damageCommand =
+        hp(-damage)
+            .setTargetSource(TargetSource.of(defendingPlayerEntity))
+            .build(world, attackingUnitEntity);
     commandChain.addEnd(damageCommand);
     if (attackingUnit.lifeSteal) {
-      Command healCommand = hp(damage).build(world, attackingUnitEntity);
+      int attackingPlayerEntity = coreSystem.getRoot(attackingUnitEntity);
+      Command healCommand =
+          hp(damage)
+              .setTargetSource(TargetSource.of(attackingPlayerEntity))
+              .build(world, attackingUnitEntity);
       commandChain.addEnd(healCommand);
     }
     commandChain.addEnd(new DestroyUnit().build(world, attackingUnitEntity));

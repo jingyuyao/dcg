@@ -13,6 +13,15 @@ public abstract class TargetSource {
   protected World world;
   private final List<TargetFilter> filters = new ArrayList<>();
 
+  public static TargetSource of(int targetEntity) {
+    return new TargetSource() {
+      @Override
+      protected Stream<Integer> getSource(int originEntity) {
+        return Stream.of(targetEntity);
+      }
+    };
+  }
+
   public TargetSource addFilters(TargetFilter... filters) {
     Collections.addAll(this.filters, filters);
     return this;
