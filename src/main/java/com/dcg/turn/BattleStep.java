@@ -1,11 +1,11 @@
 package com.dcg.turn;
 
+import static com.dcg.battle.DestroyUnit.autoDestroyUnit;
 import static com.dcg.player.AdjustHp.hp;
 
 import com.artemis.ComponentMapper;
 import com.dcg.battle.Attacking;
 import com.dcg.battle.Defending;
-import com.dcg.battle.DestroyUnit;
 import com.dcg.battle.Unit;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
@@ -43,7 +43,7 @@ public class BattleStep extends AbstractCommandBuilder {
               .build(world, attackingUnitEntity);
       commandChain.addEnd(healCommand);
     }
-    commandChain.addEnd(new DestroyUnit().build(world, attackingUnitEntity));
+    commandChain.addEnd(autoDestroyUnit().build(world, attackingUnitEntity));
   }
 
   private void becomeAttack(int defendingUnitEntity) {

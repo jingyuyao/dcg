@@ -4,6 +4,7 @@ import static com.dcg.action.CreateAction.action;
 import static com.dcg.battle.AdjustDefense.defense;
 import static com.dcg.battle.AdjustStrength.strength;
 import static com.dcg.battle.CreateUnit.createUnitToken;
+import static com.dcg.battle.DestroyUnit.destroyUnit;
 import static com.dcg.battle.SetBerserk.berserk;
 import static com.dcg.battle.SetEndurance.endurance;
 import static com.dcg.battle.SetFlying.flying;
@@ -17,7 +18,6 @@ import static com.dcg.player.AdjustHp.hp;
 import static com.dcg.player.AdjustPower.power;
 import static com.dcg.player.DrawCards.draw;
 
-import com.dcg.battle.DestroyUnit;
 import com.dcg.battle.SetFlying;
 import com.dcg.commandargs.TotalAttackingUnits;
 import com.dcg.game.CreateEntity;
@@ -458,7 +458,7 @@ public class Cards {
                 voidbindAction(),
                 action(
                         "Destroy Units",
-                        new DestroyUnit()
+                        destroyUnit()
                             .setTargetSource(new AttackingUnits().addFilters(new MaxStrength(2))))
                     .desc("Destroy all attacking Units with 2 or less Strength")),
         spell("Bolster", 3)
@@ -504,7 +504,7 @@ public class Cards {
 
   public static CreateEntity destroyUnitAction() {
     return action(
-            "Destroy Unit", new DestroyUnit().setInputCount(1).setTargetSource(new AllUnits()))
+            "Destroy Unit", destroyUnit().setInputCount(1).setTargetSource(new AllUnits()))
         .desc("Destroy a Unit");
   }
 

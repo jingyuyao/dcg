@@ -4,6 +4,20 @@ import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandData;
 
 public class DestroyUnit extends AbstractCommandBuilder {
+  private final boolean autoDestroy;
+
+  private DestroyUnit(boolean autoDestroy) {
+    this.autoDestroy = autoDestroy;
+  }
+
+  public static DestroyUnit destroyUnit() {
+    return new DestroyUnit(false);
+  }
+
+  public static DestroyUnit autoDestroyUnit() {
+    return new DestroyUnit(true);
+  }
+
   @Override
   protected void run(CommandData data) {
     data.getTargets().forEach(coreSystem::remove);
@@ -11,12 +25,11 @@ public class DestroyUnit extends AbstractCommandBuilder {
 
   @Override
   protected String getDescription(CommandData data) {
-    // TODO: don't get destroy from block
     return String.format("destroys %s", coreSystem.toNames(data.getTargets()));
   }
 
   @Override
   protected boolean isClientVisible(CommandData data) {
-    return true;
+    return !autoDestroy;
   }
 }

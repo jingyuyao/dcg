@@ -1,5 +1,7 @@
 package com.dcg.battle;
 
+import static com.dcg.battle.DestroyUnit.autoDestroyUnit;
+
 import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandData;
@@ -22,10 +24,10 @@ public class Block extends AbstractCommandBuilder {
   @Override
   protected void run(CommandData data) {
     int originEntity = data.getOriginEntity();
-    commandChain.addEnd(new DestroyUnit().build(world, data.getTargets().get(0)));
+    commandChain.addEnd(autoDestroyUnit().build(world, data.getTargets().get(0)));
     Unit blockingUnit = mUnit.get(originEntity);
     if (!blockingUnit.endurance) {
-      commandChain.addEnd(new DestroyUnit().build(world, originEntity));
+      commandChain.addEnd(autoDestroyUnit().build(world, originEntity));
       if (!blockingUnit.isToken) {
         commandChain.addEnd(
             new MoveLocation(DiscardPile.class).build(world, blockingUnit.cardEntity));

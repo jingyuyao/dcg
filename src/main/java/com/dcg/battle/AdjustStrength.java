@@ -1,5 +1,7 @@
 package com.dcg.battle;
 
+import static com.dcg.battle.DestroyUnit.autoDestroyUnit;
+
 import com.dcg.command.CommandData;
 import java.util.function.Supplier;
 
@@ -27,7 +29,7 @@ public class AdjustStrength extends UnitEffectBuilder {
       Unit unit = mUnit.get(targetEntity);
       unit.strength += data.getInt();
       if (unit.strength <= 0) {
-        commandChain.addEnd(new DestroyUnit().build(world, targetEntity));
+        commandChain.addEnd(autoDestroyUnit().build(world, targetEntity));
       }
     }
   }
