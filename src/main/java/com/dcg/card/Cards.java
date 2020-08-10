@@ -503,8 +503,7 @@ public class Cards {
   }
 
   public static CreateEntity destroyUnitAction() {
-    return action(
-            "Destroy Unit", destroyUnit().setInputCount(1).setTargetSource(new AllUnits()))
+    return action("Destroy Unit", destroyUnit().setInputCount(1).setTargetSource(new AllUnits()))
         .desc("Destroy a Unit");
   }
 

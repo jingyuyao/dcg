@@ -14,20 +14,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DrawCards extends PlayerEffect {
-  private final boolean isInitial;
+  private final boolean auto;
   protected ComponentMapper<Player> mPlayer;
 
-  private DrawCards(int num, boolean isInitial) {
-    this.isInitial = isInitial;
+  private DrawCards(int num, boolean auto) {
+    this.auto = auto;
     setIntArgSupplier(() -> num);
   }
 
   public static DrawCards draw(int num) {
-    return new DrawCards(num, true);
+    return new DrawCards(num, false);
   }
 
-  private static DrawCards drawDeferred(int num) {
-    return new DrawCards(num, false);
+  public static DrawCards autoDraw(int num) {
+    return new DrawCards(num, true);
   }
 
   @Override
@@ -37,7 +37,7 @@ public class DrawCards extends PlayerEffect {
 
   @Override
   protected boolean isClientVisible(CommandData data) {
-    return isInitial;
+    return !auto;
   }
 
   @Override
@@ -70,7 +70,7 @@ public class DrawCards extends PlayerEffect {
           for (int cardEntity : discardPile) {
             commandChain.addEnd(new MoveLocation(PlayerDeck.class).build(world, cardEntity));
           }
-          commandChain.addEnd(drawDeferred(leftOverDrawCount).build(world, playerEntity));
+          commandChain.addEnd(autoDraw(leftOverDrawCount).build(world, playerEntity));
         } else {
           System.out.printf("No more cards to draw: %d not drawn\n", leftOverDrawCount);
         }
@@ -83,7 +83,7 @@ public class DrawCards extends PlayerEffect {
     } else {
       // Delay the card draw to the end of the chain if we are currently in the processing of
       // drawing or shuffling.
-      commandChain.addEnd(drawDeferred(totalToDraw).build(world, playerEntity));
+      commandChain.addEnd(autoDraw(totalToDraw).build(world, playerEntity));
     }
   }
 
