@@ -30,7 +30,7 @@ public class AdjustHp extends PlayerEffect {
   @Override
   protected String getDescription(CommandData data) {
     int value = data.getInt();
-    String targetNames = coreSystem.toNames(data.getTargets());
+    String targetNames = coreSystem.toNames(data.getOriginEntity(), data.getTargets());
     return value > 0
         ? String.format("heals %s by %d HP", targetNames, value)
         : String.format("deals %d damage to %s", -value, targetNames);

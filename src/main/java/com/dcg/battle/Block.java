@@ -37,7 +37,8 @@ public class Block extends AbstractCommandBuilder {
 
   @Override
   protected String getDescription(CommandData data) {
-    return String.format("blocks %s", coreSystem.toNames(data.getTargets()));
+    return String.format(
+        "blocks %s", coreSystem.toNames(data.getOriginEntity(), data.getTargets()));
   }
 
   @Override

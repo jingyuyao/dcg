@@ -17,7 +17,7 @@ abstract class UnitEffectBuilder extends AbstractCommandBuilder {
 
   @Override
   protected String getDescription(CommandData data) {
-    String targetNames = coreSystem.toNames(data.getTargets());
+    String targetNames = coreSystem.toNames(data.getOriginEntity(), data.getTargets());
     if (data.getInt() != 0) {
       int value = data.getInt();
       String mod = value > 0 ? "+" : "-";

@@ -55,9 +55,10 @@ public class CoreSystem extends IteratingSystem {
     return entity != -1 ? mCommon.getSafe(entity, DEFAULT_COMMON).name : "";
   }
 
-  // TODO: add a relative version of this where 'self' is used
-  public String toNames(List<Integer> entities) {
-    return entities.stream().map(this::toName).collect(Collectors.joining(", "));
+  public String toNames(int selfEntity, List<Integer> entities) {
+    return entities.stream()
+        .map(entity -> entity == selfEntity ? "self" : toName(entity))
+        .collect(Collectors.joining(", "));
   }
 
   public Integer getCurrentPlayerEntity() {

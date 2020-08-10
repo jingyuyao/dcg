@@ -25,7 +25,8 @@ public class DestroyUnit extends AbstractCommandBuilder {
 
   @Override
   protected String getDescription(CommandData data) {
-    return String.format("destroys %s", coreSystem.toNames(data.getTargets()));
+    return String.format(
+        "destroys %s", coreSystem.toNames(data.getOriginEntity(), data.getTargets()));
   }
 
   @Override
