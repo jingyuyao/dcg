@@ -1,22 +1,26 @@
 package com.dcg.command;
 
-/** Wraps a single instance of {@link CommandData} with additional logging information. */
+/** Contains data for a single invocation of a command. */
 public class CommandLog {
-  private final CommandData data;
   private final String commandName;
   private final String description;
   private final boolean clientVisible;
+  // Note: Log can be accessed at any point in the game. We should only reference "permanent"
+  // entities.
+  private final int currentPlayerEntity;
+  private final int originCardEntity;
 
-  public CommandLog(
-      CommandData data, String commandName, String description, boolean clientVisible) {
-    this.data = data;
+  CommandLog(
+      String commandName,
+      String description,
+      boolean clientVisible,
+      int currentPlayerEntity,
+      int originCardEntity) {
     this.commandName = commandName;
     this.description = description;
     this.clientVisible = clientVisible;
-  }
-
-  public CommandData getData() {
-    return data;
+    this.currentPlayerEntity = currentPlayerEntity;
+    this.originCardEntity = originCardEntity;
   }
 
   public String getCommandName() {
@@ -29,5 +33,13 @@ public class CommandLog {
 
   public boolean isClientVisible() {
     return clientVisible;
+  }
+
+  public int getCurrentPlayerEntity() {
+    return currentPlayerEntity;
+  }
+
+  public int getOriginCardEntity() {
+    return originCardEntity;
   }
 }

@@ -8,14 +8,12 @@
 # Entities
 - All
   - Tree based ownership
-  - Entities are never 'deleted', they simply have their `Active` tag removed to indicate that they
-    are no longer part of the game
-    - This is to support logging and referencing 'banished' entities
 - Player
   - Persistent throughout the game
   - Turn component cycles through them
   - Not owned by anybody
 - Card
+  - Persistent throughout the game
   - Cycles through deck, hand, play area and discard pile
   - Perform effects when played
   - Owned by a player
@@ -25,6 +23,7 @@
   - Owned by a player
 - Action
   - Contains a command that can be auto executed or executed by a player
+  - Removed after execution or after a turn ends
   - Owned by a player, card or unit
 
 # Commands

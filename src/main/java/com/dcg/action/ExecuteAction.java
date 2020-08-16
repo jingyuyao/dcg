@@ -44,7 +44,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
     command.setInput(inputs);
     if (command.canRun()) {
       commandChain.addEnd(command);
-      coreSystem.remove(actionEntity);
+      world.delete(actionEntity);
     } else {
       System.out.printf("%s cannot run\n", command);
     }
@@ -54,6 +54,6 @@ public class ExecuteAction extends AbstractCommandBuilder {
   protected String getDescription(CommandData data) {
     Action action = mAction.get(actionEntity);
     Command command = action.command;
-    return String.format("%s", command.getClass().getSimpleName());
+    return String.format("%s", command.getName());
   }
 }

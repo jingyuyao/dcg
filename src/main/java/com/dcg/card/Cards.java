@@ -122,7 +122,7 @@ public class Cards {
               .desc("Add 2 Power; Throne: may banish this to create a 2 Strength Cavalry")
               .addOnEnterEffects(power(2))
               .addOnConditionEffects(
-                  action("Banish", new RemoveCard().chain(createUnitToken("Cavalry", 2)))
+                  action("Banish", new BanishCard().chain(createUnitToken("Cavalry", 2)))
                       .desc("Banish this to create a 2 Strength Cavalry")
                       .addTriggerConditions(new ThroneActive())));
     }
@@ -498,7 +498,7 @@ public class Cards {
 
   public static CreateEntity voidbindAction() {
     return action(
-            "Voidbind", new RemoveCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
+            "Voidbind", new BanishCard().setInputCount(1).setTargetSource(new VoidbindableCards()))
         .desc("Banish a card from your Hand or Discard Pile");
   }
 
@@ -514,7 +514,7 @@ public class Cards {
   }
 
   public static CreateEntity banishInForgeRowAction() {
-    return action("Banish", new RemoveCard().setInputCount(1).setTargetSource(new ForgeRowCards()))
+    return action("Banish", new BanishCard().setInputCount(1).setTargetSource(new ForgeRowCards()))
         .desc("Banish a card from the Forge Row");
   }
 

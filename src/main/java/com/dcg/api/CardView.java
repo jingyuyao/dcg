@@ -50,6 +50,7 @@ public class CardView extends EntityView {
     DISCARD_PILE,
     HAND,
     PLAY_AREA,
+    BANISHED_PILE
   }
 
   public enum CardColor {

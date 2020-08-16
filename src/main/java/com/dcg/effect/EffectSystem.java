@@ -11,7 +11,6 @@ import com.dcg.battle.Defending;
 import com.dcg.command.Command;
 import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandChain;
-import com.dcg.game.Active;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.PlayArea;
 import com.dcg.turn.Turn;
@@ -21,7 +20,7 @@ import java.util.List;
  * System to trigger effects. Effects are only triggered when entities enter and leave certain
  * activation tags such as Turn, PlayArea or they are just plainly created.
  */
-@All({Active.class, Effect.class})
+@All({Effect.class})
 @One({Turn.class, PlayArea.class, Defending.class})
 public class EffectSystem extends IteratingSystem {
   @Wire protected CommandChain commandChain;

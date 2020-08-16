@@ -91,6 +91,21 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     @Override
+    public String getName() {
+      return AbstractCommandBuilder.this.getClass().getSimpleName();
+    }
+
+    @Override
+    public String getDescription(CommandData data) {
+      return AbstractCommandBuilder.this.getDescription(data);
+    }
+
+    @Override
+    public boolean isClientVisible(CommandData data) {
+      return AbstractCommandBuilder.this.isClientVisible(data);
+    }
+
+    @Override
     public int getOriginEntity() {
       return originEntity;
     }
@@ -118,10 +133,8 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     @Override
-    public CommandData run() {
-      CommandData data = getData();
+    public void run(CommandData data) {
       AbstractCommandBuilder.this.run(data);
-      return data;
     }
 
     @Override
@@ -159,15 +172,7 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     }
 
     @Override
-    public CommandLog createLog(CommandData data) {
-      return new CommandLog(
-          data,
-          AbstractCommandBuilder.this.getClass().getSimpleName(),
-          getDescription(data),
-          isClientVisible(data));
-    }
-
-    private CommandData getData() {
+    public CommandData getData() {
       Integer intArg = null;
       if (intArgSupplier != null) {
         world.inject(intArgSupplier);

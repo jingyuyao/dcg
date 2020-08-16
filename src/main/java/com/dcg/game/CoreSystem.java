@@ -20,13 +20,12 @@ import java.util.stream.Stream;
  * Manages auto removal of owned entities when their parent is removed. Provides methods to query
  * entities as streams.
  */
-@All({Active.class, Owned.class})
+@All({Owned.class})
 public class CoreSystem extends IteratingSystem {
   private static final Common DEFAULT_COMMON = new Common();
   private static final Player DEFAULT_PLAYER = new Player();
   private static final Turn DEFAULT_TURN = new Turn();
   protected AspectSubscriptionManager manager;
-  protected ComponentMapper<Active> mActive;
   protected ComponentMapper<Common> mCommon;
   protected ComponentMapper<Owned> mOwned;
   protected ComponentMapper<Player> mPlayer;
@@ -35,15 +34,11 @@ public class CoreSystem extends IteratingSystem {
   /** Get all active entities matching the aspect as a stream. */
   public Stream<Integer> getStream(Aspect.Builder aspectBuilder) {
     Stream.Builder<Integer> streamBuilder = Stream.builder();
-    IntBag bag = manager.get(aspectBuilder.all(Active.class)).getEntities();
+    IntBag bag = manager.get(aspectBuilder).getEntities();
     for (int i = 0; i < bag.size(); i++) {
       streamBuilder.add(bag.get(i));
     }
     return streamBuilder.build();
-  }
-
-  public void remove(int entityId) {
-    mActive.remove(entityId);
   }
 
   public Stream<Integer> findByName(String name, Aspect.Builder aspectBuilder) {
@@ -153,7 +148,7 @@ public class CoreSystem extends IteratingSystem {
   @Override
   protected void process(int entityId) {
     if (mOwned.get(entityId).owner == -1) {
-      remove(entityId);
+      world.delete(entityId);
     }
   }
 }

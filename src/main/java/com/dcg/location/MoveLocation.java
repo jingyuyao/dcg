@@ -16,7 +16,8 @@ public class MoveLocation extends AbstractCommandBuilder {
           PlayerDeck.class,
           DiscardPile.class,
           Hand.class,
-          PlayArea.class);
+          PlayArea.class,
+          BanishedPile.class);
   private final Class<? extends Location> location;
 
   public MoveLocation(Class<? extends Location> location) {

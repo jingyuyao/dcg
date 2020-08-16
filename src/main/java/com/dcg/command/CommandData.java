@@ -9,7 +9,7 @@ public class CommandData {
   private final Integer intValue;
   private final Boolean boolValue;
 
-  public CommandData(int originEntity, List<Integer> targets, Integer intValue, Boolean boolValue) {
+  CommandData(int originEntity, List<Integer> targets, Integer intValue, Boolean boolValue) {
     this.originEntity = originEntity;
     this.targets = targets;
     this.intValue = intValue;

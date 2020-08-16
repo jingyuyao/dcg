@@ -23,10 +23,10 @@ import com.dcg.card.Red;
 import com.dcg.card.Spell;
 import com.dcg.card.Yellow;
 import com.dcg.command.CommandChain;
-import com.dcg.command.CommandData;
 import com.dcg.command.CommandLog;
 import com.dcg.game.Common;
 import com.dcg.game.CoreSystem;
+import com.dcg.location.BanishedPile;
 import com.dcg.location.DiscardPile;
 import com.dcg.location.ForgeDeck;
 import com.dcg.location.ForgeRow;
@@ -64,6 +64,7 @@ public class ViewSystem extends BaseSystem {
   protected ComponentMapper<DiscardPile> mDiscardPile;
   protected ComponentMapper<Hand> mHand;
   protected ComponentMapper<PlayArea> mPlayArea;
+  protected ComponentMapper<BanishedPile> mBanishedPile;
 
   public GameView getGameView(String playerName) {
     int playerEntity =
@@ -170,6 +171,8 @@ public class ViewSystem extends BaseSystem {
       return CardLocation.DISCARD_PILE;
     } else if (mPlayArea.has(cardEntity)) {
       return CardLocation.PLAY_AREA;
+    } else if (mBanishedPile.has(cardEntity)) {
+      return CardLocation.BANISHED_PILE;
     }
     throw new RuntimeException("Not possible");
   }
@@ -233,12 +236,10 @@ public class ViewSystem extends BaseSystem {
   }
 
   private LogView toLogView(CommandLog log) {
-    CommandData data = log.getData();
-    int originEntity = data.getOriginEntity();
-    String originName = coreSystem.toName(originEntity);
-    String ownerName = coreSystem.toName(coreSystem.getRoot(originEntity));
+    String currentPlayerName = coreSystem.toName(log.getCurrentPlayerEntity());
+    String originCardName = coreSystem.toName(log.getOriginCardEntity());
     String description = log.getDescription();
-    return new LogView(ownerName, originName, description);
+    return new LogView(currentPlayerName, originCardName, description);
   }
 
   @Override

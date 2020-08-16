@@ -20,7 +20,7 @@ public class DestroyUnit extends AbstractCommandBuilder {
 
   @Override
   protected void run(CommandData data) {
-    data.getTargets().forEach(coreSystem::remove);
+    data.getTargets().forEach(world::delete);
   }
 
   @Override

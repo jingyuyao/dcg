@@ -9,7 +9,7 @@ public class RemoveActions extends AbstractCommandBuilder {
   protected void run(CommandData data) {
     coreSystem
         .getChildren(data.getOriginEntity(), Aspect.all(Action.class))
-        .forEach(coreSystem::remove);
+        .forEach(world::delete);
   }
 
   @Override

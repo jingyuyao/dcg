@@ -11,12 +11,11 @@ import com.artemis.annotations.Wire;
 import com.artemis.utils.IntBag;
 import com.dcg.card.Card;
 import com.dcg.command.CommandChain;
-import com.dcg.game.Active;
 import com.dcg.game.CoreSystem;
 import com.dcg.location.Hand;
 import com.dcg.turn.Turn;
 
-@All({Active.class, Player.class, Turn.class})
+@All({Player.class, Turn.class})
 public class AddPlayCardSystem extends BaseEntitySystem {
   @Wire protected CommandChain commandChain;
   protected AspectSubscriptionManager manager;

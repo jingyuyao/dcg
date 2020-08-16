@@ -22,7 +22,6 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
   protected final String name;
   protected String description;
   protected World world;
-  protected ComponentMapper<Active> mActive;
   protected ComponentMapper<Common> mCommon;
   protected ComponentMapper<Effect> mEffect;
   private final List<Class<? extends Component>> tags = new ArrayList<>();
@@ -68,7 +67,6 @@ public abstract class CreateEntity extends AbstractCommandBuilder {
 
   protected int createEntity() {
     int entity = world.create();
-    mActive.create(entity);
     Common common = mCommon.create(entity);
     common.name = name;
     if (description != null) {

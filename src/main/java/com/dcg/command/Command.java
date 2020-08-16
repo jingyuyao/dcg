@@ -3,6 +3,15 @@ package com.dcg.command;
 import java.util.List;
 
 public interface Command {
+  /** Returns the name of this command. It is the simple class name of the command builder. */
+  String getName();
+
+  /** Returns the name of this command. It is the simple class name of the command builder. */
+  String getDescription(CommandData data);
+
+  /** Returns the name of this command. It is the simple class name of the command builder. */
+  boolean isClientVisible(CommandData data);
+
   /** Gets the entity associated with this command. The relationship is command dependent. */
   int getOriginEntity();
 
@@ -19,10 +28,13 @@ public interface Command {
   List<Integer> getAllowedTargets();
 
   /**
-   * Execute the logic for this command. This must be repeatedly callable. Returns the data used for
-   * this execution.
+   * Returns the data to be used to execute this command. This is a combination of static input data
+   * and dynamic world data.
    */
-  CommandData run();
+  CommandData getData();
+
+  /** Execute the logic for this command. */
+  void run(CommandData data);
 
   /** Returns whether all the preconditions for this command are satisfied. */
   boolean canRun();
@@ -35,7 +47,4 @@ public interface Command {
 
   /** Returns whether the command can be run in the current world state. No side effects allowed. */
   boolean canTrigger();
-
-  /** Creates a log for this command with the given data. */
-  CommandLog createLog(CommandData data);
 }

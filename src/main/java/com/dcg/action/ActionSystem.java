@@ -3,9 +3,8 @@ package com.dcg.action;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.systems.IteratingSystem;
-import com.dcg.game.Active;
 
-@All({Active.class, Action.class})
+@All({Action.class})
 public class ActionSystem extends IteratingSystem {
   protected ComponentMapper<Action> mAction;
 
