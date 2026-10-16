@@ -14,6 +14,6 @@ public class UnitFilter implements TargetFilter {
 
   @Override
   public boolean test(int originEntity, int target) {
-    return predicate.test(mUnit.get(originEntity));
+    return predicate.test(mUnit.get(target));
   }
 }
