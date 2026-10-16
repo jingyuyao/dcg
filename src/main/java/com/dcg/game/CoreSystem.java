@@ -23,8 +23,6 @@ import java.util.stream.Stream;
 @All({Owned.class})
 public class CoreSystem extends IteratingSystem {
   private static final Common DEFAULT_COMMON = new Common();
-  private static final Player DEFAULT_PLAYER = new Player();
-  private static final Turn DEFAULT_TURN = new Turn();
   protected AspectSubscriptionManager manager;
   protected ComponentMapper<Common> mCommon;
   protected ComponentMapper<Owned> mOwned;
@@ -60,14 +58,16 @@ public class CoreSystem extends IteratingSystem {
     return getStream(Aspect.all(Player.class, Turn.class)).findAny().orElse(-1);
   }
 
+  /** Returns a new detached player if there is no current player. Callers may modify the result. */
   public Player getCurrentPlayer() {
     int currentPlayerEntity = getCurrentPlayerEntity();
-    return currentPlayerEntity != -1 ? mPlayer.get(currentPlayerEntity) : DEFAULT_PLAYER;
+    return currentPlayerEntity != -1 ? mPlayer.get(currentPlayerEntity) : new Player();
   }
 
+  /** Returns a new detached turn if there is no current player. Callers may modify the result. */
   public Turn getTurn() {
     int currentPlayerEntity = getCurrentPlayerEntity();
-    return currentPlayerEntity != -1 ? mTurn.get(currentPlayerEntity) : DEFAULT_TURN;
+    return currentPlayerEntity != -1 ? mTurn.get(currentPlayerEntity) : new Turn();
   }
 
   public Stream<Integer> getActivePlayerEntities() {
