@@ -46,7 +46,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
       commandChain.addEnd(command);
       world.delete(actionEntity);
     } else {
-      System.out.printf("%s cannot run\n", command);
+      System.out.printf("%s cannot run\n", command.getName());
     }
   }
 

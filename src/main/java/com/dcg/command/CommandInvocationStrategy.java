@@ -40,7 +40,7 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
           System.out.printf("Exception: %s\n", e.getMessage());
         }
       } else {
-        System.out.printf("Pass: %s\n", command.getClass().getSimpleName());
+        System.out.printf("Pass: %s\n", command.getName());
       }
       processSystems();
     }
