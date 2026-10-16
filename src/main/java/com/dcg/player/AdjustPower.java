@@ -17,6 +17,9 @@ public class AdjustPower extends AbstractCommandBuilder {
   protected void run(CommandData data) {
     Turn turn = coreSystem.getTurn();
     turn.powerPool += data.getInt();
+    if (data.getInt() > 0) {
+      turn.powerGenerated += data.getInt();
+    }
   }
 
   @Override
