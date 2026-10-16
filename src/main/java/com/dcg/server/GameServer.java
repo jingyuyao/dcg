@@ -129,10 +129,10 @@ public class GameServer extends WebSocketServer {
         break;
       case GET_GAME_LOGS:
         if (attachmentGameRoom.isPresent()) {
-          if (intArgs.size() == 1) {
+          if (intArgs.size() == 1 && intArgs.get(0) != null && intArgs.get(0) >= 0) {
             attachmentGameRoom.get().getLogs(socket, intArgs.get(0));
           } else {
-            System.out.println("Invalid number of arguments");
+            System.out.println("Invalid arguments");
           }
         } else {
           System.out.println("Not joined");
