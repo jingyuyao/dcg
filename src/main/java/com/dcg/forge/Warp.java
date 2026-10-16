@@ -22,7 +22,7 @@ public class Warp extends AbstractCommandBuilder {
         (originEntity, allowedTargets) -> !mPlayArea.has(originEntity),
         (cardEntity, allowedTargets) ->
             coreSystem.getTurn().powerPool >= mCard.get(cardEntity).cost,
-        (originEntity, allowedTargets) -> coreSystem.getCurrentPlayer().wrapTokens > 0);
+        (originEntity, allowedTargets) -> coreSystem.getCurrentPlayer().warpTokens > 0);
   }
 
   public Warp chain(CommandBuilder chained) {
@@ -33,7 +33,7 @@ public class Warp extends AbstractCommandBuilder {
   @Override
   protected void run(CommandData data) {
     int originEntity = data.getOriginEntity();
-    coreSystem.getCurrentPlayer().wrapTokens -= 1;
+    coreSystem.getCurrentPlayer().warpTokens -= 1;
     mOwned.create(originEntity).owner = coreSystem.getCurrentPlayerEntity();
     commandChain.addEnd(
         new RemoveActions().build(world, originEntity),

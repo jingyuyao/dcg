@@ -24,7 +24,7 @@ public class PlayerView extends EntityView {
       List<ActionView> actions) {
     super(id, common);
     this.hp = player.hp;
-    this.warpTokens = player.wrapTokens;
+    this.warpTokens = player.warpTokens;
     this.isCurrent = turn != null;
     this.powerPool = turn != null ? turn.powerPool : 0;
     this.totalDeckSize = totalDeckSize;
