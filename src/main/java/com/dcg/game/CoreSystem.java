@@ -39,6 +39,11 @@ public class CoreSystem extends IteratingSystem {
     return streamBuilder.build();
   }
 
+  /** Returns whether the entity is currently active. Safe to call with any id. */
+  public boolean isActive(int entity) {
+    return manager.get(Aspect.all()).getActiveEntityIds().get(entity);
+  }
+
   public Stream<Integer> findByName(String name, Aspect.Builder aspectBuilder) {
     return getStream(aspectBuilder.copy().all(Common.class))
         .filter(entity -> name.equals(mCommon.get(entity).name));
