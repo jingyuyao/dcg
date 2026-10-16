@@ -14,31 +14,28 @@ public class ExecuteAction extends AbstractCommandBuilder {
   public ExecuteAction(int actionEntity, List<Integer> inputs) {
     this.actionEntity = actionEntity;
     this.inputs = inputs;
+    // Validate as a trigger condition so bad input is rejected before the command is logged, since
+    // logging reads the action.
+    addTriggerConditions(
+        (originEntity, allowedTargets) -> {
+          if (originEntity != coreSystem.getCurrentPlayerEntity()) {
+            System.out.printf("%d is not the current player\n", originEntity);
+            return false;
+          }
+          if (!coreSystem.isActive(actionEntity) || !mAction.has(actionEntity)) {
+            System.out.printf("%d is not a valid action entity\n", actionEntity);
+            return false;
+          }
+          if (!inputs.stream().allMatch(entity -> entity != null && coreSystem.isActive(entity))) {
+            System.out.println("Args contain an invalid entity");
+            return false;
+          }
+          return true;
+        });
   }
 
   @Override
   protected void run(CommandData data) {
-    int originEntity = data.getOriginEntity();
-    int currentPlayerEntity = coreSystem.getCurrentPlayerEntity();
-    if (originEntity != currentPlayerEntity) {
-      System.out.printf("%d is not the current player\n", originEntity);
-      return;
-    }
-
-    try {
-      if (!world.getEntityManager().isActive(actionEntity) || !mAction.has(actionEntity)) {
-        System.out.printf("%d is not a valid action entity\n", actionEntity);
-        return;
-      }
-      if (!inputs.stream().allMatch(entity -> world.getEntityManager().isActive(entity))) {
-        System.out.println("Args contain an inactive entity");
-        return;
-      }
-    } catch (IndexOutOfBoundsException e) {
-      System.out.printf("Invalid entity ID: %s\n", e.getMessage());
-      return;
-    }
-
     Action action = mAction.get(actionEntity);
     Command command = action.command;
     command.setInput(inputs);

@@ -43,7 +43,7 @@ public class Game {
   }
 
   public void execute(String playerName, List<Integer> input) {
-    if (input.isEmpty()) {
+    if (input.isEmpty() || input.get(0) == null) {
       System.out.println("Require 1 or more inputs");
     } else {
       CoreSystem coreSystem = world.getSystem(CoreSystem.class);
