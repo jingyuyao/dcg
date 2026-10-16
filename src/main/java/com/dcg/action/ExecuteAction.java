@@ -4,12 +4,14 @@ import com.artemis.ComponentMapper;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.Command;
 import com.dcg.command.CommandData;
+import com.dcg.player.Player;
 import java.util.List;
 
 public class ExecuteAction extends AbstractCommandBuilder {
   private final int actionEntity;
   private final List<Integer> inputs;
   protected ComponentMapper<Action> mAction;
+  protected ComponentMapper<Player> mPlayer;
 
   public ExecuteAction(int actionEntity, List<Integer> inputs) {
     this.actionEntity = actionEntity;
@@ -24,6 +26,13 @@ public class ExecuteAction extends AbstractCommandBuilder {
           }
           if (!coreSystem.isActive(actionEntity) || !mAction.has(actionEntity)) {
             System.out.printf("%d is not a valid action entity\n", actionEntity);
+            return false;
+          }
+          // Actions on unowned cards like the forge row are shared. Everything else must belong to
+          // the player.
+          int ownerEntity = coreSystem.getRoot(actionEntity);
+          if (ownerEntity != originEntity && mPlayer.has(ownerEntity)) {
+            System.out.printf("%d does not own action %d\n", originEntity, actionEntity);
             return false;
           }
           if (!inputs.stream().allMatch(entity -> entity != null && coreSystem.isActive(entity))) {
