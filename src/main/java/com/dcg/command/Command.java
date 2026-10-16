@@ -6,10 +6,10 @@ public interface Command {
   /** Returns the name of this command. It is the simple class name of the command builder. */
   String getName();
 
-  /** Returns the name of this command. It is the simple class name of the command builder. */
+  /** Returns a description of what this command does with the given data. Used in game logs. */
   String getDescription(CommandData data);
 
-  /** Returns the name of this command. It is the simple class name of the command builder. */
+  /** Returns whether the log of this command with the given data should be shown to players. */
   boolean isClientVisible(CommandData data);
 
   /** Gets the entity associated with this command. The relationship is command dependent. */
