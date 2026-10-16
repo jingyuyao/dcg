@@ -43,7 +43,7 @@ public class CoreSystem extends IteratingSystem {
 
   public Stream<Integer> findByName(String name, Aspect.Builder aspectBuilder) {
     return getStream(aspectBuilder.all(Common.class))
-        .filter(entity -> name.equalsIgnoreCase(mCommon.get(entity).name));
+        .filter(entity -> name.equals(mCommon.get(entity).name));
   }
 
   public String toName(int entity) {
