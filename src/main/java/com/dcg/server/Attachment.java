@@ -5,6 +5,7 @@ import org.java_websocket.WebSocket;
 
 public class Attachment {
   private String playerName;
+  private String rejoinToken;
   private GameRoom gameRoom;
   private int playerEntity = -1;
 
@@ -18,6 +19,14 @@ public class Attachment {
 
   public void setPlayerName(String playerName) {
     this.playerName = playerName;
+  }
+
+  public Optional<String> getRejoinToken() {
+    return Optional.ofNullable(rejoinToken);
+  }
+
+  public void setRejoinToken(String rejoinToken) {
+    this.rejoinToken = rejoinToken;
   }
 
   public Optional<GameRoom> getGameRoom() {

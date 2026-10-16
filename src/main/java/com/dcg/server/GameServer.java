@@ -100,11 +100,12 @@ public class GameServer extends WebSocketServer {
         break;
       case JOIN_ROOM:
         if (!attachmentGameRoom.isPresent()) {
-          if (strArgs.size() == 2) {
+          if (strArgs.size() == 2 || strArgs.size() == 3) {
             Optional<GameRoom> room =
                 rooms.stream().filter(r -> r.getName().equals(strArgs.get(0))).findFirst();
             if (room.isPresent()) {
-              room.get().join(socket, strArgs.get(1));
+              String rejoinToken = strArgs.size() == 3 ? strArgs.get(2) : null;
+              room.get().join(socket, strArgs.get(1), rejoinToken);
             } else {
               System.out.println(strArgs.get(0) + " doesn't exist");
             }

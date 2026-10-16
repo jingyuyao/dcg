@@ -5,8 +5,11 @@ import com.dcg.api.ServerMessage.Kind;
 import com.dcg.api.Util;
 import com.dcg.game.Game;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.java_websocket.WebSocket;
 
@@ -19,6 +22,9 @@ public class GameRoom {
   private static final int MAX_PLAYER_NAME_LENGTH = 32;
   private final String name;
   private final List<WebSocket> joined = new ArrayList<>();
+  /** Secret per player name. Needed to take back a seat in a game in progress. */
+  private final Map<String, String> rejoinTokens = new HashMap<>();
+
   private Game game;
 
   public GameRoom(String name) {
@@ -29,7 +35,7 @@ public class GameRoom {
     return name;
   }
 
-  public void join(WebSocket socket, String playerName) {
+  public void join(WebSocket socket, String playerName, String rejoinToken) {
     if (!isValidPlayerName(playerName)) {
       System.out.println("Session: Invalid player name");
     } else if (getJoinedPlayerNames().contains(playerName)) {
@@ -38,15 +44,18 @@ public class GameRoom {
       System.out.println("Session: Max player count reached");
     } else {
       if (isGameInProgress()) {
-        if (game.getPlayerNames().contains(playerName)) {
+        if (!game.getPlayerNames().contains(playerName)) {
+          System.out.println("Session: Game has already begun");
+        } else if (rejoinToken == null || !rejoinToken.equals(rejoinTokens.get(playerName))) {
+          System.out.println("Session: Invalid rejoin token");
+        } else {
           System.out.println("Session: Rejoining");
           joinInternal(socket, playerName);
           broadcastGameView();
-        } else {
-          System.out.println("Session: Game has already begun");
         }
       } else {
         System.out.println("Session: Joining");
+        rejoinTokens.put(playerName, UUID.randomUUID().toString());
         joinInternal(socket, playerName);
       }
     }
@@ -55,6 +64,7 @@ public class GameRoom {
   private void joinInternal(WebSocket socket, String playerName) {
     Attachment attachment = Attachment.get(socket);
     attachment.setPlayerName(playerName);
+    attachment.setRejoinToken(rejoinTokens.get(playerName));
     attachment.setGameRoom(this);
     joined.add(socket);
     broadcastRoomView();
@@ -63,10 +73,16 @@ public class GameRoom {
   public void leave(WebSocket socket) {
     joined.remove(socket);
     Attachment attachment = Attachment.get(socket);
+    // Players can only come back to a game in progress so the name is free again otherwise.
+    if (!isGameInProgress()) {
+      attachment.getPlayerName().ifPresent(rejoinTokens::remove);
+    }
     attachment.setPlayerName(null);
+    attachment.setRejoinToken(null);
     attachment.setGameRoom(null);
     if (joined.isEmpty()) {
       game = null;
+      rejoinTokens.clear();
     }
     broadcastRoomView();
   }
