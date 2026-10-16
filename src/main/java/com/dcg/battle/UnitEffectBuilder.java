@@ -19,9 +19,7 @@ abstract class UnitEffectBuilder extends AbstractCommandBuilder {
   protected String getDescription(CommandData data) {
     String targetNames = coreSystem.toNames(data.getOriginEntity(), data.getTargets());
     if (data.getInt() != 0) {
-      int value = data.getInt();
-      String mod = value > 0 ? "+" : "-";
-      return String.format("%s%d %s to %s", mod, value, getKeyword(), targetNames);
+      return String.format("%+d %s to %s", data.getInt(), getKeyword(), targetNames);
     } else {
       String mod = data.getBool() ? "grants" : "removes";
       return String.format("%s %s to %s", mod, getKeyword(), targetNames);
