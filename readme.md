@@ -3,7 +3,9 @@
 1. Package shaded jar `mvn package`
 2. Copy `target/dcg-{version}-shaded.jar` to server
     1. `gcloud compute scp {PATH_TO_JAR} {GCP_INSTANCE}:`
-3. Run jar `sudo nohup java -jar {JAR_NAME} prod`
+3. Let Java bind to port 80 without root (run again after updating Java)
+    1. `sudo setcap 'cap_net_bind_service=+ep' "$(readlink -f "$(which java)")"`
+4. Run jar as a normal user `nohup java -jar {JAR_NAME} prod &`
  
 # Entities
 - All
