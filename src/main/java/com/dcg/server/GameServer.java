@@ -18,6 +18,9 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 public class GameServer extends WebSocketServer {
+  // Callbacks for different sockets run on different worker threads. Rooms and games are not thread
+  // safe so all access to them must hold this lock.
+  private final Object lock = new Object();
   private final List<GameRoom> rooms =
       Arrays.asList(
           new GameRoom("Room 1"),
@@ -45,7 +48,9 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onClose(WebSocket socket, int code, String reason, boolean remote) {
     System.out.println("Server: connection closed " + socket.getRemoteSocketAddress());
-    Attachment.get(socket).getGameRoom().ifPresent(r -> r.leave(socket));
+    synchronized (lock) {
+      Attachment.get(socket).getGameRoom().ifPresent(r -> r.leave(socket));
+    }
   }
 
   @Override
@@ -64,7 +69,9 @@ public class GameServer extends WebSocketServer {
       return;
     }
     try {
-      processClientMessage(socket, clientMessage.get());
+      synchronized (lock) {
+        processClientMessage(socket, clientMessage.get());
+      }
     } catch (Exception e) {
       System.err.printf("Server: %s\n", e);
     }
