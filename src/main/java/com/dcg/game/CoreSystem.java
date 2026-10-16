@@ -42,7 +42,7 @@ public class CoreSystem extends IteratingSystem {
   }
 
   public Stream<Integer> findByName(String name, Aspect.Builder aspectBuilder) {
-    return getStream(aspectBuilder.all(Common.class))
+    return getStream(aspectBuilder.copy().all(Common.class))
         .filter(entity -> name.equals(mCommon.get(entity).name));
   }
 
@@ -85,13 +85,13 @@ public class CoreSystem extends IteratingSystem {
 
   /** Filters the aspect for entities owned by the owner. */
   public Stream<Integer> getChildren(int ownerEntity, Aspect.Builder aspectBuilder) {
-    return getStream(aspectBuilder.one(Owned.class))
+    return getStream(aspectBuilder.copy().all(Owned.class))
         .filter(e -> ownerEntity == mOwned.get(e).owner);
   }
 
   /** Filters the aspect for entities not owned by the owner. */
   public Stream<Integer> getNotChildren(int ownerEntity, Aspect.Builder aspectBuilder) {
-    return getStream(aspectBuilder.one(Owned.class))
+    return getStream(aspectBuilder.copy().all(Owned.class))
         .filter(e -> ownerEntity != mOwned.get(e).owner);
   }
 
@@ -105,7 +105,7 @@ public class CoreSystem extends IteratingSystem {
    * match the filter.
    */
   public Stream<Integer> getDescendants(int ownerEntity, Aspect.Builder aspectBuilder) {
-    return getStream(aspectBuilder.one(Owned.class))
+    return getStream(aspectBuilder.copy().all(Owned.class))
         .filter(entity -> isOwnedBy(ownerEntity, entity));
   }
 
