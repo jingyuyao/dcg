@@ -86,6 +86,10 @@ public class GameRoom {
       System.out.println("Session: Game is not started yet.");
       return;
     }
+    if (game.isOver()) {
+      System.out.println("Session: Game is over.");
+      return;
+    }
 
     Optional<String> name = Attachment.get(socket).getPlayerName();
     if (!name.isPresent()) {
@@ -94,9 +98,10 @@ public class GameRoom {
     }
 
     game.execute(name.get(), args);
-
+    // Keep the finished game around so everyone can see the final state. Players can start a new
+    // game from the same room.
     if (game.isOver()) {
-      game = new Game(getJoinedPlayerNames());
+      broadcastRoomView();
     }
     broadcastGameView();
   }
@@ -118,6 +123,10 @@ public class GameRoom {
 
   public boolean isGameInProgress() {
     return game != null;
+  }
+
+  public boolean isGameOver() {
+    return game != null && game.isOver();
   }
 
   private void broadcastRoomView() {
