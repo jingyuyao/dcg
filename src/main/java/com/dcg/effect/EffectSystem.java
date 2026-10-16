@@ -50,10 +50,10 @@ public class EffectSystem extends IteratingSystem {
               Command command = builder.build(world, entityId);
               if (command.canTrigger()) {
                 if (command.isInputValid()) {
-                  System.out.printf("Effect: all conditions valid for %s\n", command);
+                  System.out.printf("Effect: all conditions valid for %s\n", command.getName());
                   commandChain.addEnd(command);
                 } else {
-                  System.out.printf("Effect: trigger conditions valid for %s\n", command);
+                  System.out.printf("Effect: trigger conditions valid for %s\n", command.getName());
                   // TODO: how to pass good names here?
                   commandChain.addEnd(action(builder).build(world, entityId));
                 }
