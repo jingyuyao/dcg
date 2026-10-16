@@ -16,6 +16,7 @@ import org.java_websocket.WebSocket;
  */
 public class GameRoom {
   private static final int MAX_PLAYER_COUNT = 4;
+  private static final int MAX_PLAYER_NAME_LENGTH = 32;
   private final String name;
   private final List<WebSocket> joined = new ArrayList<>();
   private Game game;
@@ -29,7 +30,9 @@ public class GameRoom {
   }
 
   public void join(WebSocket socket, String playerName) {
-    if (getJoinedPlayerNames().contains(playerName)) {
+    if (!isValidPlayerName(playerName)) {
+      System.out.println("Session: Invalid player name");
+    } else if (getJoinedPlayerNames().contains(playerName)) {
       System.out.println("Session: Player with the given name already joined");
     } else if (joined.size() >= MAX_PLAYER_COUNT) {
       System.out.println("Session: Max player count reached");
@@ -126,5 +129,12 @@ public class GameRoom {
       String playerName = Attachment.get(socket).getPlayerName().orElse("");
       Util.send(socket, Kind.GAME_VIEW, game.getGameView(playerName));
     }
+  }
+
+  private static boolean isValidPlayerName(String playerName) {
+    return playerName != null
+        && !playerName.isEmpty()
+        && playerName.trim().equals(playerName)
+        && playerName.length() <= MAX_PLAYER_NAME_LENGTH;
   }
 }
