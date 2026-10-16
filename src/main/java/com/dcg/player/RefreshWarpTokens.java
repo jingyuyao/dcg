@@ -10,7 +10,7 @@ public class RefreshWarpTokens extends PlayerEffect {
   protected void run(CommandData data) {
     for (int playerEntity : data.getTargets()) {
       Player player = mPlayer.get(playerEntity);
-      player.wrapTokens = 2;
+      player.warpTokens = 2;
     }
   }
 
