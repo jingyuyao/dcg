@@ -72,7 +72,9 @@ public class GameRoom {
   }
 
   public void start(WebSocket socket) {
-    if (joined.size() > 1) {
+    if (isGameInProgress() && !game.isOver()) {
+      System.out.println("Session: Game has already begun");
+    } else if (joined.size() > 1) {
       game = new Game(getJoinedPlayerNames());
       broadcastRoomView();
       broadcastGameView();
