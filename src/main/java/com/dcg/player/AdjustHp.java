@@ -39,6 +39,7 @@ public class AdjustHp extends PlayerEffect {
 
   @Override
   protected boolean isClientVisible(CommandData data) {
-    return true;
+    // e.g. gaining HP per attacking unit when there are none
+    return data.getInt() != 0;
   }
 }
