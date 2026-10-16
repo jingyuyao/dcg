@@ -1,6 +1,7 @@
 package com.dcg.card;
 
 import com.artemis.ComponentMapper;
+import com.dcg.action.RemoveActions;
 import com.dcg.command.AbstractCommandBuilder;
 import com.dcg.command.CommandBuilder;
 import com.dcg.command.CommandData;
@@ -28,7 +29,10 @@ public class BanishCard extends AbstractCommandBuilder {
       if (mForgeRow.has(cardEntity)) {
         commandChain.addEnd(new DrawForgeCards(1).build(world, -1));
       }
-      commandChain.addEnd(new MoveLocation(BanishedPile.class).build(world, cardEntity));
+      // Cards in the hand or forge row still have actions (e.g. Play or Buy) that must go too.
+      commandChain.addEnd(
+          new RemoveActions().build(world, cardEntity),
+          new MoveLocation(BanishedPile.class).build(world, cardEntity));
     }
     if (chained != null) {
       commandChain.addEnd(chained.build(world, data.getOriginEntity()));
