@@ -317,6 +317,7 @@ public class Cards {
         unit("Explorer Emeritus", 4, 1)
             .tags(Yellow.class, Blue.class)
             .desc("Add 1 Power; Yellow: draw a card; Blue: draw a card")
+            .addOnEnterEffects(power(1))
             .addOnConditionEffects(
                 drawAction(1).addTriggerConditions(new PlayedTag(Yellow.class)),
                 drawAction(1).addTriggerConditions(new PlayedTag(Blue.class))),
