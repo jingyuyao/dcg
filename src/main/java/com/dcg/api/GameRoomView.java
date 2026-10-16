@@ -7,10 +7,12 @@ public class GameRoomView {
   public final String roomName;
   public final List<String> joinedPlayerNames;
   public final boolean isGameInProgress;
+  public final boolean isGameOver;
 
   public GameRoomView(GameRoom gameRoom) {
     this.roomName = gameRoom.getName();
     this.joinedPlayerNames = gameRoom.getJoinedPlayerNames();
     this.isGameInProgress = gameRoom.isGameInProgress();
+    this.isGameOver = gameRoom.isGameOver();
   }
 }
