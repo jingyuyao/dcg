@@ -4,9 +4,9 @@ import java.util.Optional;
 import org.java_websocket.WebSocket;
 
 public class Attachment {
-  private String playerName;
-  private GameRoom gameRoom;
-  private int playerEntity = -1;
+  private volatile String playerName;
+  private volatile GameRoom gameRoom;
+  private volatile int playerEntity = -1;
 
   public static Attachment get(WebSocket socket) {
     return socket.getAttachment();
@@ -36,3 +36,4 @@ public class Attachment {
     this.playerEntity = playerEntity;
   }
 }
+

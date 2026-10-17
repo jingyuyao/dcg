@@ -22,6 +22,7 @@ public class ClientMessage {
 
   public enum Kind {
     GET_ROOM_LIST,
+    CREATE_ROOM,
     JOIN_ROOM,
     LEAVE_ROOM,
     START_GAME,

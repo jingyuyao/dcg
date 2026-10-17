@@ -2,6 +2,7 @@ package com.dcg.server;
 
 import com.dcg.api.AttachmentView;
 import com.dcg.api.ClientMessage;
+import com.dcg.api.ErrorView;
 import com.dcg.api.GameRoomView;
 import com.dcg.api.RoomList;
 import com.dcg.api.ServerMessage.Kind;
@@ -9,25 +10,18 @@ import com.dcg.api.Util;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 public class GameServer extends WebSocketServer {
-  // Callbacks for different sockets run on different worker threads. Rooms and games are not thread
-  // safe so all access to them must hold this lock.
-  private final Object lock = new Object();
-  private final List<GameRoom> rooms =
-      Arrays.asList(
-          new GameRoom("Room 1"),
-          new GameRoom("Room 2"),
-          new GameRoom("Room 3"),
-          new GameRoom("Room 4"),
-          new GameRoom("Room 5"));
+  private final Map<String, GameRoom> rooms = new ConcurrentHashMap<>();
 
   public GameServer(InetSocketAddress address) {
     super(address);
@@ -35,7 +29,7 @@ public class GameServer extends WebSocketServer {
 
   @Override
   public void onStart() {
-    System.out.println("Server started");
+    System.out.println("Server started on " + getAddress());
   }
 
   @Override
@@ -48,14 +42,14 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onClose(WebSocket socket, int code, String reason, boolean remote) {
     System.out.println("Server: connection closed " + socket.getRemoteSocketAddress());
-    synchronized (lock) {
-      Attachment.get(socket).getGameRoom().ifPresent(r -> r.leave(socket));
+    Attachment attachment = Attachment.get(socket);
+    if (attachment != null) {
+      attachment.getGameRoom().ifPresent(room -> room.leave(socket));
     }
   }
 
   @Override
   public void onError(WebSocket socket, Exception ex) {
-    // The socket is null when the error is not tied to a single connection.
     String source = socket != null ? String.valueOf(socket.getRemoteSocketAddress()) : "server";
     System.err.printf("Server: error from %s: %s\n", source, ex);
   }
@@ -67,15 +61,15 @@ public class GameServer extends WebSocketServer {
 
     Optional<ClientMessage> clientMessage = Util.fromJson(message);
     if (!clientMessage.isPresent()) {
-      System.out.println("Invalid message");
+      System.out.println("Invalid message format: " + message);
+      Util.send(socket, Kind.ERROR, new ErrorView("Invalid message format. Ensure JSON is well-formed with a valid 'kind'."));
       return;
     }
     try {
-      synchronized (lock) {
-        processClientMessage(socket, clientMessage.get());
-      }
+      processClientMessage(socket, clientMessage.get());
     } catch (Exception e) {
-      System.err.printf("Server: %s\n", e);
+      System.err.printf("Server exception: %s\n", e);
+      Util.send(socket, Kind.ERROR, new ErrorView("Internal server error: " + e.getMessage()));
     }
   }
 
@@ -89,69 +83,107 @@ public class GameServer extends WebSocketServer {
     List<Integer> intArgs = message.getIntArgs();
     List<String> strArgs = message.getStrArgs();
     Attachment attachment = Attachment.get(socket);
-    Optional<GameRoom> attachmentGameRoom = attachment.getGameRoom();
+    Optional<GameRoom> attachmentGameRoom = attachment != null ? attachment.getGameRoom() : Optional.empty();
 
     switch (message.getKind()) {
       case GET_ROOM_LIST:
         Util.send(
             socket,
             Kind.ROOM_LIST,
-            new RoomList(rooms.stream().map(GameRoomView::new).collect(Collectors.toList())));
+            new RoomList(new ArrayList<>(rooms.values()).stream().map(GameRoomView::new).collect(Collectors.toList())));
         break;
-      case JOIN_ROOM:
-        if (!attachmentGameRoom.isPresent()) {
-          if (strArgs.size() == 2) {
-            Optional<GameRoom> room =
-                rooms.stream().filter(r -> r.getName().equals(strArgs.get(0))).findFirst();
-            if (room.isPresent()) {
-              room.get().join(socket, strArgs.get(1));
-            } else {
-              System.out.println(strArgs.get(0) + " doesn't exist");
-            }
-          } else {
-            System.out.println("Invalid number of arguments");
-          }
-        } else {
-          System.out.println("Already joined");
+
+      case CREATE_ROOM:
+        if (attachmentGameRoom.isPresent()) {
+          Util.send(socket, Kind.ERROR, new ErrorView("Already in a room. Leave your current room before creating a new one."));
+          break;
+        }
+        if (strArgs.isEmpty()) {
+          Util.send(socket, Kind.ERROR, new ErrorView("CREATE_ROOM requires at least [roomName]."));
+          break;
+        }
+        String roomName = strArgs.get(0);
+        if (!GameRoom.isValidRoomName(roomName)) {
+          Util.send(socket, Kind.ERROR, new ErrorView("Invalid room name. Must be 1-" + GameRoom.MAX_NAME_LENGTH + " characters."));
+          break;
+        }
+        GameRoom newRoom = new GameRoom(roomName, () -> {
+          rooms.remove(roomName);
+          System.out.println("Server: Removed empty room " + roomName);
+        });
+        if (rooms.putIfAbsent(roomName, newRoom) != null) {
+          newRoom.shutdown();
+          Util.send(socket, Kind.ERROR, new ErrorView("Room '" + roomName + "' already exists."));
+          break;
+        }
+        System.out.println("Server: Created new room '" + roomName + "'");
+        if (strArgs.size() >= 2) {
+          String playerName = strArgs.get(1);
+          newRoom.join(socket, playerName);
         }
         break;
+
+      case JOIN_ROOM:
+        if (attachmentGameRoom.isPresent()) {
+          Util.send(socket, Kind.ERROR, new ErrorView("Already joined a room. Leave current room first."));
+          break;
+        }
+        if (strArgs.size() != 2) {
+          Util.send(socket, Kind.ERROR, new ErrorView("JOIN_ROOM requires [roomName, playerName]."));
+          break;
+        }
+        String targetRoomName = strArgs.get(0);
+        String playerName = strArgs.get(1);
+        GameRoom targetRoom = rooms.get(targetRoomName);
+        if (targetRoom != null) {
+          targetRoom.join(socket, playerName);
+        } else {
+          Util.send(socket, Kind.ERROR, new ErrorView("Room '" + targetRoomName + "' does not exist."));
+        }
+        break;
+
       case LEAVE_ROOM:
         if (attachmentGameRoom.isPresent()) {
           attachmentGameRoom.get().leave(socket);
         } else {
-          System.out.println("Not joined");
+          Util.send(socket, Kind.ERROR, new ErrorView("Not currently in any room."));
         }
         break;
+
       case START_GAME:
         if (attachmentGameRoom.isPresent()) {
           attachmentGameRoom.get().start(socket);
         } else {
-          System.out.println("Not joined");
+          Util.send(socket, Kind.ERROR, new ErrorView("Not currently in any room."));
         }
         break;
+
       case EXECUTE_ACTION:
         if (attachmentGameRoom.isPresent()) {
           attachmentGameRoom.get().execute(socket, intArgs);
         } else {
-          System.out.println("Not joined");
+          Util.send(socket, Kind.ERROR, new ErrorView("Not currently in any room."));
         }
         break;
+
       case GET_GAME_LOGS:
         if (attachmentGameRoom.isPresent()) {
           if (intArgs.size() == 1 && intArgs.get(0) != null && intArgs.get(0) >= 0) {
             attachmentGameRoom.get().getLogs(socket, intArgs.get(0));
           } else {
-            System.out.println("Invalid arguments");
+            Util.send(socket, Kind.ERROR, new ErrorView("GET_GAME_LOGS requires startIndex >= 0."));
           }
         } else {
-          System.out.println("Not joined");
+          Util.send(socket, Kind.ERROR, new ErrorView("Not currently in any room."));
         }
         break;
     }
-    sendAttachmentView(socket);
   }
 
   private void sendAttachmentView(WebSocket socket) {
-    Util.send(socket, Kind.ATTACHMENT_VIEW, new AttachmentView(socket.getAttachment()));
+    Attachment attachment = Attachment.get(socket);
+    if (attachment != null) {
+      Util.send(socket, Kind.ATTACHMENT_VIEW, new AttachmentView(attachment));
+    }
   }
 }

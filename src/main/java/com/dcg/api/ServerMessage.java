@@ -15,5 +15,6 @@ public class ServerMessage {
     GAME_ROOM_VIEW,
     GAME_VIEW,
     GAME_LOGS,
+    ERROR,
   }
 }
