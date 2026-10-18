@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Base class for building a {@link Command}. Guarantees the generated {@link Command} instance is
@@ -18,6 +20,7 @@ import java.util.function.Supplier;
  * inputs are required.
  */
 public abstract class AbstractCommandBuilder implements CommandBuilder {
+  private static final Logger logger = LoggerFactory.getLogger(AbstractCommandBuilder.class);
   @Wire protected CommandChain commandChain;
   protected World world;
   protected CoreSystem coreSystem;
@@ -145,15 +148,15 @@ public abstract class AbstractCommandBuilder implements CommandBuilder {
     @Override
     public boolean isInputValid() {
       if (inputs.size() < minInputCount) {
-        System.out.printf("Fail: Minimum %d input required\n", minInputCount);
+        logger.warn("Fail: Minimum {} input required (provided: {})", minInputCount, inputs.size());
         return false;
       }
       if (inputs.size() > maxInputCount) {
-        System.out.printf("Fail: Maximum %d input allowed\n", maxInputCount);
+        logger.warn("Fail: Maximum {} input allowed (provided: {})", maxInputCount, inputs.size());
         return false;
       }
       if (!getAllowedTargets().containsAll(inputs)) {
-        System.out.println("Fail: Not all inputs are allowed");
+        logger.warn("Fail: Not all inputs are allowed (inputs: {}, allowed: {})", inputs, getAllowedTargets());
         return false;
       }
       return true;

@@ -15,6 +15,8 @@ import com.dcg.game.CoreSystem;
 import com.dcg.location.PlayArea;
 import com.dcg.turn.Turn;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * System to trigger effects. Effects are only triggered when entities enter and leave certain
@@ -23,6 +25,7 @@ import java.util.List;
 @All({Effect.class})
 @One({Turn.class, PlayArea.class, Defending.class})
 public class EffectSystem extends IteratingSystem {
+  private static final Logger logger = LoggerFactory.getLogger(EffectSystem.class);
   @Wire protected CommandChain commandChain;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Effect> mEffect;
@@ -50,10 +53,10 @@ public class EffectSystem extends IteratingSystem {
               Command command = builder.build(world, entityId);
               if (command.canTrigger()) {
                 if (command.isInputValid()) {
-                  System.out.printf("Effect: all conditions valid for %s\n", command.getName());
+                  logger.debug("Effect: all conditions valid for {}", command.getName());
                   commandChain.addEnd(command);
                 } else {
-                  System.out.printf("Effect: trigger conditions valid for %s\n", command.getName());
+                  logger.debug("Effect: trigger conditions valid for {}", command.getName());
                   // TODO: how to pass good names here?
                   commandChain.addEnd(action(builder).build(world, entityId));
                 }

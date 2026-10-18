@@ -18,8 +18,11 @@ import com.dcg.player.AddPlayCardSystem;
 import com.dcg.player.Player;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Game {
+  private static final Logger logger = LoggerFactory.getLogger(Game.class);
   private final List<String> playerNames;
   private final WorldConfiguration configuration =
       new WorldConfigurationBuilder()
@@ -44,7 +47,7 @@ public class Game {
 
   public void execute(String playerName, List<Integer> input) {
     if (input.isEmpty() || input.get(0) == null) {
-      System.out.println("Require 1 or more inputs");
+      logger.warn("Require 1 or more inputs");
     } else {
       CoreSystem coreSystem = world.getSystem(CoreSystem.class);
       Optional<Integer> player =
@@ -52,7 +55,7 @@ public class Game {
       if (player.isPresent()) {
         process(new ExecuteAction(input.get(0), input.subList(1, input.size())), player.get());
       } else {
-        System.out.printf("Player %s not found\n", playerName);
+        logger.warn("Player '{}' not found", playerName);
       }
     }
   }

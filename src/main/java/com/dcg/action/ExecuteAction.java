@@ -7,7 +7,11 @@ import com.dcg.command.CommandData;
 import com.dcg.player.Player;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ExecuteAction extends AbstractCommandBuilder {
+  private static final Logger logger = LoggerFactory.getLogger(ExecuteAction.class);
   private final int actionEntity;
   private final List<Integer> inputs;
   protected ComponentMapper<Action> mAction;
@@ -21,22 +25,22 @@ public class ExecuteAction extends AbstractCommandBuilder {
     addTriggerConditions(
         (originEntity, allowedTargets) -> {
           if (originEntity != coreSystem.getCurrentPlayerEntity()) {
-            System.out.printf("%d is not the current player\n", originEntity);
+            logger.warn("{} is not the current player", originEntity);
             return false;
           }
           if (!coreSystem.isActive(actionEntity) || !mAction.has(actionEntity)) {
-            System.out.printf("%d is not a valid action entity\n", actionEntity);
+            logger.warn("{} is not a valid action entity", actionEntity);
             return false;
           }
           // Actions on unowned cards like the forge row are shared. Everything else must belong to
           // the player.
           int ownerEntity = coreSystem.getRoot(actionEntity);
           if (ownerEntity != originEntity && mPlayer.has(ownerEntity)) {
-            System.out.printf("%d does not own action %d\n", originEntity, actionEntity);
+            logger.warn("{} does not own action {}", originEntity, actionEntity);
             return false;
           }
           if (!inputs.stream().allMatch(entity -> entity != null && coreSystem.isActive(entity))) {
-            System.out.println("Args contain an invalid entity");
+            logger.warn("Args contain an invalid entity");
             return false;
           }
           return true;
@@ -52,7 +56,7 @@ public class ExecuteAction extends AbstractCommandBuilder {
       commandChain.addEnd(command);
       world.delete(actionEntity);
     } else {
-      System.out.printf("%s cannot run\n", command.getName());
+      logger.debug("{} cannot run", command.getName());
     }
   }
 

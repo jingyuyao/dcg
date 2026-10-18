@@ -9,8 +9,12 @@ import com.dcg.card.Card;
 import com.dcg.game.CoreSystem;
 import com.dcg.game.Preconditions.GameStateException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /** Steps: 1. Execute a command 2. Update systems 3. Go to 1 if command chain is not empty */
 public class CommandInvocationStrategy extends SystemInvocationStrategy {
+  private static final Logger logger = LoggerFactory.getLogger(CommandInvocationStrategy.class);
   @Wire protected CommandChain commandChain;
   protected CoreSystem coreSystem;
   protected ComponentMapper<Card> mCard;
@@ -35,12 +39,12 @@ public class CommandInvocationStrategy extends SystemInvocationStrategy {
           CommandLog log = createLog(command, data);
           command.run(data);
           commandChain.log(log);
-          System.out.printf("Exec: %s %s\n", log.getCommandName(), log.getDescription());
+          logger.debug("Exec: {} {}", log.getCommandName(), log.getDescription());
         } catch (GameStateException e) {
-          System.out.printf("Exception: %s\n", e.getMessage());
+          logger.warn("Exception: {}", e.getMessage());
         }
       } else {
-        System.out.printf("Pass: %s\n", command.getName());
+        logger.debug("Pass: {}", command.getName());
       }
       processSystems();
     }

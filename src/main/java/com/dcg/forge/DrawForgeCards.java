@@ -13,8 +13,11 @@ import com.dcg.location.ForgeRow;
 import com.dcg.location.MoveLocation;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DrawForgeCards extends AbstractCommandBuilder {
+  private static final Logger logger = LoggerFactory.getLogger(DrawForgeCards.class);
   protected ComponentMapper<Card> mCard;
 
   public DrawForgeCards(int num) {
@@ -37,8 +40,8 @@ public class DrawForgeCards extends AbstractCommandBuilder {
       }
     }
     if (drawnCardEntities.size() < data.getInt()) {
-      System.out.printf(
-          "%s cards not drawn from forge\n", data.getInt() - drawnCardEntities.size());
+      logger.debug(
+          "{} cards not drawn from forge", data.getInt() - drawnCardEntities.size());
     }
   }
 

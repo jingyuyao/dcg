@@ -5,8 +5,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.util.Optional;
 import org.java_websocket.WebSocket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Util {
+  private static final Logger logger = LoggerFactory.getLogger(Util.class);
   private static final Gson gson = new Gson();
 
   public static Optional<ClientMessage> fromJson(String message) {
@@ -23,6 +26,6 @@ public class Util {
   public static void send(WebSocket socket, Kind kind, Object data) {
     String json = gson.toJson(new ServerMessage(kind, data));
     socket.send(json);
-    System.out.printf("Sent %s with %d char\n", kind, json.length());
+    logger.debug("Sent {} with {} char", kind, json.length());
   }
 }

@@ -13,14 +13,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import org.java_websocket.WebSocket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * An Actor / Mailbox representing a game room. All room state (players, Artemis
- * game instance,
- * turn processing, and view broadcasting) is sequentially processed on a
- * dedicated single-threaded executor.
+ * An Actor / Mailbox representing a game room. All room state (players, Artemis game instance,
+ * turn processing, and view broadcasting) is sequentially processed on a dedicated single-threaded executor.
  */
 public class GameRoom {
+  private static final Logger logger = LoggerFactory.getLogger(GameRoom.class);
   public static final int MAX_PLAYER_COUNT = 4;
   public static final int MAX_NAME_LENGTH = 32;
 
@@ -58,33 +59,33 @@ public class GameRoom {
   public void join(WebSocket socket, String playerName) {
     executor.submit(() -> {
       if (!isValidPlayerName(playerName)) {
-        System.out.println("Session: Invalid player name");
+        logger.warn("[{}] Session: Invalid player name '{}'", name, playerName);
         Util.send(socket, Kind.ERROR,
             new ErrorView("Invalid player name. Must be 1-" + MAX_NAME_LENGTH + " characters."));
         return;
       }
       if (getJoinedPlayerNames().contains(playerName)) {
-        System.out.println("Session: Player with the given name already joined");
+        logger.warn("[{}] Session: Player with name '{}' already joined", name, playerName);
         Util.send(socket, Kind.ERROR, new ErrorView("Player with name '" + playerName + "' is already in this room."));
         return;
       }
       if (joined.size() >= MAX_PLAYER_COUNT) {
-        System.out.println("Session: Max player count reached");
+        logger.warn("[{}] Session: Max player count reached", name);
         Util.send(socket, Kind.ERROR,
             new ErrorView("Room has reached maximum player capacity (" + MAX_PLAYER_COUNT + ")."));
         return;
       }
       if (isGameInProgress) {
         if (game != null && game.getPlayerNames().contains(playerName)) {
-          System.out.println("Session: Rejoining");
+          logger.info("[{}] Session: Rejoining player '{}'", name, playerName);
           joinInternal(socket, playerName);
           broadcastGameView();
         } else {
-          System.out.println("Session: Game has already begun");
+          logger.warn("[{}] Session: Game has already begun, reject join for '{}'", name, playerName);
           Util.send(socket, Kind.ERROR, new ErrorView("Game has already begun in this room."));
         }
       } else {
-        System.out.println("Session: Joining");
+        logger.info("[{}] Session: Joining player '{}'", name, playerName);
         joinInternal(socket, playerName);
       }
     });
@@ -105,6 +106,8 @@ public class GameRoom {
     executor.submit(() -> {
       joined.remove(socket);
       Attachment attachment = Attachment.get(socket);
+      String pName = (attachment != null) ? attachment.getPlayerName().orElse("unknown") : "unknown";
+      logger.info("[{}] Session: Player '{}' left", name, pName);
       if (attachment != null) {
         attachment.setPlayerName(null);
         attachment.setGameRoom(null);
@@ -127,12 +130,13 @@ public class GameRoom {
   public void start(WebSocket socket) {
     executor.submit(() -> {
       if (isGameInProgress && !isGameOver) {
-        System.out.println("Session: Game has already begun");
+        logger.warn("[{}] Session: Game has already begun", name);
         Util.send(socket, Kind.ERROR, new ErrorView("Game is already in progress."));
       } else if (joined.size() <= 1) {
-        System.out.println("Session: Not enough players to start");
+        logger.warn("[{}] Session: Not enough players to start (current: {})", name, joined.size());
         Util.send(socket, Kind.ERROR, new ErrorView("At least 2 players are required to start a game."));
       } else {
+        logger.info("[{}] Session: Starting game with players: {}", name, getJoinedPlayerNames());
         game = new Game(getJoinedPlayerNames());
         isGameInProgress = true;
         isGameOver = false;
@@ -145,27 +149,28 @@ public class GameRoom {
   public void execute(WebSocket socket, List<Integer> args) {
     executor.submit(() -> {
       if (game == null) {
-        System.out.println("Session: Game is not started yet.");
+        logger.warn("[{}] Session: Game is not started yet.", name);
         Util.send(socket, Kind.ERROR, new ErrorView("Game is not started yet."));
         return;
       }
       if (isGameOver) {
-        System.out.println("Session: Game is over.");
+        logger.warn("[{}] Session: Game is over.", name);
         Util.send(socket, Kind.ERROR, new ErrorView("Game is already over."));
         return;
       }
 
       Attachment attachment = Attachment.get(socket);
-      Optional<String> name = attachment != null ? attachment.getPlayerName() : Optional.empty();
-      if (!name.isPresent()) {
-        System.out.println("Session: Player needs a name");
+      Optional<String> nameOpt = attachment != null ? attachment.getPlayerName() : Optional.empty();
+      if (!nameOpt.isPresent()) {
+        logger.warn("[{}] Session: Player needs a name", name);
         Util.send(socket, Kind.ERROR, new ErrorView("Player does not have a registered name in this room."));
         return;
       }
 
-      game.execute(name.get(), args);
+      game.execute(nameOpt.get(), args);
       if (game.isOver()) {
         isGameOver = true;
+        logger.info("[{}] Session: Game has ended", name);
         broadcastRoomView();
       }
       broadcastGameView();
@@ -175,7 +180,7 @@ public class GameRoom {
   public void getLogs(WebSocket socket, int startIndex) {
     executor.submit(() -> {
       if (game == null) {
-        System.out.println("Session: Game is not started yet.");
+        logger.warn("[{}] Session: Game is not started yet.", name);
         Util.send(socket, Kind.ERROR, new ErrorView("Game is not started yet."));
         return;
       }

@@ -12,8 +12,11 @@ import com.dcg.location.MoveLocation;
 import com.dcg.location.PlayerDeck;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DrawCards extends PlayerEffect {
+  private static final Logger logger = LoggerFactory.getLogger(DrawCards.class);
   private final boolean auto;
   protected ComponentMapper<Player> mPlayer;
 
@@ -72,7 +75,7 @@ public class DrawCards extends PlayerEffect {
           }
           commandChain.addEnd(autoDraw(leftOverDrawCount).build(world, playerEntity));
         } else {
-          System.out.printf("No more cards to draw: %d not drawn\n", leftOverDrawCount);
+          logger.debug("No more cards to draw: {} not drawn", leftOverDrawCount);
         }
       }
 

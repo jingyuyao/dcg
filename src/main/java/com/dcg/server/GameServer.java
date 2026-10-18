@@ -19,8 +19,11 @@ import java.util.stream.Collectors;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameServer extends WebSocketServer {
+  private static final Logger logger = LoggerFactory.getLogger(GameServer.class);
   private final Map<String, GameRoom> rooms = new ConcurrentHashMap<>();
 
   public GameServer(InetSocketAddress address) {
@@ -29,19 +32,19 @@ public class GameServer extends WebSocketServer {
 
   @Override
   public void onStart() {
-    System.out.println("Server started on " + getAddress());
+    logger.info("Server started on {}", getAddress());
   }
 
   @Override
   public void onOpen(WebSocket socket, ClientHandshake handshake) {
-    System.out.println("Server: new connection " + socket.getRemoteSocketAddress());
+    logger.info("Server: new connection from {}", socket.getRemoteSocketAddress());
     socket.setAttachment(new Attachment());
     sendAttachmentView(socket);
   }
 
   @Override
   public void onClose(WebSocket socket, int code, String reason, boolean remote) {
-    System.out.println("Server: connection closed " + socket.getRemoteSocketAddress());
+    logger.info("Server: connection closed from {} (code: {}, reason: '{}')", socket.getRemoteSocketAddress(), code, reason);
     Attachment attachment = Attachment.get(socket);
     if (attachment != null) {
       attachment.getGameRoom().ifPresent(room -> room.leave(socket));
@@ -51,24 +54,23 @@ public class GameServer extends WebSocketServer {
   @Override
   public void onError(WebSocket socket, Exception ex) {
     String source = socket != null ? String.valueOf(socket.getRemoteSocketAddress()) : "server";
-    System.err.printf("Server: error from %s: %s\n", source, ex);
+    logger.error("Server error from {}: {}", source, ex.getMessage(), ex);
   }
 
   @Override
   public void onMessage(WebSocket socket, String message) {
-    System.out.println("Server: --- New Message ---");
-    System.out.println("Server: ClientMessage " + message);
+    logger.debug("Server received ClientMessage: {}", message);
 
     Optional<ClientMessage> clientMessage = Util.fromJson(message);
     if (!clientMessage.isPresent()) {
-      System.out.println("Invalid message format: " + message);
+      logger.warn("Invalid message format: {}", message);
       Util.send(socket, Kind.ERROR, new ErrorView("Invalid message format. Ensure JSON is well-formed with a valid 'kind'."));
       return;
     }
     try {
       processClientMessage(socket, clientMessage.get());
     } catch (Exception e) {
-      System.err.printf("Server exception: %s\n", e);
+      logger.error("Server exception processing message", e);
       Util.send(socket, Kind.ERROR, new ErrorView("Internal server error: " + e.getMessage()));
     }
   }
@@ -109,14 +111,14 @@ public class GameServer extends WebSocketServer {
         }
         GameRoom newRoom = new GameRoom(roomName, () -> {
           rooms.remove(roomName);
-          System.out.println("Server: Removed empty room " + roomName);
+          logger.info("Server: Removed empty room '{}'", roomName);
         });
         if (rooms.putIfAbsent(roomName, newRoom) != null) {
           newRoom.shutdown();
           Util.send(socket, Kind.ERROR, new ErrorView("Room '" + roomName + "' already exists."));
           break;
         }
-        System.out.println("Server: Created new room '" + roomName + "'");
+        logger.info("Server: Created new room '{}'", roomName);
         if (strArgs.size() >= 2) {
           String playerName = strArgs.get(1);
           newRoom.join(socket, playerName);
